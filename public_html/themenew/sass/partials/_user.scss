@@ -1,0 +1,159 @@
+.userbar{
+	float: right;
+	margin: 0; padding: auto 0; 
+
+
+	ul{
+		margin: 0; padding: auto 0;
+		@include border-radius(10px);
+
+		li{ list-style: none; float: left;}
+	}
+
+	.userProfile{
+		position: relative;
+
+		a.profile{width: 400px; display: block; 
+			.photo{ float:right;}
+			.username{
+				float: right;
+				text-align: right;
+				color: darken(white, 15%);
+				padding: 15px 15px 10px 10px;
+				font-size: 12px;
+
+				h5{ 
+					text-transform: uppercase; 
+					margin: 0; 
+					padding: 0;
+					color: lighten(white, 20%);
+					font-weight: normal;
+					letter-spacing: 0.5px;
+				}
+			}
+		} 
+			
+		.dropdown-menu{
+			position: absolute;
+			width: 250px;
+			right: 30px; 
+			background: url(../images/bg_dropdown.png) 215px 0 no-repeat ;
+		}
+
+	
+	}
+
+	.userButtons{
+		position: relative;
+		ul{
+
+	 		li{
+	 			float: right;
+	 			border-left: 1px dotted rgba(white, 0.2);
+	 			position: relative;
+	 			
+	 			a.button{
+				position: relative;
+				display: block;
+				padding: 0 5px;
+				height: 60px;
+
+					.button_counter{
+						position: absolute;
+						right: 10%;
+						top: 10%;
+						//width: 20px;
+						//height: 20px;
+						padding: 0px 7px;
+						display: block;
+						background: red;
+						border-radius: 15px;
+						text-decoration: none;
+						color: white;
+						font-size: 11px;
+						font-weight: bold;
+						text-align: center;
+						overflow: hidden;
+					}
+				
+	 			}
+
+	 			a.btn_usebar:hover{
+	 				background: lighten($gray_deepblue, 35%);
+	 			}
+	 		}
+	 	}
+
+		&:last-child{border-right: 0px;}
+
+		.dropdown-menu{
+
+			width: 350px;
+			margin-left: -290px;
+			background: url(../images/bg_dropdown.png) 315px 0 no-repeat ;
+			//right: -100px;
+			li{
+
+				a{ 
+					height: 60px; 
+					padding: 5px;
+					
+					.message_container{
+						
+						color: white;
+
+						.icon{ float:left; width: 50px;}
+						.message{
+							padding: 12px 10px;
+							float: left;
+							color: darken(white, 15%);
+							font-size: 12px;
+							font-size: 10px;
+							h5{ 
+								text-transform: uppercase; 
+								margin: 0; 
+								padding: 0;
+								color: lighten(white, 20%);
+								font-weight: normal;
+								letter-spacing: 0.5px;
+								font-size: 11px;
+							}
+						}
+			
+					}
+				}
+			}
+
+			li.btn_more_message{
+				height: 30px;
+				text-align: center;
+				background: darken($lightblue, 10%);
+				font-size: 10px;
+				text-transform: uppercase;
+				padding-top: 3px;
+			}
+			li.btn_more_message:hover{
+				height: 30px;
+				a{
+
+					color: lighten($lightblue, 20%);
+					height: auto;
+				}
+			}
+
+		}
+	}
+
+ 	
+}
+
+
+
+@media screen and (max-width: 980px) {
+
+	a.profile{
+		.username{ display: none;}
+	}
+	.dropdown-menu, .dropdown{ width: 100px; }
+	.userbar ul li { float: none; }
+}

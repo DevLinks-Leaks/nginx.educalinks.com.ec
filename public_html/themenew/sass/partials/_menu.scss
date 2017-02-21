@@ -1,0 +1,106 @@
+.menu{
+	ul{
+		margin: 0px;
+		li{
+			list-style: none;
+		}
+	}
+}
+.menu_main{
+	margin-top: 0px; padding: 0px; min-width: 160px;
+
+		li{
+			display: block;
+			margin-top: 5px;
+			//
+			
+			a.link_menu{
+				width: 75%;
+				margin: auto;
+				@include button_link($deepblue,$bluegray, 20px);
+				@include border_color_bootom($gray-deepblue);
+				@include border_color_top($gray-deepblue);
+				padding:3px 10px;
+		 	}
+		 	a.active{
+		 		width: 75%;
+		 		@include button_link($deepblue,$bluegray, 20px);
+		 		@include background-image(linear-gradient(darken($gray-deepblue,5%), lighten($gray-deepblue,5%)));
+				padding: 3px 10px;
+		 		color: white;
+		 	}
+
+			.icon{
+				@include span-columns(5);
+				text-align: center;
+				font-size: 1.3em;
+				padding: 10px 0;
+			}
+			.text{
+				@include span-columns(18 omega);
+				h4{ margin: 0; padding: 9px 0; font-weight: bold;}
+			}
+		}
+
+
+}
+
+.menu_breadcrumb{
+	@include menu_horizontal(left);
+	@include menu_colors(lighten($bluegray, 22%), $lightblue);
+	a.active{ color: $lightblue; }
+	ul{li{ padding: 11px 5px; color: gray;} }
+}
+
+.panel-menu{
+    //@include panel(0px, 1px);
+    //@include panel-menu();
+    //border-top: 1px dotted lighten($lightblue,10%);
+
+	.panel-heading{
+
+		a{
+			width: 75%;
+			margin: auto;
+			padding: 0 10px;
+			@include button_link($deepblue,$bluegray, 20px);
+			@include border_color_bootom($gray-deepblue);
+			@include background-image(linear-gradient(darken($gray-deepblue,5%), lighten($gray-deepblue,5%)));
+			h4{ margin: 0; }
+			h5{ margin-top: 15px; }
+
+			.text{ background: url(../images/vn_bottom.png) right 50% no-repeat; }
+		 }
+
+		
+		a.collapsed{ 
+			@include border_color_top($gray-deepblue);
+			//color: $lightblue;
+			.text{ background: url(../images/vn_right.png) right 50% no-repeat; }
+		}
+	}
+	.panel-body{
+		ul{margin: 0; padding-left: 15px; }
+	}
+
+
+    .panel-collapse{
+    	    margin-bottom: 15px;
+    	a{ 
+    		padding-left: 25px;
+    		background: url(../images/vn_right.png) left 50% no-repeat;
+    		color: $bluegray;
+    		text-decoration: none;
+    	}
+    	a:hover, a.active{ 
+    		color: white;
+    		background: url(../images/vn_right.png) 5% 50% no-repeat;
+    		padding-left: 35px;
+    	}
+
+    }
+
+
+
+}
+

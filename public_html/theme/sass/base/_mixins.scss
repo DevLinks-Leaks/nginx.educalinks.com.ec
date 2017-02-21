@@ -1,0 +1,597 @@
+
+@import "compass/css3/border-radius"; 
+
+$default-color-start: white !default;
+$default-color-stop: gray !default;
+@mixin bg-gradient($color-start: $default-color-start, $color-stop: $default-color-stop) {
+	@include background-image(radial-gradient(center 70%, $color-start 10%, $color-stop 60%));
+}
+
+
+
+$default_align: right;
+
+@mixin menu_horizontal($align: $default_align){
+	text-align: $align;
+	ul,li,a,span{ outline: none }
+	ul{
+		display: inline-block;
+		margin: 0; padding: 0;
+		li{
+			margin: 0; padding: 0;
+			float: left;
+			list-style: none;
+
+			a{
+				font-family: $title_regular;
+				margin: 0; padding: 0;
+				cursor: pointer;
+				text-decoration: none;
+			}
+			span{
+				font-family: $title_regular;
+			}
+
+
+		}
+
+	} 
+}
+
+@mixin menu_vertical($align: $default_align){
+	text-align: $align;
+	ul,li,a,span{ outline: none }
+	ul{
+		display: block;
+		margin: 0; padding: 0;
+		li{
+			margin: 0; padding: 0;
+			float: left;
+			list-style: none;
+			width: 100%;
+			a{
+				width: 100%;
+				font-family: $title_regular;
+				margin: 0; padding: 0;
+				cursor: pointer;
+				text-decoration: none;
+			}
+			span{
+				font-family: $title_regular;
+			}
+
+
+		}
+
+	} 
+}
+
+
+$default_text: $gray-darker;
+$default_text_hover: white;
+$default_bg: $gray-lighter;
+
+@mixin menu_colors( $text: $default_text, $text_hover: $default_text_hover, $bg: $default_bg ){
+	ul{
+		li{
+			
+			/* SEPARADOR */
+			color: rgba($text, 0.1);
+			//@include text-shadow (1px 1px white, 1);
+			
+			&:after{ content: "»"; font-family: $text-regular; padding-left: 15px;  }
+			//&:after{ content: "≡"; font-size: 24px; font-family: $text-regular; }
+			&:last-child{ 
+				&:after{ content: ""; }
+			}
+
+			/* ENLACES */
+
+			a,span{
+				background: rgba($bg, 0);
+				color: $text;
+				transition: all 0.4s ease-in-out;
+				//@include text-shadow (rgba(white,0.3) 1px 1px );
+			}
+			a:hover, span{
+				background: rgba($bg, 0.4);
+				color: $text_hover;
+				//@include text-shadow (rgba(black,0.2) 1px 1px );
+			}
+		}
+	}
+}
+
+
+
+////////--- BUTTONS ---////////
+
+
+$default-color-bg: red !default;
+$default-color-text: green !default;
+$default-round: 5px !default;
+
+@mixin button_link ( $color-bg: $default-color-bg, $color-text: $default-color-text, $round: $default-round){
+	margin:   0px;
+	display: inline-block;
+	clear: both;
+	@include border-radius($round);
+	text-transform: uppercase;
+	padding: 0px 15px;
+	//background: $color-bg url(../images/button_bg.png) 95% 52% no-repeat;
+	
+	color: $color-text;
+	font-family: $title-medium;
+	text-shadow: rgba(black,0.2) 0px 0px 1px;
+	transition: all 0.2s ease-in-out;
+
+	&:hover{
+		//background: darken($color-bg,7%) url(../images/button_bg.png) 95% 52% no-repeat;
+		color: lighten($color-text,80%);
+		//@include box-shadow(rgba(black,0.6) 0px 0px 5px);
+		text-shadow: rgba(black,0.2) -1px 1px 1px;
+	}
+}
+
+@mixin button_link_back ( $color-bg: $default-color-bg, $color-text: $default-color-text, $round: $default-round){
+	margin:  35px 15px 15px 15px;
+	display: inline-block;
+	clear: both;
+	@include border-radius($round);
+	text-transform: uppercase;
+	padding: 20px 30px 20px 50px;
+	background: $color-bg url(../images/button_bg_back.png) 7% 50% no-repeat;
+	color: $color-text;
+	font-family: $title-medium;
+	text-shadow: rgba(black,0.2) 0px 0px 1px;
+	transition: all 0.2s ease-in-out;
+
+	&:hover{
+		background: darken($color-bg,7%) url(../images/button_bg_back.png) 7% 50% no-repeat;
+		color: lighten($color-text,80%);
+		@include box-shadow(rgba(black,0.6) 0px 0px 5px);
+		text-shadow: rgba(black,0.2) -1px 1px 1px;
+	}
+}
+
+$color-border-default: green; 
+@mixin border_color_top($color-border: $color-border-default ){
+	background: lighten($color-border,2%); 
+	border-top: 1px solid lighten($color-border,7%); 
+	border-bottom: 1px solid darken($color-border,4%);
+}
+@mixin border_color_bootom($color-border: $color-border-default ){
+	background: lighten($color-border,2%); 
+	border-top: 1px solid darken($color-border,7%);
+	border-bottom: 1px solid lighten($color-border,13%); 
+}
+
+
+
+/* --- FORMS --- */
+
+
+$default-bgcolor: $gray-lighter !default;
+$default-color: $gray !default;
+$default-radius: 0px !default;
+
+
+@mixin form($color:$default-color,$bgcolor:$default-bgcolor, $radius: $default-radius){
+
+	
+color: $color;
+padding-top: 1px;
+
+ul{ margin: 0; overflow: hidden; }
+.form_element{ 
+
+	margin: 1% 0;
+	list-style: none;
+	display: block; 
+	position: relative;
+}
+label{   font-size: $normpx - 2px ; margin-bottom: 3px; display: block;    }
+
+input[type='text'], input[type='password'], input[type='file'], .trigger, textarea, select{
+        color: rgba(darken($color, 40%),0.7);
+        background: lighten($bgcolor,0.5%);
+        border: 1px solid $gray-lighter;
+        overflow: hidden;
+        width: 98%;
+        font-family: $text-regular;
+        @include border-radius($radius);
+        height: auto;
+        padding: $radius/ 2;
+        font-size: $normpx;
+    }
+
+    .trigger{ width: 96%; margin: auto; }
+
+
+	input[type='file']{
+		font-size: $normpx;
+	}
+    input[type='text']:focus, input[type='password']:focus, .trigger.open, textarea:focus, button:hover, input[type='submit']:hover{
+		color: lighten($color, 20%);
+		background: white; 
+		border: 1px solid rgba(lighten($color, 20%),0.3);
+		transition: all 0.2s ease-in-out;
+		box-shadow: 0 1px 2px rgba($lightblue, 0.2);
+    }
+
+    button, input[type='submit']{
+        display: inline-block;
+        border: 1px solid lighten($lightblue,0.5);
+        background: $color url(../images/bg_button.png) no-repeat;
+        color: $bgcolor;
+        padding:  10px;
+        font-size: $normpx;
+        cursor: pointer;
+        width: 98%;
+        @include border-radius($radius);
+    }
+     button:hover, input[type='submit']:hover{
+     	background: lighten($color, 10%);
+     	color: $bgcolor;
+     }
+
+    .options{
+        display: block;
+        border: 0;
+        background: lighten($gray-light, 35%);
+        padding:  10px;
+        font-family: $text-regular;
+        font-size: $normpx;
+        cursor: pointer;
+        width: 98%;
+        margin: 0 2%;
+        @include border-radius($radius);
+
+        li{ color: gray; }
+        li.selected, li:hover{ background: rgba($gray,0.1); color: $gray; }
+        
+    }
+	
+	.error, .error_list { 
+        li{
+        	position: absolute;
+        	width: 10px;
+        	height: 10px;
+        	right: 17px;
+        	top: 20%;
+        	list-style: none;
+            text-align: center;
+            background: url(../images/icons/error.png) 50% center no-repeat;
+            background-size: 100%;
+            text-indent: -1000px;
+            padding: 7px;
+            overflow: hidden;
+            display: block;
+        }
+    }
+
+}
+
+
+$default-element-number: 55%;
+
+@mixin form-elements($columns: $default-element-number){
+ 		
+		.form_element	{ 
+			width: 100% / $columns;
+
+			@include span-columns(11);
+			a{ color: lighten($gray,5%); }
+			a:hover{ color: $blue; }
+			display: inline-block;
+			//font-family: $title-heavy;
+			font-size: 1.8em;
+			padding: 7px  20px;
+			&:nth-child(4n+5){ font-size: 1.8em; font-family: $title-regular;}
+			&:nth-child(2n+7){ font-size: 1.7em;  font-family: $title-medium;}
+			&:nth-child(3n+1){ font-size: 2.1em;  font-family: $title-heavy;}
+			&:last-child{ clear: both; display: block;}
+		}
+	}
+	
+
+/* TABLES */
+
+$table-radius-default: 10px;
+$table-padding-default: 10px; 
+$table-bgcolor-default: $gray-lighter; 
+$table-head-textcolor-default: black; 
+$table-head-bgcolor-default: $gray; 
+$table-evenbgcolor-default: lighten($gray-lighter,2%);
+$table-oddbgcolor-default: $gray; 
+$top-default: 1px solid #ffffff;
+$left-default: 1px dotted #e0e0e0;
+$bottom-default: 1px dotted #e0e0e0;
+$right-default: 1px dotted #e0e0e0;
+
+
+@mixin table-borders( $top: $top-default, $left: $left-default, 
+$bottom: $bottom-default, $right: $right-default ){
+	tr td {
+		border-top: $top;
+		border-bottom: $bottom;
+		border-left: $left;
+	}
+}
+
+@mixin table-head-colors($table-head-textcolor: $table-head-textcolor-default, $table-head-bgcolor: $table-head-bgcolor-default){
+	 tr{ background: $table-head-bgcolor; }
+	 th {
+		//
+		border-top:1px solid #fafafa;
+		border-bottom:1px solid #e0e0e0;
+		text-transform: uppercase;
+		background: $table-head-bgcolor !important;
+		color: $table-head-textcolor !important;
+		text-align: left;
+	}
+	th.center{ text-align: center; }
+	th.right { text-align: right; }
+	th.sort{ cursor: pointer; }
+}
+
+@mixin table-striped-colors($table-evenbgcolor: $table-evenbgcolor-default, $table-oddbgcolor: $table-evenbgcolor-default){
+	tbody{
+		tr:nth-child(odd) td{
+			background: $table-evenbgcolor !important;
+		}
+		 tr:nth-child(even) td{
+			background: $table-oddbgcolor !important;
+		}
+	}
+}
+
+
+@mixin table-basic($padding: $table-padding-default, $table-bgcolor: $table-bgcolor-default ){
+	border-spacing: 0;
+	width: 100%;
+	background: $table-bgcolor;
+	
+	a:link {
+		color: #666;
+		font-weight: bold;
+		text-decoration:none; 
+	}
+
+	th { padding: $padding * 2 ; }
+	td.left { text-align: left; }
+	td.center { text-align: center; }
+	td.right { text-align: right; }
+	tr td {	vertical-align: middle; padding: $padding;  background: $table-bgcolor; }
+	tr:last-child td{ border-bottom:0; 	}
+	tr:nth-child(odd) td {	background: white; }
+
+	table tr td { padding: 0 $padding;  background: $table-bgcolor; border: 0;  }
+	 
+}
+@mixin table-rounded($radius: $table-radius-default){
+	
+	 tr:first-child th:first-child{
+		-moz-border-radius-topleft: $radius;
+		-webkit-border-top-left-radius: $radius;
+		border-top-left-radius: $radius;
+	}
+	 tr:first-child th:last-child{
+		-moz-border-radius-topright: $radius;
+		-webkit-border-top-right-radius: $radius;
+		border-top-right-radius: $radius;
+	}
+	 
+	tr:last-child td:first-child{
+		-moz-border-radius-bottomleft: $radius;
+		-webkit-border-bottom-left-radius: $radius;
+		border-bottom-left-radius: $radius;
+	}
+	 tr:last-child td:last-child{
+		-moz-border-radius-bottomright: $radius;
+		-webkit-border-bottom-right-radius: $radius;
+		border-bottom-right-radius: $radius;
+	}
+
+}
+
+@mixin table-inputs{
+	td{
+		table{ width: 100%;  }
+		input[type='text'], input[type='number'], select{
+					width: 100%;
+					margin: 0;
+					@include background-image(linear-gradient( #cdcdcd, #efefef));
+					text-transform: uppercase;
+					height: 40px;					
+					box-shadow: none;
+					border: 0;
+					text-align: center;
+				}
+				input[type='text']:hover, select:focus, select:hover{
+					background:  white;
+					transition: all 0.3s ease-in-out;
+				}
+	}
+}
+
+
+@mixin table($radius: $table-radius-default, $padding: $table-padding-default){
+	
+	 tr:first-child th:first-child{
+		-moz-border-radius-topleft: $radius;
+		-webkit-border-top-left-radius: $radius;
+		border-top-left-radius: $radius;
+	}
+	 tr:first-child th:last-child{
+		-moz-border-radius-topright: $radius;
+		-webkit-border-top-right-radius: $radius;
+		border-top-right-radius: $radius;
+	}
+	
+	 tr td:first-child{
+		text-align: left;
+		padding-left:20px;
+		border-left: 0;
+	}
+	 tr td {
+	 	vertical-align: middle;
+		padding:4px;
+		border-top: 1px solid #ffffff;
+		border-bottom:1px solid #e0e0e0;
+		//border-left: 1px solid #e0e0e0;
+		
+		background: #fff;
+		//background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+		//background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+	}
+
+
+	 tr:nth-child(odd) td{
+		background: lighten($gray-lighter,2%);
+		//background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+		//background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+	}
+	 tr:last-child td{
+		border-bottom:0;
+	}
+	 tr:last-child td:first-child{
+		-moz-border-radius-bottomleft: $radius;
+		-webkit-border-bottom-left-radius: $radius;
+		border-bottom-left-radius: $radius;
+	}
+	 tr:last-child td:last-child{
+		-moz-border-radius-bottomright: $radius;
+		-webkit-border-bottom-right-radius: $radius;
+		border-bottom-right-radius: $radius;
+	}
+
+}
+
+
+
+
+@mixin table-default($padding: $table-padding-default){
+	width: 100%;
+	//margin: 2%;
+	padding: $padding;
+	td{ vertical-align: top; }
+
+	table{
+		td{ vertical-align: middle; }
+	}
+
+}
+
+
+
+@mixin table-mensajes($radius: $table-radius-default, $padding: $table-padding-default){
+	border-spacing: 0;
+	width: 100%;
+
+	a:link {
+		color: #666;
+		font-weight: bold;
+		text-decoration:none;
+	}
+	 a:visited {
+		color: #999999;
+		font-weight:bold;
+		text-decoration:none;
+	}
+	 th {
+		padding: $padding $padding+($padding/2) ;
+		text-transform: uppercase;
+		background: lighten($gray,40%);
+		color: white;
+		padding: 10px;
+		background: lighten($bluegray, 22%);
+		//background: -webkit-gradient(linear, left top, left bottom, from($lightblue), to(lighten($lightblue,20%)));
+		//background: -moz-linear-gradient(top, lighten($lightblue,10%),  lighten($lightblue,15%));
+	}
+	 th:first-child{
+		text-align: left;
+		//padding-left:20px;
+	}
+	 tr:first-child th:first-child{
+		-moz-border-radius-topleft: $radius;
+		-webkit-border-top-left-radius: $radius;
+		border-top-left-radius: $radius;
+	}
+	 tr:first-child th:last-child{
+		-moz-border-radius-topright: $radius;
+		-webkit-border-top-right-radius: $radius;
+		border-top-right-radius: $radius;
+	}
+	 tr{
+		text-align: center;
+		padding-left:20px;
+	}
+	 tr td:first-child{
+		text-align: left;
+		padding-left:10px;
+		border-left: 0;
+	}
+	 tr td {
+	 	vertical-align: middle;
+		padding:0px;
+		border-top: 0px solid #ffffff;
+		border-bottom:1px solid #e0e0e0;
+		//border-left: 1px solid #e0e0e0;
+		
+		background: #fff;
+		//background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+		//background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+	}
+
+
+	 tr:nth-child(odd) td{
+		//background: lighten($gray-lighter,2%);
+		//background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+		//background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+	}
+	 tr:last-child td{
+		border-bottom:0;
+	}
+	 tr:last-child td:first-child{
+		-moz-border-radius-bottomleft: $radius;
+		-webkit-border-bottom-left-radius: $radius;
+		border-bottom-left-radius: $radius;
+	}
+	 tr:last-child td:last-child{
+		-moz-border-radius-bottomright: $radius;
+		-webkit-border-bottom-right-radius: $radius;
+		border-bottom-right-radius: $radius;
+	}
+
+}
+
+
+$post-color-default: $lightblue !default;
+$post-bgcolor-default: $gray-lighter !default;
+
+
+@mixin post($post-color: $post-color-default, $post-bgcolor: $post-bgcolor-default){
+	background: lighten($gray-dark,78%);
+	
+	.post{
+		padding: 7px;
+ 		overflow: hidden;
+		display: block;
+		clear: both;
+		
+		&:nth-child(odd){ }
+		
+		&:nth-child(even){ background: lighten($gray-lighter, 50%); border-top: 1px dotted $post-bgcolor; }
+		.image{ 
+			width: 55px;
+			margin-right: 7px;
+			float: left;
+			img{ width: 100%; height: auto; }
+		}
+		.information{ 
+			@include span-columns(9,12);
+			.user{ color: darken($post-color,10%); text-transform: uppercase;}
+		}
+	}
+ }

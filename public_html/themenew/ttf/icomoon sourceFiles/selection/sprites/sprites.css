@@ -1,0 +1,307 @@
+.icon {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	fill: currentColor;
+}
+.icon-home {
+	/*fill: #000000;*/
+}
+.icon-pencil {
+	/*fill: #000000;*/
+}
+.icon-pencil2 {
+	/*fill: #000000;*/
+}
+.icon-images {
+	/*fill: #000000;*/
+}
+.icon-camera {
+	/*fill: #000000;*/
+}
+.icon-headphones {
+	/*fill: #000000;*/
+}
+.icon-play {
+	/*fill: #000000;*/
+}
+.icon-book {
+	/*fill: #000000;*/
+	width: 36px;
+}
+.icon-books {
+	/*fill: #000000;*/
+}
+.icon-file {
+	/*fill: #000000;*/
+}
+.icon-profile {
+	/*fill: #000000;*/
+}
+.icon-file2 {
+	/*fill: #000000;*/
+}
+.icon-copy {
+	/*fill: #000000;*/
+}
+.icon-stack {
+	/*fill: #000000;*/
+}
+.icon-folder {
+	/*fill: #000000;*/
+}
+.icon-folder-open {
+	/*fill: #000000;*/
+}
+.icon-cart {
+	/*fill: #000000;*/
+}
+.icon-phone {
+	/*fill: #000000;*/
+}
+.icon-clock {
+	/*fill: #000000;*/
+}
+.icon-print {
+	/*fill: #000000;*/
+}
+.icon-download {
+	/*fill: #000000;*/
+}
+.icon-upload {
+	/*fill: #000000;*/
+}
+.icon-disk {
+	/*fill: #000000;*/
+}
+.icon-bubbles {
+	/*fill: #000000;*/
+}
+.icon-user {
+	/*fill: #000000;*/
+}
+.icon-users {
+	/*fill: #000000;*/
+}
+.icon-user2 {
+	/*fill: #000000;*/
+}
+.icon-zoomin {
+	/*fill: #000000;*/
+}
+.icon-zoomout {
+	/*fill: #000000;*/
+}
+.icon-expand {
+	/*fill: #000000;*/
+}
+.icon-contract {
+	/*fill: #000000;*/
+}
+.icon-expand2 {
+	/*fill: #000000;*/
+}
+.icon-lock {
+	/*fill: #000000;*/
+}
+.icon-unlocked {
+	/*fill: #000000;*/
+}
+.icon-cog {
+	/*fill: #000000;*/
+}
+.icon-cogs {
+	/*fill: #000000;*/
+}
+.icon-stats {
+	/*fill: #000000;*/
+}
+.icon-bars {
+	/*fill: #000000;*/
+}
+.icon-bars2 {
+	/*fill: #000000;*/
+}
+.icon-remove {
+	/*fill: #000000;*/
+}
+.icon-briefcase {
+	/*fill: #000000;*/
+}
+.icon-switch {
+	/*fill: #000000;*/
+}
+.icon-signup {
+	/*fill: #000000;*/
+}
+.icon-list {
+	/*fill: #000000;*/
+}
+.icon-menu {
+	/*fill: #000000;*/
+}
+.icon-tree {
+	/*fill: #000000;*/
+}
+.icon-cloud-download {
+	/*fill: #000000;*/
+}
+.icon-globe {
+	/*fill: #000000;*/
+}
+.icon-earth {
+	/*fill: #000000;*/
+}
+.icon-link {
+	/*fill: #000000;*/
+}
+.icon-flag {
+	/*fill: #000000;*/
+}
+.icon-attachment {
+	/*fill: #000000;*/
+}
+.icon-eye {
+	/*fill: #000000;*/
+}
+.icon-eye-blocked {
+	/*fill: #000000;*/
+}
+.icon-star {
+	/*fill: #000000;*/
+}
+.icon-star2 {
+	/*fill: #000000;*/
+}
+.icon-thumbs-up {
+	/*fill: #000000;*/
+}
+.icon-thumbs-up2 {
+	/*fill: #000000;*/
+}
+.icon-close {
+	/*fill: #000000;*/
+}
+.icon-checkmark {
+	/*fill: #000000;*/
+}
+.icon-minus {
+	/*fill: #000000;*/
+}
+.icon-plus {
+	/*fill: #000000;*/
+}
+.icon-volume-mute {
+	/*fill: #000000;*/
+}
+.icon-volume-mute2 {
+	/*fill: #000000;*/
+}
+.icon-checkbox-checked {
+	/*fill: #000000;*/
+}
+.icon-checkbox-unchecked {
+	/*fill: #000000;*/
+}
+.icon-checkbox-partial {
+	/*fill: #000000;*/
+}
+.icon-radio-checked {
+	/*fill: #000000;*/
+}
+.icon-radio-unchecked {
+	/*fill: #000000;*/
+}
+.icon-libreoffice {
+	/*fill: #000000;*/
+}
+.icon-file-pdf {
+	/*fill: #000000;*/
+}
+.icon-file-word {
+	/*fill: #000000;*/
+}
+.icon-file-excel {
+	/*fill: #000000;*/
+}
+.icon-file-xml {
+	/*fill: #000000;*/
+}
+.icon-file-css {
+	/*fill: #000000;*/
+}
+.icon-search {
+	/*fill: #000000;*/
+}
+.icon-add {
+	/*fill: #000000;*/
+}
+.icon-subtract {
+	/*fill: #000000;*/
+}
+.icon-exclamation {
+	/*fill: #000000;*/
+}
+.icon-question {
+	/*fill: #000000;*/
+}
+.icon-close2 {
+	/*fill: #000000;*/
+}
+.icon-envelope {
+	/*fill: #000000;*/
+}
+.icon-calendar {
+	/*fill: #000000;*/
+}
+.icon-statistics {
+	/*fill: #000000;*/
+}
+.icon-pie {
+	/*fill: #000000;*/
+}
+.icon-bars3 {
+	/*fill: #000000;*/
+}
+.icon-minus2 {
+	/*fill: #000000;*/
+}
+.icon-plus2 {
+	/*fill: #000000;*/
+}
+.icon-arrow-left {
+	/*fill: #000000;*/
+}
+.icon-arrow-down {
+	/*fill: #000000;*/
+}
+.icon-arrow-up {
+	/*fill: #000000;*/
+}
+.icon-arrow-right {
+	/*fill: #000000;*/
+}
+.icon-arrow-left2 {
+	/*fill: #000000;*/
+}
+.icon-arrow-down2 {
+	/*fill: #000000;*/
+}
+.icon-arrow-up2 {
+	/*fill: #000000;*/
+}
+.icon-arrow-right2 {
+	/*fill: #000000;*/
+}
+.icon-arrow-left3 {
+	/*fill: #000000;*/
+}
+.icon-arrow-down3 {
+	/*fill: #000000;*/
+}
+.icon-arrow-up3 {
+	/*fill: #000000;*/
+}
+.icon-arrow-up4 {
+	/*fill: #000000;*/
+}

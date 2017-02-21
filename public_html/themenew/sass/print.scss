@@ -1,0 +1,73 @@
+@import "config/variables"; 
+		
+
+@page {
+        margin-left: 0.5cm;
+        margin-right: 0.5cm;
+        margin-top: 1cm;
+        margin-bottom: 1cm;
+      }  
+
+
+body{
+  float: none !important;
+  width: auto !important;
+  margin:  0 !important;
+  padding: 0 !important;
+  color: #000; 
+}
+
+.libreta, .lista{
+	
+	margin:auto;
+	font-size: 0.65em;
+
+
+	.full, .header_institution{
+		width: 100%; margin: 0% 0% 1% 0% ;
+	}
+
+	.header_institution{
+		
+	} 
+
+	.half{ width: 48%; margin:1% 2% 0% 0%; float: left;}
+	.half_end{ width: 48%; margin:1% 0% 0% 2%; float: right; }
+
+	h2{ font-size: 1.3em; }
+	h5{ font-size: 0.9em; }
+
+	table{
+	
+		width: 100%;
+
+		tr{ 
+			//page-break-inside: avoid; 
+			
+		}
+		//border-left: 1px solid black; border-right: 1px solid black;
+		th{ 
+			padding: 4px 8px; //display: block;
+			//border: 1px solid black;
+			//background: $lightblue;
+		}
+		td{ 
+			padding: 3px;   
+			//border: 1px solid gray;   
+		}
+		&:last-child{
+			td{ //border-bottom: 1px solid gray; 
+			}
+		}
+
+	}
+	
+
+	
+}
+			 
+		
+
+
+
+

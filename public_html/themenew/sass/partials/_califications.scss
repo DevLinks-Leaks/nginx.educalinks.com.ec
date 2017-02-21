@@ -1,0 +1,48 @@
+.califications{
+	margin: 15px ;
+	//background: purple;
+
+	.institution-data{
+		//margin: 3% 5% 1% 5% ;
+		text-align: left;
+		overflow: hidden;
+
+		.logo_institution{ 
+			background: none;
+			text-align: center;
+			.image{
+
+			img{ height: 100px;   padding: 0; }  
+			}
+
+		}
+		.name{  text-align: left; 
+			border-left: 3px dotted #f9f9f9;
+			padding: 10px 10px 10px 20px ;
+			//background: #f9f9f9;
+		} 
+	}
+				h5, h4,h3{ margin: 2px 0; }
+		.user_data{ 
+			//width: 35%;
+			text-align: center;
+			margin: 15px 0 30px 0;
+			clear: both;
+			//.image{width: 35%; }
+			//.name{ width: 65%; text-align: left; }
+		}
+
+		.mala_nota{ font-weight: bold; color: red; }
+		.signatures{ margin-bottom: 25px; }
+
+
+	
+	.absences-data{
+	//padding: 0 10px;
+
+		.navbar-header{  p{ margin: 0; } }
+		a{ margin: 0; }
+	}
+
+
+}

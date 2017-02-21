@@ -1,0 +1,499 @@
+<?php
+	if (!function_exists('current_language')) 
+	{	function current_language()
+		{	return 'ESP';
+		}
+	}
+	if (!function_exists('show_this'))
+	{	function show_this($string_code)
+		{	session_start();
+			$current_language=$_SESSION['current_language'];
+			if($current_language=='ESP')
+			{
+				if($string_code==10000001){ return 'usuario';}
+				if($string_code==10000002){ return 'profesor';}
+				if($string_code==10000003){ return 'fecha';}
+				if($string_code==10000004){ return 'nivel';}
+				if($string_code==10000005){ return 'asignatura';}
+				if($string_code==10000006){ return 'alumno';}
+				if($string_code==10000007){ return 'retirado';}
+				if($string_code==10000008){ return 'inscrito';}
+				if($string_code==10000009){ return 'matriculado';}
+				if($string_code==10000010){ return 'parcial';}
+				if($string_code==10000011){ return 'representante';}
+				if($string_code==10000012){ return 'promedio';}
+				if($string_code==10000013){ return 'curso';}
+				if($string_code==10000014){ return 'paralelo';}
+				if($string_code==10000015){ return 'nombre';}
+				if($string_code==10000016){ return 'recomendaciones';}
+				if($string_code==10000017){ return 'porcentaje';}
+				if($string_code==10000018){ return 'cualitativo';}
+				if($string_code==10000019){ return 'cuantitativo';}
+				if($string_code==10000020){ return 't&eacute;rmino';}
+				if($string_code==10000021){ return 'opci&oacute;n';}
+				if($string_code==10000022){ return 'opciones';}
+			}
+			else if($current_language=='ENG-US')
+			{
+				if($string_code==10000001){ return 'user';}
+				if($string_code==10000002){ return 'teacher';}
+				if($string_code==10000003){ return 'date';}
+				if($string_code==10000004){ return 'level';}
+				if($string_code==10000005){ return 'subject';}
+				if($string_code==10000006){ return 'student';}
+				if($string_code==10000007){ return 'retired';}
+				if($string_code==10000008){ return 'registered';}
+				if($string_code==10000009){ return 'matriculated';}
+				if($string_code==10000010){ return 'partia';}
+				if($string_code==10000011){ return 'parent/guardian';}
+				if($string_code==10000012){ return 'average';}
+				if($string_code==10000013){ return 'class';}
+				if($string_code==10000014){ return 'parallel';}
+				if($string_code==10000015){ return 'name';}
+				if($string_code==10000016){ return 'recommendations';}
+				if($string_code==10000017){ return 'percentage';}
+				if($string_code==10000018){ return 'qualitative';}
+				if($string_code==10000019){ return 'quantitative';}
+				if($string_code==10000020){ return 'term';}
+				if($string_code==10000021){ return 'option';}
+				if($string_code==10000022){ return 'options';}
+			}
+			else if($current_language=='ENG-UK')
+			{
+				if($string_code==10000001){ return 'user';}
+				if($string_code==10000002){ return 'teacher';}
+				if($string_code==10000003){ return 'date';}
+				if($string_code==10000004){ return 'level';}
+				if($string_code==10000005){ return 'subject';}
+				if($string_code==10000006){ return 'pupil';}
+				if($string_code==10000007){ return 'retired';}
+				if($string_code==10000008){ return 'registered';}
+				if($string_code==10000009){ return 'matriculated';}
+				if($string_code==10000010){ return 'partia';}
+				if($string_code==10000011){ return 'parent/guardian';}
+				if($string_code==10000012){ return 'average';}
+				if($string_code==10000013){ return 'class';}
+				if($string_code==10000014){ return 'parallel';}
+				if($string_code==10000015){ return 'name';}
+				if($string_code==10000016){ return 'recommendations';}
+				if($string_code==10000017){ return 'percentage';}
+				if($string_code==10000018){ return 'qualitative';}
+				if($string_code==10000019){ return 'quantitative';}
+				if($string_code==10000020){ return 'term';}
+				if($string_code==10000021){ return 'option';}
+				if($string_code==10000022){ return 'options';}
+			}
+		}
+	}
+	if (!function_exists('lng_options'))
+	{	function lng_options($option)
+		{	session_start();
+			$current_language=$_SESSION['current_language'];
+			
+			if($current_language=='ESP')
+			{	if($option=='cancel')	{ return 'cancelar';}
+				if($option=='quit')		{ return 'quitar';}
+				if($option=='save')		{ return 'guardar';}
+				if($option=='accept')	{ return 'aceptar';}
+				if($option=='reject')	{ return 'rechazar';}
+				if($option=='continue')	{ return 'continuar';}
+				if($option=='next')		{ return 'siguiente';}
+				if($option=='previous')	{ return 'anterior';}
+				if($option=='exit')		{ return 'cerrar';}
+				if($option=='open')		{ return 'abrir';}
+				if($option=='make primary')	{ return 'hacer principal';}
+				if($option=='make financial primary')	{ return 'hacer principal financiero';}
+				if($option=='block')	{ return 'bloquear';}
+				if($option=='edit')		{ return 'editar';}
+				if($option=='state')	{ return 'estado';}
+				if($option=='blocked')	{ return 'bloqueado';}
+				if($option=='agreement'){ return 'convenio';}
+				if($option=='number students'){ return 'total de alumnos';}
+				if($option=='close'){ return 'cerrar';}
+				if($option=='main guardian'){ return 'representante principal';}
+				if($option=='financial guardian'){ return 'representante financiero';}
+			}
+			else if($current_language=='ENG-US')
+			{	if($option=='cancel')	{ return 'cancel';}
+				if($option=='quit')		{ return 'quit';}
+				if($option=='save')		{ return 'save';}
+				if($option=='accept')	{ return 'accept';}
+				if($option=='reject')	{ return 'reject';}
+				if($option=='continue')	{ return 'continue';}
+				if($option=='next')		{ return 'next';}
+				if($option=='previous')	{ return 'previous';}
+				if($option=='exit')		{ return 'exit';}
+				if($option=='open')		{ return 'open';}
+				if($option=='make primary')	{ return 'make primary';}
+				if($option=='make financial primary')	{ return 'make financial primary';}
+				if($option=='block')	{ return 'block';}
+				if($option=='edit')		{ return 'edit';}
+				if($option=='state')	{ return 'state';}
+				if($option=='blocked')	{ return 'blocked';}
+				if($option=='agreement'){ return 'agreement';}
+				if($option=='number students'){ return 'number of students';}
+				if($option=='close'){ return 'close';}
+				if($option=='main guardian'){ return 'main guardian';}
+				if($option=='financial guardian'){ return 'financial guardian';}
+			}
+			else if($current_language=='ENG-UK')
+			{	if($option=='cancel')	{ return 'cancel';}
+				if($option=='quit')		{ return 'quit';}
+				if($option=='save')		{ return 'save';}
+				if($option=='accept')	{ return 'accept';}
+				if($option=='reject')	{ return 'reject';}
+				if($option=='continue')	{ return 'continue';}
+				if($option=='next')		{ return 'next';}
+				if($option=='previous')	{ return 'previous';}
+				if($option=='exit')		{ return 'exit';}
+				if($option=='open')		{ return 'open';}
+				if($option=='make primary')	{ return 'make primary';}
+				if($option=='make financial primary')	{ return 'make financial primary';}
+				if($option=='block')	{ return 'block';}
+				if($option=='edit')		{ return 'edit';}
+				if($option=='state')	{ return 'state';}
+				if($option=='blocked')	{ return 'blocked';}
+				if($option=='agreement'){ return 'agreement';}
+				if($option=='number students'){ return 'number of students';}
+				if($option=='close'){ return 'close';}
+				if($option=='main guardian'){ return 'main guardian';}
+				if($option=='financial guardian'){ return 'financial guardian';}
+			}
+		}
+	}
+	if (!function_exists('lng_table'))
+	{	function lng_table($option)
+		{	session_start();
+			$current_language=$_SESSION['current_language'];
+			
+			if($current_language=='ESP')
+			{	if($option=='code')		{ return 'código';}
+				if($option=='name')		{ return 'nombre';}
+				if($option=='class')	{ return 'curso';}
+				if($option=='options')	{ return 'opciones';}
+			}
+			else if($current_language=='ENG-US')
+			{	if($option=='code')		{ return 'code';}
+				if($option=='name')		{ return 'name';}
+				if($option=='class')	{ return 'class';}
+				if($option=='options')	{ return 'options';}
+			}
+			else if($current_language=='ENG-UK')
+			{	if($option=='code')		{ return 'code';}
+				if($option=='name')		{ return 'name';}
+				if($option=='class')	{ return 'class';}
+				if($option=='options')	{ return 'options';}
+			}
+		}
+	}
+	if (!function_exists('lng_forms'))
+	{	function lng_forms($option)
+		{	session_start();
+			$current_language=$_SESSION['current_language'];
+			
+			if($current_language=='ESP')
+			{	if($option=='current state')		{ return 'estado actual';}
+				if($option=='name')		{ return 'nombre';}
+				if($option=='class')	{ return 'curso';}
+				if($option=='options')	{ return 'opciones';}
+			}
+			else if($current_language=='ENG-US')
+			{	if($option=='current state')		{ return 'current state';}
+				if($option=='name')		{ return 'name';}
+				if($option=='class')	{ return 'class';}
+				if($option=='options')	{ return 'options';}
+			}
+			else if($current_language=='ENG-UK')
+			{	if($option=='current state')		{ return 'current state';}
+				if($option=='name')		{ return 'name';}
+				if($option=='class')	{ return 'class';}
+				if($option=='options')	{ return 'options';}
+			}
+		}
+	}
+	if (!function_exists('lng_form_label'))
+	{	function lng_form_label($option)
+		{	session_start();
+			$current_language=$_SESSION['current_language'];
+			
+			if($current_language=='ESP')
+			{	if($option=='code')			{ return 'Código';}
+				if($option=='student code')	{ return 'Código alumno';}
+				if($option=='guardian code'){ return 'Código representante';}
+				if($option=='id card')		{ return 'C&eacute;dula de identidad';}
+				if($option=='name')			{ return 'Nombre';}
+				if($option=='last name')	{ return 'Apellido';}
+				if($option=='email')		{ return 'Email';}
+				if($option=='phone')		{ return 'Tel&eacute;fono';}
+				if($option=='cellphone')	{ return 'Celular';}
+				if($option=='address')		{ return 'Domicilio';}
+				if($option=='relation')		{ return 'Parentesco';}
+				if($option=='profession')	{ return 'Profesión';}
+				if($option=='nationality')	{ return 'Nacionalidad';}
+				if($option=='workplace')	{ return 'Lugar de trabajo';}
+				if($option=='workaddress')	{ return 'Dirección de trabajo';}
+				if($option=='charge')		{ return 'Cargo';}
+				if($option=='religion')		{ return 'Religión';}
+				if($option=='studies')		{ return 'Estudios';}
+				if($option=='institution')	{ return 'Institución';}
+				if($option=='reason')		{ return 'Motivo por qué representa';}
+				if($option=='marital status'){ return 'Estado Civil';}
+			}
+			else if($current_language=='ENG-US')
+			{	if($option=='code')			{ return 'Code';}
+				if($option=='student code')	{ return 'Student Code';}
+				if($option=='guardian code'){ return 'Guardian Code';}
+				if($option=='id card')		{ return 'Identity Card';}
+				if($option=='name')			{ return 'Name';}
+				if($option=='last name')	{ return 'Last Name';}
+				if($option=='email')		{ return 'E-mail';}
+				if($option=='phone')		{ return 'Telephone';}
+				if($option=='cellphone')	{ return 'Cellphone';}
+				if($option=='address')		{ return 'Main Address';}
+				if($option=='relation')		{ return 'Relationship with the student';}
+				if($option=='profession')	{ return 'Profession';}
+				if($option=='nationality')	{ return 'Nationality';}
+				if($option=='workplace')	{ return 'Workplace';}
+				if($option=='workaddress')	{ return 'Work Address';}
+				if($option=='charge')		{ return 'Charge';}
+				if($option=='religion')		{ return 'Religion';}
+				if($option=='studies')		{ return 'Studies';}
+				if($option=='institution')	{ return 'Institution where studied';}
+				if($option=='reason')		{ return 'Reason of guarding the student';}
+				if($option=='marital status'){ return 'Marital Status';}
+			}
+			else if($current_language=='ENG-UK')
+			{	if($option=='code')			{ return 'Code';}
+				if($option=='student code')	{ return 'Student Code';}
+				if($option=='guardian code'){ return 'Guardian Code';}
+				if($option=='id card')		{ return 'Identity Card';}
+				if($option=='name')			{ return 'Name';}
+				if($option=='last name')	{ return 'Last Name';}
+				if($option=='email')		{ return 'E-mail';}
+				if($option=='phone')		{ return 'Telephone';}
+				if($option=='cellphone')	{ return 'Cellphone';}
+				if($option=='address')		{ return 'Main Address';}
+				if($option=='relation')		{ return 'Relationship with the student';}
+				if($option=='profession')	{ return 'Profession';}
+				if($option=='nationality')	{ return 'Nationality';}
+				if($option=='workplace')	{ return 'Workplace';}
+				if($option=='workaddress')	{ return 'Work Address';}
+				if($option=='charge')		{ return 'Charge';}
+				if($option=='religion')		{ return 'Religion';}
+				if($option=='studies')		{ return 'Studies';}
+				if($option=='institution')	{ return 'Institution where studied';}
+				if($option=='reason')		{ return 'Reason of guarding the student';}
+				if($option=='marital status'){ return 'Marital Status';}
+			}
+		}
+	}
+	if (!function_exists('lng_form_ph'))
+	{	function lng_form_ph($option)
+		{	session_start();
+			$current_language=$_SESSION['current_language'];
+			
+			if($current_language=='ESP')
+			{	if($option=='code')			{ return 'Ingrese el c&oacute;digo...';}
+				if($option=='student code')	{ return 'Ingrese el c&oacute;digo del alumno...';}
+				if($option=='guardian code'){ return 'Ingrese el c&oacute;digo del representante...';}
+				if($option=='name')			{ return 'Ingrese el Nombre...';}
+				if($option=='last name')	{ return 'Ingrese el Apellido...';}
+				if($option=='email')		{ return 'Ingrese el Email...';}
+				if($option=='phone')		{ return 'Ingrese el Tel&eacute;fono...';}
+				if($option=='cellphone')	{ return 'Ingrese el Celular...';}
+				if($option=='address')		{ return 'Ingrese el Domicilio...';}
+				if($option=='relation')		{ return 'Ingrese el Parentesco...';}
+				if($option=='profession')	{ return 'Ingrese el Profesión...';}
+				if($option=='nationality')	{ return 'Ingrese el Nacionalidad...';}
+				if($option=='workplace')	{ return 'Ingrese el Lugar de trabajo...';}
+				if($option=='workaddress')	{ return 'Ingrese el Dirección de trabajo...';}
+				if($option=='charge')		{ return 'Ingrese el Cargo...';}
+				if($option=='religion')		{ return 'Ingrese el Religión...';}
+				if($option=='studies')		{ return 'Ingrese el Estudios...';}
+				if($option=='institution')	{ return 'Ingrese el Institución...';}
+				if($option=='reason')		{ return 'Ingrese el Motivo por qué representa...';}
+				if($option=='marital status'){ return 'Ingrese el Estado Civil...';}
+			}
+			else if($current_language=='ENG-US')
+			{	if($option=='code')			{ return 'Enter Code...';}
+				if($option=='student code')	{ return 'Enter Student Code...';}
+				if($option=='guardian code'){ return 'Enter Guardian Code...';}
+				if($option=='name')			{ return 'Enter Name...';}
+				if($option=='last name')	{ return 'Enter Last Name...';}
+				if($option=='email')		{ return 'Enter E-mail...';}
+				if($option=='phone')		{ return 'Enter Telephone...';}
+				if($option=='cellphone')	{ return 'Enter Cellphone...';}
+				if($option=='address')		{ return 'Enter Main Address...';}
+				if($option=='relation')		{ return 'Enter Relationship with the student...';}
+				if($option=='profession')	{ return 'Enter Profession...';}
+				if($option=='nationality')	{ return 'Enter Nationality...';}
+				if($option=='workplace')	{ return 'Enter Workplace...';}
+				if($option=='workaddress')	{ return 'Enter Work Address...';}
+				if($option=='charge')		{ return 'Enter Charge...';}
+				if($option=='religion')		{ return 'Enter Religion...';}
+				if($option=='studies')		{ return 'Enter Studies...';}
+				if($option=='institution')	{ return 'Enter Institution where studied...';}
+				if($option=='reason')		{ return 'Enter Reason of guarding the student...';}
+				if($option=='marital status'){ return 'Enter Marital Status...';}
+			}
+			else if($current_language=='ENG-UK')
+			{	if($option=='code')			{ return 'Enter Code...';}
+				if($option=='student code')	{ return 'Enter Student Code...';}
+				if($option=='guardian code'){ return 'Enter Guardian Code...';}
+				if($option=='name')			{ return 'Enter Name...';}
+				if($option=='last name')	{ return 'Enter Last Name...';}
+				if($option=='email')		{ return 'Enter E-mail...';}
+				if($option=='phone')		{ return 'Enter Telephone...';}
+				if($option=='cellphone')	{ return 'Enter Cellphone...';}
+				if($option=='address')		{ return 'Enter Main Address...';}
+				if($option=='relation')		{ return 'Enter Relationship with the student...';}
+				if($option=='profession')	{ return 'Enter Profession...';}
+				if($option=='nationality')	{ return 'Enter Nationality...';}
+				if($option=='workplace')	{ return 'Enter Workplace...';}
+				if($option=='workaddress')	{ return 'Enter Work Address...';}
+				if($option=='charge')		{ return 'Enter Charge...';}
+				if($option=='religion')		{ return 'Enter Religion...';}
+				if($option=='studies')		{ return 'Enter Studies...';}
+				if($option=='institution')	{ return 'Enter Institution where studied...';}
+				if($option=='reason')		{ return 'Enter Reason of guarding the student...';}
+				if($option=='marital status'){ return 'Enter Marital Status...';}
+			}
+		}
+	}
+	if (!function_exists('show_this_phrase'))
+	{	function show_this_phrase($string_code)
+		{	session_start();
+			$current_language=$_SESSION['current_language'];
+			if($current_language=='ESP')
+			{
+				if($string_code==20000001){ return 'Promedio General';}
+				if($string_code==20000002){ return 'Cuadro de Calificaciones';}
+				if($string_code==20000003){ return 'Alumnos retirados no son considerados para el promedio global.';}
+				if($string_code==20000004){ return 'No hay notas ingresadas para esta materia.';}
+				if($string_code==20000005){ return 'Año Lectivo';}
+				if($string_code==20000006){ return 'Unidad Educativa';}
+				if($string_code==20000007){ return 'Alumnos retirados';}
+				if($string_code==20000008){ return 'Promedio Global';}
+				if($string_code==20000009){ return 'Plan de mejoramiento';}
+				if($string_code==20000010){ return 'Faltas injustificadas';}
+				if($string_code==20000011){ return 'Faltas injust.';}
+				if($string_code==20000012){ return 'Promedio del Curso';}
+				if($string_code==20000013){ return 'Nº Estudiantes';}
+				if($string_code==20000014){ return 'Promedio Rendimiento';}
+				if($string_code==20000015){ return 'Promedio del parcial';}
+				if($string_code==20000016){ return 'Nota del parcial';}
+				if($string_code==20000017){ return 'Examen Quimestral';}
+				if($string_code==20000018){ return 'Promedio Quimestral';}
+				if($string_code==20000019){ return 'Promedio fin de año';}
+				if($string_code==20000020){ return 'C&eacute;dula de identidad';}
+				if($string_code==20000021){ return 'C.I.';}
+				if($string_code==20000022){ return 'Ingrese la c&eacute;dula del representante...';}
+			}
+			else if($current_language=='ENG-US')
+			{
+				if($string_code==20000001){ return 'General Score';}
+				if($string_code==20000002){ return 'Report Card';}
+				if($string_code==20000003){ return 'Retired students are not considered for the overall score.';}
+				if($string_code==20000004){ return 'No grades found for this subject.';}
+				if($string_code==20000005){ return 'School Year';}
+				if($string_code==20000006){ return 'Institute';}
+				if($string_code==20000007){ return 'Retired students';}
+				if($string_code==20000008){ return 'Global Score';}
+				if($string_code==20000009){ return 'Improvement Plan';}
+				if($string_code==20000010){ return 'Injustified Absences';}
+				if($string_code==20000011){ return 'Injust. Absences';}
+				if($string_code==20000012){ return 'Class Average';}
+				if($string_code==20000013){ return 'Nº Students';}
+				if($string_code==20000014){ return 'Average Yield';}
+				if($string_code==20000015){ return 'Partial Average';}
+				if($string_code==20000016){ return 'Partial Grade';}
+				if($string_code==20000017){ return 'Examen Quimestral';}
+				if($string_code==20000018){ return 'Quimestral Average';}
+				if($string_code==20000019){ return 'End Year Average';}
+				if($string_code==20000020){ return 'Identity Card';}
+				if($string_code==20000021){ return 'I.D. Card';}
+				if($string_code==20000022){ return 'Enter de parent/guardian Identity Card...';}
+			}
+			else if($current_language=='ENG-UK')
+			{
+				if($string_code==20000001){ return 'General Score';}
+				if($string_code==20000002){ return 'Report Card';}
+				if($string_code==20000003){ return 'Retired pupils are not considered for the overall score.';}
+				if($string_code==20000004){ return 'No grades found for this subject.';}
+				if($string_code==20000005){ return 'School Year';}
+				if($string_code==20000006){ return 'Institute';}
+				if($string_code==20000007){ return 'Retired students';}
+				if($string_code==20000008){ return 'Global Score';}
+				if($string_code==20000009){ return 'Improvement Plan';}
+				if($string_code==20000010){ return 'Injustified Absences';}
+				if($string_code==20000011){ return 'Injust. Absences';}
+				if($string_code==20000012){ return 'Class Average';}
+				if($string_code==20000013){ return 'Nº Students';}
+				if($string_code==20000014){ return 'Average Yield';}
+				if($string_code==20000015){ return 'Partial Average';}
+				if($string_code==20000016){ return 'Partial Grade';}
+				if($string_code==20000017){ return 'Examen Quimestral';}
+				if($string_code==20000018){ return 'Quimestral Average';}
+				if($string_code==20000019){ return 'End Year Average';}
+				if($string_code==20000020){ return 'Identity Card';}
+				if($string_code==20000021){ return 'I.D. Card';}
+				if($string_code==20000022){ return 'Enter de parent/guardian Identity Card...';}
+			}
+		}
+	}
+	if (!function_exists('english_dayth'))
+	{	function english_dayth($date_number)
+		{	if($date_number=='01')
+			{	return 'st';
+			}
+			else if($date_number=='02')
+			{	return 'nd';
+			}
+			else if($date_number=='03')
+			{	return 'rd';
+			}
+			else
+			{	return 'th';
+			}
+		}
+	}
+	if (!function_exists('get_fecha_ciudad')) {
+		function get_fecha_ciudad($current_language, $print_time='true', $print_day='false')
+		{	if($current_language=='ESP')
+			{
+				$dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
+				$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+				
+				$fecha_det = get_ciudad_institucion() . ', ';
+				if ($print_day=='true') 
+					$fecha_det .= $dias[date('w')] . " ";
+				$fecha_det .= date('d') . " de " . $meses[date('n')-1] . " del " . date('Y') . '.' ;
+				if ($print_time=='true') $fecha_det .= ' '. date('H:i:s') . '.' ;
+				return $fecha_det;
+			}
+			else if($current_language=='ENG-US')
+			{
+				$dias = array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+				$meses = array("January","February","March","April","May","June","July","August","September","October","November","December");
+				
+				$fecha_det = get_ciudad_institucion() . '. ';
+				if ($print_day=='true') 
+					$fecha_det .= $dias[date('w')] . ",";
+				$fecha_det .= " " . date('d') . english_dayth(date('d')) . ", " . date('Y') . '.';
+				if ($print_time=='true') $fecha_det .= ' '. date('H:i:s') . '.' ;
+				return $fecha_det;
+			}
+			else if($current_language=='ENG-UK')
+			{
+				$dias = array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday");
+				$meses = array("January","February","March","April","May","June","July","August","September","October","November","December");
+				$fecha_det = get_ciudad_institucion() . '. ' ;
+				if ($print_day=='true') 
+					$fecha_det .= $dias[date('w')] . ",";
+				$fecha_det .= " " . date('d') . english_dayth(date('d')) . ", " . date('Y') . '.';
+				if ($print_time=='true') $fecha_det .= ' '. date('H:i:s') . '.' ;
+				return $fecha_det;
+			}
+		}
+	}
+?>

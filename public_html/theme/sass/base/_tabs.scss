@@ -1,0 +1,17 @@
+.nav-tabs{
+	li{
+	a{
+		@include border-radius(10px 10px 0 0 );
+	}
+	}
+}
+
+.tab-content{
+	background: white;
+	@include border-radius(0 0 10px 10px);
+	overflow: hidden;
+}
+
+.tab-pane{
+	margin: 2%;
+}

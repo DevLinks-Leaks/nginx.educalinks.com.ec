@@ -1,0 +1,109 @@
+/* Layout LOGIN */
+
+
+.login{
+  	@include susy-grid-background;
+	font-family: $text_regular;
+	background: $gray-deepblue url(../images/bg_web_login.jpg) center top no-repeat;
+	padding: 0;
+	margin: 0;
+	
+		.logo_ingenium{ position: absolute; right: 0; top:0; text-align: right; display: block;}
+		.pageContainer{
+			text-align: center;
+			max-width: 320px;
+			margin: auto;
+			clear: both;
+			margin-top: 30px;
+
+			section.main{ 
+				.logo{
+					padding-top: 5%;
+					background: white;
+					width: 180px;
+					height: 180px;
+					margin: 5% auto;
+					vertical-align: middle;
+
+					@include border-radius(100px);
+					img{ max-width: 120px; margin: auto; display: block;  }
+				}
+
+				h3, h4{
+					
+					text-transform: uppercase;
+					color: white;
+					line-height: 20px;
+					margin: 5px 0;
+				}
+				h3{ font-family: $text_heavy;}
+				h4{ font-family: $text_medium; }
+			}
+
+
+
+
+			.title{
+				h4{ 
+					background: $lightblue; 
+					font-family: $text_regular;
+					text-transform: uppercase;
+					color: white; 
+					padding: 30px 0; 
+					margin: 30px 0 0 0;
+					@include border-radius(10px 10px 0 0);
+				}
+			}
+			
+
+
+
+			section.log{
+				background: rgba($gray-lighter,1);
+				@include border-radius( 15px);
+				box-shadow: 0 1px 5px rgba(black, 0.4);
+			}
+
+
+
+		form{
+			@include form($lightblue, white, 4px);
+			label{ display: none; }
+			
+			input[type='text']{
+				background: white url(../images/input_login.png) right 0 no-repeat;
+				padding: 10px;
+			}
+			input[type='text']:focus, { 
+				background: white url(../images/input_login.png) right -44px no-repeat; 
+			}
+			input[type='password']{
+				background: white url(../images/input_login.png) right -87px no-repeat;
+				padding: 10px;
+			}
+			input[type='password']:focus, { 
+				background: white url(../images/input_login.png) right -130px no-repeat; 
+			}
+			input[type='submit']{
+				text-transform: uppercase;
+			}
+
+			transition: all 0.2s ease-in-out;
+
+
+		}
+
+		.remember{
+			padding: 20px;
+			color: gray;
+			span,a {font-size: $xsmallpx; }
+			border-top: 1px dotted lighten($gray-light,20%);
+		}
+		
+	}
+
+	
+}
+
+
+

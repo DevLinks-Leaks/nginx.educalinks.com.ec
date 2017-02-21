@@ -1,0 +1,28 @@
+# Specifies intentionally untracked files to ignore when using Git
+# http://git-scm.com/docs/gitignore
+
+*~
+
+*.log
+*.tmp
+*.tmp.*
+
+.idea/
+_notes/
+admin/**/*.pdf
+alumnos/**/*.pdf
+fotos/**/*.jpg
+docentes/files/**/*.xlsx
+files/**/*
+documentos/autorizados/*
+documentos/fichas_medicas/*
+documentos/requisitos/*
+documentos/sintesis/*
+documentos/solicitudes_fotos/*
+importacion_datos/uploads/**/*
+importacion_datos/biblio/uploads/**/*
+uploads/**/*
+admisiones/uploaded_docs/**/*
+
+.DS_Store
+Thumbs.db

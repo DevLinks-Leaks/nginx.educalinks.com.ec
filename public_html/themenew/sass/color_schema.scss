@@ -1,0 +1,58 @@
+$black:                 #000;
+$gray-darker:           #222;
+$gray-dark:             #333;
+$gray:                  #555;
+$gray-light:            #999;
+$gray-lighter:          #eee;
+$white:                 #fff;
+
+// Theme Colors
+
+$gray-deepblue: 					#2d3e50; 
+$red: 					#ff0000;	//rojo
+//colorTones
+$lightblue: #017eba;
+$blue: #0a3e83;
+$bluegray: #576f87;
+$deepblue: #023578;
+$yellow: #ff8f22;
+
+.textcolor_default {  color: #333333; }
+
+
+//.textcolor_primary { color: #333333; }
+.linkcolor_primary { color: #666; }
+
+div.fancy-select ul.options li.hover,
+.linkcolor_primary:hover , .textcolor_primary
+{ color: #8d0033; }
+
+.background_link_default{  background: none;  }
+
+
+div.fancy-select ul.options li.selected,
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus,
+.background_primary,
+.background_link_default:hover
+{ 
+	color: white; 
+	background: #8d2333;  
+}
+
+.background_primary:hover {
+	color: white;
+}
+
+
+
+/*
+.background_link_hover{
+	color: #666; 
+	background: #f0f0f0; 
+}
+
+.background_link_hover:hover{
+	color: white; 
+	background: #8d2333;  
+}
+*/

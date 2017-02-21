@@ -1,0 +1,45 @@
+.dropdown-menu {
+        background: url(../images/bg_dropdown.png) center 0 no-repeat ;
+        border: 0;
+        border-radius: 0px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+        right: 0;
+        float: right;
+        font-size: 14px;
+        list-style: none outside none;
+        margin: 10px 0 0 0;
+        min-width: 60px;
+        padding: 13px 0 0 0;
+        position: absolute;
+        top: 100%;
+        z-index: 1000;
+
+        li{
+            //float: none;
+            //clear: both;
+            width: 100%;
+            background: $lightblue;
+            border-bottom: 1px dotted lighten($lightblue, 10%);
+
+            a{
+                padding: 10px;
+                color: white;
+                overflow: hidden;
+            }
+
+        }
+        li:hover{
+            background: lighten($lightblue, 7%);
+            a{
+                background: inherit;
+            }
+
+        }
+
+
+    }
+
+.li_pass{ padding-left: 50px; background: url(../images/icons/ico_pass.png)  10px 0px no-repeat }
+.li_user{ padding-left: 50px; background: url(../images/icons/ico_user.png) 10px 0px no-repeat }
+.li_pict{ padding-left: 50px; background: url(../images/icons/ico_pict.png) 10px 0px no-repeat }
+.li_logout{ padding-left: 50px; background: url(../images/icons/ico_logout.png) 10px 0px no-repeat }

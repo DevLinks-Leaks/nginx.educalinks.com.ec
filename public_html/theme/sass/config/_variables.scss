@@ -1,0 +1,83 @@
+// ---------------------------------------------------------------------------
+// Imports
+
+@import "susy";
+
+// ---------------------------------------------------------------------------
+// Colors
+// Grays
+$black:                 #000;
+$gray-darker:           #222;
+$gray-dark:             #333;
+$gray:                  #555;
+$gray-light:            #999;
+$gray-lighter:          #eee;
+$white:                 #fff;
+
+// Theme Colors
+
+$gray-deepblue: 					#2d3e50; 
+$red: 					#ff0000;	//rojo
+//colorTones
+$lightblue: #017eba;
+$blue: #0a3e83;
+$bluegray: #576f87;
+$deepblue: #023578;
+$yellow: #ff8f22;
+
+
+
+//Typography
+
+$icon: 'icomoon';
+
+ 
+$title_heavy: "arial";
+$title_medium: "arial";
+$title_regular: "arial";
+
+$text_regular: 'robotoLight', sans-serif;
+$text_medium: 'robotoRegular', sans-serif;
+$text_heavy: 'robotoBold', sans-serif;
+
+$base-font-family:        "robotoRegular";
+
+$base-size: 13px;
+$ratio: golden() fifth();
+
+$normpx : $base-size;
+$medpx : ms(1);
+$smallpx : ms(-1);
+$xsmallpx : ms(-2);
+$xxsmallpx : ms(-3);
+$xxxsmallpx : ms(-4);
+$largepx : ms(2);
+$xlargepx : ms(3);
+$xxlargepx : ms(4);
+$xxxlargepx : ms(5);
+ 
+$base-font-size: $normpx;
+$base-line-height: $normpx; //$medpx;
+$text-color: $gray-dark;
+
+// Links
+$link-color:             #08c;
+$link-color-hover:        darken($link-color, 15%);
+
+
+$base-font-family:        "Arial";
+$text-color: $gray-dark;
+
+// Basic Grid
+
+$total-columns  : 24;
+$column-width   : 32px;
+$gutter-width   : 5px;
+$grid-padding   : $gutter-width;
+$container-style: fluid;
+
+
+$show-grid-backgrounds: false;
+
+
+

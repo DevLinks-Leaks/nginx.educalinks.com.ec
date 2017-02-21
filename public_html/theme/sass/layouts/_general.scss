@@ -1,0 +1,247 @@
+/* Layout */
+.general{
+	font-family: $text_regular;
+	font-size: $normpx;
+	font-weight: normal;
+	background: $gray-deepblue url(../images/bg_web.png) center top no-repeat;
+	
+	
+	.pageContainer{
+		
+		@include container;
+		@include susy-grid-background;
+		padding: 0px 0;
+		a{ outline: 0px; }
+
+		.tooltip-inner{
+			padding:7px  10px;
+			background-color: rgba(black, 0.8);
+		}
+
+
+	}
+
+	body{
+		background: $gray-deepblue url(../images/bg_web.png) center top no-repeat;
+		font-family: $text_regular;
+		
+	}
+
+
+	
+
+	section{ 	clear: both; }
+	
+	.section_side{
+		@include span-columns(6); 
+		overflow:auto;
+		height: 100%;
+		position: fixed;
+		min-width: 260px;
+		z-index: 1;
+		//padding-right: 20px;
+
+		section.main{
+		height: 250px;
+			text-align: center;
+			position: relative;
+
+			.ingenium{
+				background: $lightblue;
+				height: 60px;
+				text-align: center;
+				img{ width: auto; margin-top: 1%; max-height: 55px; }
+			}
+			.contenedor{
+				width: 70%;
+				margin-top: 20px;
+				margin-left: 10%;
+				//background: red;
+			}
+				.logo{
+					padding-top: 2%;
+					background: white;
+					width: 100px;
+					height: 100px;
+					margin: auto;
+					vertical-align: middle;
+
+					@include border-radius(50px);
+					img{ max-width: 70px; margin: auto; display: block;  }
+				}
+
+				h4, h5{
+					font-weight: normal;
+					text-transform: uppercase;
+					color: white;
+					line-height: 15px;
+					margin: 5px 0;
+					//text-align: left;
+				}
+				h4{ font-family: $text_heavy;}
+				h5{ font-family: $text_medium; }
+		}
+	}
+
+.section_main{ width: 80%;}
+
+.expanded{ width: 100%; }
+
+.modal-dialog{ z-index: 1100; }
+.modal-backdrop{ z-index: 999; }
+
+	.section_main, .expanded {
+		z-index: 1000;
+		height: 100%;
+		float: right;
+		position: relative;
+
+			
+
+
+		.header,  .optionbar, .main { 
+			#btn{ 
+				padding: 20px 25px;
+				color: white;
+				display: inline-block; 
+				font-weight: bold;
+				text-decoration: none;
+				&:hover{ text-decoration: none; }
+			}
+
+		}
+
+		.header{
+			height: 60px;
+			position: relative;
+			background: $lightblue;
+			clear: both;
+		}
+
+
+		.optionbar{
+			background: lighten($bluegray, 47%);
+			clear: both;
+			text-transform: uppercase;
+			font-size: 12px;
+			font-family: $title-medium;
+			font-weight: medium;
+			letter-spacing: 0.7px;
+
+			span{ float: left; padding: 12px 7px; color: lighten($bluegray, 22%); }
+		}
+
+
+		.main{
+			width: 100%;
+			min-height: 900px;
+			border-left: 9px solid $lightblue;
+			overflow: hidden;
+			padding: 0px;
+			background: #efefef;
+		}
+		
+
+		#information{
+			@include span-columns(24);
+			margin: 0%;
+			padding: 0%;
+			overflow: hidden;
+
+
+			.titleBar{
+				background: rgba(white,0.8);
+				margin:0; padding: 0;
+				clear: both;
+				height: 50px;
+
+				//overflow: hidden;
+
+				.title{
+					overflow: hidden;
+					padding:0px 20px;
+					@include span-columns(10);
+					h3{ float: left; padding-right: 20px;
+						color: $lightblue;  text-transform: uppercase;
+						.icon{ display: block; float: left; margin-right: 20px; }
+					}
+					.new_message{
+						padding: 15px 20px;
+						float: left;
+						border-left: 1px dotted $gray-lighter;
+					}
+				}
+				.options{
+					@include span-columns(14 omega);
+					@include menu_horizontal(right);
+
+					a{
+						line-height: 50px;
+						display: block;
+						
+						border-bottom: 3px solid white;
+						border-left: 1px dotted $gray-lighter;
+						&:hover{
+							border-bottom: 3px solid $lightblue;
+						}
+					}
+					a.button_text{
+						line-height: 47px;
+						padding: 0 10px 0 17px;
+						span{ margin-right: 7px; font-family: icomoon; } 
+					}
+
+					a.button_icon{
+						padding: 0 10px 0 17px;
+						height: 50px;
+						//width: 65px;
+						span{ margin: auto; font-family: icomoon; } 
+						
+					}
+					a.button_icon_md{ 
+						font-size: 1.4em;
+					}
+					a.button_icon_gr{ 
+						font-size: 1.1em;
+					}
+
+					.element{ 
+
+						padding: 17px;
+						
+						
+					}
+
+
+				} 
+			}
+
+			
+			.zones{ clear: both; @include span-columns(24);}
+			.zone{ @include span-columns(11); margin: 2%; }
+			.zone-last{ @include span-columns(11 omega);  margin: 2%;}
+
+		}
+		table, table.tr{ margin: 0; padding: 0; float: left;}
+		
+	}
+
+	.citas-disabled{ color: $gray-light; }
+
+	.titleBar_select{
+	select{	margin: 15px 15px 10px 15px ;	}
+	}
+
+/*
+	form{
+			@include form($lightblue, white, 5px);
+	}
+*/
+
+}
+
+
+@media screen and (max-width: 980px) {
+
+
+}

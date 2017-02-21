@@ -1,0 +1,32 @@
+.mensajes{
+	height: 200%;
+	display: block;
+	
+	@include span-columns(24);
+
+	.mensaje_lista{
+		height: 100%;
+		max-height: 1000px;
+		overflow-y: auto; 
+		background: white;
+		@include span-columns(12);
+		.lista{ 
+			table{
+				@include table-mensajes();
+			}
+				.mensaje:hover{  td {background: none; } a{   color: $lightblue; display: block; } }
+		}
+
+	}
+	.mensaje_detalle{
+		background: white;
+		height: 100%;
+		@include span-columns(12 omega);
+		.detalle{
+			padding: 2% 3%;
+			.title{ padding-bottom: 1%; margin-bottom: 2%; border-bottom: 1px dotted $gray-lighter;
+				h3{ color: $lightblue; }
+			}
+		}
+	}
+}

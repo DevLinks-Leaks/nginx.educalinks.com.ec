@@ -1,0 +1,63 @@
+.cursos_paralelo_main{
+	width: 100%;
+	margin: 1% 0 2% 0;
+}
+
+
+.cursos_paralelo_info_main{
+	width: 100%;
+	margin: 1% 0 2% 0;
+
+	#mate_view{	@include span-columns(14); }
+	#alum_view{ @include span-columns(10 omega); } 
+}
+
+.cursos_cursos_main, .cursos_materias_main, .cursos_aulas_main_lista, .cursos_admin_paralelo_main_lista{
+	//@include table-inputs();
+}
+
+
+
+.libreta, .lista{
+	.full{
+		width: 90%; margin: 0% 5% 1% 5% ;
+	 }
+	.header_institution{
+		margin: 3% 5% 1% 5% ;
+		text-align: left;
+		overflow: hidden;
+
+		.institution{ 
+			@include span-columns(15);
+			.image{ @include span-columns(5); text-align: left; }
+			.name{ @include span-columns(18); text-align: left; } 
+		}
+		.user_data{ 
+			@include span-columns(8 omega);
+			.image{ @include span-columns(5); }
+			.name{ @include span-columns(18 omega); text-align: left; }
+		}
+	}
+	.half{ width: 43%; margin:1% 2% 5% 5%; float: left; }
+	.half_end{ width: 43%; margin:1% 5% 5% 2%; float: right; }
+
+	}
+
+
+ .lista{
+	
+
+		.institution{ 
+			.name, .image{ text-align: left; }
+		}
+		.user_data{ 
+			.name, .image{ text-align: right; }
+		}
+	
+	
+	
+}
+
+
+
+

@@ -1,0 +1,255 @@
+.docentes_add_script, .representantes_add_script{
+	width: 100%;
+	margin: 1% 0 2% 0;
+	float: left;
+	
+	.picture{ @include span-columns(6);
+		text-align: center;
+
+		#div_foto{ 
+			text-align: center;
+			margin: 20px 0;
+		}
+
+		input[type='file']{ width: 80%; margin:10px auto; font-size: $normpx; }
+
+
+		.buttons{
+			width: 83%;
+			margin: auto;
+			clear: both;
+			@include menu_vertical(center);
+			button{ margin: 5px; }
+		}
+	}
+	.data{ 
+		@include span-columns(18 omega); 
+		@include bleed(2%, left);
+		border-left: 1px dotted lighten($gray-light, 20%);
+
+		.section{
+			clear: both;
+			margin: 20px;
+			display: block;
+			overflow: hidden;
+			position: relative;
+			table{ margin-top: 20px; width: 100%;
+				@include table();
+			}
+		}
+	}
+	@include form($lightblue, lighten(white, 25%),  20px);
+	@include form-elements(2);
+	
+	.form_element{ height: 70px; display: block; }
+
+	
+} 
+	
+
+
+.docentes_curso, .docentes_post{
+
+	.panel{
+		//width: 96%;
+		padding: 2%;
+		background: white;
+	}
+	.post_list {
+		background: #111;
+		@include post();
+	}
+	textarea{ width: 95%; margin: auto;}
+	h4{margin: 0; }
+	.container{
+
+		margin-bottom: 15px;
+		overflow: hidden;
+		button{ float: right; }
+	}
+	.teacher{
+			clear: both;
+			//height:55px;
+			background: lighten($gray-dark,78%);
+			border-radius:  0 0 7px 7px;
+			padding-bottom: 10px;
+			overflow: hidden;
+
+			.image{ 
+						width: 120px;
+						margin: 7px;
+						float: left;
+					}
+					.information{ 
+						padding-top: 7px;
+						@include span-columns(9,12);
+						.user{ color: darken($lightblue,5%); text-transform: uppercase;}
+					}
+
+			h5{ margin: 0; text-transform: uppercase; font-family: $title-heavy;}
+			.name{ text-transform: uppercase; font-size: 16px; }
+			.email{ font-size: 14px; font-weight: bold; }
+		}
+}
+
+
+ .docentes_agendas{
+
+ 	.table_basic{
+
+		@include table-basic(5px, white);
+		th{ background: rgba($lightblue,0.1);}
+		td{ background: rgba(gray,0.5);}
+
+		}
+ }
+
+.docentes_clases, .docentes, .docentes_citas, .docentes_notas, .docentes_observaciones, .docentes_agendas{
+	padding: 0;
+	margin: 0;
+	span.icons{ padding: 0 5px 0 0px;}
+
+	.container{
+		margin-bottom: 15px;
+		overflow: hidden;
+	}
+
+	.details{
+			clear: both;
+			width:  98%;
+			margin: 7px auto;
+
+			.btn{ 
+				color: gray;
+				text-shadow: 0;
+				width: 100%; 
+				display: block; 
+				background: lighten($gray-light,25%);
+				border: 0;
+			}
+	}
+
+		
+
+
+	.table_striped, .table_striped_rollover{
+		@include table-head-colors(darken($lightblue,5%), rgba(gray,0.1));
+		th{ padding: 7px; }
+		//@include table-rounded(7px 7px 0 0);
+		td.footer{ padding: 0; 
+			.details{ margin: 0; width: 100%; a{
+				border-radius:  0 0 7px 7px;  
+		 }}}
+		h4{ margin: 0; }
+		tbody{
+			width:100%; 
+			position:relative; 
+			overflow-y: auto;
+			td{ vertical-align: top; }
+			td.no-padding{ vertical-align: top; padding:0; }
+		}
+		
+	}
+	.table_striped_rollover{
+		tr:nth-child(odd) td:hover, tr:nth-child(even) td:hover{
+			background: rgba($lightblue,0.1) !important;
+		}
+	}
+
+
+	
+
+	.accordion-heading{ 
+		background:rgba($lightblue,0.1);
+		overflow: hidden;
+		padding: 2px 0 5px 0;
+		position: relative;
+
+/* ACTUALIZACION DOCENTES*/
+		a.link_extra{
+			position: absolute;
+			right:0;
+			top: -10px;
+			margin:20px;
+			display: block;
+			z-index:100;
+			font-weight: bold;
+			text-decoration: none;
+		}
+		
+		a.accordion-toggle{
+			text-decoration: none;
+			font-family: $title-heavy;
+			font-weight: bold;
+			color:  darken($lightblue,5%);
+			overflow: hidden;
+			z-index:10;
+
+			.title{ 
+				@include span-columns(17);
+			}
+			.opciones{ 
+			.icons{ margin-right: 5px;}
+			@include span-columns(7 omega);
+			text-align: right;
+			}
+		}
+	}
+
+	
+
+	.accordion-body{
+		.teacher{
+			clear: both;
+			//height:55px;
+			background: lighten($gray-dark,78%);
+			border-radius:  0 0 7px 7px;
+			padding-bottom: 10px;
+			overflow: hidden;
+
+			.image{ 
+						width: 55px;
+						margin: 7px;
+						float: left;
+					}
+					.information{ 
+						padding-top: 7px;
+						@include span-columns(9,12);
+						.user{ color: darken($lightblue,5%); text-transform: uppercase;}
+					}
+
+			h5{ margin: 0; text-transform: uppercase; font-family: $title-heavy;}
+			.name{ text-transform: uppercase; font-size: 16px; }
+			.email{ font-size: 14px; font-weight: bold; }
+		}
+
+
+		.agenda_list{
+			clear: both;
+			height:120px;
+			overflow-y: auto; 
+			background: lighten($gray-dark,78%);
+			border-radius:  0 0 7px 7px;  
+			.agenda{
+				&:nth-child(odd){ }
+				&:nth-child(even){ background: white; border-top: 1px dotted $gray-lighter; }
+				padding: 7px;
+ 				overflow: hidden;
+				display: block;
+				clear: both;
+			}
+		}
+
+		
+
+		
+	}
+		.post_list, {
+			height:193px;
+			overflow-y: auto; 
+			@include post();
+		}
+	
+}
+
+

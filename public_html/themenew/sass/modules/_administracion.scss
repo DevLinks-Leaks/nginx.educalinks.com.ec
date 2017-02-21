@@ -1,0 +1,296 @@
+.level1, .level0 {
+	padding: 10px 0 10px 20px;
+	background: rgba($lightblue,0.1);
+	color: darken($lightblue,10%);
+	text-align: center;
+	font-weight: bold;
+}
+.level0{
+background: rgba($lightblue,0.3);
+}
+
+.level2 {
+	padding: 10px 0 10px 40px;
+	background: lighten($gray-lighter,3%);
+}
+
+.level3 {
+	padding: 5px 0 5px 60px;
+	color: $gray-light;
+}
+
+.level0:hover, .level1:hover, .level2:hover, .level3:hover{cursor: pointer; }
+
+	.admin_periodos_notas_view_script_acc{
+		@include span-columns(12 omega);
+	}
+	.admin_periodos_notas_view{
+		@include span-columns(12);
+	}
+
+.admin_pass, .admin_logo{
+	.buttons{
+		margin: auto;
+		clear: both;
+		@include menu_vertical(left);
+		padding: 0 20px;
+		clear: both;
+		button{ width: 10%; margin: 5px;}
+	}
+}
+
+
+
+.cursos_notas_permisos_main_view{
+	padding: 0;
+	margin: 0;
+	span.icons{ padding: 0 5px 0 0px;}
+
+	.container{
+		margin-bottom: 15px;
+		overflow: hidden;
+	}
+
+	.details{
+			clear: both;
+			width:  98%;
+			margin: 7px auto;
+
+			.btn{ 
+				color: gray;
+				text-shadow: 0;
+				width: 100%; 
+				display: block; 
+				background: lighten($gray-light,25%);
+				border: 0;
+			}
+	}
+
+		
+
+
+	.table_striped, .table_striped_rollover{
+		@include table-head-colors(darken($lightblue,5%), rgba(gray,0.1));
+		th{ padding: 7px; }
+		//@include table-rounded(7px 7px 0 0);
+		td.footer{ padding: 0; 
+			.details{ margin: 0; width: 100%; a{
+				border-radius:  0 0 7px 7px;  
+		 }}}
+		h4{ margin: 0; }
+		tbody{
+			width:100%; 
+			position:relative; 
+			overflow-y: auto;
+			td{ vertical-align: top; }
+			td.no-padding{ vertical-align: top; padding:0; }
+		}
+		
+	}
+	.table_striped_rollover{
+		tr:nth-child(odd) td:hover, tr:nth-child(even) td:hover{
+			background: rgba($lightblue,0.1) !important;
+		}
+	}
+
+
+	
+
+	.accordion-heading{ 
+		background:rgba($lightblue,0.1);
+		overflow: hidden;
+		padding: 2px 0 5px 0;
+		position: relative;
+
+/* ACTUALIZACION DOCENTES*/
+		a.link_extra{
+			position: absolute;
+			right:0;
+			top: -10px;
+			margin:20px;
+			display: block;
+			z-index:100;
+			font-weight: bold;
+			text-decoration: none;
+		}
+		
+		a.accordion-toggle{
+			text-decoration: none;
+			font-family: $title-heavy;
+			font-weight: bold;
+			color:  darken($lightblue,5%);
+			overflow: hidden;
+			z-index:10;
+
+			.title{ 
+				@include span-columns(17);
+			}
+			.opciones{ 
+			.icons{ margin-right: 5px;}
+			@include span-columns(7 omega);
+			text-align: right;
+			}
+		}
+	}
+
+	
+
+	.accordion-body{
+		.teacher{
+			clear: both;
+			//height:55px;
+			background: lighten($gray-dark,78%);
+			border-radius:  0 0 7px 7px;
+			padding-bottom: 10px;
+			overflow: hidden;
+
+			.image{ 
+						width: 55px;
+						margin: 7px;
+						float: left;
+					}
+					.information{ 
+						padding-top: 7px;
+						@include span-columns(9,12);
+						.user{ color: darken($lightblue,5%); text-transform: uppercase;}
+					}
+
+			h5{ margin: 0; text-transform: uppercase; font-family: $title-heavy;}
+			.name{ text-transform: uppercase; font-size: 16px; }
+			.email{ font-size: 14px; font-weight: bold; }
+		}
+
+
+		.agenda_list{
+			clear: both;
+			height:120px;
+			overflow-y: auto; 
+			background: lighten($gray-dark,78%);
+			border-radius:  0 0 7px 7px;  
+			.agenda{
+				&:nth-child(odd){ }
+				&:nth-child(even){ background: white; border-top: 1px dotted $gray-lighter; }
+				padding: 7px;
+ 				overflow: hidden;
+				display: block;
+				clear: both;
+			}
+		}
+
+		
+
+		
+	}
+		.post_list, {
+			height:193px;
+			overflow-y: auto; 
+			@include post();
+		}
+	
+}
+
+
+
+
+.admin_permisos{
+	.bonsai{
+		input[type="checkbox"]{ margin-left: 10px; }
+		label{padding: 13px; }
+		.has-children{
+			//background: white;
+			#checkbox-0{ margin: 0 13px 10px 13px; }
+		}
+		ul{ 
+			padding:  0px;
+			li{ 
+				padding:  7px 0px;
+				font-family: $title-heavy;
+				background: $lightblue;
+				clear: both;
+				color: white;
+				font-weight: bold;
+				font-size: 14px;
+				line-height: 20px;
+				text-indent: 10px;
+
+				input[type="checkbox"]{ margin: 0 0 10px 10px; }
+				label{padding: 0 0 10px 13px; }
+
+				ul{ 
+					li{ 
+						line-height: 30px;
+						text-indent: 25px;
+						font-family: $title-medium;
+						background: lighten($lightblue, 60%);
+						clear: both;
+						color: $lightblue;
+						font-weight: normal;
+
+						input[type="checkbox"]{ margin: 0 0 10px 10px; }
+						label{padding: 0 0 10px 13px; }
+
+						ul{ padding:  0px 0px;
+							li{ 
+							text-indent: 50px;
+							background: darken($gray-lighter,2%);
+							font-family: $title-regular;
+							clear: both;
+							border-top: 1px dotted #ccc;
+							color:gray;
+							
+								&:nth-child(odd){
+									background: lighten($gray-lighter,2%);
+									
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+}
+
+.auditoriaTipo{
+		a.all, a.none{
+			background: $lightblue;
+			font-size: 14px;
+			overflow: hidden;
+			color: white; width: 100%; padding:  10px;  cursor: pointer; display: block;
+		}
+		a.none{
+			background:  lighten(gray,30%);
+			color: gray;
+		}
+	ul{ 
+		padding: 0; margin: 0;
+		li.list{ padding: 0; }
+		li{ 
+			overflow: hidden;
+			padding:0;
+			clear: both;
+			list-style: none;
+			color: white;
+				
+ul{
+	padding:0;
+	li{
+		font-family: $title-heavy;
+		color: gray;
+		padding:  4px 0px;
+		&:nth-child(odd){
+			background: lighten($gray-lighter,2%);
+
+		}
+
+		input[type="checkbox"]{ margin: 10px; }
+		
+	}
+}
+				
+			
+
+			}
+	}
+}

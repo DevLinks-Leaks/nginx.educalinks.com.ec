@@ -1,0 +1,37 @@
+
+.messages{
+	//.nav > li{ height: 100%; background: url(../images/divider_userbar.png) left -9px no-repeat; }
+}
+
+/*
+.mensajes{
+	height: 200%;
+	display: block;
+	
+	//@include span-columns(24);
+*/
+	.messages_list{
+		 //max-height: 200px; overflow: auto; 
+		.mensaje:hover{ cursor: pointer; td {background: none; } a{   color: red; display: block; } }
+
+		.data{ font-size: 14px; }
+		
+	}
+	/*
+	.mensaje_detalle{
+		background: white;
+		height: 100%;
+		//@include span-columns(12 omega);
+		.detalle{
+			padding: 2% 3%;
+			.title{ padding-bottom: 1%; margin-bottom: 2%; border-bottom: 1px dotted gray;
+				h3{ color: blue; }
+			}
+		}
+	}
+}
+*/
+
+.messages{
+	a{ cursor:pointer; }
+}

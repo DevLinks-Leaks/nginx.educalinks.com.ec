@@ -1,0 +1,74 @@
+@page {
+  margin-left: 0.5cm;
+  margin-right: 0.5cm;
+  margin-top: 1cm;
+  margin-bottom: 1cm;
+}
+
+
+/* line 12, ../sass/print.scss */
+body {
+  float: none !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: #000;
+}
+
+/* line 20, ../sass/print.scss */
+.libreta, .lista {
+  margin: auto;
+  font-size: 0.65em;
+}
+/* line 26, ../sass/print.scss */
+.libreta .full, .libreta .header_institution, .lista .full, .lista .header_institution {
+  width: 100%;
+  margin: 0% 0% 1% 0%;
+}
+/* line 34, ../sass/print.scss */
+.libreta .half, .lista .half {
+  width: 48%;
+  margin: 1% 2% 0% 0%;
+  float: left;
+}
+/* line 35, ../sass/print.scss */
+.libreta .half_end, .lista .half_end {
+  width: 48%;
+  margin: 1% 0% 0% 2%;
+  float: right;
+}
+/* line 37, ../sass/print.scss */
+.libreta h2, .lista h2 {
+  font-size: 1.3em;
+}
+/* line 38, ../sass/print.scss */
+.libreta h5, .lista h5 {
+  font-size: 0.9em;
+}
+/* line 40, ../sass/print.scss */
+.libreta table, .lista table {
+  width: 100%;
+}
+/* line 49, ../sass/print.scss */
+.libreta table th, .lista table th {
+  padding: 4px 8px;
+}
+/* line 54, ../sass/print.scss */
+.libreta table td, .lista table td {
+  padding: 3px;
+}
+
+/*Color rojo para las notas <7*/
+@media print
+{
+	.mala_nota
+	{
+		color: #F00 !important;
+		webkit-print-color-adjust:exact;
+	}
+	.mala_nota_escuela_liceopanamericano
+	{
+		color: #015c87 !important;
+		webkit-print-color-adjust:exact;
+	}
+}
