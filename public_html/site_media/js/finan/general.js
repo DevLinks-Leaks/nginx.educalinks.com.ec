@@ -458,7 +458,8 @@ function actualiza_badge_gest_cheques(badge_total)
 function aumenta_porc(porc){
     "use strict";
     var div='prog_bar_deudas';
-    var val_now= parseInt(document.getElementById(div).getAttribute('aria-valuenow'))+porc;
+    //var val_now= parseInt(document.getElementById(div).getAttribute('aria-valuenow'))+porc;
+	var val_now = porc;
 	if(val_now<=100){
 		document.getElementById(div).setAttribute('aria-valuenow',val_now);
 		document.getElementById(div).style.width=String(val_now)+'%';
