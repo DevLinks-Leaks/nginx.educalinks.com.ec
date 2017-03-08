@@ -21,7 +21,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">Reporte de emisiones</h4>
+				<h4 class="modal-title" id="myModalLabel">Reporte de antigüedad de saldos</h4>
 			</div>
 			<div class="modal-body" id="modal_edit_body" >
 			</div>
@@ -41,17 +41,17 @@
 						<!--<button 
 							type="button"
 							class="btn btn-primary"
-							onclick="js_rep_emisiones_carga_reports_deudores('modal-deudoresbody','{ruta_html_finan}/rep_antiquity/controller.php','print_deudores_html')">
+							onclick="js_rep_antiquity_carga_reports_deudores('modal-deudoresbody','{ruta_html_finan}/rep_antiquity/controller.php','print_deudores_html')">
 								<span class="fa fa-search"></span></button>-->
 						<button 
 							type="button"
 							class="btn btn-default"
-							onclick="js_rep_emisiones_carga_reports_deudores('modal-deudoresbody','{ruta_html_finan}/rep_antiquity/controller.php','print_deudores')">
+							onclick="js_rep_antiquity_carga_reports_deudores('modal-deudoresbody','{ruta_html_finan}/rep_antiquity/controller.php','print_deudores')">
 								<span style="color:red;" class="fa fa-file-pdf-o"></span></button>
 						<button 
 							type="button"
 							class="btn btn-default"
-							onclick="js_rep_emisiones_carga_reports_deudores('modal-deudoresbody','{ruta_html_finan}/rep_antiquity/controller.php','print_deudores_xls')">
+							onclick="js_rep_antiquity_carga_reports_deudores('modal-deudoresbody','{ruta_html_finan}/rep_antiquity/controller.php','print_deudores_xls')">
 								<span style="color:green;" class="fa fa-file-excel-o"></span></button>
 					</div>
 					<div class="col-md-6 col-sm-10">
@@ -59,7 +59,7 @@
 							 title='Fecha de vencimiento, desde, hasta.'
 							 onmouseover='$(this).tooltip("show")'>
 							<span class="input-group-addon">
-								<input type="checkbox" id='chk_fecha' name='chk_fecha' onclick='js_rep_emisiones_check_fecha();'>
+								<input type="checkbox" id='chk_fecha' name='chk_fecha' onclick='js_rep_antiquity_check_fecha();'>
 							</span>
 							<span class="input-group-addon">
 								<span style="text-align:left;font-size:small;font-weight:bold;">Fecha de corte</span></span>

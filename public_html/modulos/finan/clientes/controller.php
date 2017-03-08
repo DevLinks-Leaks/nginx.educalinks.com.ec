@@ -105,10 +105,10 @@ function handler()
 				$nombre_estudiante = '';
 			else 
 				$nombre_estudiante = $user_data['nombre_estudiante'];
-			if(!isset($user_data['nombre_repr']))
+			if(!isset($user_data['nombre_titular']))
 				$nombre_repr = '';
 			else 
-				$nombre_repr = $user_data['nombre_repr'];
+				$nombre_repr = $user_data['nombre_titular'];
 			if(!isset($user_data['estado']))
 				$estado = 'A';
 			else 

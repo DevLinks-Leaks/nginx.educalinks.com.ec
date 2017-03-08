@@ -630,8 +630,8 @@ function handler() {
 			{   $data[ 'PDF' ]=  "No se encontraron resultados";
 			}
 			
-			//header("Content-type:application/pdf");
-			//header("Content-Disposition:attachment;filename='ficha_medica_".$user_data['fmex_codi'].".pdf'");
+			header("Content-type:application/pdf");
+			header("Content-Disposition:attachment;filename='ficha_medica_".$user_data['fmex_codi'].".pdf'");
 			
 			$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -689,7 +689,7 @@ function handler() {
 			$html .= $data[ 'PDF' ];
 			
 			$pdf->writeHTML($html, true, false, true, false, '');
-			$pdf->Output('../../../documentos/fichas_medicas/'.$v_domain[0].'/ficha_medica_'.$user_data['fmex_codi'].'.pdf', 'FI');
+			$pdf->Output('ficha_medica_'.$user_data['fmex_codi'].'.pdf', 'I');
 			break;
         default:
 			echo "default";

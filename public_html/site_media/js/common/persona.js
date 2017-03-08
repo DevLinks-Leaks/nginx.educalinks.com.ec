@@ -126,7 +126,7 @@ function js_persona_select_user_searchlist_followed( div_buttons, div_body, proc
                 document.getElementById( div_body ).innerHTML = xhr.responseText;
                 document.getElementById( div_buttons ).innerHTML = "<button type='button' id='btn_persona_save_button' name='btn_persona_save_button' class='btn btn-success' " +
                 " onclick='js_persona_set(\"" + perX + "\");'>" +
-                " <span class='glyphicon glyphicon-floppy-disk'></span>&nbsp;Guardar</button>";
+                " <span class='fa fa-floppy-o'></span>&nbsp;Guardar</button>";
                 js_persona_formularioPersona_onload( tipo_persona, perX );
             }
             else
@@ -154,7 +154,7 @@ function js_persona_get( div_buttons, div_body, procedencia_formulario, tipo_per
                 document.getElementById( div_body ).innerHTML = xhr.responseText;
                 document.getElementById( div_buttons ).innerHTML = "<button type='button' id='btn_persona_save_button' name='btn_persona_save_button' class='btn btn-success' " +
                 " onclick='js_persona_set(\"" + perX + "\");'>" +
-                " <span class='glyphicon glyphicon-floppy-disk'></span>&nbsp;Guardar</button>";
+                " <span class='fa fa-floppy-o'></span>&nbsp;Guardar</button>";
                 js_persona_formularioPersona_onload( tipo_persona, perX );
             }
             else
@@ -186,7 +186,7 @@ function js_persona_add( div_buttons, div_body, tipo_persona, procedencia_formul
         {   document.getElementById( div_body ).innerHTML = xhr.responseText;
             document.getElementById( div_buttons ).innerHTML = "<button type='button' id='btn_persona_save_button' name='btn_persona_save_button' class='btn btn-success' " +
                 " onclick='js_persona_set(\"" + perX + "\");'> " +
-                " <span class='glyphicon glyphicon-floppy-disk'></span>&nbsp;Guardar</button>";
+                " <span class='fa fa-floppy-o'></span>&nbsp;Guardar</button>";
             js_persona_formularioPersona_onload( tipo_persona, perX );
         }
     };
@@ -285,7 +285,6 @@ function js_persona_edit( alum_codi, repr_codi, modal, url )
 }
 function js_persona_set( perX )
 {   var tipo_persona = document.getElementById('perMain_tipo').value;
-    
     var validator = 'false';
     
     if( tipo_persona != 0 && tipo_persona != 3 )

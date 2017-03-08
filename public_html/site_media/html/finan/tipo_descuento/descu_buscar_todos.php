@@ -48,6 +48,17 @@
 		</h3>
 	</div>
 	<div class="box-body">
+		<!--<div class="col-lg-4 col-sm-6 input-group input-group-sm">
+			<span id="span_balance_reason" name="span_balance_reason" class="input-group-addon">Ver</span>
+			<select id='cmb_mostrarDes' name='cmb_mostrarDes' class='form-control'>
+				<option value='zzz'>- Todos los descuentos -</option>
+				<option value='0' selected='selected'>- Descuentos del sistema -</option>
+				<option value='1' >- Descuento para convenio de pago -</option>
+			</select>
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-info btn-flat" onClick='js_saldoaFavor_filter();'>Ir</button>
+			</span>
+		</div>-->
 		<div id="resultado">
 			{tabla}
 		</div>

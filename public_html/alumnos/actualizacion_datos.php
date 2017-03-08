@@ -17,7 +17,7 @@
 				</section>
 				<section class="content" id="mainPanel">
 					<div id="information">
-						<?php 
+						<?php
 							/*Actualización de datos*/
 							if (isset($_POST['opc']))
 							{	$alum_fech_naci = substr($_POST['alum_fech_naci'],6,4)."".substr($_POST['alum_fech_naci'],3,2)."".substr($_POST['alum_fech_naci'],0,2);

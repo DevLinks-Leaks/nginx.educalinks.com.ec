@@ -117,7 +117,7 @@ function handler() {
 			$datos['documento']=$conta->rows[0]['id'];
 		
 			$datos['estado']=$conta->rows[0]['estado'];
-			$datos['autorizacion']='';
+			$datos['autorizacion']=$conta->rows[0]['numautorizacion'];
 			$datos['caja_id']='null';
 			$datos['cliente']=array('ruc'=>$conta->rows[0]['ruc'],'cedula'=>$conta->rows[0]['cedula'],'razon_social'=>$conta->rows[0]['razonsocial'],'telefonos'=>$conta->rows[0]['telefono'],'direccion'=>$conta->rows[0]['direccion'],'tipo'=>$conta->rows[0]['tipo'],'email'=>$conta->rows[0]['email'],'es_extranjero'=>$conta->rows[0]['esextranjero']);
 			$datos['vendedor']=array('ruc'=>$conta->rows[0]['rucvendedor'],'cedula'=>$conta->rows[0]['cedulavendedor'],'razon_social'=>$conta->rows[0]['razonsocialvendedor'],'telefonos'=>$conta->rows[0]['telefonovendedor'],'direccion'=>$conta->rows[0]['direccionvendedor'],'tipo'=>$conta->rows[0]['tipovendedor'],'email'=>$conta->rows[0]['emailvendedor'],'es_extranjero'=>$conta->rows[0]['extranjerovendedor']);
@@ -178,7 +178,7 @@ function handler() {
 				$datos['documento']=$conta->rows[$i]['id'];
 			
 				$datos['estado']=$conta->rows[$i]['estado'];
-				$datos['autorizacion']='';
+				$datos['autorizacion']=$conta->rows[0]['numautorizacion'];
 				$datos['caja_id']='null';
 				$datos['cliente']=array('ruc'=>$conta->rows[$i]['ruc'],'cedula'=>$conta->rows[$i]['cedula'],'razon_social'=>$conta->rows[$i]['razonsocial'],'telefonos'=>$conta->rows[$i]['telefono'],'direccion'=>$conta->rows[$i]['direccion'],'tipo'=>$conta->rows[$i]['tipo'],'email'=>$conta->rows[$i]['email'],'es_extranjero'=>$conta->rows[$i]['esextranjero']);
 				$datos['vendedor']=array('ruc'=>$conta->rows[$i]['rucvendedor'],'cedula'=>$conta->rows[$i]['cedulavendedor'],'razon_social'=>$conta->rows[$i]['razonsocialvendedor'],'telefonos'=>$conta->rows[$i]['telefonovendedor'],'direccion'=>$conta->rows[$i]['direccionvendedor'],'tipo'=>$conta->rows[$i]['tipovendedor'],'email'=>$conta->rows[$i]['emailvendedor'],'es_extranjero'=>$conta->rows[$i]['extranjerovendedor']);

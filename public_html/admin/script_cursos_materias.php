@@ -10,8 +10,8 @@
 		if($_POST['add_mate']=='Y'){
 			 
 	 		$mate_deta=$_POST['mate_deta'];	 
-			$params = array($mate_deta);
-			$sql="{call mate_add(?)}";
+			$params = array($mate_deta,$_SESSION['peri_codi']);
+			$sql="{call mate_add(?,?)}";
 			$mate_add = sqlsrv_query($conn, $sql, $params);  
 			//$row_mate_add = sqlsrv_fetch_array($mate_add);
 			

@@ -173,16 +173,16 @@
                                             <a <? if ($Menu==406) echo 'class="active"'; ?>   href="admin_permisos.php">Permisos</a> 
                                 </li>
                                 <?php }?>
-                                <?php if (permiso_activo(72)){?>
-                                <li>
-                                            <a <? if ($Menu==408) echo 'class="active"'; ?>   href="comportamiento.php">Parámetros de comportamiento</a> 
-                                </li>
-                                <?php }?>
-                                <?php if (permiso_activo(86)){?>
-                                <li>
-                                            <a <? if ($Menu==409) echo 'class="active"'; ?>   href="importacion_datos.php">Importación de datos</a> 
-                                </li>
-                                <?php }?>
+                                <?php //if (permiso_activo(72)){?>
+                                <!--<li>
+                                            <a <? //if ($Menu==408) echo 'class="active"'; ?>   href="comportamiento.php">Parámetros de comportamiento</a> 
+                                </li>-->
+                                <?php //}?>
+                                <?php //if (permiso_activo(86)){?>
+                                <!--<li>
+                                            <a <? //if ($Menu==409) echo 'class="active"'; ?>   href="importacion_datos.php">Importación de datos</a> 
+                                </li>-->
+                                <?php //}?>
                                 <?php if (permiso_activo(84)){?>
                                 <li>
                                             <a <? if ($Menu==410) echo 'class="active"'; ?>   href="para_sistema_main.php">Parámetros del sistema</a> 
@@ -193,11 +193,11 @@
                                             <a <? if ($Menu==411) echo 'class="active"'; ?>   href="usua_pass_main.php">Usuarios y Claves</a> 
                                 </li>
                                 <?php }?>
-                                <?php if (permiso_activo(159)){?>
-                                <li>
-                                            <a <? if ($Menu==412) echo 'class="active"'; ?>   href="cata_sistema_main.php">Catálogo del sistema</a> 
-                                </li>
-                                <?php }?>
+                                <?php //if (permiso_activo(159)){?>
+                                <!--<li>
+                                            <a <?// if ($Menu==412) echo 'class="active"'; ?>   href="cata_sistema_main.php">Catálogo del sistema</a> 
+                                </li>-->
+                                <?php// }?>
                             </ul>
                             
                             

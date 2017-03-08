@@ -106,6 +106,10 @@ session_start();
 	<!-- DataTables -->
 	<script src="{ruta_includes_common}/plugins/datatables/jquery.dataTables.min.js"></script>
 	<script src="{ruta_includes_common}/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <!-- InputMask -->
+    <script src="{ruta_includes_common}/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="{ruta_includes_common}/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="{ruta_includes_common}/plugins/input-mask/jquery.inputmask.extensions.js"></script>
     <!-- Morris.js charts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="{ruta_includes_common}/plugins/morris/morris.min.js"></script>

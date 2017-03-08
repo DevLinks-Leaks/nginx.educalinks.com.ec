@@ -246,7 +246,8 @@ function handler()
 													$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 													$estado, $tneto_ini, $tneto_fin,
 													$user_data['periodos'],$user_data['cmb_grupoEconomico'],$user_data['cmb_nivelesEconomicos'],
-													$user_data['cursos'],$user_data['txt_fecha_deuda_ini'],$user_data['txt_fecha_deuda_fin'] );
+													$user_data['cursos'],$user_data['txt_fecha_deuda_ini'],$user_data['txt_fecha_deuda_fin'],
+													$user_data['txt_fecha_aut_ini'],$user_data['txt_fecha_aut_fin'] );
 				}
 				if( $user_data['tipo_reporte'] == 'mini' )
 				{   $factura->get_facturas( $estadoElectronico, $fechavenc_ini, $fechavenc_fin,
@@ -254,7 +255,8 @@ function handler()
 											$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 											$estado, $tneto_ini, $tneto_fin,
 											$user_data['periodos'],$user_data['cmb_grupoEconomico'],$user_data['cmb_nivelesEconomicos'],
-											$user_data['cursos'],$user_data['txt_fecha_deuda_ini'],$user_data['txt_fecha_deuda_fin'] );
+											$user_data['cursos'],$user_data['txt_fecha_deuda_ini'],$user_data['txt_fecha_deuda_fin'],
+											$user_data['txt_fecha_aut_ini'],$user_data['txt_fecha_aut_fin'] );
 				}
 			}
 			else if($tipo_documento=='NC')
@@ -265,7 +267,8 @@ function handler()
 														$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 														$estado, $tneto_ini, $tneto_fin,
 														$user_data['periodo'],$user_data['grupoEconomico'],$user_data['nivelEconomico'],
-														$user_data['cursos'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'] );
+														$user_data['cursos'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'],
+														$user_data['fechaAut_ini'],$user_data['fechaAut_fin'] );
 				}
 				if( $user_data['tipo_reporte'] == 'mini' )
 				{   $factura->get_notasCredito( $estadoElectronico, $fechavenc_ini, $fechavenc_fin,
@@ -273,7 +276,8 @@ function handler()
 												$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 												$estado, $tneto_ini, $tneto_fin,
 												$user_data['periodo'],$user_data['grupoEconomico'],$user_data['nivelEconomico'],
-												$user_data['cursos'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'] );
+												$user_data['cursos'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'],
+												$user_data['fechaAut_ini'],$user_data['fechaAut_fin'] );
 				}
 			}
             $facturas=$factura->rows;
@@ -397,7 +401,8 @@ function handler()
 										$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 										$estado, $tneto_ini, $tneto_fin,
 										$user_data['periodo'],$user_data['grupoEconomico'],$user_data['nivelEconomico'],
-										$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'] );
+										$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'],
+										$user_data['fechaAut_ini'],$user_data['fechaAut_fin']);
 				//$data['mensaje'] = "Bandeja de facturas autoziadas";
 			}
 			else if($tipo_documento=='NC')
@@ -407,7 +412,8 @@ function handler()
 											$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 											$estado, $tneto_ini, $tneto_fin,
 											$user_data['periodo'],$user_data['grupoEconomico'],$user_data['nivelEconomico'],
-											$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'] );
+											$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'],
+											$user_data['fechaAut_ini'],$user_data['fechaAut_fin']);
 				//$data['mensaje'] = "Bandeja de notas de d&eacute;bito autoziadas";
 			}
 			else if($tipo_documento=='ND')
@@ -496,19 +502,19 @@ function tablaFacturaAutorizada($tabla, $factura, $permiso, $tipo_documento)
 	$construct_table="
 				<br>
 				<table class='table table-bordered table-hover' id='".$tabla."'>
-					<thead><tr>
+					<thead><tr style='font-size:small;text-align:center;'>
 						".$anidado."
-						<th style='font-size:small;text-align:center;'>Ref.</th>
-						<th style='font-size:small;text-align:center;'>Datos</th>
-						<th style='font-size:small;text-align:center;'>T. Neto</th>
-						<th style='font-size:small;text-align:center;'>C&oacute;digo</th>
-						<th style='font-size:small;text-align:center;'>Estudiante</th>
-						<th style='font-size:small;text-align:center;'>F. Emisión</th>
-						<th style='font-size:small;text-align:center;'>Estado</th>
-						<th style='font-size:small;text-align:center;'>Mail</th>
-						<th style='font-size:small;text-align:center;'>XML</th>
-						<th style='font-size:small;text-align:center;'>PDF</th>
-						<th style='font-size:small;text-align:center;'>HTML</th>
+						<th >Ref.</th>
+						<th>Datos</th>
+						<th>T. Neto</th>
+						<th>C&oacute;digo</th>
+						<th>Estudiante</th>
+						<th>F. Emisión</th>
+						<th>Estado</th>
+						<th>Mail</th>
+						<th>XML</th>
+						<th>PDF</th>
+						<th>HTML</th>
 					</tr></thead>";
 	$body="<tbody>";
 	$c=0;
@@ -518,12 +524,14 @@ function tablaFacturaAutorizada($tabla, $factura, $permiso, $tipo_documento)
 	$archivoXML = "";
 	$codigo="";
 	$cedula="";
+	$dontprint = "false";
 	foreach($factura->rows as $row)
 	{	$aux++;
 	}
 	foreach($factura->rows as $row)
-	{	if($c<($aux-1))
-		{	$body.="<tr>";
+	{   $dontprint = "false";
+		if($c<($aux-1))
+		{	$body.="<tr style='font-size:11px;'>";
 			if ($tipo_documento=='FAC')
 				$body.="<td class='details-control'><i style='color:green;' class='fa fa-plus-circle'></i></td>";
 			$x=0;
@@ -544,20 +552,34 @@ function tablaFacturaAutorizada($tabla, $factura, $permiso, $tipo_documento)
 				{	$archivo.= "-" . $column;
 				}
 				elseif($x==5)
-				{	$archivo.= "-" . $column;
+				{	if ( $column == NULL )
+						$dontprint = 'true';
+					
+					$archivo.= "-" . $column;
 					$datos.="<tr><td><b>".$tipo_documento.":&nbsp;</b></td><td>". $archivo."</td></tr></table></div>";
 				}
 				elseif($x==6)
-				{	$body.= "<td style='font-size:small;'>".
+				{	if ( $dontprint == 'true' )
+						$body.="<td></td>";
+					else
+						$body.= "<td style='text-align:center;'>".
 								"<span class='detalle' id='".$codigo."_cliente_direccion' onmouseover='$(this).tooltip(".'"show"'.")' title='".$datos."' data-placement='bottom'>".
-									"<span class='glyphicon glyphicon-search'></span></span></td>";
-					$body.="<td><div style='font-size:11px;'>".$column."</div></td>";
+									"<span class='fa fa-search'></span></span></td>";
+					
+					
+					$body.="<td>".$column."</td>";
+				}
+				elseif($x==10)
+				{	if ( $dontprint == 'true' )
+						$body.="<td>DEUDA SIN FACTURA</td>";
+					else
+						$body.="<td><div style='text-align:center;'>".$column."</div></td>";
 				}
 				elseif($x==11)
 				{	//: do nothing
 				}
 				else
-				{	$body.="<td><div style='font-size:11px;'>".$column."</div></td>";
+				{	$body.="<td>".$column."</td>";
 					if($x==0)
 					{	$codigo = $column;
 					}
@@ -567,11 +589,12 @@ function tablaFacturaAutorizada($tabla, $factura, $permiso, $tipo_documento)
 			$dir_archivos = $ruta_visor."/documentos/autorizados/".$_SESSION['directorio']."/".$cedula."/";
 			$archivoPDF = $tipo_documento.$archivo .".PDF";
 			$archivoXML = $tipo_documento.$archivo .".XML";
-			$spanMail="<span class='glyphicon glyphicon-envelope cursorlink' id='".$codigo."_enviar_correo' 		 onmouseover='$(this).tooltip(".'"show"'.")' title='Enviar al e-mail del titular.' 	data-placement='left' onclick='reenvio_factura(".'"'.$codigo.'"'.",".'"modal_resend_body"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/VerDocumentosAutorizados/controller.php"'.")'  aria-hidden='true' data-toggle='modal' data-target='#modal_resend'></span>";
-			$spanPDF= "<span class='glyphicon glyphicon-download cursorlink' id='".$row['codigoFactura']."_printPDF' onmouseover='$(this).tooltip(".'"show"'.")' title='Descargar documento en PDF' 				data-placement='top'></span>";
-			$spanXML= "<span class='glyphicon glyphicon-download cursorlink' id='".$row['codigoFactura']."_printXML' onmouseover='$(this).tooltip(".'"show"'.")' title='Descargar documento en XML' 				data-placement='bottom'></span>";
-			$spanHTML="<span class='glyphicon glyphicon-print cursorlink'    id='".$codigo."_ver_factura' 			 onmouseover='$(this).tooltip(".'"show"'.")' title='Ver documento en HTML' 	  					data-placement='left'></span>";
-			
+			if ( $dontprint == 'false' )
+			{   $spanMail="<span class='glyphicon glyphicon-envelope' id='".$codigo."_enviar_correo' onmouseover='$(this).tooltip(".'"show"'.")' title='Enviar al e-mail del titular.' data-placement='left' onclick='reenvio_factura(".'"'.$codigo.'"'.",".'"modal_resend_body"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/VerDocumentosAutorizados/controller.php"'.")'  aria-hidden='true' data-toggle='modal' data-target='#modal_resend'></span>";
+				$spanPDF= "<span class='glyphicon glyphicon-download' id='".$row['codigoFactura']."_printPDF' onmouseover='$(this).tooltip(".'"show"'.")' title='Descargar documento en PDF' data-placement='top'></span>";
+				$spanXML= "<span class='glyphicon glyphicon-download' id='".$row['codigoFactura']."_printXML' onmouseover='$(this).tooltip(".'"show"'.")' title='Descargar documento en XML' data-placement='bottom'></span>";
+			}
+			$spanHTML="<span class='glyphicon glyphicon-print' id='".$codigo."_ver_factura' onmouseover='$(this).tooltip(".'"show"'.")' title='Ver documento en HTML' data-placement='left'></span>";
 			$body.="<td style='text-align:center'>".$spanMail."</td>";
 			$body.="<td style='text-align:center'><a href=".$dir_archivos.$archivoXML." target='_blank'>".$spanXML."</a></td>";
 			$body.="<td style='text-align:center'><a href=".$dir_archivos.$archivoPDF." target='_blank'>".$spanPDF."</a></td>";

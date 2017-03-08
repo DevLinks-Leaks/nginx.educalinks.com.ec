@@ -384,7 +384,7 @@ function carga_visorEstadoCuenta(codigo,div,url){
 					}
 				}
 			});
-		} 
+		}
 	};
 	xhr.send(data);
 }

@@ -22,20 +22,21 @@
 						<li class="{menu101}">{CobroGeneral}</li>
 						<li class="{menu102}">{Deuda}</li>
 						<li class="{menu103}">{NotadeCredito}</li>
-						<li role="presentation" class="{menu105}">{GestionFacturas}</li>
-						<li role="presentation" class="{menu106}">{GestionNotascredito}</li>
-						<li role="presentation" class="{menu108}">{GestionContifico}</li>
-						<li role="presentation" class="{menu109}">{ValidadorCheques}</li>
-						<li role="presentation" class="{menu111}">{CierredeCaja}</li>
+						<li class="{menu105}">{GestionFacturas}</li>
+						<li class="{menu106}">{GestionNotascredito}</li>
+						<!--<li class="{menu112}">{Convenio_pago}</li>-->
+						<li class="{menu108}">{GestionContifico}</li>
+						<li class="{menu109}">{ValidadorCheques}</li>
+						<li class="{menu111}">{CierredeCaja}</li>
 					</ul>
 				</li>
 				<li class="{open6} treeview">
 					<a href="#"><i class="fa fa-list"></i> <span>Ver</span><i class="fa fa-angle-left pull-right"></i></a><!-- {open6}{menu6} -->
 					<ul class="treeview-menu">
-						<li role="presentation" class="{menu601}">{VerSaldoaFavor}</li>
-						<li role="presentation" class="{menu602}">{VerDocumentosAutorizados}</li>
-						<li role="presentation" class="{menu603}">{VerPagos}</li>
-						<li role="presentation" class="{menu605}">{VerCaja}</li>
+						<li class="{menu601}">{VerSaldoaFavor}</li>
+						<li class="{menu602}">{VerDocumentosAutorizados}</li>
+						<li class="{menu603}">{VerPagos}</li>
+						<li class="{menu605}">{VerCaja}</li>
 					</ul>
 				</li>
 				<li class="{open2} treeview">
@@ -77,7 +78,10 @@
 						<li class="{menu406}">{RepDescuentos}</li>
 						<li class="{menu407}">{RepSaldosAFavor}</li>
 						<li class="{menu408}">{RepCtasPorCobrar}</li>
+						<!--<li class="{menu409}">{RepEmisiones}</li>-->
+						<li class="{menu410}">{RepMediacion}</li>
 						<li class="{menu411}">{RepAntiguedad}</li>
+						<!--<li class="{menu412}">{RepConvenioPagos}</li>-->
 					</ul>
 				</li>
 				<li class="{open5} treeview">

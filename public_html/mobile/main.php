@@ -52,7 +52,7 @@
 	if (isset($_POST["reprcodi"]))
 		$reprcodi = $_POST["reprcodi"];
 	else
-		$reprcodi = "1510";
+		$reprcodi = "";
 	
 	if (isset($_POST["pericodi"]))
 		$pericodi = $_POST["pericodi"];
@@ -62,7 +62,7 @@
 	if (isset($_POST["alumnocodi"]))
 		$alumnocodi = $_POST["alumnocodi"];
 	else
-		$alumnocodi = "2008300621";
+		$alumnocodi = "";
 		
         if (isset($_POST["opci_codi"]))
 		$opci_codi = $_POST["opci_codi"];
@@ -97,7 +97,7 @@
         if (isset($_POST["opcion"]))
 		$opcion = $_POST["opcion"];
 	else
-		$opcion = "boton_pagos_deudas";
+		$opcion = "actualiza_boton_pago";
                 
         if (isset($_POST["menstitu"]))
 		$menstitu = $_POST["menstitu"];
@@ -158,7 +158,7 @@
         if (isset($_POST["deudaCodigo"]))
 		$deudaCodigo = $_POST["deudaCodigo"];
 	else
-		$deudaCodigo = '<?xml version="1.0" encoding="iso-8859-1"?><deudas><deuda id="218224"/><deuda id="218225"/></deudas>'; 
+		$deudaCodigo = ''; 
                                
          if (isset($_POST["deud_estado"]))
 		$deud_estado = $_POST["deud_estado"];
@@ -173,48 +173,35 @@
         if (isset($_POST["authorizationCode"]))
 		$authorizationCode = $_POST["authorizationCode"];
 	else
-		$authorizationCode = "";       
-                
-        if (isset($_POST["authorizationResult"]))
-		$authorizationResult = $_POST["authorizationResult"];
-	else
-		$authorizationResult = "";       
-                
+		$authorizationCode = "000";       
                 
         if (isset($_POST["errorCode"]))
 		$errorCode = $_POST["errorCode"];
 	else
-		$errorCode = "";       
+		$errorCode = "000";       
                 
         if (isset($_POST["errorMessage"]))
 		$errorMessage = $_POST["errorMessage"];
 	else
-		$errorMessage = "";       
+		$errorMessage = "Successful";       
                 
         if (isset($_POST["cardNumber"]))
 		$cardNumber = $_POST["cardNumber"];
 	else
-		$cardNumber = "";       
+		$cardNumber = "0051";       
                 
-        if (isset($_POST["cardType"]))
-		$cardType = $_POST["cardType"];
-	else
-		$cardType = "";    
                    
         if (isset($_POST["purchaseOperationNumber"]))
 		$purchaseOperationNumber = $_POST["purchaseOperationNumber"];
 	else
-		$purchaseOperationNumber = "";      
+		$purchaseOperationNumber = "00000010595";      
                 
         if (isset($_POST["purchaseAmount"]))
 		$purchaseAmount = $_POST["purchaseAmount"];
 	else
-		$purchaseAmount = "";   
+		$purchaseAmount = "108";   
                 
-        if (isset($_POST["reserved11"]))
-		$reserved11 = $_POST["reserved11"];
-	else
-		$reserved11 = "";   
+ 
                 
 	$clientes = new Clientes();
 	$clientes->getClientInfo($colegio);
@@ -384,6 +371,7 @@
 	$actualizaBotonPago->pass_db=$clientes->get_clave();
 	$actualizaBotonPago->host_db=$clientes->get_host();
 	$actualizaBotonPago->name_db=$clientes->get_dbname();
+
         
 	switch ($opcion)
 	{
@@ -582,8 +570,7 @@
                                 }
 			$array_pagosRealizados = array ("result"=>$json_pagosrealizados);
 			echo json_encode($array_pagosRealizados);
-		break;
-                
+		break;               
 
 
                 case "boton_pagos_deudas":			
@@ -603,19 +590,21 @@
 			$array_pagosDeudas = array ("result"=>$json_pagosDeudas);
 			echo json_encode($array_pagosDeudas);
 		break;
-                               
-                /*case "actualiza_boton_pago":			
-                        $resultAct = $actualizaBotonPago->getActualizaBotonPago($authorizationCode,$authorizationResult,$errorCode,$errorMessage,$cardNumber,$cardType,$purchaseOperationNumber,$purchaseAmount,$reserved11);                        
-                        $json_actualizaPagos = array();
-			foreach($resultAct->rows as $ListaActualizaPagos{
-				$json_actualizaPagos[] = array("repr_nomb"=>$ListaActualizaPagos['repr_nomb'],
-                                                            "repr_apel"=>$ListaActualizaPagos['repr_apel'],
-                                                            "repr_codi"=>$ListaActualizaPagos['repr_codi'],
-                                                            "pagos"=>$ListaActualizaPagos['pagos']);
+                
+                case "actualiza_boton_pago":
+                        $actualizaBotonPago->getActualizaBotonPago($authorizationCode,"",$errorCode,$errorMessage,$cardNumber,"",$purchaseOperationNumber,$purchaseAmount,""); 
+                        $json_actualizaPago = array();
+			foreach($actualizaBotonPago->rows as $ListaActualizaPago){
+				$json_actualizaPago[] = array("repr_nomb"=>$ListaActualizaPago['repr_nomb'],
+                                                            "repr_apel"=>$ListaActualizaPago['repr_apel'],
+                                                            "repr_codi"=>$ListaActualizaPago['repr_codi'],
+                                                            "pagos"=>$ListaActualizaPago['pagos']);
                                 }
-			$array_actualizaPagos = array ("result"=>$json_actualizaPagos);
-			echo json_encode($array_actualizaPagos);
-		break;*/
+			$array_actualizaPago = array ("result"=>$json_actualizaPago);
+			echo json_encode($array_actualizaPago);
+		break;
+                               
+
         
 	}
 ?>

@@ -207,6 +207,19 @@ function getURLCertMatriculaPDF()
      }
 
   }
+  function getURLLibroCalificacionesPDF()
+   {
+     if (Validar())
+     {
+       var direccion;
+       direccion="reportes_generales/libro_calificaciones.php?curso_paralelo=";
+       //direccion="reportes_generales/cert_promocion_pdf27072016.php?curso_paralelo=";
+       direccion=direccion+document.getElementById('sl_paralelos').value+"&alumno="+document.getElementById('sl_alumnos').value+"&peri_dist_codi="+document.getElementById('sl_periodo_dist').value;
+       //window.location.href=direccion;
+       window.open(direccion);
+     }
+
+  }
 	function Validar()
 	{
 		

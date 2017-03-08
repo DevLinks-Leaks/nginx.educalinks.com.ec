@@ -8,7 +8,7 @@ $(document).ready(function() {
 	$("#desplegable_busqueda").show();
 });
 
-function js_rep_emisiones_carga_reports_deudores( div, url, evento ) //PDF DE LA TABLA PRINCIPAL CON TOTALES VERTICALES Y HORIZONTALES
+function js_rep_antiquity_carga_reports_deudores( div, url, evento ) //PDF DE LA TABLA PRINCIPAL CON TOTALES VERTICALES Y HORIZONTALES
 {   "use strict";
     var doit = 'yes';
     /*if ( ( document.getElementById('curso').value == -1 ) || ( document.getElementById('curso').value == 0 ) )
@@ -16,7 +16,6 @@ function js_rep_emisiones_carga_reports_deudores( div, url, evento ) //PDF DE LA
         document.getElementById('modal_msg_body').innerHTML='¡Debe seleccionar un curso para poder realizar la consulta!';
         doit = 'no';
     }*/
-	//console.log(doit);
     if( doit === 'yes' )
     {   var curso =0;
         var fecha_fin='';
@@ -92,7 +91,7 @@ function js_rep_emisiones_carga_reports_deudores( div, url, evento ) //PDF DE LA
 		}
     }
 }
-function js_rep_emisiones_check_fecha()
+function js_rep_antiquity_check_fecha()
 {   "use strict";
     var checked=document.getElementById('chk_fecha').checked;
     if(!checked)

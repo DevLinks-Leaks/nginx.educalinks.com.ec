@@ -57,7 +57,7 @@ function handler()
 						}
 						$alum_codi = $row['alum_codi'];
 						$repr_codi = $row['repr_codi'];
-						if($x==0) $titulo_tabla="<br><div style='text-align:left'><b>Representantes de ".$general->PrimeraMayuscula($row['alum_nomb'])." ".$row['alum_apel']."</b></div>";
+						if($x==0) $titulo_tabla="<div style='text-align:left'><b>Representantes de ".$general->PrimeraMayuscula($row['alum_nomb'])." ".$row['alum_apel']."</b></div>";
 						$x++;
 					}
 					$radioMain="<input type='radio' name='principal' onclick='js_representantes_repr_upd_princ(\"div_repr_list\",".'"'.$diccionario['rutas_head']['ruta_html_common'].'/representantes/controller.php"'.",\"".$alum_codi."\",\"".$repr_codi."\");' ".
@@ -84,10 +84,19 @@ function handler()
 				<br>
 				<div class='col-md-6' style='text-align:left'>
 					<button id='btn_upd_fact_por_aut' class='btn btn-success' name='id='btn_upd_fact_por_aut' 
-						onclick='return js_representantes_upd_fact_por_aut(\"div_upd_fact_por_aut_response\",\"".$alum_codi."\",\"".$diccionario['rutas_head']['ruta_html_common']."/representantes/controller.php\");'
-						>Actualizar deudas</button></div>
+						onclick='return js_representantes_upd_fact_por_aut(\"div_upd_fact_por_aut_response\",\"".$alum_codi."\",\"".$diccionario['rutas_head']['ruta_html_common']."/representantes/controller.php\");'>Actualizar deudas</button>
+				</div>
 				<div id='div_upd_fact_por_aut_response'></div>";
-			$data['tabla_asigna_repr'] = $titulo_tabla.$construct_table;
+				
+			$data['tabla_asigna_repr'] = '<div id="datosCliente" name="datosCliente" class="grid">
+				<div class="row">
+					<div class="col-sm-12">
+						'.$titulo_tabla.'
+					</div>
+					<div class="col-sm-12">
+						'.$construct_table.'
+					</div>
+				</div>';
 			retornar_result($data);
             break;
 		case SET_MAIN_REPR :

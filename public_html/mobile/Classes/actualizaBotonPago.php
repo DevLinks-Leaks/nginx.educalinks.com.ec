@@ -39,15 +39,21 @@ class actualizaBotonPago extends DB_Abstract_mobile
 	public function getActualizaBotonPago($authorizationCode,$authorizationResult,$errorCode,$errorMessage,$cardNumber,$cardType,$purchaseOperationNumber,$purchaseAmount,$reserved11)
 	{
         $this->parametros = array($authorizationCode,$authorizationResult,$errorCode,$errorMessage,$cardNumber,$cardType,$purchaseOperationNumber,$purchaseAmount,$reserved11);
-        $this->sp = "str_actualiza_botonPago_deuda";
+        $this->sp = "str_actualiza_botonPago_deuda";     
         $this->executeSPConsulta();
         if ($this->filasDevueltas=0){
-             $this->mensaje="Error";
+            $this->repr_nomb=$this->rows[0]['repr_nomb'];
+            $this->repr_apel=$this->rows[0]['repr_apel'];
+            $this->repr_codi=$this->rows[0]['repr_codi'];
+            $this->pagos=$this->rows[0]['pagos'];
+            $this->resultado = array("repr_nomb"=>$this->repr_nomb,"repr_apel"=>$this->repr_apel,"repr_codi"=>$this->repr_codi, "pagos"=>$this->pagos);
+        
         }
-            return $this;
+		else{
+            $this->mensaje="Error";
+        }
     }
-	
-	# Método constructor
+    # Método constructor
     function __construct() {
         //$this->db_name = 'URBALINKS_FINAN';
     }

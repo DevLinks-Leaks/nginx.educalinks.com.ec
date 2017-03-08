@@ -1,4 +1,4 @@
-﻿<?	
+<?	
 require_once('../../../framework/tcpdf/tcpdf.php');
 
 class MYPDF extends TCPDF 
@@ -228,5 +228,5 @@ function generar_pago_PDF($ruta_logo, $codCliente, $nombresCliente, $cursoParale
 	$html = str_replace('{numeroTitular}', $numeroTitular, $html);
 	$html = str_replace('{nombreTitular}', $nombreTitular, $html);
 	$pdf->writeHTML($html, true, false, true, false, '');
-	$pdf->Output('Pago no. '.$codigoPago.' de '.$nombresCliente.'.pdf', 'FI');
+	$pdf->Output('Pago no. '.$codigoPago.' de '.$nombresCliente.'.pdf', 'I');
 }

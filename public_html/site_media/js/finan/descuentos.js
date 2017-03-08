@@ -35,8 +35,7 @@ $(document).ready(function() {
 			{className: "dt-body-right"  , "targets": [6]}
 		]
 	});
-} );
-			
+});
 function busca(busq,div,url){
 	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	var data = new FormData();
@@ -95,6 +94,10 @@ function edit(codigo,div,url){
 	xhr.onreadystatechange=function(){
 		if (xhr.readyState==4 && xhr.status==200){
 			document.getElementById(div).innerHTML=xhr.responseText;
+			$('[data-toggle="popover"]').popover({html:true});			
+			$( "#cmb_tipo_descuento" ).on('change', function() {
+			  console.log( this.value );
+			});
 		} 
 	}
 	xhr.send(data);
@@ -106,8 +109,12 @@ function carga_add(div,url){
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', url , true);
 	xhr.onreadystatechange=function(){
-		if (xhr.readyState==4 && xhr.status==200){
-			document.getElementById(div).innerHTML=xhr.responseText;
+		if (xhr.readyState==4 && xhr.status==200)
+		{   document.getElementById(div).innerHTML=xhr.responseText;
+			$('[data-toggle="popover"]').popover({html:true});			
+			$( "#cmb_tipo_descuento" ).on('change', function() {
+			  console.log( this.value );
+			});
 		} 
 	}
 	xhr.send(data);
@@ -123,9 +130,9 @@ function add(div,url){
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', url , true);
 	xhr.onreadystatechange=function(){
-		if (xhr.readyState==4 && xhr.status==200){
-			busca("",div,url)
-		} 
+		if (xhr.readyState==4 && xhr.status==200)
+		{   busca("",div,url);
+		}
 	}
 	xhr.send(data);
 }
