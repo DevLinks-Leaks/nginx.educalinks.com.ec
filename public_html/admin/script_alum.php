@@ -23,13 +23,27 @@ switch($opc){
 		
 	break;
 	case 'add':
+		$alum_resp_form_banc_tarj_nume = $_POST['alum_resp_form_banc_tarj_nume'];
+		if($alum_resp_form_banc_tarj_nume==''){
+			$alum_resp_form_banc_tarj_nume_encrypt='';
+		
+		}else{
+			/*Codigo de encriptado de Número de tarjeta de crédito*/
+			$iv = base64_decode($_SESSION['clie_iv']);
+			$alum_resp_form_banc_tarj_nume_encrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $_SESSION['clie_key'], $alum_resp_form_banc_tarj_nume, MCRYPT_MODE_CBC, $iv);
+			$alum_resp_form_banc_tarj_nume_encrypt =base64_encode($alum_resp_form_banc_tarj_nume_encrypt);
+			/*FIN*/
+		}
+		$alum_condicionado = ($_POST['alum_condicionado']=='on'?1:0);
+		$alum_tiene_discapacidad = ($_POST['alum_tiene_discapacidad']=='on'?1:0);
+		$alum_genero = ($_POST['alum_genero']=='Hombre'?1:0);
 		$alum_fech_naci=substr($_POST['alum_fech_naci'],6,4)."".substr($_POST['alum_fech_naci'],3,2)."".substr($_POST['alum_fech_naci'],0,2);
 		$alum_fech_vcto=substr($_POST['alum_resp_form_fech_vcto'],6,4)."".substr($_POST['alum_resp_form_fech_vcto'],3,2)."".substr($_POST['alum_resp_form_fech_vcto'],0,2);
-		$sql_opc = "{call alum_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		$sql_opc = "{call alum_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		$params_opc= array($alum_fech_naci,
 							$_POST['alum_apel'],
 							$_POST['alum_nomb'],
-							$_POST['alum_genero'],
+							$alum_genero,
 							$_POST['alum_mail'],
 							$_POST['alum_celu'],
 							$_POST['alum_telf'],
@@ -41,20 +55,20 @@ switch($opc){
 							$_POST['alum_telf_emerg'],
 							$_POST['alum_ex_plantel'],
 							$_POST['alum_usua'], 
-							$_POST['alum_parroq'], 
+							$_POST['alum_parroquia'], 
 							$_POST['alum_vive_con'], 
 							$_POST['alum_movilizacion'], 
 							$_POST['alum_motivo_cambio'], 
-							$_POST['alum_tiene_discapacidad'],
+							$alum_tiene_discapacidad,
 							$_POST['alum_discapacidad'], 
-							$_POST['alum_condicionado'], 
+							$alum_condicionado, 
 							$_POST['alum_conducta'], 
 							$_POST['alum_ultimo_anio'], 
 							$_POST['alum_nacionalidad'], 
 							$_POST['alum_motivo_condicion'], 
 							$_POST['alum_resp_form_pago'], 
 							$_POST['alum_resp_form_banc_tarj'], 
-							$_POST['alum_resp_form_banc_tarj_nume'], 
+							$alum_resp_form_banc_tarj_nume_encrypt, 
 							$_POST['alum_resp_form_banc_tipo'], 
 							$_POST['alum_resp_form_cedu'], 
 							$_POST['alum_resp_form_tipo_iden'],
@@ -75,7 +89,12 @@ switch($opc){
 							$_POST['alum_banc_emisor'],
 							$_POST['alum_parentesco_emerg'],
 							$_POST['alum_pers_emerg'],
-							$_POST['alum_tipo_sangre']);
+							$_POST['alum_tipo_sangre'],
+							$_POST['alum_prov_naci'],
+							$_POST['alum_ciud_naci'],
+							$_POST['alum_parr_naci'],
+							$_POST['alum_sect_naci'],
+							$_POST['alum_ex_plantel_dire']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false )
 		{
@@ -121,21 +140,22 @@ switch($opc){
 		}
 	break; //FIN DE 'add'
 	case 'add_curs_para':
-		$sql_opc = "{call alum_curs_para_add(?,?)}";
-		$params_opc= array($_POST['curs_para_codi'],$_POST['alum_codi']);
+		$sql_opc = "{call alum_curs_para_add(?,?,?,?,?)}";
+		$params_opc= array($_POST['curs_para_codi'],$_POST['alum_codi'],$_POST['alum_curs_para_codi'],$_POST['esta_codi'],$_SESSION['peri_codi']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
-		if( $stmt_opc === false ){echo "KO";} 
-		$alum_view_opc=0;
-		$alum_view_opc=lastId($stmt_opc);
-		if($alum_view_opc>0)
-		{
-			echo $alum_view_opc;
-		}
-		
-		//Para auditoría
-		$detalle="Código curso paralelo: ".$_POST['curs_para_codi'];
-		$detalle.=" Código alumno: ".$_POST['alum_codi'];
-		registrar_auditoria (22, $detalle);
+		if( $stmt_opc === false ){
+			$result= json_encode(array ('state'=>'error',
+						'result'=>'Error al aplicar el estado.',
+						'console'=> sqlsrv_errors() ));
+		}else{
+			//Para auditoría
+			$detalle="Código curso paralelo: ".$_POST['curs_para_codi'];
+			$detalle.=" Código alumno: ".$_POST['alum_codi'];
+			registrar_auditoria (22, $detalle);
+			$result= json_encode(array ('state'=>'success',
+					'result'=>'Estado aplicado con éxito.' ));
+		} 
+		echo $result;
 	break;
 	case 'del_curs_para':
 		$sql_opc = "{call alum_matri_del(?,?)}";
@@ -195,14 +215,32 @@ switch($opc){
 	break;
 	
 	case 'edi':
+		$alum_resp_form_banc_tarj_nume = $_POST['alum_resp_form_banc_tarj_nume'];
+		if($alum_resp_form_banc_tarj_nume==''){
+			$alum_resp_form_banc_tarj_nume_encrypt='';
+		
+		}else{
+			 if(strpos($alum_resp_form_banc_tarj_nume, 'X') ===false){
+				/*Codigo de encriptado de Número de tarjeta de crédito*/
+				$iv = base64_decode($_SESSION['clie_iv']);
+				$alum_resp_form_banc_tarj_nume_encrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $_SESSION['clie_key'], $alum_resp_form_banc_tarj_nume, MCRYPT_MODE_CBC, $iv);
+				$alum_resp_form_banc_tarj_nume_encrypt =base64_encode($alum_resp_form_banc_tarj_nume_encrypt);
+				/*FIN*/
+			}else{
+				$alum_resp_form_banc_tarj_nume_encrypt=null;
+			}
+		}
+		$alum_tiene_discapacidad = ($_POST['alum_tiene_discapacidad']=='on'?1:0);
+		$alum_condicionado = ($_POST['alum_condicionado']=='on'?1:0);
+		$alum_genero = ($_POST['alum_genero']=='Hombre'?1:0);
 		$alum_fech_naci=substr($_POST['alum_fech_naci'],6,4)."".substr($_POST['alum_fech_naci'],3,2)."".substr($_POST['alum_fech_naci'],0,2);
 		$alum_fech_vcto=substr($_POST['alum_resp_form_fech_vcto'],6,4)."".substr($_POST['alum_resp_form_fech_vcto'],3,2)."".substr($_POST['alum_resp_form_fech_vcto'],0,2);
-		$sql_opc = "{call alum_upd(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		$sql_opc = "{call alum_upd(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		$params_opc= array( $_POST['alum_codi'],
 							$alum_fech_naci,
 							$_POST['alum_apel'],
 							$_POST['alum_nomb'],
-							$_POST['alum_genero'],
+							$alum_genero,
 							$_POST['alum_mail'],
 							$_POST['alum_celu'],
 							$_POST['alum_telf'],
@@ -214,20 +252,20 @@ switch($opc){
 							$_POST['alum_telf_emerg'],
 							$_POST['alum_ex_plantel'],
 							$_POST['alum_usua'], 
-							$_POST['alum_parroq'], 
+							$_POST['alum_parroquia'], 
 							$_POST['alum_vive_con'], 
 							$_POST['alum_movilizacion'], 
 							$_POST['alum_motivo_cambio'], 
-							$_POST['alum_tiene_discapacidad'],
+							$alum_tiene_discapacidad,
 							$_POST['alum_discapacidad'], 
-							$_POST['alum_condicionado'], 
+							$alum_condicionado, 
 							$_POST['alum_conducta'], 
 							$_POST['alum_ultimo_anio'], 
 							$_POST['alum_nacionalidad'], 
 							$_POST['alum_motivo_condicion'], 
 							$_POST['alum_resp_form_pago'], 
 							$_POST['alum_resp_form_banc_tarj'], 
-							$_POST['alum_resp_form_banc_tarj_nume'], 
+							$alum_resp_form_banc_tarj_nume_encrypt, 
 							$_POST['alum_resp_form_banc_tipo'], 
 							$_POST['alum_resp_form_cedu'],
 							$_POST['alum_resp_form_tipo_iden'],  
@@ -248,7 +286,12 @@ switch($opc){
 							$_POST['alum_banc_emisor'],
 							$_POST['alum_parentesco_emerg'],
 							$_POST['alum_pers_emerg'],
-							$_POST['alum_tipo_sangre']);
+							$_POST['alum_tipo_sangre'],
+							$_POST['alum_prov_naci'],
+							$_POST['alum_ciud_naci'],
+							$_POST['alum_parr_naci'],
+							$_POST['alum_sect_naci'],
+							$_POST['alum_ex_plantel_dire']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if($stmt_opc === false)
 		{   echo "Error in executing statement .\n";
@@ -409,26 +452,28 @@ switch($opc){
 	break;
 	
 	case 'alum_ret'://Retiro de alumno
-		$params = array($_POST['alum_curs_para_codi']);
-		$sql = "{call alum_curs_para_retiro(?)}";
+		$params = array($_POST['alum_curs_para_codi'],$_POST['check']);
+		$sql = "{call alum_curs_para_retiro(?,?)}";
 		$stmt = sqlsrv_query( $conn, $sql, $params);
-		if ($stmt === false )
-		{
-			echo "Error in executing statement .\n";
-			die( print_r( sqlsrv_errors(), true));
-		}
-		else
-		{
+		if( $stmt_opc === false ){
+			$result= json_encode(array ('state'=>'error',
+						'result'=>'Error al retirar al alumno.',
+						'console'=> sqlsrv_errors() ));
+		}else{
+			//Para auditoría
 			sqlsrv_next_result($stmt);
 			$res = sqlsrv_fetch_array($stmt);
 
 			$alum_codi_result = $res['alum_codi'];
 			//Para auditoría
 			$detalle="Código: ".$alum_codi_result;
+			$detalle.=" Check: ".$_POST['check'];
 			registrar_auditoria (56, $detalle);
-			//FIN
-			echo "1";
+			$result= json_encode(array ('state'=>'success',
+					'result'=>'Retiro de alumno con éxito.' ));
 		}
+		echo $result;
+		
 	break;
 	
 	case 'camb_curs_para'://Cambio de paralelo del alumno
@@ -475,29 +520,22 @@ switch($opc){
 		}
 	break;
 	case 'alum_info_alum_est_check':
-	$sql_opc="{call alum_info_alum_est_check(?,?,?,?,?,?)}";
-		$params_opc = array($_POST['check'], $_POST['alum_codi'], $_POST['peri_codi'], $_POST['columna'], $_SESSION['usua_codi'], $_SESSION['USUA_TIPO']);
-		$options_tareas =  array( "Scrollable" => "buffered" );
-		$stmt_opc = sqlsrv_query( $conn, $sql_opc, $params_opc, $options_tareas);
-		$row_count_tareas = sqlsrv_num_rows($stmt_opc);
+		$sql_opc="{call alum_info_alum_est_check(?,?,?,?,?)}";
+		$check= ($_POST['check']=='true') ? 0 : 1;
+		$params_opc = array($_POST['check'], $_POST['alum_curs_para_codi'], $_POST['columna'], $_SESSION['usua_codi'], $_SESSION['USUA_TIPO']);
+		$stmt_opc = sqlsrv_query( $conn, $sql_opc, $params_opc);
 		if( $stmt_opc === false )
 		{
 			echo "Error in executing statement .\n";
 			die( print_r( sqlsrv_errors(), true));
+		}else{
+			echo 1;
+			$detalle2=" Columna: ".$_POST['columna'];
+			$detalle2+=" Valor del visto: ".$check;
+			$detalle2+=" Alumno Curso Paralelo: ".$_POST['alum_curs_para_codi'];
+			registrar_auditoria (49, $detalle2);			
 		}
-		if($row_count_tareas>0)
-		{	while( $row_alum_est = sqlsrv_fetch_array( $stmt_opc, SQLSRV_FETCH_ASSOC) ) 
-			{	echo $row_count_tareas;
-				$detalle2=" Columna: ".$row_alum_est['columna'];
-				$detalle2+=" Valor del visto: ".$row_alum_est['visto'];
-				$detalle2+=" Fecha registro: ".$row_alum_est['fecha_reg'];
-				registrar_auditoria (49, $detalle2);
-			}			
-		}
-		else
-		{
-			echo $row_count_tareas;
-		}
+	break;
 	case 'alum_info_docu_check':
 		$sql_opc="{call alum_info_docu_check(?,?,?,?)}";
 		$params_opc = array($_POST['check'], $_POST['alum_codi'], $_POST['peri_codi'], $_POST['docu_peri_codi']);
@@ -513,8 +551,9 @@ switch($opc){
 		{	while( $row_alum_docu = sqlsrv_fetch_array( $stmt_opc, SQLSRV_FETCH_ASSOC) ) 
 			{	echo $row_count_tareas;
 				$detalle2=" Codigo: ".$row_alum_docu['docu_peri_codi'];
-				$detalle2+=" Valor del visto: ".$row_alum_docu['visto'];
-				$detalle2+=" Fecha registro: ".$row_alum_docu['fecha_reg'];
+				$detalle2.=" Valor del visto: ".$row_alum_docu['visto'];
+				$detalle2.=" Alumno Codigo: ". $_POST['alum_codi'];
+				//$detalle2+=" Fecha registro: ".$row_alum_docu['fecha_reg'];
 				registrar_auditoria (49, $detalle2);
 			}			
 		}
@@ -691,17 +730,20 @@ switch($opc){
 		$params		= array($_POST['curs_para_codi'],$_POST['alum_curs_para_codi']);
 		$stmt	 	= sqlsrv_query( $conn, $sql, $params);
 		if( $stmt === false )
-		{	echo "Error in executing statement .\n";
-			die( print_r( sqlsrv_errors(), true));
+		{	
+			// echo "Error in executing statement .\n";
+			// die( print_r( sqlsrv_errors(), true));
+			$result = array ("state"=>"error",
+							 "mensaje"=>"Ocurrió un error al cambiar curso.");
 		}
 		if (sqlsrv_has_rows($stmt))
 		{	$row = sqlsrv_fetch_array($stmt);
-			$result = array ("error"=>"no",
+			$result = array ("state"=>$row['estado'],
 							 "mensaje"=>$row["mensaje"]);
 		}
 		else
-		{	$result = array ("error"=>"si",
-							 "mensaje"=>"No hay datos devueltos.");
+		{	$result = array ("state"=>"error",
+							 "mensaje"=>"Ocurrió un error al cambiar curso.");
 		}
 		echo json_encode($result);
 	break;

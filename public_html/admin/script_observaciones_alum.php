@@ -29,6 +29,7 @@ switch($opc){
     			//Para auditoría
                 $detalle="Curso paralelo materia código: ".$curs_para_mate_codi;
                 $detalle.=" Alumno curso paralelo código: ".$alum_curs_para_codi;
+                $detalle.=" Profesor código: ".$prof_codi;
                 $detalle.=" Tipo observación: ".$tipo_obs;
                 $detalle.=" Observación detalle: ".$obs_deta;
                 registrar_auditoria (41, $detalle);
@@ -62,13 +63,7 @@ switch($opc){
                 $mail->Username = para_sist(303);            // SMTP username
                 $mail->Password = para_sist(304);                         // SMTP password
                 $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-                $mail->Port = 587;
-
-                $params_opc2=array($usua_codi);
-                $sql_opc2="{call usua_info(?)}";
-                $usua_info = sqlsrv_query($conn, $sql_opc2,$params_opc2);
-                $row_usua_info=sqlsrv_fetch_array($usua_info);
-
+                $mail->Port = 587;      
                 try {
                         $mail->AddReplyTo(para_sist(303), 'Educalinks'); 
                         $nombre_parti="";
@@ -80,7 +75,7 @@ switch($opc){
                         $mail->AltBody = 'Para ver este correo, por favor use un visualizador de email compatible con HTML.'; 
                         $body="<html><head><meta charset='UTF-8'><title></title></head><body>";
                         $body .="<p>Estimado $nombre_parti,</p>";
-                        $body .="<p>Se ha creado una observaci&oacute;n a su representado <b>".$row_obs_view2['alum_nomb']." ".$row_obs_view2['alum_apel']."</b> desde Educalinks por parte del usuario administrativo <b> ".$row_usua_info['usua_nomb']." ".$row_usua_info['usua_apel']."</b></p>";
+                        $body .="<p>Se ha creado una observaci&oacute;n a su representado <b>".$row_obs_view2['alum_nomb']." ".$row_obs_view2['alum_apel']."</b> desde Educalinks</p>";
                         $body .="<p>Observaci&oacute;n ingresada:</p>";
                         $body .="<p style='color: #000011 ;font-style: italic;'>".$obs_deta."</p>";
                         $body.="<p>Para mayor informaci&oacute;n ingrese con su usuario y contrase&ntilde;a al sistema Educalinks</p></body></html>";

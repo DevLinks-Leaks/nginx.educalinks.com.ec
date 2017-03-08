@@ -133,14 +133,14 @@
     
 <!-- InstanceBeginEditable name="EditRegion4" -->
 <script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-			$('#alum_table').datatable({
-				pageSize: 20,
-				sort: [true,true,true,false,true],
-				filters: [true,true,'select','select','select'],
-				filterText: 'Buscar... '
-			}) ;
-	} );
+  $(document).ready(function() {
+      $('#alum_matri_table').datatable({
+      pageSize: 30,
+      sort: [true,true, true, false, true],
+      filters: [true,true, 'select', 'select', 'select'],
+      filterText: 'Buscar... '
+    }) ;
+  } );
 </script><!-- InstanceEndEditable -->
 </body>
 <!-- InstanceEnd --></html>

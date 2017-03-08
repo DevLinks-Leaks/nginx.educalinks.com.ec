@@ -170,17 +170,6 @@
       </div>
     </div>
     
-<!-- InstanceBeginEditable name="EditRegion4" -->
-        <script type="text/javascript" charset="utf-8">
-            $(document).ready(function() {
-			$('#alum_table').datatable({
-				pageSize: 20,
-				sort: [false,true,false],
-				filters: [false,false,false],
-				filterText: 'Buscar... '
-			}) ;
-	} );
-        </script><!-- InstanceEndEditable -->
 	</body>
 <!-- InstanceEnd -->
 </html>

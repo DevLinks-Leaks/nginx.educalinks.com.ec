@@ -7,7 +7,10 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 switch($opc){
 	case 'repr_add':
 		$repr_fech_promoc=substr($_POST['repr_fech_promoc'],6,4)."".substr($_POST['repr_fech_promoc'],3,2)."".substr($_POST['repr_fech_promoc'],0,2);
-		$sql_opc = "{call repr_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		$repr_fech_naci = substr($_POST['repr_fech_naci'],6,4)."".substr($_POST['repr_fech_naci'],3,2)."".substr($_POST['repr_fech_naci'],0,2);
+		$es_colaborador = ($_POST['repr_escolaborador']=='true' ? 1 : 0 );
+		$repr_ex_alum = ($_POST['repr_ex_alum']=='true' ? 1 : 0 );
+		$sql_opc = "{call repr_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		$params_opc= array( $_POST['repr_nomb'],
 							$_POST['repr_apel'],
 							$_POST['repr_cedula'],
@@ -27,10 +30,14 @@ switch($opc){
 							$_POST['repr_estudios'],
 							$_POST['repr_institucion'],
 							$_POST['repr_motivo_representa'],
-							$_POST['repr_escolaborador'],
-							$_POST['repr_ex_alum'],
+							$es_colaborador,
+							$repr_ex_alum,
 							$repr_fech_promoc,
-							$_POST['repr_telf_trab']);
+							$_POST['repr_telf_trab'],
+							$repr_fech_naci,
+							$_POST['repr_pais_naci'],
+							$_POST['repr_prov_naci'],
+							$_POST['repr_ciud_naci']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
 		
@@ -56,7 +63,10 @@ switch($opc){
 	break;
 	case 'repr_upd':
 		$repr_fech_promoc=substr($_POST['repr_fech_promoc'],6,4)."".substr($_POST['repr_fech_promoc'],3,2)."".substr($_POST['repr_fech_promoc'],0,2);
-		$sql_opc = "{call repr_upd(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		$repr_fech_naci = substr($_POST['repr_fech_naci'],6,4)."".substr($_POST['repr_fech_naci'],3,2)."".substr($_POST['repr_fech_naci'],0,2);
+		$es_colaborador = ($_POST['repr_escolaborador']=='true' ? 1 : 0 );
+		$repr_ex_alum = ($_POST['repr_ex_alum']=='true' ? 1 : 0 );
+		$sql_opc = "{call repr_upd(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		$params_opc= array( $_POST['repr_nomb'],
 							$_POST['repr_apel'],
 							$_POST['repr_cedula'],
@@ -76,10 +86,14 @@ switch($opc){
 							$_POST['repr_estudios'],
 							$_POST['repr_institucion'],
 							$_POST['repr_motivo_representa'],
-							$_POST['repr_escolaborador'],
-							$_POST['repr_ex_alum'],
+							$es_colaborador,
+							$repr_ex_alum,
 							$repr_fech_promoc,
-							$_POST['repr_telf_trab']);
+							$_POST['repr_telf_trab'],
+							$repr_fech_naci,
+							$_POST['repr_pais_naci'],
+							$_POST['repr_prov_naci'],
+							$_POST['repr_ciud_naci']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
 		$repr_view_opc=0;
@@ -242,27 +256,107 @@ switch($opc){
     	<input id="repr_email" name="repr_email" type="text" placeholder="<?php echo lng_form_ph('email'); ?>" value="<?=$row_repr_view['repr_email'];?>">
     	</div>
         <div class="form_element">
-    	<label for="repr_telf"><?php echo lng_form_label('phone'); ?>:</label>
+    	<label for="repr_telf">Núm. Teléfono:</label>
     	<input id="repr_telf" name="repr_telf" type="text" placeholder="<?php echo lng_form_ph('phone'); ?>" value="<?=$row_repr_view['repr_telf'];?>">
     	</div>
         <div class="form_element">
-    	<label for="repr_celular"><?php echo lng_form_label('cellphone'); ?>:</label>
+    	<label for="repr_celular">Núm. Celular:</label>
     	<input id="repr_celular" name="repr_celular" type="text" placeholder="<?php echo lng_form_ph('cellphone'); ?>" value="<?=$row_repr_view['repr_celular'];?>">
     	</div>
         <div class="form_element">
-    	<label for="repr_domi"><?php echo lng_form_label('address'); ?>:</label>
+    	<label for="repr_domi">Dirección:</label>
     	<input id="repr_domi" name="repr_domi" type="text" placeholder="<?php echo lng_form_ph('address'); ?>" value="<?=$row_repr_view['repr_domi'];?>">
     	</div>
-        <div class="form_element">
-    	<label for="repr_profesion"><?php echo lng_form_label('profession'); ?>:</label>
-    	<input id="repr_profesion" name="repr_profesion" type="text" placeholder="<?php echo lng_form_ph('profession'); ?>" value="<?=$row_repr_view['repr_profesion'];?>">
+    	<div class="form_element">
+    	<label for="repr_estado_civil"><?php echo lng_form_label('marital status'); ?>:</label>
+    	<?php 
+                    include ('../framework/dbconf.php');		
+                    $params = array(1);
+                    $sql="{call cata_hijo_view(?)}";
+                    $stmt = sqlsrv_query($conn, $sql, $params);
+            
+                    if( $stmt === false )
+                    {
+                        echo "Error in executing statement .\n";
+                        die( print_r( sqlsrv_errors(), true));
+                    }
+                    echo '<select id="repr_estado_civil" name="repr_estado_civil">';
+                    while($esta_civil_padr_view= sqlsrv_fetch_array($stmt))
+                    {
+						$seleccionado="";
+						if ($esta_civil_padr_view["codigo"]==$row_repr_view["idestadocivil"])
+							$seleccionado="selected";
+                        echo '<option value="'.$esta_civil_padr_view["codigo"].'" '.$seleccionado.'>'.$esta_civil_padr_view["descripcion"].'</option>';
+                    }
+                    echo '</select>';
+                ?> 
     	</div>
-        <div class="form_element">
+		<div class="form_element">
+			<label for="repr_fech_naci">Fecha de Nacimiento:</label>
+			<input  id="repr_fech_naci" name="repr_fech_naci" type="text" placeholder="Ingrese la fecha de nacimiento..." value="<?=date_format($row_repr_view['repr_fech_naci'],"d/m/Y");?>">
+		</div>
+		<div class="form_element">
+			<label>País de Nacimiento:</label>
+			<select onchange="CargarProvincias('repr_prov_naci',this.value);"  id="repr_pais_naci" name="repr_pais_naci">
+			<?php 
+			$params = array();
+			$sql="{call cata_pais_cons()}";
+			$stmt2 = sqlsrv_query($conn, $sql, $params);
+			while($pais_view= sqlsrv_fetch_array($stmt2))
+			{
+				$seleccionado="";
+				if ($pais_view["descripcion"]==$row_repr_view["repr_pais_naci"])
+					$seleccionado="selected";
+				echo '<option value="'.$pais_view["codigo"].'" '.$seleccionado.'>'.$pais_view["descripcion"].'</option>';
+			}
+			echo '</select>';
+			?>
+		</div>
+		<div class="form_element">
+			<label>Provincia de Nacimiento:</label>
+			<select onchange="CargarCiudades('repr_ciud_naci',this.value);" id='repr_prov_naci' name='repr_prov_naci'>
+			<?php 
+			$params = array(null,$row_repr_view["repr_pais_naci"]);
+			$sql="{call cata_provincia_cons(?,?)}";
+			$stmt3 = sqlsrv_query($conn, $sql, $params);
+	
+			while($ciudad_view= sqlsrv_fetch_array($stmt3))
+			{
+				$seleccionado="";
+				if ($ciudad_view["descripcion"]==$row_repr_view["repr_prov_naci"])
+					$seleccionado="selected";
+				echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+			}
+			echo '</select>';
+			?>
+		</div>
+		<div class="form_element">
+			<label>Ciudad de Nacimiento:</label>
+			<select class='form-control' id='repr_ciud_naci' name='repr_ciud_naci'>
+			<?php 
+			$params = array(null,$row_repr_view["repr_prov_naci"]);
+			$sql="{call cata_ciudad_cons(?,?)}";
+			$stmt = sqlsrv_query($conn, $sql, $params);
+			while($ciudad_view= sqlsrv_fetch_array($stmt))
+			{
+				$seleccionado="";
+				if ($ciudad_view["descripcion"]==$row_repr_view["repr_ciud_naci"])
+					$seleccionado="selected";
+				echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+			}
+			echo '</select>';
+			?>
+		</div>
+		<div class="form_element">
     	<label for="repr_nacionalidad"><?php echo lng_form_label('nationality'); ?>:</label>
     	<input id="repr_nacionalidad" name="repr_nacionalidad" type="text" placeholder="<?php echo lng_form_ph('nationality'); ?>" value="<?=$row_repr_view['repr_nacionalidad'];?>">
     	</div>
+        <div class="form_element">
+    	<label for="repr_profesion">Profesión o Título Académico:</label>
+    	<input id="repr_profesion" name="repr_profesion" type="text" placeholder="<?php echo lng_form_ph('profession'); ?>" value="<?=$row_repr_view['repr_profesion'];?>">
+    	</div>
          <div class="form_element">
-    	<label for="repr_lugar_trabajo"><?php echo lng_form_label('workplace'); ?>:</label>
+    	<label for="repr_lugar_trabajo">Nombre de empresa o lugar de trabajo:</label>
     	<input id="repr_lugar_trabajo" name="repr_lugar_trabajo" type="text" placeholder="<?php echo lng_form_ph('workplace'); ?>" value="<?=$row_repr_view['repr_lugar_trabajo'];?>">
     	</div>
          <div class="form_element">
@@ -274,7 +368,7 @@ switch($opc){
     	<input id="repr_telf_trab" name="repr_telf_trab" type="text" placeholder="Teléfono de Trabajo:" value="<?=$row_repr_view['repr_telf_trab'];?>">
     	</div>
          <div class="form_element">
-    	<label for="repr_cargo"><?php echo lng_form_label('charge'); ?>:</label>
+    	<label for="repr_cargo">Cargo que desempeña:</label>
     	<input id="repr_cargo" name="repr_cargo" type="text" placeholder="<?php echo lng_form_ph('charge'); ?>" value="<?=$row_repr_view['repr_cargo'];?>">
     	</div>
         <div class="form_element">
@@ -302,54 +396,32 @@ switch($opc){
                 ?>
     	</div>
          <div class="form_element">
-    	<label for="repr_estudios"><?php echo lng_form_label('studies'); ?>:</label>
+    	<label for="repr_estudios">Nivel de estudios:</label>
     	<input id="repr_estudios" name="repr_estudios" type="text" placeholder="<?php echo lng_form_ph('studies'); ?>" value="<?=$row_repr_view['repr_estudios'];?>">
     	</div>
           <div class="form_element">
     	<label for="repr_institucion"><?php echo lng_form_label('institution'); ?>:</label>
     	<input id="repr_institucion" name="repr_institucion" type="text" placeholder="<?php echo lng_form_ph('institution'); ?>" value="<?=$row_repr_view['repr_institucion'];?>">
     	</div>
+    	<div class="form_element">
+    	<label for="repr_fech_promoc">Año de promoción exalumno:</label>
+    	<input id="repr_fech_promoc" name="repr_fech_promoc" type="text" placeholder="Ingrese la fecha de promoción de exalumno" value="<?=date_format($row_repr_view['repr_fech_promoc'],"d/m/Y");?>"/>
+    	</div>
+		<div class="form_element">
+    	<label for="repr_ex_alum">¿Es exalumno de la institución?</label>
+    	<input id="repr_ex_alum" name="repr_ex_alum" type="checkbox" <?= ($row_repr_view['repr_ex_alum']==1 ? 'checked':'');?>/>
+    	</div>
          <div class="form_element">
-    	<label for="repr_motivo_representa"><?php echo lng_form_label('reason'); ?>:</label>
+    	<label for="repr_motivo_representa">Razón por la cual representa (en caso de no ser padre o madre):</label>
     	<input id="repr_motivo_representa" name="repr_motivo_representa" type="text" placeholder="<?php echo lng_form_ph('reason'); ?>" value="<?=$row_repr_view['repr_motivo_representa'];?>">
     	</div>
-        <div class="form_element">
-    	<label for="repr_estado_civil"><?php echo lng_form_label('marital status'); ?>:</label>
-    	<?php 
-                    include ('../framework/dbconf.php');		
-                    $params = array(1);
-                    $sql="{call cata_hijo_view(?)}";
-                    $stmt = sqlsrv_query($conn, $sql, $params);
-            
-                    if( $stmt === false )
-                    {
-                        echo "Error in executing statement .\n";
-                        die( print_r( sqlsrv_errors(), true));
-                    }
-                    echo '<select id="repr_estado_civil" name="repr_estado_civil">';
-                    while($esta_civil_padr_view= sqlsrv_fetch_array($stmt))
-                    {
-						$seleccionado="";
-						if ($esta_civil_padr_view["codigo"]==$row_repr_view["idestadocivil"])
-							$seleccionado="selected";
-                        echo '<option value="'.$esta_civil_padr_view["codigo"].'" '.$seleccionado.'>'.$esta_civil_padr_view["descripcion"].'</option>';
-                    }
-                    echo '</select>';
-                ?> 
-    	</div>
+        
 		<div class="form_element">
     	<label for="repr_estado_civil">¿Es o fue colaborador de la institución?</label>
     	<input id="repr_escolaborador" name="repr_escolaborador" type="checkbox" <?= ($row_repr_view['repr_escolaborador']==1 ? 'checked':'');?>/>
     	</div>
 		
-		<div class="form_element">
-    	<label for="repr_ex_alum">¿Es exalumno de la institución?</label>
-    	<input id="repr_ex_alum" name="repr_ex_alum" type="checkbox" <?= ($row_repr_view['repr_ex_alum']==1 ? 'checked':'');?>/>
-    	</div>
-    	<div class="form_element">
-    	<label for="repr_fech_promoc">Año de promoción exalumno:</label>
-    	<input id="repr_fech_promoc" name="repr_fech_promoc" type="text" placeholder="Ingrese la fecha de promoción de exalumno" value="<?=date_format($row_repr_view['repr_fech_promoc'],"d/m/Y");?>">
-    	</div>
+    	<div class="form_element"></div>
 	<?php break;
 	
 }

@@ -46,16 +46,16 @@
 					if($_SESSION['USUA_TIPO']=='R')
 					{	$combo='
 						<li class="dropdown user user-menu messages-menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="{fotoUsuario}" class="user-image" alt="">
-                <span class="hidden-xs"><small>{usua_nombres}</small></span>
-              </a>
-              <ul class="dropdown-menu" >
-                <li class="header"><small>Seleccione un alumno</small></li>
-                <li>
-                  <!-- inner menu: contains the actual data -->
-                  
-                    <ul class="menu" style="overflow: hidden; width: 100%;">';
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								<img src="{fotoUsuario}" class="user-image" alt="">
+								<span class="hidden-xs"><small>{usua_nombres}</small></span>
+							</a>
+							<ul class="dropdown-menu" >
+								<li class="header"><small>Seleccione un alumno</small></li>
+								<li>
+									<!-- inner menu: contains the actual data -->
+									
+										<ul class="menu" style="overflow: hidden; width: 100%;">';
 										$params2 = array($_SESSION['repr_codi'],$_SESSION['peri_codi']);
 										$sql2="{call repr_alum_info_princ_usua(?,?)}";
 										$resu_alum_info = sqlsrv_query($conn, $sql2, $params2);  

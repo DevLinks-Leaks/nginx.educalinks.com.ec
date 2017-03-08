@@ -182,16 +182,6 @@
                           <h1>
                           </td>
                       </tr>
-                  <tr>
-                    <td><h3>Libro de Calificaciones</h3></td>
-                    <td>
-                      <h1>
-                         <a href="JavaScript:getURLLibroCalificacionesPDF();">
-                             <span class="icon-file-pdf icon"></span>
-                         </a>
-                         <h1>
-                         </td>
-                     </tr>
                   </tbody>
               </table>
           </div>

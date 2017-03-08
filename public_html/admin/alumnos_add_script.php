@@ -26,6 +26,16 @@ if( $stmt === false ){
 	echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));
 } 
 $alum_view= sqlsrv_fetch_array($stmt);
+/*descencriptar numero tarjeta*/
+if($alum_view['alum_resp_form_banc_tarj_nume']!=null){
+	$alum_resp_form_banc_tarj_nume_dec=base64_decode($alum_view['alum_resp_form_banc_tarj_nume']);
+	$iv = base64_decode($_SESSION['clie_iv']);
+	$alum_resp_form_banc_tarj_nume = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $_SESSION['clie_key'], $alum_resp_form_banc_tarj_nume_dec, MCRYPT_MODE_CBC, $iv );
+	// $alum_resp_form_banc_tarj_nume=rtrim($alum_resp_form_banc_tarj_nume,"\0");
+	$alum_resp_form_banc_tarj_nume=preg_replace('/[^A-Za-z0-9\-]/', '',$alum_resp_form_banc_tarj_nume);
+	$alum_resp_form_banc_tarj_nume =  creditCardMask($alum_resp_form_banc_tarj_nume,4,8);
+}
+/*FIN*/
 ?>
 <div id="div_noti">&nbsp;</div>
 <div id="div_blacklist_warning" style=""></div>
@@ -55,11 +65,11 @@ $alum_view= sqlsrv_fetch_array($stmt);
         <ul>
             <?php if ($alum_view['alum_codi']==""){?>
             <li>
-                <button id="btn_inscribir" name="btn_inscribir" type="button" onClick="load_ajax_add_alum('div_noti','script_alum.php','opc=add&alum_nomb='+document.getElementById('alum_nomb').value+'&alum_apel='+document.getElementById('alum_apel').value+'&alum_fech_naci='+document.getElementById('alum_fech_naci').value+'&alum_cedu='+document.getElementById('alum_cedu').value+'&alum_tipo_iden='+document.getElementById('alum_tipo_iden').options[document.getElementById('alum_tipo_iden').selectedIndex].value+'&alum_mail='+document.getElementById('alum_mail').value+'&alum_celu='+document.getElementById('alum_celu').value+'&alum_domi='+document.getElementById('alum_domi').value+'&alum_telf='+document.getElementById('alum_telf').value+'&alum_ciud='+document.getElementById('alum_ciud').value+'&alum_pais='+document.getElementById('alum_pais').value+'&alum_telf_emerg='+document.getElementById('alum_telf_emerg').value+'&alum_ex_plantel='+document.getElementById('alum_ex_plantel').value+'&alum_usua='+document.getElementById('alum_usua').value+'&alum_parroq='+document.getElementById('alum_parroq').value+'&alum_vive_con='+document.getElementById('alum_vive_con').value+'&alum_movilizacion='+document.getElementById('alum_movilizacion').value+'&alum_motivo_cambio='+document.getElementById('alum_motivo_cambio').value+'&alum_discapacidad='+document.getElementById('alum_discapacidad').value+'&alum_condicionado='+document.getElementById('alum_condicionado').checked+'&alum_conducta='+document.getElementById('alum_conducta').value+'&alum_ultimo_anio='+document.getElementById('alum_ultimo_anio').value+'&alum_nacionalidad='+document.getElementById('alum_nacionalidad').value+'&alum_motivo_condicion='+document.getElementById('alum_motivo_condicion').value+'&alum_resp_form_pago='+document.getElementById('sl_form_pago').value+'&alum_resp_form_banc_tarj='+document.getElementById('sl_banco_tarjeta').value+'&alum_resp_form_banc_tarj_nume='+document.getElementById('alum_resp_form_banc_tarj_nume').value+'&alum_resp_form_banc_tipo='+(document.getElementById('cta_corriente').checked?'C':'A')+'&alum_resp_form_cedu='+document.getElementById('alum_resp_form_cedu').value+'&alum_resp_form_nomb='+document.getElementById('alum_resp_form_nomb').value+'&alum_grup_econ='+document.getElementById('sl_alum_grup_econ').value+'&alum_tiene_discapacidad='+document.getElementById('alum_tiene_discapacidad').checked+'&alum_genero='+document.getElementById('alum_hombre').checked+'&idreligion='+document.getElementById('alum_religion').value+'&idparentescovivecon='+document.getElementById('alum_parentesco_vive_con').value+'&idestadocivilpadres='+document.getElementById('alum_estado_civil_padres').value+'&alum_activ_deportiva='+document.getElementById('alum_activ_deportiva').value+'&alum_activ_artistica='+document.getElementById('alum_activ_artistica').value+'&alum_resp_form_fech_vcto='+document.getElementById('alum_resp_form_fech_vcto').value+'&alum_enfermedades='+document.getElementById('alum_enfermedades').value+'&alum_banc_emisor='+document.getElementById('sl_banco_emisor').value+'&alum_parentesco_emerg='+document.getElementById('alum_parentesco_emerg').value+'&alum_pers_emerg='+document.getElementById('alum_pers_emerg').value+'&alum_tipo_sangre='+document.getElementById('alum_tipo_sangre').value+'&alum_resp_form_tipo_iden='+document.getElementById('alum_resp_form_tipo_iden').options[document.getElementById('alum_resp_form_tipo_iden').selectedIndex].value,'alum_codi');">Inscribir</button>
+                <button id="btn_inscribir" name="btn_inscribir" type="button" onClick="load_ajax_add_alum('div_noti','script_alum.php','alum_codi');">Inscribir</button>
             </li>
             <?php }else{?>
             <li>
-                <button id="btn_guardar" name="btn_guardar" type="button" onClick="load_ajax_edit_alum('div_noti','script_alum.php','opc=edi&alum_codi='+document.getElementById('alum_codi').value+'&alum_nomb='+document.getElementById('alum_nomb').value+'&alum_apel='+document.getElementById('alum_apel').value+'&alum_fech_naci='+document.getElementById('alum_fech_naci').value+'&alum_cedu='+document.getElementById('alum_cedu').value+'&alum_tipo_iden='+document.getElementById('alum_tipo_iden').options[document.getElementById('alum_tipo_iden').selectedIndex].value+'&alum_mail='+document.getElementById('alum_mail').value+'&alum_celu='+document.getElementById('alum_celu').value+'&alum_domi='+document.getElementById('alum_domi').value+'&alum_telf='+document.getElementById('alum_telf').value+'&alum_ciud='+document.getElementById('alum_ciud').value+'&alum_pais='+document.getElementById('alum_pais').value+'&alum_telf_emerg='+document.getElementById('alum_telf_emerg').value+'&alum_ex_plantel='+document.getElementById('alum_ex_plantel').value+'&alum_usua='+document.getElementById('alum_usua').value+'&alum_parroq='+document.getElementById('alum_parroq').value+'&alum_vive_con='+document.getElementById('alum_vive_con').value+'&alum_movilizacion='+document.getElementById('alum_movilizacion').value+'&alum_motivo_cambio='+document.getElementById('alum_motivo_cambio').value+'&alum_discapacidad='+document.getElementById('alum_discapacidad').value+'&alum_condicionado='+document.getElementById('alum_condicionado').checked+'&alum_conducta='+document.getElementById('alum_conducta').value+'&alum_ultimo_anio='+document.getElementById('alum_ultimo_anio').value+'&alum_nacionalidad='+document.getElementById('alum_nacionalidad').value+'&alum_motivo_condicion='+document.getElementById('alum_motivo_condicion').value+'&alum_resp_form_pago='+document.getElementById('sl_form_pago').value+'&alum_resp_form_banc_tarj='+document.getElementById('sl_banco_tarjeta').value+'&alum_resp_form_banc_tarj_nume='+document.getElementById('alum_resp_form_banc_tarj_nume').value+'&alum_resp_form_banc_tipo='+(document.getElementById('cta_corriente').checked?'C':'A')+'&alum_resp_form_cedu='+document.getElementById('alum_resp_form_cedu').value+'&alum_resp_form_nomb='+document.getElementById('alum_resp_form_nomb').value+'&alum_grup_econ='+document.getElementById('sl_alum_grup_econ').value+'&alum_tiene_discapacidad='+document.getElementById('alum_tiene_discapacidad').checked+'&alum_genero='+document.getElementById('alum_hombre').checked+'&idreligion='+document.getElementById('alum_religion').value+'&idparentescovivecon='+document.getElementById('alum_parentesco_vive_con').value+'&idestadocivilpadres='+document.getElementById('alum_estado_civil_padres').value+'&alum_activ_deportiva='+document.getElementById('alum_activ_deportiva').value+'&alum_activ_artistica='+document.getElementById('alum_activ_artistica').value+'&alum_resp_form_fech_vcto='+document.getElementById('alum_resp_form_fech_vcto').value+'&alum_enfermedades='+document.getElementById('alum_enfermedades').value+'&alum_banc_emisor='+document.getElementById('sl_banco_emisor').value+'&alum_parentesco_emerg='+document.getElementById('alum_parentesco_emerg').value+'&alum_pers_emerg='+document.getElementById('alum_pers_emerg').value+'&alum_tipo_sangre='+document.getElementById('alum_tipo_sangre').value+'&alum_resp_form_tipo_iden='+document.getElementById('alum_resp_form_tipo_iden').options[document.getElementById('alum_resp_form_tipo_iden').selectedIndex].value);">Guardar</button>
+                <button id="btn_guardar" name="btn_guardar" type="button" onClick="load_ajax_edit_alum('div_noti','script_alum.php','<?=$alum_view['alum_codi'];?>');">Guardar</button>
             </li>   
             <?php }?>  
             <?php if (permiso_activo(21)){?>
@@ -107,20 +117,8 @@ $alum_view= sqlsrv_fetch_array($stmt);
 				<div id="div_veri_alum" style="float:none;">&nbsp;</div>
 			</div>
 			<div class="form_element">
-				<label for="alum_fech_naci">(*)Fecha de Nacimiento:</label>
-				<input id="alum_fech_naci" name="alum_fech_naci" type="text" placeholder="Ingrese la fecha de nacimiento del alumno..." value="<?=date_format($alum_view['alum_fech_naci'],"d/m/Y");?>">
-			</div>
-			<div class="form_element">
-				<label for="lbl_tipo">(*)Género:<br/>
-					<input id="alum_hombre" type="radio" name="genero" value="Hombre" <?= ($alum_view['alum_genero']==1?' checked':'') ?> />
-						<span style="margin-right: 50px">Masculino</span>
-					<input id="alum_mujer" type="radio" name="genero" value="Mujer" <?= ($alum_view['alum_genero']==0?' checked':'') ?> />
-						<span style="margin-right: 50px">Femenino</span>
-				</label>
-			</div>
-			<div class="form_element">
-				<label for="alum_cedu">Número de Identificación:</label>
-				<input id="alum_cedu" name="alum_cedu" type="text" placeholder="Ingrese la c&eacute;dula del alumno..." value="<?=$alum_view['alum_cedu'];?>" onkeyup="alum_bloq_view()">
+				<label for="alum_cedu"><?=(para_sist(405)=='1'?'(*)':'')?>Número de Identificación:</label>
+				<input id="alum_cedu" class="<?=(para_sist(404)=='1'?'required':'')?>" name="alum_cedu" type="text" placeholder="Ingrese la c&eacute;dula del alumno..." value="<?=$alum_view['alum_cedu'];?>" onkeyup="alum_bloq_view()">
 			</div>
 			<div class="form_element">
 		        <label for="alum_tipo_iden">Tipo de Identificación:</label>
@@ -146,6 +144,110 @@ $alum_view= sqlsrv_fetch_array($stmt);
 		        ?> 
 		    </div>
 			<div class="form_element">
+				<label for="alum_fech_naci">(*)Fecha de Nacimiento:</label>
+				<input id="alum_fech_naci" name="alum_fech_naci" type="text" placeholder="Ingrese la fecha de nacimiento del alumno..." value="<?=date_format($alum_view['alum_fech_naci'],"d/m/Y");?>">
+			</div>
+			<div class="form_element">
+				<label for="lbl_tipo">(*)Género:<br/><br/>
+					<input id="alum_hombre" type="radio" name="genero" value="Hombre" <?= ($alum_view['alum_genero']==1?' checked':'') ?> />
+						<span style="margin-right: 50px">Masculino</span>
+					<input id="alum_mujer" type="radio" name="genero" value="Mujer" <?= ($alum_view['alum_genero']==0?' checked':'') ?> />
+						<span style="margin-right: 50px">Femenino</span>
+				</label>
+			</div>
+			<div class="form_element">
+				<label for="alum_pais">País de nacimiento:</label>
+				<select onchange="CargarProvincias('alum_prov_naci',this.value);" id="alum_pais" name="alum_pais">
+				<?php 
+				$params = array();
+				$sql="{call cata_pais_cons()}";
+				$stmt = sqlsrv_query($conn, $sql, $params);
+				while($pais_view= sqlsrv_fetch_array($stmt))
+				{
+					$seleccionado="";
+					if ($pais_view["descripcion"]==$alum_view["alum_pais"])
+						$seleccionado="selected";
+					echo '<option value="'.$pais_view["codigo"].'" '.$seleccionado.'>'.$pais_view["descripcion"].'</option>';
+				}
+				echo '</select>';
+				?>
+			</div>
+			<div class="form_element">
+				<label for="alum_prov_naci">Provincia de nacimiento:</label>
+				<select onchange="CargarCiudades('alum_ciud_naci',this.value);" id='alum_prov_naci' name='alum_prov_naci'>
+				<?php 
+				$params = array(null,$alum_view["alum_pais"]);
+				$sql="{call cata_provincia_cons(?,?)}";
+				$stmt = sqlsrv_query($conn, $sql, $params);
+		
+				while($ciudad_view= sqlsrv_fetch_array($stmt))
+				{
+					$seleccionado="";
+					if ($ciudad_view["descripcion"]==$alum_view["alum_prov_naci"])
+						$seleccionado="selected";
+					echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+				}
+				echo '</select>';
+				?>
+			</div>
+			<div class="form_element">
+				<label for="alum_ciud_naci">Ciudad de nacimiento:</label>
+				<select onchange="CargarParroquias('alum_parr_naci',this.value);" id='alum_ciud_naci' name='alum_ciud_naci'>
+				<?php 
+				$params = array(null,$alum_view["alum_prov_naci"]);
+				$sql="{call cata_ciudad_cons(?,?)}";
+				$stmt = sqlsrv_query($conn, $sql, $params);
+				while($ciudad_view= sqlsrv_fetch_array($stmt))
+				{
+					$seleccionado="";
+					if ($ciudad_view["descripcion"]==$alum_view["alum_ciud_naci"])
+						$seleccionado="selected";
+					echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+				}
+				echo '</select>';
+				?>
+			</div>
+			<div class="form_element">
+				<label for="alum_parr_naci">Parroquia de nacimiento:</label>
+				<select id="alum_parr_naci" name="alum_parr_naci">
+				<?php 
+				$params = array(null,$alum_view["alum_ciud_naci"]);
+				$sql="{call cata_parroquia_cons(?,?)}";
+				$stmt = sqlsrv_query($conn, $sql, $params);
+
+				while($parroquia_view= sqlsrv_fetch_array($stmt))
+				{
+					$seleccionado="";
+					if ($parroquia_view["descripcion"]==$alum_view["alum_parr_naci"])
+						$seleccionado="selected";
+					echo '<option value="'.$parroquia_view["codigo"].'" '.$seleccionado.'>'.$parroquia_view["descripcion"].'</option>';
+				}
+				echo '</select>';
+				?>
+			</div>
+			<div class="form_element">
+				<label for="alum_sect_naci">Sector de nacimiento:</label>
+				<select class="form-control" id="alum_sect_naci" name="alum_sect_naci">
+				<?php 
+				$params = array(337);
+				$sql="{call cata_hijo_view(?)}";
+				$stmt = sqlsrv_query($conn, $sql, $params);
+		
+				while($sector_view= sqlsrv_fetch_array($stmt))
+				{
+					$seleccionado="";
+					if ($sector_view["descripcion"]==$alum_view["alum_sect_naci"])
+						$seleccionado="selected";
+					echo '<option value="'.$sector_view["descripcion"].'" '.$seleccionado.'>'.$sector_view["descripcion"].'</option>';
+				}
+				echo '</select>';
+				?>
+			</div>
+			<div class="form_element">
+				<label for="alum_nacionalidad">(*)Nacionalidad</label>
+				<input id="alum_nacionalidad" name="alum_nacionalidad" type="text" placeholder="Ingrese la nacionalidad del alumno..." value="<?=$alum_view['alum_nacionalidad'];?>">
+			</div>
+			<div class="form_element">
 				<label for="alum_mail">Email:</label>
 				<input id="alum_mail" name="alum_mail" type="text" placeholder="Ingrese el email del alumno..." value="<?=$alum_view['alum_mail'];?>">
 			</div>
@@ -163,19 +265,38 @@ $alum_view= sqlsrv_fetch_array($stmt);
 			</div>
 			<div class="form_element">
 				<label for="alum_ciud">(*)Ciudad:</label>
-				<input id="alum_ciud" name="alum_ciud" type="text" placeholder="Ingrese la ciudad del alumno..." value="<?=$alum_view['alum_ciud'];?>">
+				<select onchange="CargarParroquias('alum_parroquia',this.value);" class='form-control' id='alum_ciud' name='alum_ciud'>
+				<?php 
+				$params = array(10,null);
+				$sql="{call cata_ciudad_cons(?,?)}";
+				$stmt = sqlsrv_query($conn, $sql, $params);
+				while($ciudad_view= sqlsrv_fetch_array($stmt))
+				{
+					$seleccionado="";
+					if ($ciudad_view["descripcion"]==$alum_view["alum_ciud"])
+						$seleccionado="selected";
+					echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+				}
+				echo '</select>';
+				?>
 			</div>
 			<div class="form_element">
 				<label for="alum_parroq">Parroquia:</label>
-				<input id="alum_parroq" name="alum_parroq" type="text" placeholder="Ingrese la parroquia del alumno..." value="<?=$alum_view['alum_parroquia'];?>">
-			</div>
-			<div class="form_element">
-				<label for="alum_pais">(*)Pa&iacute;s donde naci&oacute;:</label>
-				<input id="alum_pais" name="alum_pais" type="text" placeholder="Ingrese el pa&iacute;s del alumno..." value="<?=$alum_view['alum_pais'];?>">
-			</div>
-			<div class="form_element">
-				<label for="alum_nacionalidad">(*)Nacionalidad</label>
-				<input id="alum_nacionalidad" name="alum_nacionalidad" type="text" placeholder="Ingrese la nacionalidad del alumno..." value="<?=$alum_view['alum_nacionalidad'];?>">
+				<select class="form-control" id="alum_parroquia" name="alum_parroquia">
+				<?php 
+				$params = array(null,$alum_view["alum_ciud"]);
+				$sql="{call cata_parroquia_cons(?,?)}";
+				$stmt = sqlsrv_query($conn, $sql, $params);
+
+				while($parroquia_view= sqlsrv_fetch_array($stmt))
+				{
+					$seleccionado="";
+					if ($parroquia_view["descripcion"]==$alum_view["alum_parroquia"])
+						$seleccionado="selected";
+					echo '<option value="'.$parroquia_view["codigo"].'" '.$seleccionado.'>'.$parroquia_view["descripcion"].'</option>';
+				}
+				echo '</select>';
+				?>
 			</div>
 			<div class="form_element">
 				<label for="alum_reli">Religi&oacute;n:</label>
@@ -204,11 +325,11 @@ $alum_view= sqlsrv_fetch_array($stmt);
 			<div class="form_element">
 			</div>
 			<div class="form_element">
-				<label for="alum_vive_con">Vive con:</label>
+				<label for="alum_vive_con">Vive con (Nombre):</label>
 				<input id="alum_vive_con" name="alum_vive_con" type="text" placeholder="Ingrese con quien vive el alumno..." value="<?=$alum_view['alum_vive_con'];?>">
 			</div>
 			<div class="form_element">
-				<label for="alum_vive_con">Parentesco:</label>
+				<label for="alum_vive_con">Vive con (Parentesco):</label>
 				<?php 
                     include ('../framework/dbconf.php');		
                     $params = array(2);
@@ -230,14 +351,6 @@ $alum_view= sqlsrv_fetch_array($stmt);
                     }
                     echo '</select>';
                 ?> 
-			</div>
-			<div class="form_element">
-				<label for="alum_tiene_discapacidad">Inclusi&oacute;n:</label>
-				<input id="alum_tiene_discapacidad" name="alum_tiene_discapacidad" type="checkbox"   <?= ($alum_view['alum_tiene_discapacidad']==1 ? 'checked':'');?>  onclick="ActivarDesactivarText('alum_tiene_discapacidad','alum_discapacidad')" />
-			</div>
-			<div class="form_element">
-				<label for="alum_discapacidad">Discapacidad:</label>
-				<input id="alum_discapacidad" name="alum_discapacidad" type="text" value="<?=$alum_view['alum_discapacidad'];?>" <?= ($alum_view['alum_tiene_discapacidad']==1?'':' disabled=true placeholder="No tiene"');?> >
 			</div>
 			<div class="form_element">
 				<label for="alum_estado_civil_padres">(*)Estado civil de padres:</label>
@@ -265,8 +378,37 @@ $alum_view= sqlsrv_fetch_array($stmt);
 			</div>
 			<div class="form_element">
 				<label for="alum_movilizacion">Movilización:</label>
-				<input id="alum_movilizacion" name="alum_movilizacion" type="text" placeholder="Ingrese como se moviliza el alumno..." value="<?=$alum_view['alum_movilizacion'];?>">
+				<?php 
+					include ('../framework/dbconf.php');		
+					$params = array(343);
+					$sql="{call cata_hijo_view(?)}";
+					$stmt = sqlsrv_query($conn, $sql, $params);
+			
+					if( $stmt === false )
+					{
+						echo "Error in executing statement .\n";
+						die( print_r( sqlsrv_errors(), true));
+					}
+					echo '<select class="form-control" id="alum_movilizacion" name="alum_movilizacion">';
+					while($esta_civil_padr_view= sqlsrv_fetch_array($stmt))
+					{
+						$seleccionado="";
+						if ($esta_civil_padr_view["descripcion"]==$alum_view["alum_movilizacion"])
+							$seleccionado="selected";
+						echo '<option value="'.$esta_civil_padr_view["codigo"].'" '.$seleccionado.'>'.$esta_civil_padr_view["descripcion"].'</option>';
+					}
+					echo '</select>';
+				?>
 			</div>
+			<div class="form_element">
+				<label for="alum_tiene_discapacidad">Inclusi&oacute;n:</label>
+				<input id="alum_tiene_discapacidad" name="alum_tiene_discapacidad" type="checkbox"   <?= ($alum_view['alum_tiene_discapacidad']==1 ? 'checked':'');?>  onclick="ActivarDesactivarText('alum_tiene_discapacidad','alum_discapacidad')" />
+			</div>
+			<div class="form_element">
+				<label for="alum_discapacidad">Discapacidad:</label>
+				<input id="alum_discapacidad" name="alum_discapacidad" type="text" value="<?=$alum_view['alum_discapacidad'];?>" <?= ($alum_view['alum_tiene_discapacidad']==1?'':' disabled=true placeholder="No tiene"');?> >
+			</div>
+			
 			<div class="form_element">
 				<label for="alum_activ_deportiva">Disciplinas o deportes que practica:</label>
 				<textarea id="alum_activ_deportiva" name="alum_activ_deportiva"><?=$alum_view['alum_activ_deportiva'];?></textarea>
@@ -308,6 +450,10 @@ $alum_view= sqlsrv_fetch_array($stmt);
 			<div class="form_element">
 				<label for="alum_ex_plantel">Plantel procedente:</label>
 				<input id="alum_ex_plantel" name="alum_ex_plantel" type="text" placeholder="Ingrese el plantel procedente del alumno..." value="<?=$alum_view['alum_ex_plantel'];?>">
+			</div>
+			<div class="form_element">
+				<label for="alum_ex_plantel_dire">Dirección plantel procedencia:</label>
+				<input class="form-control" id="alum_ex_plantel_dire" name="alum_ex_plantel_dire" type="text" placeholder="Ingrese la dirección del plantel de procedencia..." value="<?=$alum_view['alum_ex_plantel_dire'];?>">
 			</div>
 			<div class="form_element">
 				<label for="alum_motivo_cambio">Motivo cambio:</label>
@@ -424,15 +570,15 @@ $alum_view= sqlsrv_fetch_array($stmt);
                 ?> 
             </div>
             <div class="form_element">
-                <label for="alum_resp_form_banc_tarj_nume">Número Cuenta o Tarjeta</label>
-                <input id="alum_resp_form_banc_tarj_nume" name="alum_resp_form_banc_tarj_nume" type="text" placeholder="Ingrese numero de Cuenta o Tarjeta..." value="<?=$alum_view['alum_resp_form_banc_tarj_nume'];?>">
+                <label for="alum_resp_form_banc_tarj_nume"><?=(para_sist(404)=='1'?'(*)':'')?>Número Cuenta o Tarjeta</label>
+                <input id="alum_resp_form_banc_tarj_nume" class="<?=(para_sist(404)=='1'?'required':'')?>" name="alum_resp_form_banc_tarj_nume" type="text" placeholder="Ingrese numero de Cuenta o Tarjeta..." value="<?=$alum_resp_form_banc_tarj_nume;?>">
             </div>
 			<div class="form_element">
 				<label for="alum_resp_form_fech_vcto">Fecha de Vencimiento de Tarjeta:</label>
 				<input id="alum_resp_form_fech_vcto" name="alum_resp_form_fech_vcto" type="text" placeholder="Ingrese la fecha de vencimiento de la tarjeta..." value="<?=date_format($alum_view['alum_resp_form_fech_vcto'],"d/m/Y");?>">
 			</div>
             <div class="form_element">
-                <label for="lbl_tipo">Tipo de Cuenta:<br/>
+                <label for="lbl_tipo">Tipo de Cuenta:<br/><br/>
                     <input id="cta_corriente" type="radio" name="tipo_cuenta" value="CORRIENTE" <?=($alum_view['alum_resp_form_banc_tipo']=="C"?"checked":"")?> />CUENTA CORRIENTE
                     <input id="cta_ahorro" type="radio" name="tipo_cuenta" value="AHORROS" <?=($alum_view['alum_resp_form_banc_tipo']=="A"?"checked":"")?> />CUENTA DE AHORROS
                 </label>
@@ -549,11 +695,11 @@ $alum_view= sqlsrv_fetch_array($stmt);
 			</div>
 			<div class="tab-pane" id="tab4">
 				<div class="form_element">
-					<label for="alum_telf_emerg">(*)Tel&eacute;fono de emergencia:</label>
-					<input id="alum_telf_emerg" name="alum_telf_emerg" type="text" placeholder="Ingrese el tel&eacute;fono de emergencia del alumno..." value="<?=$alum_view['alum_telf_emerg'];?>">
+					<label for="alum_pers_emerg">(*)Nombre de persona:</label>
+					<input id="alum_pers_emerg" name="alum_pers_emerg" type="text" placeholder="Ingrese el nombre del contacto de emergencia..." value="<?=$alum_view['alum_pers_emerg'];?>">
 				</div>
 				<div class="form_element">
-					<label for="alum_emer_parentesco">(*)Parentesco:</label>
+					<label for="alum_emer_parentesco">(*)Parentesco de contacto de emergencia:</label>
 					<?php 
 						include ('../framework/dbconf.php');		
 						$params = array(2);
@@ -577,8 +723,8 @@ $alum_view= sqlsrv_fetch_array($stmt);
 					?> 
 				</div>
 				<div class="form_element">
-					<label for="alum_pers_emerg">(*)Nombre de persona:</label>
-					<input id="alum_pers_emerg" name="alum_pers_emerg" type="text" placeholder="Ingrese el nombre del contacto de emergencia..." value="<?=$alum_view['alum_pers_emerg'];?>">
+					<label for="alum_telf_emerg">(*)Tel&eacute;fono de emergencia:</label>
+					<input id="alum_telf_emerg" name="alum_telf_emerg" type="text" placeholder="Ingrese el tel&eacute;fono de emergencia del alumno..." value="<?=$alum_view['alum_telf_emerg'];?>">
 				</div>
 			</div>
 			</div>

@@ -22,7 +22,7 @@ include ('../framework/funciones.php');?>
 ?>
 
 <div class="alumnos_main_lista">
-<table class="table_striped" id="alum_table">
+<table class="table_striped" id="alum_matri_table">
  <thead>
   <tr>
     <th width="10%" class="sort"><span class="icon-sort icon"></span>Código </th>

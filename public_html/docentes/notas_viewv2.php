@@ -36,6 +36,7 @@
 						</td>
 						<td width='60%'>
 							<?= $row_prof_curs_para_mate_view["mate_deta"]; ?>
+
 						</td>
 					</tr>
 				</table>
@@ -46,6 +47,7 @@
 					<ul class="nav nav-tabs" role="tablist">
 						<li role="presentation" class="active"><a href="#home_<?= $cc;?>" aria-controls="Ingresar notas" role="tab" data-toggle="tab">Ingresar notas</a></li>
 						<li role="presentation"><a href="#consultar_<?= $cc;?>" aria-controls="Ver/Imprmir notas" role="tab" data-toggle="tab">Ver/Imprimir notas</a></li>
+						<li role="presentation"><a href="#lib_<?= $cc;?>" aria-controls="Libretas" role="tab" data-toggle="tab">Libretas</a></li>
 					</ul>
 					<!-- Tab panes -->
 					<div class="tab-content">
@@ -181,6 +183,70 @@
 									</td>
 								</tr>
 							</table>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="lib_<?= $cc;?>">
+							<div  id="accordion-subinner_<?= $cc;?>" class="accordion-inner">
+								<? $prefijo_libreta = ($row_prof_curs_para_mate_view['peri_dist_cab_tipo']=='I'?'_ini':''); ?>
+								<table class="table_striped">
+									<tr>
+										<th align="left">
+											
+											<?  
+											$params = array($row_prof_curs_para_mate_view['peri_dist_cabe_codi']);
+											$sql="{call peri_dist_peri_libt_view(?)}";
+											$peri_dist_peri_nive_view = sqlsrv_query($conn, $sql, $params);  
+											?>
+											<label for="peri_dist_<?= $cc?>">Periodo Distribución: </label>
+											<select id="peri_dis_<?= $cc?>" name="peri_dist_<?= $cc?>">
+												
+											<? 
+												// echo "<option value='0'>Elija</option>";
+												while($row_peri_dist_peri_nive_view = sqlsrv_fetch_array($peri_dist_peri_nive_view))
+												{ 	echo '<option value="'.$row_peri_dist_peri_nive_view['peri_dist_codi'].'">';
+													echo $row_peri_dist_peri_nive_view['peri_dist_deta'];
+													echo '</option>';
+												} 
+											?>
+											</select>
+										</th>
+										<th align="left">
+											<label for="sl_alumnos_<?= $cc?>">Alumno: </label>
+											<?$params = array ($row_prof_curs_para_mate_view['curs_para_codi']);
+										    $sql = "{call curs_para_alums_view (?)}";
+										    $stmt = sqlsrv_query($conn, $sql, $params);
+
+										    if (sqlsrv_has_rows($stmt))
+										    {
+										      echo "<select id='sl_alumnos_".$cc."'' name='sl_alumnos_".$cc."' >";
+										      while ($row = sqlsrv_fetch_array($stmt))
+										      {
+										        echo "<option value='".$row["alum_codi"]."'>".$row['alum_apel']." ".$row['alum_nomb']."</option>";
+										      }
+										    }
+										    else
+										    {
+										      echo "<select id='sl_alumnos_".$cc."' disabled='disabled'>";
+										      echo "<option value='0'>Alumno</option>";
+										    }
+										    echo "</select>";?>
+										</th>
+										<th>
+											
+											<div class="options">
+												<button class="icon-print btn btn-primary" onclick="window.open('../admin/libretas/<?=$_SESSION['directorio']?>/<?=$_SESSION['peri_codi']?>/lib<?=$prefijo_libreta;?>_one.php?peri_dist_codi=' + $('#peri_dis_<?= $cc?>').val() +'&alum_codi=' + $('#sl_alumnos_<?= $cc?>').val() +'&curs_para_codi=<?=$row_prof_curs_para_mate_view['curs_para_codi'];?>','_blank')" style="margin: 10px 0px;">
+								                    Ver Libreta
+								                </button>
+								                <button class="icon-print btn btn-primary" onclick="window.open('../admin/libretas/<?=$_SESSION['directorio']?>/<?=$_SESSION['peri_codi']?>/lib<?=$prefijo_libreta;?>_all.php?peri_dist_codi=' + $('#peri_dis_<?= $cc?>').val() +'&curs_para_codi=<?=$row_prof_curs_para_mate_view['curs_para_codi'];?>','_blank')" style="margin: 10px 0px;">
+								                    Ver Todos
+							                	</button>
+											</div>
+										</th>
+									</tr>
+								</table>
+								<br/>
+								<br/>
+								<br/>
+							</div>
 						</div>
 					</div>
 			  </div>

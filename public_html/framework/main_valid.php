@@ -2,7 +2,9 @@
 	session_start();
 	
 	if (isset($_SESSION['erro'])) unset($_SESSION['erro']);
+	
 	include('dbconf.php'); 
+	
 	include ('funciones.php'); 
 	include ('lenguaje.php');
 	
@@ -59,6 +61,7 @@
 						$_SESSION['repr_codi']=$row_resu_alum_info['repr_codi'];
 						$_SESSION['peri_dist_cab_tipo']=$row_resu_alum_info['peri_dist_cab_tipo'];
 						
+						$_SESSION['alum_curs_para_codi']=$row_resu_alum_info['alum_curs_para_codi'];
 						
 						$_SESSION['ISBIEN_ALUM'] = 'YESIN';
 						$_SESSION['ISBIEN_ADMIN'] = 'NOTIN';
@@ -136,6 +139,8 @@
 						$_SESSION['peri_dist_cab_tipo']=$row_resu_alum_info['peri_dist_cab_tipo'];
 						$_SESSION['alum_upd']=$row_resu_alum_info['alum_upd'];
 						
+						$_SESSION['alum_curs_para_codi']=$row_resu_alum_info['alum_curs_para_codi'];
+
 						//datos de usuario representante
 						$_SESSION['ISBIEN_ADMIN'] = 'NOTIN';
 						$_SESSION['ISBIEN_PROF'] = 'NOTIN';
@@ -143,13 +148,29 @@
 						$_SESSION['USUA_TIPO'] = 'R';
 						$_SESSION['USUA_TIPO_CODI'] = $_POST['tipo'];
 						$_SESSION['USUA_DE']=$row_repr_info_usua['repr_codi'];
-						if ($_SESSION['alum_upd'] && $_SESSION['repr_upd'])
-						{	$_SESSION['ISBIEN_ALUM'] = 'YESIN';
-							header( 'Location: https://'.$_SERVER['HTTP_HOST'].'/alumnos/index.php' );
-						}
-						else
-						{	$_SESSION['ISBIEN_ALUM'] = 'INNOT';
-							header( 'Location: https://'.$_SERVER['HTTP_HOST'].'/alumnos/actualizacion_datos.php');
+						
+						/* SI ESTA EL PERIODO PREINSCRIPCION ACTIVO*/
+						PreinscripcionActivo($_SESSION['peri_codi']);
+
+						$params = array($_SESSION['alum_codi'],$_SESSION['peri_codi_dest']);
+						$sql="{call preins_curs_para(?,?)}";
+						$preins_curs_para = sqlsrv_query($conn, $sql, $params);  
+						$row_preins_curs_para = sqlsrv_fetch_array($preins_curs_para);
+						$_SESSION['alum_curs_para_codi_res']=$row_preins_curs_para['alum_curs_para_codi_res'];
+
+						if($_SESSION['peri_codi_dest']!=null && $_SESSION['alum_curs_para_codi_res']==null){
+							$_SESSION['ISBIEN_ALUM'] = 'INNOT';
+							header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/preinscripcion.php' );
+						}else{
+							// if ($_SESSION['alum_upd'] && $_SESSION['repr_upd'])
+							// {	
+								$_SESSION['ISBIEN_ALUM'] = 'YESIN';
+								header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/index.php' );
+							// }
+							// else
+							// {	$_SESSION['ISBIEN_ALUM'] = 'INNOT';
+							// 	header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/actualizacion_datos.php');
+							// }
 						}
 
 						// Esto es para pop up informativo de repr

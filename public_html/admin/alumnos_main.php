@@ -22,58 +22,52 @@
           
           <div class="titleBar">
           <!-- InstanceBeginEditable name="Titulo Top" -->	
-						<div class="title">
-							<h3><span class="icon-users icon"></span>Alumnos</h3>
-						</div> 
-						<div class="options" style="display: block; float: left; width: 100%; height: 50px;">
-						<? if (permiso_activo(514)){?>
-							<ul style="display: block; float: left;">
-								<li>
-									<a class="button_text" href="motivo_bloqueo_main.php" title="">
-									<span class="icon-lock icon"></span> Motivos Bloqueos
-									</a>
-								</li>
-							</ul>
-						<?}?>
-						</div>
-						<div>
-							<table border="0" width="100%" style="margin: 10px 0;background-color: #ffffff">
-								<tr>
-									<td width="10%" style="padding: 15px 0 0 5px;"><label>Código</label></td>
-									<td width="40%" style="padding: 15px 0 0 0;"><label>Apellidos</label></td>
-									<td width="40%" style="padding: 15px 0 0 0;"><label>Curso</label></td>
-									<td width="10%" style="padding: 15px 0 0 0;"><label></label></td>
-								</tr>
-								<tr>
-									<td width="10%" style="padding: 0 0 15px 5px;"><input id="alum_codi_in" maxlength="15" type="text" style="width:90%;background-color: #ffffff"/></td>
-									<td width="40%" style="padding: 0 0 15px 0;"><input id="alum_apel_in" maxlength="50" type="text" style="width:90%;background-color: #ffffff"/></td>
-									<td width="40%" style="padding: 0 0 15px 0;">
-									<select id="curs_para_codi_in" style="width:90%;background-color: #ffffff"/>
-									<option value="0">Todos</option>
-									<?
-									$sql	= "{call curs_para_view (?)}";
-									$params	= array($_SESSION["peri_codi"]);
-									$stmt	= sqlsrv_query($conn,$sql,$params);
-									while ($row = sqlsrv_fetch_array($stmt))
-									{
-										?>
-										<option value="<?= $row["curs_para_codi"]?>"><?= $row["curs_deta"]." (".$row["para_deta"].")"?></option>
-										<?
-									}
-									?>
-									</td>
-									<td width="10%" style="padding: 0 0 15px 0;"><button class="btn-btn-primary" style="width:90%;" onclick="BuscarAlumnos(document.getElementById('alum_codi_in').value,document.getElementById('alum_apel_in').value,document.getElementById('curs_para_codi_in').value);">Buscar</button></td>
-								</tr>
-							</table>
-						</div>
-						<!-- InstanceEndEditable -->
+				<div class="title">
+					<h3><span class="icon-users icon"></span>Alumnos</h3>
+				</div> 
+				<div class="options" style="display: block; float: left; width: 100%; height: 50px;">
+				<? if (permiso_activo(514)){?>
+					<ul style="display: block; float: left;">
+						<li>
+							<a class="button_text" href="motivo_bloqueo_main.php" title="">
+							<span class="icon-lock icon"></span> Motivos Bloqueos
+							</a>
+						</li>
+					</ul>
+				<?}?>
+				</div>
+				<!-- InstanceEndEditable -->
           </div>
-          
-                        <!-- InstanceBeginEditable name="information" -->
-					
-					<div id="alum_main">
-					
-					</div>	
+          	<div class="alumnos_add_script" style="padding-top: 0px;margin: 0 0 0 0;">
+				<div>
+					<table border="0" width="100%" style="background-color: #ffffff">
+						<tr>
+							<td width="10%" ><input id="alum_codi_in" maxlength="15" type="text" style="width:90%;background-color: #ffffff" placeholder="Código" /></td>
+							<td width="40%"><input id="alum_apel_in" maxlength="50" type="text" style="width:90%;background-color: #ffffff" placeholder="Apellidos" /></td>
+							<td width="5%" ><h4>Curso:</h4></td>
+							<td width="35%" >
+							<select id="curs_para_codi_in" style="width:90%;background-color: #ffffff"/>
+							<option value="0">Todos</option>
+							<?
+							$sql	= "{call curs_para_view (?)}";
+							$params	= array($_SESSION["peri_codi"]);
+							$stmt	= sqlsrv_query($conn,$sql,$params);
+							while ($row = sqlsrv_fetch_array($stmt))
+							{
+								?>
+								<option value="<?= $row["curs_para_codi"]?>"><?= $row["curs_deta"]." (".$row["para_deta"].")"?></option>
+								<?
+							}
+							?>
+							</td>
+							<td width="10%" ><button class="btn-primary" style="width:90%;" onclick="BuscarAlumnos(document.getElementById('alum_codi_in').value,document.getElementById('alum_apel_in').value,document.getElementById('curs_para_codi_in').value);">Buscar</button></td>
+						</tr>
+					</table>
+				</div>
+				<div id="alum_main">
+				
+				</div>
+			</div>
 					<div class="modal fade" 
 						 id="ModalCambiarCurso" 
 						 tabindex="-1" 
@@ -134,7 +128,7 @@
 									</div>
 								</div>
 								<div class="modal-footer">
-									<button type='button' class='btn btn-success' onclick="alum_change_course(document.getElementById('cmb_curs_para').value,document.getElementById('alum_curs_para_codi').value)">Cambiar</button>
+									<button id='btn_curs_para_change' type='button' class='btn btn-success' onclick="alum_change_course(document.getElementById('cmb_curs_para').value,document.getElementById('alum_curs_para_codi').value)">Cambiar</button>
 									<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
 								</div>
 							</div>
@@ -181,7 +175,7 @@
 														<input type="hidden" id="alum_codi" value="" />
 													</td>
 													<td style="padding-top: 15px">
-														<a onclick="window.open('reportes_generales/soli_matr_<?= $_SESSION['directorio'] ?>_pdf.php?alum_codi='+document.getElementById('alum_codi').value,'_blank')">Descargar</a>
+														<a onclick="window.open('reportes_generales/soli_matr_<?= $_SESSION['directorio'] ?>_pdf.php?alum_codi='+document.getElementById('alum_codi').value+'&peri_codi=<?=$_SESSION["peri_codi"]?>','_blank')">Descargar</a>
 													</td>
 												</tr>
 												<tr>
@@ -225,6 +219,14 @@
 													</td>
 													<td style="padding-top: 15px">
 														<a onclick="window.open('reportes_generales/autorizacion_fotos_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')">Descargar</a>
+													</td>
+												</tr>
+												<tr>
+													<td width="75%" style="padding-top: 15px">
+														Autorización de débito <b>(El alumno debe estar registrado en un curso)</b>
+													</td>
+													<td style="padding-top: 15px">
+														<a onclick="window.open('reportes_generales/debito_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')">Descargar</a>
 													</td>
 												</tr>
 												<tr>
@@ -363,7 +365,15 @@
 							</div>
 						</div>
 					</div>
-					
+					<!-- Modal Estados Matriculación Nuevo -->
+					<div class="modal fade" id="ModalEstado" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div id="modal_estado_content" class="modal-content">
+								
+							</div>
+						</div>
+					</div>
+					<!-- FIN MODAL -->
 					<div	class="modal fade" 
                             id="ModalAlumBloqAdd" 
                             tabindex="-1" 
@@ -503,9 +513,6 @@
                     </tr>
                     <?php  } ?>
 
-
-                     
-                   
                 </table>
           </div>
           <div class="modal-footer">

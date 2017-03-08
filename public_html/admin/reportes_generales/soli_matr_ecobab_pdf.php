@@ -27,8 +27,12 @@
 	else
 		$alum_codi=0;
 	/*Código del periodo seleccionado*/
-	$peri_codi=$_SESSION['peri_codi'];
-	$peri_deta=$_SESSION['peri_deta'];
+	if (isset($_GET['peri_codi']))
+		$peri_codi=$_GET['peri_codi'];
+	else
+		$peri_codi=0;
+	
+	
 	/*Consulta  a la base para datos del contrato*/
 	$sql = "{call alum_soli_matri_info(?,?)}";
 	$params = array($alum_codi,$peri_codi);
@@ -37,6 +41,7 @@
 	{	die( print_r( sqlsrv_errors(), true));
 	}
 	$row = sqlsrv_fetch_array($stmt);
+	$peri_deta=$row['peri_deta'];
 	/*Campos necesarios*/
 	$cliente=$_SESSION['cliente'];
 	date_default_timezone_set('America/Guayaquil');

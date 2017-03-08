@@ -18,8 +18,10 @@
 		$_SESSION['directorio'] = $row['clie_carpeta'];
 		$_SESSION['cliente'] = $row['clie_nomb'];
 		$_SESSION['api_token'] = $row['api_token'];
-
+		$_SESSION['protocol'] = $row['clie_protocol'];
 		$_SESSION['session_timeout'] = $row['clie_session_timeout'];
+		$_SESSION['clie_key'] = $row['clie_key'];
+		$_SESSION['clie_iv'] = $row['clie_iv'];
 		
 		$_SESSION['secretario'] = get_parametro ($_SESSION['codi'], 3);
 		$_SESSION['rector'] = get_parametro ($_SESSION['codi'], 2);

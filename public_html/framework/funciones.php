@@ -144,7 +144,7 @@
 						{	if ($_SESSION['ISBIEN_ALUM']=='NOTIN')
 								header("Location: ../index.php");
 							else
-								header("Location: actualizacion_datos.php");
+								header("Location: preinscripcion.php");
 						}
 					} 
 					else
@@ -165,6 +165,22 @@
 			$_SESSION['peri_codi']=$row_peri_acti_etap['peri_codi'];
 			$_SESSION['peri_deta']=$row_peri_acti_etap['peri_deta'];
 			$_SESSION['peri_ano']=$row_peri_acti_etap['peri_ano'];		
+		}
+	}
+	if (!function_exists('PreinscripcionActivo')) {
+		function PreinscripcionActivo($peri_codi){
+			include ('dbconf.php');
+			$params3 = array($peri_codi);
+			
+			$sql="{call preins_view(?)}";
+			$peri_acti_etap = sqlsrv_query($conn, $sql, $params3);  
+			$row_peri_acti_etap = sqlsrv_fetch_array($peri_acti_etap);
+			$_SESSION['peri_codi_dest']=$row_peri_acti_etap['peri_codi_dest'];		
+		}
+	}
+	if (!function_exists('creditCardMask')) {
+		function creditCardMask($credit_num,$start,$num_repeat){
+			return substr_replace($credit_num, str_repeat("X", $num_repeat), $start, $num_repeat);
 		}
 	}
 	if (!function_exists('Periodo_Distribucion_Peri_Codi')) {

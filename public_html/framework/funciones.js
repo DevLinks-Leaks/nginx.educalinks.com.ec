@@ -1,18 +1,20 @@
-﻿
-
-function set_repr_alum(alum_codi,repr_codi){	
-	document.getElementById('information').innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+﻿function set_repr_alum(alum_codi,repr_codi)
+{   document.getElementById('information').innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	var data = new FormData();	
 	data.append('opc', 'set_alum');
 	data.append('alum_codi', alum_codi);
 	data.append('repr_codi', repr_codi);
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', '../alumnos/script_set_alum.php' , true);
-	xhr.onreadystatechange=function(){
-		if (xhr.readyState==4 && xhr.status==200){
-			window.location="index.php";
+	xhr.onreadystatechange=function()
+	{   if (xhr.readyState==4 && xhr.status==200)
+		{   
+			if(xhr.responseText=='N')
+				window.location="index.php";
+			else
+				window.location="preinscripcion.php";
 		} 
-	}
+	};
 	xhr.send(data);
 }
 function selectvalue(e){
@@ -83,7 +85,7 @@ function selectvalue_radio(e){
 
 
 function load_ajax_lista(div,url,data,div_cont,tabla){
-	document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp=new XMLHttpRequest();
@@ -104,7 +106,7 @@ function load_ajax_lista(div,url,data,div_cont,tabla){
 	xmlhttp.send(data);	
 }
 function load_ajax_lista_twofilters(div,url,data,div_cont,tabla){
-	document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp=new XMLHttpRequest();
@@ -125,7 +127,7 @@ function load_ajax_lista_twofilters(div,url,data,div_cont,tabla){
 	xmlhttp.send(data);	
 }
 function load_ajax_mensajes(div,url,data,column){
-	document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp=new XMLHttpRequest();
@@ -164,7 +166,7 @@ function load_ajax_mensajes(div,url,data,column){
 	xmlhttp.send(data);	
 }
 function load_ajax(div,url,data){
-	document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp=new XMLHttpRequest();
@@ -185,7 +187,7 @@ function load_ajax(div,url,data){
 }
 function load_ajax2(div,url,data){
 	
-	document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp2=new XMLHttpRequest();
@@ -208,7 +210,7 @@ function load_ajax2(div,url,data){
 
 function load_ajax_get(div,url){
 	 
-	document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp=new XMLHttpRequest();
@@ -252,7 +254,7 @@ function load_ajax_noload(div,url,data){
 
  
  function load_ajax_mens_nuev(div,url,data){
-	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	document.getElementById(div).innerHTML='';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -276,7 +278,7 @@ function load_ajax_noload(div,url,data){
 }
 
  function load_ajax_mens_responder(div,url,mens_codi){
-	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	//document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	document.getElementById(div).innerHTML='';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -300,7 +302,7 @@ function load_ajax_noload(div,url,data){
 }
 
 function load_ajax_file(div,url,file){
-	document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	var archivos = document.getElementById(file);//Damos el valor del input tipo file
 	var archivo = archivos.files; //Obtenemos el valor del input (los arcchivos) en modo de arreglo
 	/* Creamos el objeto que hara la petición AJAX al servidor, debemos de validar 
@@ -346,9 +348,6 @@ function load_ajax_file(div,url,file){
 	 //Enviamos la petición 
 	 Req.send(data);
 }
-
-
-
 
 function LimitAttach(tField,iType) { 
 	file=tField.value; 

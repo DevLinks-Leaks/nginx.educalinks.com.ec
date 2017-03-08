@@ -95,7 +95,7 @@ Total Uso: <?= $row_uso_plataforma_prof['total_uso']; ?>
 <br/>
 <label id="total_nota">Total que ingresan notas: </label> 
 <br/>
-
+<iframe src="https://docs.google.com/a/redlinks.com.ec/forms/d/e/1FAIpQLScW94CCIJHG6MUqR8jYsPTLLSqLsuUx8gfGGPhb5uaZvvw2vA/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Cargando...</iframe>
 <script>
 	function buscar_nota_ingr(){
 		var fecha_ini= document.getElementById('fecha_ini').value;

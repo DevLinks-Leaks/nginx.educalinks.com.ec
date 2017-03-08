@@ -79,11 +79,11 @@ header("Pragma: no-cache");
                
 					<form  action="framework/main_valid.php" method="POST"  id="form_main">
 
-            			<div class="form_element" style="width:80%; margin-left:10%;">
+            			<div class="form_element login" style="width:80%; margin-left:10%;">
                             <label for="usua">Usuario:</label>
                             <input type="text"  name="usua" id="usua" placeholder="Usuario" required>
                         </div>
-                        <div class="form_element" style="width:80%; margin-left:10%;">
+                        <div class="form_element login" style="width:80%; margin-left:10%;">
                             <label for="password">Contraseña:</label>
                             <input type="password" name='pass' id="pass" placeholder="Contraseña" required> 
                         </div>
@@ -141,6 +141,17 @@ header("Pragma: no-cache");
 			document.getElementById("form_main").submit();
 			
 		}
+
+		$('.login').keypress(function(e) {
+		    if(e.which == 13) {
+		    	if (document.getElementById('option1').checked) document.getElementById('tipo').value=document.getElementById('option1').value;
+				if (document.getElementById('option2').checked) document.getElementById('tipo').value=document.getElementById('option2').value;
+				if (document.getElementById('option3').checked) document.getElementById('tipo').value=document.getElementById('option3').value;
+				if (document.getElementById('option4').checked) document.getElementById('tipo').value=document.getElementById('option4').value;
+				
+				document.getElementById("form_main").submit();
+		    }
+		});
     </script>
     </body>
 </html>

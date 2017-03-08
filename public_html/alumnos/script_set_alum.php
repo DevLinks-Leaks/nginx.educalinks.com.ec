@@ -34,11 +34,22 @@ switch($opc){
 		$_SESSION['curs_codi']=$row_resu_alum_info['curs_codi'];
 		$_SESSION['para_codi']=$row_resu_alum_info['para_codi'];
 		$_SESSION['peri_dist_cab_tipo']=$row_resu_alum_info['peri_dist_cab_tipo'];
+		$_SESSION['alum_curs_para_codi']=$row_resu_alum_info['alum_curs_para_codi'];
 		$_SESSION['alum_upd']=$row_resu_alum_info['alum_upd'];
-		if ($_SESSION['alum_upd']==0)
-			$_SESSION['ISBIEN_ALUM'] = 'INNOT';
-		else
-			$_SESSION['ISBIEN_ALUM'] = 'YESIN';
+
+		if($_SESSION['peri_codi_dest']!=null){
+			$params = array($_SESSION['alum_codi'],$_SESSION['peri_codi_dest']);
+			$sql="{call preins_curs_para(?,?)}";
+			$preins_curs_para = sqlsrv_query($conn, $sql, $params);  
+			$row_preins_curs_para = sqlsrv_fetch_array($preins_curs_para);
+			$_SESSION['alum_curs_para_codi_res']=$row_preins_curs_para['alum_curs_para_codi_res'];
+			if($_SESSION['alum_curs_para_codi_res']==null)
+				echo 'P';
+			else
+				echo 'N';
+		}else
+			echo 'N';
+		
 	break;
 }
 ?>

@@ -301,17 +301,17 @@ while ($row_curs_peri_mate_view = sqlsrv_fetch_array($curs_peri_mate_view))
 				type="checkbox" <? echo ($row_curs_peri_mate_view["curs_para_mate_promoc"]==0?"":"checked")?>/>
 		</td>
         <td>
-            <button  
-            	onclick="curs_para_mate_up_down(<?php echo $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,
-				<?php echo $row_curs_peri_mate_view["curs_para_codi"]; ?>,'down');"
-                title="Bajar">
-                <i class="icon-arrow-down"></i>
-            </button>
             <button 
             	onclick="curs_para_mate_up_down(<?php echo $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,
 				<?php echo $row_curs_peri_mate_view["curs_para_codi"]; ?>,'up');"
                 title="Subir">
                 <i class="icon-arrow-up"></i>
+            </button>
+            <button  
+            	onclick="curs_para_mate_up_down(<?php echo $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,
+				<?php echo $row_curs_peri_mate_view["curs_para_codi"]; ?>,'down');"
+                title="Bajar">
+                <i class="icon-arrow-down"></i>
             </button>
         </td>
     </tr>

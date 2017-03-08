@@ -87,7 +87,7 @@ if(isset($_POST['DO'])){
 					                    $mail->AltBody = 'Para ver este correo, por favor use un visualizador de email compatible con HTML.'; 
 					                    $body="<html><head><meta charset='UTF-8'><title></title></head><body>";
 					                    $body .="<p>Estimado $nombre_parti,</p>";
-					                    $body .="<p>Se ha recibido un mensaje del docente <b>".$_SESSION['prof_nomb']." ".$_SESSION['prof_apel']."</b> desde Educalinks</p>";
+					                    $body .="<p>Se ha recibido un mensaje del docente <b>".$_SESSION['prof_nomb']." ".$_SESSION['prof_apel']."</b> Educalinks por parte del docente <b>".$_SESSION['prof_nomb']." ".$_SESSION['prof_apel']."</b>.</p>";
 					                    $body .="<p>Mensaje recibido:</p>";
 					                    $body .="<p style='color: #000011 ;font-style: italic;'>".$mens_deta."</p>";
 					                    $body.="<p>Para mayor informaci&oacute;n ingrese con su usuario y contrase&ntilde;a al sistema Educalinks</p></body></html>";

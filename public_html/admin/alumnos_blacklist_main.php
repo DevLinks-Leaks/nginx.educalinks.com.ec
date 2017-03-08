@@ -104,11 +104,11 @@
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
        $('#alum_table').datatable({
-         pageSize: 10,
-         sort: [true, false, false],
-         filters: [true, true, false],
-         filterText: 'Escriba para buscar... '
-     }) ;
+      pageSize: 30,
+      sort: [true,true, true, true, false],
+      filters: [false,false, false, false, false],
+      filterText: 'Buscar... '
+    }) ;
    } );
 
 </script>

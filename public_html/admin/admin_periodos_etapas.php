@@ -61,7 +61,7 @@
                              </div>
 <input type="hidden" value="<?= $peri_codi?>" id="e_peri_codi">
 <script src="../framework/funciones.js"></script>
-<script src="js/funciones_periodo_etapa.js"></script>
+<script src="js/funciones_periodo_etapa.js?<?=$rand;?>"></script>
                    
              <!-- Modal -->
 <div 
@@ -112,7 +112,32 @@
                 </select>
             </td> 
 		</tr>
-        <tr>
+        <tr class="dynamic_2" style="display: none;">
+            <td width="25%">
+                Periodo a preinscribir:
+            </td>
+            <td width="75%">
+            <?
+                $params = array();
+                $sql="{call peri_view()}";
+                $peri_view = sqlsrv_query($conn, $sql, $params);
+            ?>
+            <select
+                name="sl_peri_codi_dest"
+                id="sl_peri_codi_dest"
+                style="width:75%; margin-top:10px;" >
+                    <option value="0">Elija</option>
+               <?php  while ($row_peri_view = sqlsrv_fetch_array($peri_view)) { 
+                        if($row_peri_view['peri_codi']!=$peri_codi){
+                ?>
+                    <option value="<?= $row_peri_view['peri_codi']; ?>">
+                        <?= $row_peri_view['peri_deta']; ?> - Año :<?= $row_peri_view['peri_ano']; ?>  
+                    </option>
+                <?} } ?>
+            </select>
+            </td>
+      </tr>
+        <tr class="dynamic_1" style="display: none;">
             <td width="25%">
                 Tipo periodo:
             </td>
@@ -126,7 +151,7 @@
                 name="sl_peri_dist_cab"
                 id="sl_peri_dist_cab"
                 style="width:75%; margin-top:10px;"
-                disabled="disabled"
+                
                 onChange="CargarUnidades(this.value, 1);">
                     <option value="0">Elija</option>
                <?php  while ($row_peri_dist_cab_view = sqlsrv_fetch_array($peri_dist_cab_view)) { ?>
@@ -142,17 +167,17 @@
 				$sql="{call peri_dist_peri_libt_view(?)}";
 				$peri_dist_peri_libt_view = sqlsrv_query($conn, $sql, $params);              
             ?>  
-        <tr>
+        <tr class="dynamic_1"  style="display: none;">
             <td>
             	Unidad: 
-			</td>
+			       </td>
             <td> 
             <div id="div_unidad">
                 <select 
                 	name="pg_peri_dist_codi"   
                     id="pg_peri_dist_codi" 
                     style="width: 75%; margin-top: 5px;"
-                    disabled="disabled"> 
+                    > 
                 </select> 
             </div>  
             </td>
@@ -182,6 +207,7 @@
       </div>
       <div class="modal-footer">
         <button 
+            id="btn_etapa_add"
             type="button" 
             class="btn btn-primary"  
             data-dismiss="modal" 

@@ -10,11 +10,16 @@
     include ('../framework/dbconf.php');
     include ('../framework/funciones.php');
     
-    if ($ActualizacionDatos==1){
-        if ($_SESSION['ISBIEN_ALUM'] == 'YESIN')
-        header("location: index.php");
-    }else
-        session_activa(3);
+    // if ($ActualizacionDatos==1){
+    //     if ($_SESSION['ISBIEN_ALUM'] == 'YESIN')
+    //         header("location: index.php");
+    //     elseif ($_SESSION['ISBIEN_ALUM'] == 'INNOT')
+    //         header("location: preinscripcion.php");
+    // }else{
+        
+    //     // session_activa(3);
+    // }
+
 
     $rand = rand().rand();
 ?>

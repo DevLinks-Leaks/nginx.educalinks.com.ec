@@ -35,10 +35,11 @@ include ('../framework/funciones.php');
 <table class="table_striped" id="alum_table">
  <thead>
   <tr>
-    <th width="10%" class="sort"><span class="icon-sort icon"></span>Código </th>
+    <th width="5%" class="sort"><span class="icon-sort icon"></span>Código </th>
     <th width="25%" class="sort"><span class="icon-sort icon"></span>Nombre</th>
-    <th width="15%" class="sort"><span class="icon-sort icon"></span>Curso</th>
-    <th width="40%" class="center"><span class="icon-cog icon"></span>Opciones</th>
+    <th width="20%" class="sort"><span class="icon-sort icon"></span>Curso</th>
+    <th width="15%" class="sort"><span class="icon-sort icon"></span>Estado</th>
+    <th width="35%" class="center"><span class="icon-cog icon"></span>Opciones</th>
   </tr>
  </thead>
  
@@ -71,28 +72,21 @@ include ('../framework/funciones.php');
  <?php  
 	while ($row_alum_busq = sqlsrv_fetch_array($alum_busq)) 
 	{
-		$params_estado = array($row_alum_busq["alum_codi"], $_SESSION['peri_codi'], 'A');
-		$sql_estado="{call alum_info_alum_est_info(?,?,?)}";
-		$stmt_estado = sqlsrv_query($conn, $sql_estado, $params_estado);
-		if( $stmt_estado === false )
-		{
-			echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));
-		}
-		$alum_est_view= sqlsrv_fetch_array($stmt_estado);
-		$alum_est_view['alum_est_peri_codi'];
-		$alum_est_view['alum_est_det'];
+		// $params_estado = array($row_alum_busq["alum_curs_para_codi"]);
+		// $sql_estado="{call alum_info_alum_est_info(?)}";
+		// $stmt_estado = sqlsrv_query($conn, $sql_estado, $params_estado);
+		// if( $stmt_estado === false )
+		// {
+		// 	echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));
+		// }
+		// $alum_est_view= sqlsrv_fetch_array($stmt_estado);
 		$nombre_completo = validarTildeHTML($row_alum_busq["alum_apel"])." ".validarTildeHTML($row_alum_busq["alum_nomb"]);
 		$cc +=1; ?>
   <tr>
     <td><?php echo $row_alum_busq["alum_codi"]; ?></td>
     <td><?php echo $nombre_completo; ?></td>
-    <td><?php 
-			if ($row_alum_busq["alum_curs_para_estado"]=='A')
-			{	echo $row_alum_busq["curs_deta"]." - ".$row_alum_busq["para_deta"]; 
-			}else
-			{	echo '--';
-			}?>
-	</td>
+    <td><?= $row_alum_busq["curs_deta"]." - ".$row_alum_busq["para_deta"];?></td>
+    <td><?= $row_alum_busq["esta_deta"];?></td>
 	<td align='left'>
     <div class="menu_options">
       <ul>
@@ -100,11 +94,9 @@ include ('../framework/funciones.php');
         <?php 
 		if ($perm_22=='A')
 		{
-			if ($row_alum_busq["bloq_cc"] == 0) 
-			{
 		?> 
         	<li>
-            	<a 
+            	<!-- <a 
                 	class="option" 
 					data-toggle="modal" 
                     data-target="#ModalMatri" 
@@ -119,15 +111,16 @@ include ('../framework/funciones.php');
 					document.getElementById('adm_est_curs_para_codi').value='<?= $row_alum_busq['curs_para_codi']?>';
 					document.getElementById('adm_est_alum_curs_para_codi').value='<?= $row_alum_busq['alum_curs_para_codi']?>';
 					document.getElementById('peri_0').onchange();document.getElementById('div_bloqueos_view').innerHTML=''" >
-					<span class="icon-signup icon"></span>Estado</a></li>
-            <?php 
-			}
-			else 
-			{
-			?>
-				<li>Bloqueado</li>
+					<span class="icon-signup icon"></span>Estado</a> -->
+					<a 
+                	class="option" 
+					data-toggle="modal" 
+                    data-target="#ModalEstado" 
+                    onclick="load_ajax('modal_estado_content','modal_estado_view.php','alum_codi=<?= $row_alum_busq['alum_codi']?>');" >
+					<span class="icon-signup icon"></span>Estado</a>
+			</li>
 		<?php  
-			}
+			
 		}
 		if ($perm_81=='A')
 		{

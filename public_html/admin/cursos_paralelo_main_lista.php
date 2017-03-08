@@ -50,10 +50,10 @@
 	<table class="table_striped">
         <thead>
             <tr>
-              <th>Detalle
-              <th>Cupos</td>
-              <th>Opciones</td>
-              <th>Admin</td>             
+              <th width="25%">Detalle</th>
+              <th width="15%">Info</th>
+              <th width="45%">Opciones</th>
+              <th width="15%">Admin</th>             
             </tr>
         </thead>
         <tbody>
@@ -80,10 +80,12 @@
 			</h6>
             </td>
             <td class="center">
-            	<strong>
-					<? echo $row_curs_peri_view["cc_alum"]; ?>
-				</strong>/
-				<?= $row_curs_peri_view["curs_para_cupo"]; ?>
+            	
+            	Matriculados: <strong><? echo $row_curs_peri_view["cc_alum"]; ?></strong>
+            	<br/>Reservados: <strong><? echo $row_curs_peri_view["cc_alum_res"]; ?></strong>
+            	<br/>Oyentes: <strong><? echo $row_curs_peri_view["cc_alum_oye"]; ?></strong>
+            	<br/>Retirados: <strong><? echo $row_curs_peri_view["cc_alum_ret"]; ?></strong>
+            	<br/><strong>Total Cupos: <?= $row_curs_peri_view["curs_para_cupo"]; ?></strong>
 			</td>
             <td align="left" >
                 <div class="menu_options" style="text-align:left;">

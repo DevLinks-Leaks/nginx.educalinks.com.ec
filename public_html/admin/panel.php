@@ -362,10 +362,5 @@
 <!-- InstanceBeginEditable name="EditRegion4" --><!-- InstanceEndEditable -->
 </body>
 
-<script>
 
-var myVar=setInterval(function () {myTimer()}, 120000);
-
-
-</script>
 <!-- InstanceEnd --></html>

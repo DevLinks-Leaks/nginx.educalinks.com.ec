@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
@@ -44,7 +45,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">Nuevo Servicio: <b>Pagos online</b> desde Educalinks, para <b>representantes</b></h4>
+						<h4 class="modal-title" id="myModalLabel">Nuevo Servicio: <b>App gratuita</b> para <b>representantes</b> y <b>estudiantes</b></h4>
 					</div>
 					<div class="modal-body">
 						<img width='100%' src="../imagenes/<? echo $_SESSION['pop_up_repr_img']; ?>" />
@@ -61,7 +62,7 @@
 		<?php include("template/scripts.php");?>
 		<script type="text/javascript">
 		$(window).load(function(){
-			if('<?= $_SESSION['usa_app'];?>'=='1'){
+			//if('<?= $_SESSION['usa_app'];?>'=='1'){
 				if('<?= $_SESSION['pop_up_repr_flag'];?>'== '1' ){
 					if('<?= $_SESSION['USUA_TIPO'];?>'=='A'){ //es de tipo alumno
 						if('<?= $_SESSION['alum_app'];?>'=='0')
@@ -71,7 +72,7 @@
 							$('#pop_up_repr').modal('show');
 					}
 				}
-			}
+			//}
 		});
 		</script>
 	</body>

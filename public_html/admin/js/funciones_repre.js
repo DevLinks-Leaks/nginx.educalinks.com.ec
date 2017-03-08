@@ -167,6 +167,7 @@ function carga_data_repre(cedula,tipo_iden,url,div){
 		if (xmlhttp.readyState==4 && xmlhttp.status==200){
 			document.getElementById(div).innerHTML=xmlhttp.responseText;
 			$("#repr_fech_promoc").datepicker();
+			$("#repr_fech_naci").datepicker();
 		}
 	}
 	var data="opc=carga_data_repre&repr_cedu="+cedula+"&tipo_iden="+tipo_iden;	
@@ -175,7 +176,7 @@ function carga_data_repre(cedula,tipo_iden,url,div){
 	xmlhttp.send(data);
 }
 
-function load_ajax_add_repr(div,url,data){	
+function load_ajax_add_repr(div,url){	
 	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
 	if (ValidarRepresentante())
 	{	if (window.XMLHttpRequest)
@@ -186,6 +187,36 @@ function load_ajax_add_repr(div,url,data){
 		{// code for IE6, IE5
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 		}
+		var data = new FormData();
+		data.append('opc', 'repr_add');
+		data.append('repr_nomb', document.getElementById('repr_nomb').value);
+		data.append('repr_apel', document.getElementById('repr_apel').value);
+		data.append('repr_cedula', document.getElementById('repr_cedula').value);
+		data.append('repr_tipo_iden', $('#repr_tipo_iden').val());
+		data.append('repr_email', document.getElementById('repr_email').value);
+		data.append('repr_telf', document.getElementById('repr_telf').value);
+		data.append('repr_celular', document.getElementById('repr_celular').value);
+		data.append('repr_domi', document.getElementById('repr_domi').value);
+		data.append('repr_celular', document.getElementById('repr_celular').value);
+		data.append('repr_profesion', document.getElementById('repr_profesion').value);
+		data.append('repr_nacionalidad', document.getElementById('repr_nacionalidad').value);
+		data.append('repr_lugar_trabajo', document.getElementById('repr_lugar_trabajo').value);
+		data.append('repr_direc_trabajo', document.getElementById('repr_direc_trabajo').value);
+		data.append('repr_telf_trab', document.getElementById('repr_telf_trab').value);
+		data.append('repr_cargo', document.getElementById('repr_cargo').value);
+		data.append('repr_religion', $('#repr_religion').val());
+		data.append('repr_estudios', document.getElementById('repr_estudios').value);
+		data.append('repr_institucion', document.getElementById('repr_institucion').value);
+		data.append('repr_motivo_representa', document.getElementById('repr_motivo_representa').value);
+		data.append('repr_estado_civil', $('#repr_estado_civil').val());
+		data.append('repr_escolaborador',$('#repr_escolaborador').prop('checked'));
+		data.append('repr_fech_promoc', document.getElementById('repr_fech_promoc').value);
+		data.append('repr_ex_alum',$('#repr_ex_alum').prop('checked') );
+		data.append('repr_fech_naci', $('#repr_fech_naci').val());
+		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
+		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
+		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
+
 		xmlhttp.onreadystatechange=function()
 		{
 			if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -202,7 +233,7 @@ function load_ajax_add_repr(div,url,data){
 		}
 		
 		xmlhttp.open("POST",url,true);
-		xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+		//xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 		xmlhttp.send(data);
 	}
 }
@@ -238,7 +269,7 @@ function load_ajax_del_repr(div,url,data){
 		xmlhttp.send(data);
 	}
 }
-function load_ajax_upd_repr(div,url,data){	
+function load_ajax_upd_repr(div,url,repr_codi){	
 	if (ValidarRepresentante())
 	{	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
 		if (window.XMLHttpRequest)
@@ -249,6 +280,36 @@ function load_ajax_upd_repr(div,url,data){
 		{// code for IE6, IE5
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 		}
+		var data = new FormData();
+		data.append('opc', 'repr_upd');
+		data.append('repr_codi', repr_codi);
+		data.append('repr_nomb', document.getElementById('repr_nomb').value);
+		data.append('repr_apel', document.getElementById('repr_apel').value);
+		data.append('repr_cedula', document.getElementById('repr_cedula').value);
+		data.append('repr_tipo_iden', $('#repr_tipo_iden').val());
+		data.append('repr_email', document.getElementById('repr_email').value);
+		data.append('repr_telf', document.getElementById('repr_telf').value);
+		data.append('repr_celular', document.getElementById('repr_celular').value);
+		data.append('repr_domi', document.getElementById('repr_domi').value);
+		data.append('repr_celular', document.getElementById('repr_celular').value);
+		data.append('repr_profesion', document.getElementById('repr_profesion').value);
+		data.append('repr_nacionalidad', document.getElementById('repr_nacionalidad').value);
+		data.append('repr_lugar_trabajo', document.getElementById('repr_lugar_trabajo').value);
+		data.append('repr_direc_trabajo', document.getElementById('repr_direc_trabajo').value);
+		data.append('repr_telf_trab', document.getElementById('repr_telf_trab').value);
+		data.append('repr_cargo', document.getElementById('repr_cargo').value);
+		data.append('repr_religion', $('#repr_religion').val());
+		data.append('repr_estudios', document.getElementById('repr_estudios').value);
+		data.append('repr_institucion', document.getElementById('repr_institucion').value);
+		data.append('repr_motivo_representa', document.getElementById('repr_motivo_representa').value);
+		data.append('repr_estado_civil', $('#repr_estado_civil').val());
+		data.append('repr_escolaborador',$('#repr_escolaborador').prop('checked'));
+		data.append('repr_fech_promoc', document.getElementById('repr_fech_promoc').value);
+		data.append('repr_ex_alum',$('#repr_ex_alum').prop('checked') );
+		data.append('repr_fech_naci', $('#repr_fech_naci').val());
+		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
+		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
+		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
 		xmlhttp.onreadystatechange=function()
 		{
 			if (xmlhttp.readyState==4 && xmlhttp.status==200){
@@ -260,7 +321,7 @@ function load_ajax_upd_repr(div,url,data){
 			}
 		}
 		xmlhttp.open("POST",url,true);
-		xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+		//xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 		xmlhttp.send(data);
 	}
 }
