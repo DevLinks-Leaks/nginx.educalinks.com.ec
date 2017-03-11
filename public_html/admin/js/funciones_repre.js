@@ -216,6 +216,7 @@ function load_ajax_add_repr(div,url){
 		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
 		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
 		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
+		data.append('alum_codi', document.getElementById('alum_codi').value);
 
 		xmlhttp.onreadystatechange=function()
 		{
@@ -310,6 +311,8 @@ function load_ajax_upd_repr(div,url,repr_codi){
 		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
 		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
 		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
+		data.append('alum_codi', document.getElementById('alum_codi').value);
+
 		xmlhttp.onreadystatechange=function()
 		{
 			if (xmlhttp.readyState==4 && xmlhttp.status==200){

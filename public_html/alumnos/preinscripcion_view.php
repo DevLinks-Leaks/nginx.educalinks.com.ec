@@ -214,7 +214,7 @@ if($_SESSION['peri_codi_dest']!=null){
 											<label for="alum_sect_naci">Sector de nacimiento:</label>
 											<select class="form-control" id="alum_sect_naci" name="alum_sect_naci">
 											<?php 
-											$params = array(337);
+											$params = array(400);
 											$sql="{call cata_hijo_view(?)}";
 											$stmt = sqlsrv_query($conn, $sql, $params);
 									
@@ -397,7 +397,7 @@ if($_SESSION['peri_codi_dest']!=null){
 											<label for="alum_movilizacion">Movilización:</label>
 											<?php 
 												include ('../framework/dbconf.php');		
-												$params = array(343);
+												$params = array(406);
 												$sql="{call cata_hijo_view(?)}";
 												$stmt = sqlsrv_query($conn, $sql, $params);
 										
