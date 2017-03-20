@@ -135,7 +135,7 @@
 			}
 			$i++;
 		}
-		if ($_SERVER['HTTP_HOST']=="moderna.educalinks.com.ec")
+		if ($_SERVER['HTTP_HOST']=="liceonaval.educalinks.com.ec")
 		{
 			$texto_princ = '<p>De conformidad con lo prescrito en el Art. 197 del Reglamento General a la Ley Orgánica 
 							de Educación Intercultural y demás normativas vigentes, certifica que el(la) estudiante: <br/>

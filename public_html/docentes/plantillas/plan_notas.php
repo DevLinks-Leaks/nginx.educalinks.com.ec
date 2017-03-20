@@ -107,7 +107,7 @@ while ($row = sqlsrv_fetch_array($stmt))
 /*Nómina de estudiantes*/
 $sql	= "{call plan_notas_alum_deta(?)}";
 $params = array ($curs_para_mate_prof_codi);
-$opt 	= array( "Scrollable" => SQLSRV_CURSOR_KEYSET );
+$opt 	= array( "Scrollable" => "buffered" );
 $stmt 	= sqlsrv_query($conn,$sql,$params,$opt);
 $num_alum = sqlsrv_num_rows($stmt);
 $objPHPExcel->getActiveSheet()->SetCellValue('D2', $num_alum);

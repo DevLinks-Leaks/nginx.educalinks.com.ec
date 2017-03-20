@@ -74,9 +74,9 @@ $ruta_documentos_sintesis = $protocol.$domain."/documentos/sintesis/";
 $ruta_documentos_fotos = $protocol.$domain."/documentos/solicitudes_fotos/";
 //. Educalinks Admisiones
 $pass_firma = "Gustavo123";
-$ruta_documentosAutorizados = "C:/Winginx/home/nginx.educalinks.com.ec/public_html/documentos/autorizados/".$_SESSION['directorio']."/";
-$rutallave = "C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/finan/";
-$rutallavedesarrollo = "C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/finan/";
+$ruta_documentosAutorizados = "C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/documentos/autorizados/".$_SESSION['directorio']."/";
+$rutallave = "C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/finan/";
+$rutallavedesarrollo = "C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/finan/";
 $llavebabahoyo = "ruth_marlene_rizzo_maldonado.p12";
 $llavedesarrollo = "gustavo_alfonso_decker_zambrano.p12";
 $llaveliceopanamericano = "julio_alberto_cordova_empuno.p12";
@@ -90,29 +90,29 @@ $clavellavemoderna = "RLgg2016";
 $clavecolegioamericanoguayaquil = "FL8239ad";
 $clavellavedesarrollo = "Gustavo123";
 /* *** Logos institucionales *** */
-$ruta_logo_links						="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-links.png";
-$ruta_logo_links_md						="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-links-md.png";
-$ruta_logo_educalinks					="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-educalinks.png";
+$ruta_logo_links						="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-links.png";
+$ruta_logo_links_md						="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-links-md.png";
+$ruta_logo_educalinks					="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-educalinks.png";
 $ruta_logo_educalinks_long_red			="/includes/common/logos/LOGO_EDUCALINKS_red.png";
 $ruta_logo_educalinks_long_red_sm		="/includes/common/logos/LOGO_EDUCALINKS_red_small.png";
 $ruta_logo_educalinks_long_white		="/includes/common/logos/LOGO_EDUCALINKS_white.png";
 $ruta_logo_educalinks_long_white_sm		="/includes/common/logos/LOGO_EDUCALINKS_white_small.png";
 $ruta_logo_educalinks_long_white_red	="/includes/common/logos/LOGO_EDUCALINKS_white_red.png";
-$ruta_logo_redlinks_white				="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-redlinks-white.png";
-$ruta_logo_redlinks_black				="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-redlinks-black.png";
-$ruta_logo_redlinks_red_white			="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-redlinks-red-&-white.png";
+$ruta_logo_redlinks_white				="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-redlinks-white.png";
+$ruta_logo_redlinks_black				="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-redlinks-black.png";
+$ruta_logo_redlinks_red_white			="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/logo-redlinks-red-&-white.png";
 
 /* *** Logos clientes *** */
-$ruta_logo_delfos				="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/delfos/logo_distr.png";
-$ruta_logo_delfosvesp			="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/delfosvesp/logo_distr.png";
-$ruta_logo_desarrollo			="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobab/logo_distr.png";
-$ruta_logo_ecobab				="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobab/logo_distr.png";
-$ruta_logo_ecobabvesp			="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobabvesp/logo_distr.png";
-$ruta_logo_liceopanamericano	="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/liceopanamericano/logo_inicial.png";
-$ruta_logo_liceopanamericanosur	="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/liceopanamericanosur/logo_inicial.png";
-$ruta_logo_moderna				="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/moderna/logo_distr.png";
-$ruta_logo_uemag				="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/uemag/logo_inicial.png";
-$ruta_logo_cag					="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/cag/logo_inicial.png";
+$ruta_logo_delfos				="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/delfos/logo_distr.png";
+$ruta_logo_delfosvesp			="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/delfosvesp/logo_distr.png";
+$ruta_logo_desarrollo			="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobab/logo_distr.png";
+$ruta_logo_ecobab				="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobab/logo_distr.png";
+$ruta_logo_ecobabvesp			="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobabvesp/logo_distr.png";
+$ruta_logo_liceopanamericano	="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/liceopanamericano/logo_inicial.png";
+$ruta_logo_liceopanamericanosur	="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/liceopanamericanosur/logo_inicial.png";
+$ruta_logo_moderna				="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/moderna/logo_distr.png";
+$ruta_logo_uemag				="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/uemag/logo_inicial.png";
+$ruta_logo_cag					="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/cag/logo_inicial.png";
 
 /* * Logos para impresion  institucionales** */
 
@@ -149,14 +149,14 @@ $ruta_logo_uemag_bg							="includes/common/logos/clientes/uemag/logo_inicial_bg
 $ruta_logo_cag_bg							="includes/common/logos/clientes/cag/logo_inicial_bg.png";
 
 /* *** Logos (long) para impresion clientes *** */
-$print_ruta_logo_delfos_bg						="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/delfos/logo_inicial_bg.png";
-$print_ruta_logo_delfosvesp_bg					="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/delfosvesp/logo_inicial_bg.png";
-$print_ruta_logo_desarrollo_bg					="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobab/logo_inicial_bg.png";
-$print_ruta_logo_ecobab_bg						="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobab/logo_inicial_bg.png";
-$print_ruta_logo_ecobabvesp_bg					="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobabvesp/logo_inicial_bg.png";
-$print_ruta_logo_liceopanamericano_bg			="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/liceopanamericano/logo_inicial_bg.png";
-$print_ruta_logo_liceopanamericanosur_bg		="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/liceopanamericanosur/logo_inicial_bg.png";
-$print_ruta_logo_moderna_bg						="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/moderna/logo_inicial_bg.png";
-$print_ruta_logo_uemag_bg						="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/uemag/logo_inicial_bg.png";
-$print_ruta_logo_cag_bg							="C:/Winginx/home/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/cag/logo_inicial_bg.png";
+$print_ruta_logo_delfos_bg						="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/delfos/logo_inicial_bg.png";
+$print_ruta_logo_delfosvesp_bg					="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/delfosvesp/logo_inicial_bg.png";
+$print_ruta_logo_desarrollo_bg					="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobab/logo_inicial_bg.png";
+$print_ruta_logo_ecobab_bg						="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobab/logo_inicial_bg.png";
+$print_ruta_logo_ecobabvesp_bg					="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/ecobabvesp/logo_inicial_bg.png";
+$print_ruta_logo_liceopanamericano_bg			="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/liceopanamericano/logo_inicial_bg.png";
+$print_ruta_logo_liceopanamericanosur_bg		="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/liceopanamericanosur/logo_inicial_bg.png";
+$print_ruta_logo_moderna_bg						="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/moderna/logo_inicial_bg.png";
+$print_ruta_logo_uemag_bg						="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/uemag/logo_inicial_bg.png";
+$print_ruta_logo_cag_bg							="C:/Xampp/htdocs/nginx.educalinks.com.ec/public_html/includes/common/logos/clientes/cag/logo_inicial_bg.png";
 ?>

@@ -1,6 +1,5 @@
 <?php
 session_start();
-include ('../framework/dbconf.php');
 include ('../framework/funciones.php');
 if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 
@@ -48,14 +47,16 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 								$autor = $xml_autor->createElement("autor");
 								
 								$autor->setAttribute('auto_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$autor->setAttribute('auto_apel',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
-								$autor->setAttribute('auto_nomb',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue()));
+								$autor->setAttribute('auto_apel',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
+								$autor->setAttribute('auto_nomb',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue());
 								$root_auto->appendChild($autor);
 							}
 							$xml_autor->appendChild($root_auto);
 
+							$xml=$xml_autor->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
 
-							$params = array($xml_autor->saveXML());
+							$params = array($xml);
 							$sql="{call lib_migracion_autores_xls(?)}";
 							$migracion_autores_xls = sqlsrv_query($conn, $sql, $params);
 							if ($migracion_autores_xls===false)
@@ -68,7 +69,7 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							}else{
 								registrar_auditoria (315, '');
 								$result= json_encode(array ('state'=>'success',
-									'result'=>'Importaci realizada con éxito.' ));
+									'result'=>'Importación realizada con éxito.' ));
 							}
 
 						break;
@@ -80,13 +81,15 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							{
 								$cate = $xml_categoria->createElement("cate");
 								$cate->setAttribute('cate_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$cate->setAttribute('cate_deta',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
+								$cate->setAttribute('cate_deta',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
 								$root_cate->appendChild($cate);
 							}
 							$xml_categoria->appendChild($root_cate);
 
+							$xml=$xml_categoria->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
 
-							$params = array($xml_categoria->saveXML());
+							$params = array($xml);
 							$sql="{call lib_migracion_categorias_xls(?)}";
 							$migracion_categorias_xls = sqlsrv_query($conn, $sql, $params);
 							if ($migracion_categorias_xls===false)
@@ -99,28 +102,30 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							}else{
 								registrar_auditoria (316, '');
 								$result= json_encode(array ('state'=>'success',
-									'result'=>'Importaci realizada con éxito.' ));
+									'result'=>'Importación realizada con éxito.' ));
 							}
 
 						break;
 
 						case 'desc':
+							require_once ('../framework/dbconf.php');
 							$xml_descriptor = new DOMDocument("1.0","UTF-8");
 							$root_desc = $xml_descriptor->createElement("root");
 							for ($i=2; $i<=$filas; $i++)
 							{
 								$desc = $xml_descriptor->createElement("desc");
 								$desc->setAttribute('desc_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$desc->setAttribute('desc_deta',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
+								$desc->setAttribute('desc_deta',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
 								$root_desc->appendChild($desc);
 							}
 							$xml_descriptor->appendChild($root_desc);
+							$xml=$xml_descriptor->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
 
-
-							$params = array($xml_descriptor->saveXML());
+							$params = array($xml);
 							$sql="{call lib_migracion_descriptores_xls(?)}";
 							$migracion_descriptores_xls = sqlsrv_query($conn, $sql, $params);
-							if ($migracion_descriptores_xls===false)
+							if ($migracion_descriptores_xls==false)
 							{
 								//echo "Ha ocurrido un error en la base de datos.";
 								//exit ();
@@ -130,7 +135,7 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							}else{
 								registrar_auditoria (317, '');
 								$result= json_encode(array ('state'=>'success',
-									'result'=>'Importaci realizada con éxito.' ));
+									'result'=>'Importación realizada con éxito.' ));
 							}
 
 						break;
@@ -142,13 +147,15 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							{
 								$tipo = $xml_tipos->createElement("tipo");
 								$tipo->setAttribute('tipo_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$tipo->setAttribute('tipo_deta',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
+								$tipo->setAttribute('tipo_deta',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
 								$root_tipo->appendChild($tipo);
 							}
 							$xml_tipos->appendChild($root_tipo);
 
+							$xml=$xml_tipos->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
 
-							$params = array($xml_tipos->saveXML());
+							$params = array($xml);
 							$sql="{call lib_migracion_tipos_xls(?)}";
 							$migracion_tipos_xls = sqlsrv_query($conn, $sql, $params);
 							if ($migracion_tipos_xls===false)
@@ -161,7 +168,7 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							}else{
 								registrar_auditoria (318, '');
 								$result= json_encode(array ('state'=>'success',
-									'result'=>'Importaci realizada con éxito.' ));
+									'result'=>'Importación realizada con éxito.' ));
 							}
 
 						break;
@@ -173,13 +180,15 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							{
 								$cole = $xml_coleccion->createElement("cole");
 								$cole->setAttribute('cole_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$cole->setAttribute('cole_deta',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
+								$cole->setAttribute('cole_deta',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
 								$root_cole->appendChild($cole);
 							}
 							$xml_coleccion->appendChild($root_cole);
 
+							$xml=$xml_coleccion->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
 
-							$params = array($xml_coleccion->saveXML());
+							$params = array($xml);
 							$sql="{call lib_migracion_coleccion_xls(?)}";
 							$migracion_coleccion_xls = sqlsrv_query($conn, $sql, $params);
 							if ($migracion_coleccion_xls===false)
@@ -192,7 +201,7 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							}else{
 								registrar_auditoria (319, '');
 								$result= json_encode(array ('state'=>'success',
-									'result'=>'Importaci realizada con éxito.' ));
+									'result'=>'Importación realizada con éxito.' ));
 							}
 
 						break;
@@ -204,13 +213,15 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							{
 								$edit = $xml_editorial->createElement("edit");
 								$edit->setAttribute('edit_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$edit->setAttribute('edit_deta',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
+								$edit->setAttribute('edit_deta',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
 								$root_edit->appendChild($edit);
 							}
 							$xml_editorial->appendChild($root_edit);
 
+							$xml=$xml_editorial->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
 
-							$params = array($xml_editorial->saveXML());
+							$params = array($xml);
 							$sql="{call lib_migracion_editorial_xls(?)}";
 							$migracion_editorial_xls = sqlsrv_query($conn, $sql, $params);
 							if ($migracion_editorial_xls===false)
@@ -223,7 +234,7 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							}else{
 								registrar_auditoria (320, '');
 								$result= json_encode(array ('state'=>'success',
-									'result'=>'Importaci realizada con éxito.' ));
+									'result'=>'Importación realizada con éxito.' ));
 							}
 
 						break;
@@ -235,12 +246,15 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							{
 								$proc = $xml_procedencia->createElement("proc");
 								$proc->setAttribute('proc_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$proc->setAttribute('proc_deta',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
+								$proc->setAttribute('proc_deta',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
 								$root_proc->appendChild($proc);
 							}
 							$xml_procedencia->appendChild($root_proc);
 
-							$params = array($xml_procedencia->saveXML());
+							$xml=$xml_procedencia->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
+
+							$params = array($xml);
 							$sql="{call lib_migracion_procedencia_xls(?)}";
 							$migracion_procedencia_xls = sqlsrv_query($conn, $sql, $params);
 							if ($migracion_procedencia_xls===false)
@@ -253,7 +267,7 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							}else{
 								registrar_auditoria (321, '');
 								$result= json_encode(array ('state'=>'success',
-									'result'=>'Importaci realizada con éxito.' ));
+									'result'=>'Importación realizada con éxito.' ));
 							}
 
 						break;
@@ -265,11 +279,11 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							{
 								$recu = $xml_recurso->createElement("recu");
 								$recu->setAttribute('recu_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$recu->setAttribute('recu_titu',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
-								$recu->setAttribute('recu_isbn',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue()));
+								$recu->setAttribute('recu_titu',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
+								$recu->setAttribute('recu_isbn',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue());
 								$recu->setAttribute('recu_edit_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $i)->getValue());
 								$recu->setAttribute('recu_cole_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $i)->getValue());
-								$recu->setAttribute('recu_fech_publ',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue()));
+								$recu->setAttribute('recu_fech_publ',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue());
 								$recu->setAttribute('recu_cate_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6, $i)->getValue());
 								$recu->setAttribute('recu_desc_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7, $i)->getValue());
 								$recu->setAttribute('recu_auto_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8, $i)->getValue());
@@ -277,7 +291,10 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							}
 							$xml_recurso->appendChild($root_recu);
 
-							$params = array($xml_recurso->saveXML());
+							$xml=$xml_recurso->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
+
+							$params = array($xml);
 							$sql="{call lib_migracion_recursos_libros_xls(?)}";
 							$lib_migracion_recursos_libros_xls = sqlsrv_query($conn, $sql, $params);
 							if ($lib_migracion_recursos_libros_xls===false)
@@ -312,11 +329,11 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							{
 								$recu = $xml_recurso->createElement("recu");
 								$recu->setAttribute('recu_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$recu->setAttribute('recu_titu',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
-								$recu->setAttribute('recu_issn',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue()));
+								$recu->setAttribute('recu_titu',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
+								$recu->setAttribute('recu_issn',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue());
 								$recu->setAttribute('recu_edit_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $i)->getValue());
 								$recu->setAttribute('recu_cole_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $i)->getValue());
-								$recu->setAttribute('recu_fech_publ',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue()));
+								$recu->setAttribute('recu_fech_publ',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue());
 								$recu->setAttribute('recu_cate_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6, $i)->getValue());
 								$recu->setAttribute('recu_desc_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7, $i)->getValue());
 								$recu->setAttribute('recu_auto_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8, $i)->getValue());
@@ -324,7 +341,10 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							}
 							$xml_recurso->appendChild($root_recu);
 
-							$params = array($xml_recurso->saveXML());
+							$xml=$xml_recurso->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
+
+							$params = array($xml);
 							$sql="{call lib_migracion_recursos_revistas_xls(?)}";
 							$lib_migracion_recursos_revistas_xls = sqlsrv_query($conn, $sql, $params);
 							if ($lib_migracion_recursos_revistas_xls===false)
@@ -359,21 +379,24 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							{
 								$recu = $xml_recurso->createElement("recu");
 								$recu->setAttribute('recu_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$recu->setAttribute('recu_titu',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
+								$recu->setAttribute('recu_titu',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
 								$recu->setAttribute('recu_edit_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue());
 								$recu->setAttribute('recu_cole_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $i)->getValue());
-								$recu->setAttribute('recu_fech_publ',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $i)->getValue()));
+								$recu->setAttribute('recu_fech_publ',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $i)->getValue());
 								$recu->setAttribute('recu_cate_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue());
 								$recu->setAttribute('recu_desc_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6, $i)->getValue());
 								$recu->setAttribute('recu_dire_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7, $i)->getValue());
 								$recu->setAttribute('recu_acto_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8, $i)->getValue());
-								$recu->setAttribute('recu_vide_dura',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(9, $i)->getValue()));
-								$recu->setAttribute('recu_vide_resu',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(10, $i)->getValue()));
+								$recu->setAttribute('recu_vide_dura',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(9, $i)->getValue());
+								$recu->setAttribute('recu_vide_resu',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(10, $i)->getValue());
 								$root_recu->appendChild($recu);
 							}
 							$xml_recurso->appendChild($root_recu);
 
-							$params = array($xml_recurso->saveXML());
+							$xml=$xml_recurso->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
+
+							$params = array($xml);
 							$sql="{call lib_migracion_recursos_videos_xls(?)}";
 							$lib_migracion_recursos_videos_xls = sqlsrv_query($conn, $sql, $params);
 							if ($lib_migracion_recursos_videos_xls===false)
@@ -409,19 +432,22 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 								$recu = $xml_recurso->createElement("recu");
 								$recu->setAttribute('recu_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
 								$recu->setAttribute('recu_tipo_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
-								$recu->setAttribute('recu_titu',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue()));
+								$recu->setAttribute('recu_titu',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue());
 								$recu->setAttribute('recu_edit_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $i)->getValue());
 								$recu->setAttribute('recu_cole_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $i)->getValue());
-								$recu->setAttribute('recu_fech_publ',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue()));
+								$recu->setAttribute('recu_fech_publ',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue());
 								$recu->setAttribute('recu_cate_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6, $i)->getValue());
 								$recu->setAttribute('recu_desc_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7, $i)->getValue());
 								$recu->setAttribute('recu_auto_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8, $i)->getValue());
-								$recu->setAttribute('recu_vide_resu',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(9, $i)->getValue()));
+								$recu->setAttribute('recu_vide_resu',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(9, $i)->getValue());
 								$root_recu->appendChild($recu);
 							}
 							$xml_recurso->appendChild($root_recu);
 
-							$params = array($xml_recurso->saveXML());
+							$xml=$xml_recurso->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
+
+							$params = array($xml);
 							$sql="{call lib_migracion_recursos_otros_xls(?)}";
 							$lib_migracion_recursos_otros_xls = sqlsrv_query($conn, $sql, $params);
 							if ($lib_migracion_recursos_otros_xls===false)
@@ -456,15 +482,18 @@ if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
 							{
 								$recu = $xml_recurso->createElement("recu_item");
 								$recu->setAttribute('recu_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-								$recu->setAttribute('item_edic',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue()));
-								$recu->setAttribute('item_fech_ing',utf8_encode($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue()));
+								$recu->setAttribute('item_edic',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
+								$recu->setAttribute('item_fech_ing',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue());
 								$recu->setAttribute('item_prec',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $i)->getValue());
 								$recu->setAttribute('item_proc_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $i)->getValue());
 								$root_recu->appendChild($recu);
 							}
 							$xml_recurso->appendChild($root_recu);
 
-							$params = array($xml_recurso->saveXML());
+							$xml=$xml_recurso->saveXML();
+							$xml = str_replace('UTF-8', 'ISO-8859-1',$xml );
+
+							$params = array($xml);
 							$sql="{call lib_migracion_recursos_items_xls(?)}";
 							$lib_migracion_recursos_items_xls = sqlsrv_query($conn, $sql, $params);
 							if ($lib_migracion_recursos_items_xls===false)

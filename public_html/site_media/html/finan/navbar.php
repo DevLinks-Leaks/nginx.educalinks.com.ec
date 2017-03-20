@@ -31,7 +31,7 @@
 								<!-- inner menu: contains the actual data -->
 								<ul class="menu">
 									<li><!-- Task item -->
-										<a href="../gestionFacturas/controller.php">
+										<a href="../gestionFacturas/">
 											<h3>
 												Facturas al SRI
 											<small class="pull-right"><span id="badge_gest_fac_in_header1"></span></small>
@@ -44,7 +44,7 @@
 										</a>
 									</li><!-- end task item -->
 									<li><!-- Task item -->
-										<a href="../gestionNotascredito/controller.php">
+										<a href="../gestionNotascredito/">
 											<h3>
 												Notas de crédito al SRI
 												<small class="pull-right"><span id="badge_gest_nc_in_header1"></span></small>
@@ -57,7 +57,7 @@
 										</a>
 									</li>
 									<!--<li> Task item
-										<a href="../gestionNotasdebito/controller.php">
+										<a href="../gestionNotasdebito/">
 											<h3>
 												Notas de débito
 												<small class="pull-right"><span id="badge_gest_nd_in_header1"></span></small>
@@ -70,7 +70,7 @@
 										</a>
 									</li><!-- end task item -->
 									<li>
-										<a href="../gestionContifico/controller.php">
+										<a href="../gestionContifico/">
 											<h3>
 												Deudas a contabilidad
 												<small class="pull-right"><span id="badge_gest_deudas_in_header1"></span></small>
@@ -83,7 +83,7 @@
 										</a>
 									</li>
 									<li><!-- Task item -->
-										<a href="../gestionContifico/controller.php">
+										<a href="../gestionContifico/">
 											<h3>
 												Pagos a contabilidad
 												<small class="pull-right"><span id="badge_gest_pagos_in_header1"></span></small>
@@ -96,7 +96,7 @@
 										</a>
 									</li>
 									<li><!-- Task item -->
-										<a href="../valida_cheques/controller.php">
+										<a href="../valida_cheques/">
 											<h3>
 												Cheques por validar
 												<small class="pull-right"><span id="badge_gest_cheques_in_header1"></span></small>

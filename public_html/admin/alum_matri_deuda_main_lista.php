@@ -38,7 +38,7 @@ include ('../framework/funciones.php');?>
     <td><?php echo $row_alum_busq["alum_apel"]." ".$row_alum_busq["alum_nomb"]; ?></td>
     <td><?php echo $row_alum_busq["curs_deta"]." - ".$row_alum_busq["para_deta"]; ?></td>
 	 <td>
-		<?= ($row_alum_busq['alum_tiene_deuda']?'Activada':'Desactivada')?>
+		<span id="lbl_<?=$row_alum_busq['alum_codi']?>" class="lbl_deuda"><?= ($row_alum_busq['alum_tiene_deuda']?'Activada':'Desactivada')?></span>
     </td>
 	<td>
 	<input id="chk_<?=$row_alum_busq['alum_codi'].'_'.$row_alum_busq['curs_para_codi'];?>" data-alum_codi="<?=$row_alum_busq['alum_codi'];?>" data-curs_para_codi="<?=$row_alum_busq['curs_para_codi'];?>" type="checkbox" onclick="activar_desactivar_deuda(this);" <? echo ($row_alum_busq['alum_tiene_deuda']?'checked':''); ?> />

@@ -1,7 +1,7 @@
 function Subir(archivo, div_progreso, tabla)
 {
 	if (archivo.value != '')
-	{
+	{	document.getElementById(div_progreso).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
 		var data = new FormData();
 		var my_file = archivo.files[0];
 		data.append('file', my_file);

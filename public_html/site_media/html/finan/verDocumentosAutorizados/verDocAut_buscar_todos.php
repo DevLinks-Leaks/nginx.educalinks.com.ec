@@ -245,6 +245,7 @@
 							<select class='form-control input-sm' id='cmb_estadoElectronico' name='cmb_estadoElectronico'>
 								<option value='-1'>Todos (Autorizados y DNA's)</option>
 								<option value=''>Todos en gestión (DNA's)</option>
+								<option value="DEUDAS SIN FACTURA">Deudas sin factura</option>
 								<option value='AUTORIZADO' selected='selected'>Autorizado</option>
 								<option value='NO AUTORIZADO'>No Autorizado</option>
 								<option value='PROCESANDOSE'>Procesándose</option>

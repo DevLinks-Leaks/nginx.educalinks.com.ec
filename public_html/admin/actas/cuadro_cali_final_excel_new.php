@@ -374,6 +374,7 @@
 		//LISTADO DE ESTUDIANTES Y NOTAS
 		///////////////////////////////////////////////////////////////////////////////////////
 		$acum_rendimiento=0;
+		$p_r_total_flag=array();
 		//PRIMERO NO., LUEGO ESTUDIANTE...
 		for ($i=0;$i<count($filas);$i++) 
 		{	$asterisco="";
@@ -384,6 +385,7 @@
 				$retirado_switch = true;
 			}
 			$w=0;
+			$p_r_total_flag[$i]=0;
 			//listado($objPHPExcel, $w, $i+9, $i+1, $styleArray, true, false);
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+9, $i+1);
 			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+9))->applyFromArray($styleArray);
@@ -391,6 +393,7 @@
 			listado($objPHPExcel, $w, $i+9, $asterisco . rtrim($filas[$i][1]).' '.rtrim($filas[$i][2]), $styleArray, false, false);
 			//...LUEGO INICIO DE NOTAS
 			//LAS DEMAS MATERIAS
+
 			$promedio_rendimiento=array();
             for ($j=0;$j<count($columnas);$j++) 
             {	$aux=0;
@@ -406,12 +409,19 @@
 						//Si la calificación es numérica
 						if ($columnas[$j][2]=='C')
 						{	if ($nota < 7)
-							{	listado($objPHPExcel, $w, $i+9, $nota, $styleArrayRojo, true, false);
+							{	
+								if($subcol[0]==$peri_dist_codi)
+								{
+									$p_r_total_flag[$i]++;
+								}
+								listado($objPHPExcel, $w, $i+9, $nota, $styleArrayRojo, true, false);
 							}else
 							{	listado($objPHPExcel, $w, $i+9, $nota, $styleArray, true, false);
 							}
 							if ($columnas[$j][3]==-1 and ($subcol[1]!='EX. SUPLETORIO' and $subcol[1]!='EX. REMEDIAL' and $subcol[1]!='MEJORAMIENTO' and $subcol[1]!='EX. GRACIA'))
-							{   $promedio_rendimiento[$j][$aux]=truncar($nota);
+							{   
+								
+								$promedio_rendimiento[$j][$aux]=truncar($nota);
 								$aux++;
 							}
 						}
@@ -431,28 +441,28 @@
             //COMPORTAMIENTO
             for ($j=0;$j<count($columnas);$j++)
             {	foreach ($subcolumnas as $subcol)
-            {	$params = array($columnas[$j][0]);
-            $sql="{call curs_para_mate_info(?)}";
+            	{	$params = array($columnas[$j][0]);
+            		$sql="{call curs_para_mate_info(?)}";
 					$curs_peri_info = sqlsrv_query($conn, $sql, $params);
-            					$row_curs_peri_info = sqlsrv_fetch_array($curs_peri_info);
-            					if ($columnas[$j][1]=='COMPORTAMIENTO')
+					$row_curs_peri_info = sqlsrv_fetch_array($curs_peri_info);
+					if ($columnas[$j][1]=='COMPORTAMIENTO')
 					{	$w++;
-            					$nota=buscar_nota_3d($datos,$filas[$i][0],$columnas[$j][0], $subcol[0], 'alum_codi', 'curs_para_mate_codi', 'peri_dist_codi');
+    					$nota=buscar_nota_3d($datos,$filas[$i][0],$columnas[$j][0], $subcol[0], 'alum_codi', 'curs_para_mate_codi', 'peri_dist_codi');
 						if ($columnas[$j][2]=='C')
-            					{	listado($objPHPExcel, $w, $i+9, $nota, $styleArray, true, false);
-            					}
-            					else
-            					{	if ($nota==0)
-            					{	listado($objPHPExcel, $w, $i+9, '--', $styleArray, true, false);
-            					}
-            					else
-            					{	$nota_prom_quali= notas_prom_quali($_SESSION['peri_codi'],$row_curs_peri_info['nota_refe_cab_tipo'],$nota);
-								listado($objPHPExcel, $w, $i+9, $nota_prom_quali, $styleArray, true, false);
-            					}
-            					}
-            					}
-            					}
-            					}
+    					{	listado($objPHPExcel, $w, $i+9, $nota, $styleArray, true, false);
+    					}
+    					else
+    					{	if ($nota==0)
+        					{	listado($objPHPExcel, $w, $i+9, '--', $styleArray, true, false);
+    						}
+        					else
+        					{	$nota_prom_quali= notas_prom_quali($_SESSION['peri_codi'],$row_curs_peri_info['nota_refe_cab_tipo'],$nota);
+							listado($objPHPExcel, $w, $i+9, $nota_prom_quali, $styleArray, true, false);
+        					}
+    					}
+					}
+				}
+			}
 			//PROMEDIO RENDIMIENTO
 			$p_r_total=array();
 			$x=$y=0;
@@ -477,13 +487,19 @@
 				$z++;
 				}
 			}
+			$aux=0;
 			foreach ($p_r_total as $notaRP)
 			{	$w++;
 				if ($notaRP < 7)
 				{	listado($objPHPExcel, $w, $i+9, ($notaRP), $styleArrayRojo, true, false);
 				}else
-				{	listado($objPHPExcel, $w, $i+9, ($notaRP), $styleArray, true, false);
+				{	
+					if ( $p_r_total_flag[$i] > 0 and $aux >= $z-1 )
+						listado($objPHPExcel, $w, $i+9, ($notaRP), $styleArrayRojo, true, false);
+					else
+						listado($objPHPExcel, $w, $i+9, ($notaRP), $styleArray, true, false);
 				}
+				$aux++;
 			}
 		}
 		///////////////////////////////

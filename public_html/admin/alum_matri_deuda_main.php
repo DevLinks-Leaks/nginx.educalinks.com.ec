@@ -35,8 +35,8 @@
           </div>
           
                         <!-- InstanceBeginEditable name="information" -->
-                        <script type="text/javascript" src="js/funciones_alum.js"></script> 
-                         <script type="text/javascript" src="js/funciones_deuda.js"></script>     
+                        <!-- <script type="text/javascript" src="js/funciones_alum.js"></script>  -->
+                         <script type="text/javascript" src="js/funciones_deuda.js?<?= $rand?>"></script>     
                         <div id="alum_main" >
                              <?php include ('alum_matri_deuda_main_lista.php'); ?>
                         </div>

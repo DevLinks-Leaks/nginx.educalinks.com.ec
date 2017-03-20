@@ -913,8 +913,8 @@ function tabla_deudas( $tablacliente )
 				}
 				if ( $x == 9 )
 				{   $codigoAlumno = $column;
-					if ( $row['estado'] == 'PAGADA' || $row['fact_estado'] == 'AUTORIZADO' )
-						$data.="<td><div style='font-size:x-small;'>".$column." <br>[<a href='/documentos/autorizados/".$_SESSION['directorio']."/".$titularID."/FAC".$numeroFactura.".PDF' target='_blank' onmouseover='$(this).tooltip(".'"show"'.")' title='FAC. AUTORIZADA ".$numeroFactura."' data-placement='left'>FACTURA</a>]</div></td>";
+					if ( !empty( $row['numeroFactura'] ) )
+						$data.="<td><div style='font-size:x-small;'>".$column." <br>[<a href='/documentos/autorizados/".$_SESSION['directorio']."/".$titularID."/FAC".$numeroFactura.".PDF' target='_blank' onmouseover='$(this).tooltip(".'"show"'.")' title='FAC ".$numeroFactura."' data-placement='left'>FACTURA</a>]</div></td>";
 					else
 						$data.="<td><div style='font-size:x-small;'>".$column."</div></td>";
 				}

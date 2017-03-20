@@ -18,6 +18,7 @@
 	$ciudad = para_sist (31);
 	$nombre_colegio = para_sist(3);
 	$antes_del_nombre = para_sist(36);
+	$jornada = para_sist(35);
 	$nombre_legal = para_sist(53);
 	$dominio = $_SERVER['HTTP_HOST'];
 
@@ -70,6 +71,13 @@
 		$params=array($alum_codi,"R");
 		$stmt3 = sqlsrv_query($conn, $sql, $params);
 		$row_representante = sqlsrv_fetch_array($stmt3);
+
+		if ($_SESSION['directorio']=='delfos' or $_SESSION['directorio']=='delfosvesp')
+		{	$jornada_lbl  = "<h1>Jornada ".$jornada."</h1>";
+		}
+		else
+		{	$jornada_lbl = "";
+		}
 
 		/*No intentar esto en casa*/
 		if ($dominio=='duplos.educalinks.com.ec' or $dominio=='arcoiris.educalinks.com.ec')
@@ -178,6 +186,7 @@ $html=<<<EOD
 	<p>
 	<h1>{$antes_del_nombre}</h1>
 	<h1>"{$nombre_legal}"</h1>
+	{$jornada_lbl}
 	<h1>{$_SESSION['peri_deta']}</h1>
 	</p>
 	<p>

@@ -113,7 +113,7 @@
 		$info_credito.='</table>';
 	} elseif($row['alum_resp_form_pago']==23){
 		/*Forma de pago Tarjeta de Credito*/
-		$alum_resp_form_banc_tarj_nume =  creditCardMask($alum_resp_form_banc_tarj_nume,4,8);
+		// $alum_resp_form_banc_tarj_nume =  creditCardMask($alum_resp_form_banc_tarj_nume,4,8);
 		$info_credito.='<table class="letras_normales tabla" >';
 		$info_credito.='<tr><td>TARJETA DE CREDITO:</td><td> '.$row["alum_resp_form_banc_tarj"].'</td>
 						</tr>';
@@ -178,7 +178,7 @@
 	Ciudad.- {$ciudad}
 	</p>
 	<p class="letras_normales">
-	Yo {$row_representante["repr_nomb"]} {$row_representante["repr_apel"]} (Representante Legal) del estudiante {$row["alum_nomb"]} {$row["alum_apel"]}<br/>
+	Yo {$row["alum_resp_form_nomb"]} (Representante) del estudiante {$row["alum_nomb"]} {$row["alum_apel"]}<br/>
 	Que está cursando el nivel {$row["curs_deta"]} de {$row["nive_deta"]}; titular de la siguiente cuenta o tarjeta de Crédito, que mantengo con la Institución Financiera:
 	</p>
 	<br/>
@@ -200,7 +200,7 @@
 	</tr>
 	<tr>
 	<td>
-	C.I. {$row_representante["cedula"]}
+	C.I. {$row["alum_resp_form_cedu"]}
 	</td>
 	<td>
 	Fecha del Acuerdo: {$ciudad}, {$fecha_hoy}
