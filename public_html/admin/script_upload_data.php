@@ -55,26 +55,26 @@
 						$alumno = $xml_alumno->createElement("alumno");
 						
 						$alumno->setAttribute('alum_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
-						$alumno->setAttribute('alum_nomb',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
-						$alumno->setAttribute('alum_apel',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue());
-						$alumno->setAttribute('alum_cedu',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $i)->getValue());
+						$alumno->setAttribute('alum_nomb',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue())));
+						$alumno->setAttribute('alum_apel',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue())));
+						$alumno->setAttribute('alum_cedu',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $i)->getValue())));
 						$alumno->setAttribute('alum_tipo_iden',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $i)->getValue());
 						$alumno->setAttribute('alum_fech_naci',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue());
 						$alumno->setAttribute('alum_genero',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6, $i)->getValue());
-						$alumno->setAttribute('alum_pais',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7, $i)->getValue());
-						$alumno->setAttribute('alum_prov_naci',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8, $i)->getValue());
-						$alumno->setAttribute('alum_ciud_naci',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(9, $i)->getValue());
-						$alumno->setAttribute('alum_parr_naci',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(10, $i)->getValue());
-						$alumno->setAttribute('alum_sect_naci',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(11, $i)->getValue());
-						$alumno->setAttribute('alum_nacionalidad',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(12, $i)->getValue());
-						$alumno->setAttribute('alum_mail',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(13, $i)->getValue());
-						$alumno->setAttribute('alum_celu',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(14, $i)->getValue());
-						$alumno->setAttribute('alum_domi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(15, $i)->getValue());
-						$alumno->setAttribute('alum_telf',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(16, $i)->getValue());
-						$alumno->setAttribute('alum_ciud',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(17, $i)->getValue());
-						$alumno->setAttribute('alum_parroquia',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(18, $i)->getValue());
+						$alumno->setAttribute('alum_pais',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7, $i)->getValue())));
+						$alumno->setAttribute('alum_prov_naci',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8, $i)->getValue())));
+						$alumno->setAttribute('alum_ciud_naci',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(9, $i)->getValue())));
+						$alumno->setAttribute('alum_parr_naci',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(10, $i)->getValue())));
+						$alumno->setAttribute('alum_sect_naci',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(11, $i)->getValue())));
+						$alumno->setAttribute('alum_nacionalidad',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(12, $i)->getValue())));
+						$alumno->setAttribute('alum_mail',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(13, $i)->getValue())));
+						$alumno->setAttribute('alum_celu',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(14, $i)->getValue())));
+						$alumno->setAttribute('alum_domi',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(15, $i)->getValue())));
+						$alumno->setAttribute('alum_telf',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(16, $i)->getValue())));
+						$alumno->setAttribute('alum_ciud',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(17, $i)->getValue())));
+						$alumno->setAttribute('alum_parroquia',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(18, $i)->getValue())));
 						$alumno->setAttribute('idreligion',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(19, $i)->getValue());
-						$alumno->setAttribute('alum_vive_con',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(20, $i)->getValue());
+						$alumno->setAttribute('alum_vive_con',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(20, $i)->getValue())));
 						$alumno->setAttribute('idparentescovivecon',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(21, $i)->getValue());
 						$alumno->setAttribute('idestadocivilpadres',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(22, $i)->getValue());
 						$alumno->setAttribute('alum_movilizacion',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(23, $i)->getValue());
@@ -104,6 +104,7 @@
 					$params = array($xml,$_SESSION['peri_codi']);
 					$sql="{call migracion_alumnos_xls(?,?)}";
 					$migracion_alumnos_xls = sqlsrv_query($conn, $sql, $params);
+
 					if ($migracion_alumnos_xls===false)
 					{
 						//echo "Ha ocurrido un error en la base de datos.";
@@ -112,7 +113,7 @@
 							'result'=>'Error al realizar la importación.' ));
 						// die(print_r(sqlsrv_errors(),true));
 					}else{
-						//registrar_auditoria (315, '');
+						// registrar_auditoria (315, '');
 						$result= json_encode(array ('state'=>'success',
 							'result'=>'Importación realizada con éxito.' ));
 					}
@@ -145,26 +146,26 @@
 						$representante->setAttribute('repr_migr_codi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(0, $i)->getValue());
 						$representante->setAttribute('repr_cedula',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(1, $i)->getValue());
 						$representante->setAttribute('repr_tipoidfactura',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(2, $i)->getValue());
-						$representante->setAttribute('repr_nomb',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $i)->getValue());
-						$representante->setAttribute('repr_apel',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $i)->getValue());
-						$representante->setAttribute('repr_email',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue());
-						$representante->setAttribute('repr_telf',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6, $i)->getValue());
-						$representante->setAttribute('repr_celular',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7, $i)->getValue());
-						$representante->setAttribute('repr_domi',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8, $i)->getValue());
+						$representante->setAttribute('repr_nomb',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(3, $i)->getValue())));
+						$representante->setAttribute('repr_apel',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(4, $i)->getValue())));
+						$representante->setAttribute('repr_email',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(5, $i)->getValue())));
+						$representante->setAttribute('repr_telf',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(6, $i)->getValue())));
+						$representante->setAttribute('repr_celular',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(7, $i)->getValue())));
+						$representante->setAttribute('repr_domi',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(8, $i)->getValue())));
 						$representante->setAttribute('idestadocivil',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(9, $i)->getValue());
 						$representante->setAttribute('repr_fech_naci',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(10, $i)->getValue());
-						$representante->setAttribute('repr_pais_naci',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(11, $i)->getValue());
-						$representante->setAttribute('repr_prov_naci',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(12, $i)->getValue());
-						$representante->setAttribute('repr_ciud_naci',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(13, $i)->getValue());
-						$representante->setAttribute('repr_nacionalidad',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(14, $i)->getValue());
-						$representante->setAttribute('repr_profesion',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(15, $i)->getValue());
+						$representante->setAttribute('repr_pais_naci',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(11, $i)->getValue())));
+						$representante->setAttribute('repr_prov_naci',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(12, $i)->getValue())));
+						$representante->setAttribute('repr_ciud_naci',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(13, $i)->getValue())));
+						$representante->setAttribute('repr_nacionalidad',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(14, $i)->getValue())));
+						$representante->setAttribute('repr_profesion',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(15, $i)->getValue())));
 						$representante->setAttribute('repr_lugar_trabajo',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(16, $i)->getValue());
-						$representante->setAttribute('repr_direc_trabajo',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(17, $i)->getValue());
+						$representante->setAttribute('repr_direc_trabajo',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(17, $i)->getValue())));
 						$representante->setAttribute('repr_telf_trab',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(18, $i)->getValue());
 						$representante->setAttribute('repr_cargo',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(19, $i)->getValue());
 						$representante->setAttribute('idreligion',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(20, $i)->getValue());
 						$representante->setAttribute('repr_estudios',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(21, $i)->getValue());
-						$representante->setAttribute('repr_institucion',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(22, $i)->getValue());
+						$representante->setAttribute('repr_institucion',rtrim(ltrim($objPHPExcel->getActiveSheet()->getCellByColumnAndRow(22, $i)->getValue())));
 						$representante->setAttribute('repr_fech_promoc',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(23, $i)->getValue());
 						$representante->setAttribute('repr_ex_alum',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(24, $i)->getValue());
 						$representante->setAttribute('repr_motivo_representa',$objPHPExcel->getActiveSheet()->getCellByColumnAndRow(25, $i)->getValue());
