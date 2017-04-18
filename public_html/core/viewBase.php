@@ -70,6 +70,10 @@ function get_menu(){
 	$menu = str_replace('{nombre_institucion}', $_SESSION['menu_institucion'],$menu);
 	$menu = str_replace('{nombre_del_modulo}',  $_SESSION['nombre_del_modulo'], $menu);
 	
+	if ( $_SESSION["modulo"] == 'alumnos' )
+	{   if( !$_SESSION['cita_medica'] )
+			$menu = str_replace('{citas_display}', " style='display:none;' ",$menu);
+	}
 	
 	//$_SESSION['print_dir_logo_cliente'];
 	//$_SESSION['print_dir_logo_cliente_bg'];

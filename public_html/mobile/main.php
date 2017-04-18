@@ -28,6 +28,10 @@
         include 'Classes/PagosRealizados.php';
         include 'Classes/BotonPagoDeuda.php';
         include 'Classes/actualizaBotonPago.php';
+        include 'Classes/VisitasMedicas.php';
+        include 'Classes/detalleVisitasMedicas.php';
+        include 'Classes/tipoObservacion.php';
+        include 'Classes/observacionesPorTipo.php';
         
 	if (isset($_POST["username"]))
 		$username = $_POST["username"];
@@ -47,7 +51,7 @@
 	if (isset($_POST["colegio"]))
 		$colegio = $_POST["colegio"];
 	else
-		$colegio = "12";
+		$colegio = "";
 	
 	if (isset($_POST["reprcodi"]))
 		$reprcodi = $_POST["reprcodi"];
@@ -97,7 +101,7 @@
         if (isset($_POST["opcion"]))
 		$opcion = $_POST["opcion"];
 	else
-		$opcion = "actualiza_boton_pago";
+		$opcion = "";
                 
         if (isset($_POST["menstitu"]))
 		$menstitu = $_POST["menstitu"];
@@ -173,35 +177,45 @@
         if (isset($_POST["authorizationCode"]))
 		$authorizationCode = $_POST["authorizationCode"];
 	else
-		$authorizationCode = "000";       
+		$authorizationCode = "";       
                 
         if (isset($_POST["errorCode"]))
 		$errorCode = $_POST["errorCode"];
 	else
-		$errorCode = "000";       
+		$errorCode = "";       
                 
         if (isset($_POST["errorMessage"]))
 		$errorMessage = $_POST["errorMessage"];
 	else
-		$errorMessage = "Successful";       
+		$errorMessage = "";       
                 
         if (isset($_POST["cardNumber"]))
 		$cardNumber = $_POST["cardNumber"];
 	else
-		$cardNumber = "0051";       
+		$cardNumber = "";       
                 
                    
         if (isset($_POST["purchaseOperationNumber"]))
 		$purchaseOperationNumber = $_POST["purchaseOperationNumber"];
 	else
-		$purchaseOperationNumber = "00000010595";      
+		$purchaseOperationNumber = "";      
                 
         if (isset($_POST["purchaseAmount"]))
 		$purchaseAmount = $_POST["purchaseAmount"];
 	else
-		$purchaseAmount = "108";   
+		$purchaseAmount = "";   
                 
- 
+        if (isset($_POST["aten_codigo"]))
+		$aten_codigo = $_POST["aten_codigo"];
+	else
+		$aten_codigo = "";   
+             
+        if (isset($_POST["tipo_observacion"]))
+		$tipo_observacion = $_POST["tipo_observacion"];
+	else
+		$tipo_observacion = "";      
+                
+                
                 
 	$clientes = new Clientes();
 	$clientes->getClientInfo($colegio);
@@ -371,7 +385,31 @@
 	$actualizaBotonPago->pass_db=$clientes->get_clave();
 	$actualizaBotonPago->host_db=$clientes->get_host();
 	$actualizaBotonPago->name_db=$clientes->get_dbname();
+    
+        $VisitasMedicas = new VisitasMedicas();
+        $VisitasMedicas->user_db=$clientes->get_usuario();
+        $VisitasMedicas->pass_db=$clientes->get_clave();
+        $VisitasMedicas->host_db=$clientes->get_host();
+        $VisitasMedicas->name_db=$clientes->get_dbname();
 
+        $detalleVisitasMedicas = new detalleVisitasMedicas();
+        $detalleVisitasMedicas->user_db=$clientes->get_usuario();
+        $detalleVisitasMedicas->pass_db=$clientes->get_clave();
+        $detalleVisitasMedicas->host_db=$clientes->get_host();
+        $detalleVisitasMedicas->name_db=$clientes->get_dbname();
+
+        $tipoObservacion = new tipoObservacion();
+        $tipoObservacion->user_db=$clientes->get_usuario();
+        $tipoObservacion->pass_db=$clientes->get_clave();
+        $tipoObservacion->host_db=$clientes->get_host();
+        $tipoObservacion->name_db=$clientes->get_dbname();
+        
+        
+        $observacionesPorTipo = new observacionesPorTipo();
+        $observacionesPorTipo->user_db=$clientes->get_usuario();
+        $observacionesPorTipo->pass_db=$clientes->get_clave();
+        $observacionesPorTipo->host_db=$clientes->get_host();
+        $observacionesPorTipo->name_db=$clientes->get_dbname();
         
 	switch ($opcion)
 	{
@@ -604,7 +642,44 @@
 			echo json_encode($array_actualizaPago);
 		break;
                                
-
+                case "mostrar_visitasMedicas":	
+			$VisitasMedicas->getVisitasMedicas($alumnocodi);	
+			$json_visitas = array();
+			foreach($VisitasMedicas->rows as $visitasMedicas){
+				$json_visitas[] = array("enfe_descripcion"=>$visitasMedicas['enfe_descripcion'],"aten_fechaCreacion"=>$visitasMedicas['aten_fechaCreacion'],"aten_codigo"=>$visitasMedicas['aten_codigo']);
+			}
+			$array_visitas = array ("result"=>$json_visitas);
+			echo json_encode($array_visitas);
+		break;
+                
+                case "detalle_visitasMedicas":	
+			$detalleVisitasMedicas->getDetalleVisitasMedicas($aten_codigo);	
+			$json_detalleVisitas = array();
+			foreach($detalleVisitasMedicas->rows as $detalleVisitas){
+				$json_detalleVisitas[] = array("aten_deta_med_cantidad"=>$detalleVisitas['aten_deta_med_cantidad'],"med_descripcion"=>$detalleVisitas['med_descripcion']);
+			}
+			$array_detalleVisitas = array ("result"=>$json_detalleVisitas);
+			echo json_encode($array_detalleVisitas);
+		break;
         
+                case "tipo_Observaciones":
+			$tipoObservacion->getTipoObservaciones();
+			$json_observaciones = array();
+			foreach($tipoObservacion->rows as $observaciones){
+				$json_observaciones[] = array("obse_tipo_codi"=>$observaciones['obse_tipo_codi'],"obse_tipo_deta"=>$observaciones['obse_tipo_deta']);
+			}
+			$array_obs = array ("result"=>$json_observaciones);
+			echo json_encode($array_obs);
+		break;
+                
+                 case "Observaciones_por_Tipo":
+			$observacionesPorTipo->getObservacionesPorTipo($pericodi,$alumnocodi,$tipo_observacion);
+			$json_observacionesPorTipo = array();
+			foreach($observacionesPorTipo->rows as $observacionesPorTipo){
+				$json_observacionesPorTipo[] = array("obse_codi"=>$observacionesPorTipo['obse_codi'],"obse_deta"=>$observacionesPorTipo['obse_deta'],"obse_fech"=>$observacionesPorTipo['obse_fech'],"obse_tipo_deta"=>$observacionesPorTipo['obse_tipo_deta'],"usua_deta"=>$observacionesPorTipo['usua_deta'],"usua_tipo"=>$observacionesPorTipo['usua_tipo']);
+			}
+			$array_obsPorTipo = array ("result"=>$json_observacionesPorTipo);
+			echo json_encode($array_obsPorTipo);
+		break;
 	}
 ?>

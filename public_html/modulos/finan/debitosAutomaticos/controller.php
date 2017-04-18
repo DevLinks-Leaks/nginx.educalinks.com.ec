@@ -26,7 +26,7 @@ function handler()
 	{	case VIEW_GENERA_FILE:
 			if($_SESSION['IN']!="OK"){$_SESSION['IN']="KO";$_SESSION['ERROR_MSG']="Por favor inicie sesión";header("Location:".$domain);}
             
-			$debito->get_all_campos();
+			$debito->get_all_campos( 'V_DatosAlumnosDebitos_Detalle' );
 			$formatos->get_all_formatos();
 			$item->get_item_selectFormat('');
 			$item->rows[0][1]='- Todos -';
@@ -144,27 +144,29 @@ function handler()
             $esquemaXML = '<?xml version="1.0" encoding="iso-8859-1"?>';
             $esquemaXML .= '<cobro>';
             $esquemaXML .=  '<cabecera ';
-            $esquemaXML .=    'nombreformato="'.$formato['nombre_formato'].'" ';
-			$esquemaXML .=    'idformato="'.$formato['id_formato'].'" ';
-            $esquemaXML .=    'usuario="'.$_SESSION['usua_codigo'].'" ';
-         	$esquemaXML .=    'secuencial="'.$debito_data['check'].'" ';
-			$esquemaXML .=    'secuencia="'.$debito_data['iniciosecuencial'].'" ';
+            $esquemaXML .=    'nombreformato="'	.$formato['nombre_formato'].'" ';
+			$esquemaXML .=    'idformato="'		.$formato['id_formato'].'" ';
+            $esquemaXML .=    'usuario="'		.$_SESSION['usua_codigo'].'" ';
+         	$esquemaXML .=    'secuencial="'	.$debito_data['check'].'" ';
+			$esquemaXML .=    'secuencia="'		.$debito_data['iniciosecuencial'].'" ';
+			$esquemaXML .=    'ubicasecuencia="'.$debito_data['ubicasecuencia'].'" ';
+			$esquemaXML .=    'vista="'			.$debito_data['vista'].'" ';
             $esquemaXML .=  "/>";
             $esquemaXML .=  '<detalles>';
-		
+			
 			foreach ($formato['detalles'] as $detalle)
 			{   if($detalle['campo']!='')
 				{   $lineaDetalle += 1;
 					$esquemaXML .=  '<linea ';
-					$esquemaXML .=    'campo="'.$detalle['campo'].'" ';
-					$esquemaXML .=    'text_predefinido="'.$detalle['text_predif'].'" ';
-					$esquemaXML .=    'cabecera="'.$detalle['cabecera'].'" ';
-					$esquemaXML .=    'numcaracteres="'.$detalle['num_caracteres'].'" ';
-					$esquemaXML .=    'orden="'.$detalle['orden'].'" ';
-					$esquemaXML .=    'izquierda="'.$detalle['izquierda'].'" ';
-					$esquemaXML .=    'derecha="'.$detalle['derecha'].'" ';
-					$esquemaXML .=    'caracder="'.$detalle['caracder'].'" ';
-					$esquemaXML .=    'caracizq="'.$detalle['caracizq'].'" ';
+					$esquemaXML .=    'campo="'				.$detalle['campo'].'" ';
+					$esquemaXML .=    'text_predefinido="'	.$detalle['text_predif'].'" ';
+					$esquemaXML .=    'cabecera="'        	.$detalle['cabecera'].'" ';
+					$esquemaXML .=    'numcaracteres="'   	.$detalle['num_caracteres'].'" ';
+					$esquemaXML .=    'orden="'	   			.$detalle['orden'].'" ';
+					$esquemaXML .=    'izquierda="'			.$detalle['izquierda'].'" ';
+					$esquemaXML .=    'derecha="'  			.$detalle['derecha'].'" ';
+					$esquemaXML .=    'caracder="' 			.$detalle['caracder'].'" ';
+					$esquemaXML .=    'caracizq="' 			.$detalle['caracizq'].'" ';
 					$esquemaXML .=  ' />';
 				}
 			}
@@ -509,6 +511,8 @@ function handler()
 			array_pop($form_debi_deta_codigos);
 			$data = array("secuencial" 				=> $debi_cab_datos[0]['form_debi_colsecuencial'],
 						  "secuencia" 				=> $debi_cab_datos[0]['form_debi_ultsecuencial'],
+						  "ubicacion" 				=> $debi_cab_datos[0]['form_debi_ubicasecuencial'],
+						  "vista" 					=> $debi_cab_datos[0]['form_debi_vista'],
 						  "numrows"					=> count($formatos->rows),
 						  "hd_id_cabecera"			=> $debi_cab_datos[0]['form_debi_codigo'],
 						  "hd_nombreformato"		=> $debi_cab_datos[0]['form_debi_descripcion'],
@@ -587,22 +591,31 @@ function handler()
 			
 			$debi_cab_datos=$formatos->rows;
 			
-			if($debi_cab_datos[0]['form_debi_colsecuencial']=="1")
-			{	$cabeceras[]="ID";
-				$cabeceras_campo.="ID,";
-			}
+			$cabe_aux = 0;
 			foreach($debi_cab_datos as $valor)
-			{	$cabeceras[]=$valor['form_debi_deta_cabecera'];
+			{	$cabe_aux++;
+				if( $debi_cab_datos[0]['form_debi_ubicasecuencial'] == $cabe_aux )
+				{   if($debi_cab_datos[0]['form_debi_colsecuencial']=="1")
+					{	$cabeceras[]="ID";
+						$cabeceras_campo.="ID,";
+					}
+				}
+				$cabeceras[]=$valor['form_debi_deta_cabecera'];
 				$cabeceras_campo.=$valor['form_debi_deta_campo'].",";
 			}
 			$cabecera_completa=substr_replace($cabeceras_campo,'',strripos($cabeceras_campo,","),strripos($cabeceras_campo,","));
 			
 			array_pop($cabeceras);
-			
+			$aux_tarjeta = 0;
+			$flag_tarjeta = 0;
 			$i_cabe=0;//Contador de cabeceras
 			foreach($cabeceras as $cabecera)
 			{	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($i_cabe, 1, $cabecera);
-				$i_cabe=$i_cabe+1;
+				if( $cabecera == 'Banco/Tarjeta Número' )
+				{   $aux_tarjeta = $i_cabe;
+					$flag_tarjeta = 1;
+				}
+				$i_cabe = $i_cabe + 1;
 			}
 			
 			$xml_productos='<?xml version="1.0" encoding="iso-8859-1"?><productos>';
@@ -622,10 +635,19 @@ function handler()
 			for ($column = 'A'; $column != $latestBLColumn; $column++)
 			{	$objPHPExcel->getActiveSheet()->getStyle($column.$row)->getNumberFormat()->setFormatCode( PHPExcel_Style_NumberFormat::FORMAT_TEXT );
 			}
-			foreach ($debitos_datos as $registro)
+			foreach ( $debitos_datos as $registro )
 			{	$i_deta_col=0;
 			  	foreach ($registro as $campo =>$valor )
-				{	$objPHPExcel->getActiveSheet()->setCellValueExplicitByColumnAndRow($i_deta_col, $i_deta_fila, $valor);       
+				{	if( ( $aux_tarjeta == $i_deta_col ) && ( $flag_tarjeta == 1 ) )
+					{   if( !is_numeric ( $valor ) )
+						{   $alum_resp_form_banc_tarj_nume_dec=base64_decode($valor);
+							$iv = base64_decode($_SESSION['clie_iv']);
+							$alum_resp_form_banc_tarj_nume=mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $_SESSION['clie_key'], $alum_resp_form_banc_tarj_nume_dec, MCRYPT_MODE_CBC, $iv );
+							$alum_resp_form_banc_tarj_nume=preg_replace('/[^A-Za-z0-9\-]/', '', $alum_resp_form_banc_tarj_nume);
+							$valor = $alum_resp_form_banc_tarj_nume;
+						}
+					}
+					$objPHPExcel->getActiveSheet()->setCellValueExplicitByColumnAndRow($i_deta_col, $i_deta_fila, $valor);       
 					$i_deta_col=$i_deta_col+1;
 				}
 				$i_deta_fila=$i_deta_fila+1;
@@ -661,6 +683,16 @@ function handler()
 			//$global diccionario;
 			$resultado = $formatos->copy_formato($debito_data['form_debi_codigo'], $debito_data['form_debi_descripcion'], $_SESSION['usua_codigo']);
 			$data = array("mensaje" => $resultado->mensaje);
+			retornar_result($data);
+			break;
+		case CAMBIAR_VISTA :
+			//$global diccionario;
+			$debito->get_all_campos( $debito_data['vista'] );
+			$data = array(	'{combo_campos_file}' =>array("elemento"=> "combo", 
+                                                      	"datos"     => $debito->rows, 
+                                                      	"options"   => array("name"=>"campos_add","id"=>"campos_add","required"=>"required","class"=>"form-control"),
+                                                      	"selected"  => 0));
+
 			retornar_result($data);
 			break;
         default:

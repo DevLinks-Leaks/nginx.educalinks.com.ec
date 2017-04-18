@@ -86,7 +86,14 @@
 				    <span class="icon-users icon"></span>Distribuciones</a>
 			    </li>
                  <?php }?>
-                 
+                 <?php if (para_sist(406)=='1'){?>
+	                 <?php if (permiso_activo(531)){?>
+				    <li>
+					    <a class="option" href="admin_periodos_promociones.php?peri_codi=<?= $row_peri_view["peri_codi"]; ?>">
+					    <span class="icon-users icon"></span>Promociones</a>
+				    </li>
+	                 <?php }?>
+                 <?php }?>
                  
                  <?php if (permiso_activo(53)){?>
 			    <li>

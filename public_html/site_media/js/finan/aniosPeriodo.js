@@ -1,20 +1,22 @@
 // JavaScript Document
 $(document).ready(function(){
-    actualiza_badge_gest_fact();
+    $('.disabled_a').click(function(e){
+        e.preventDefault();
+    });
     $('#anioPeriodo_table').addClass( 'nowrap' ).DataTable({
-        lengthChange: false,
+        lengthChange: true,
         responsive: true,
         searching: true,
         orderClasses: true,
         paging: true,
         language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
         "columnDefs": [
-            {"title": "<span style='color:black'>C&oacute;d.</span>", className: "dt-body-center", "targets": [0]},
-            {"title": "<span style='color:black'>Producto</span>", className: "dt-body-center" , "targets": [1]},
-            {"title": "<span style='color:black'>F. Inicio cobro</span>", className: "dt-body-center" , "targets": [2]},
-            {"title": "<span style='color:black'>F. Fin cobro</span>", className: "dt-body-center" , "targets": [3]},
-            {"title": "<span style='color:black'>No. dias prontopago</span>", className: "dt-body-center" , "targets": [4]},
-            {"title": "<span style='color:black'>Opciones</span>", className: "dt-body-center" , "targets": [5]},
+            {"title": "<span style='color:black;font-size:small;'>ref.</span>", className: "dt-body-center", "targets": [0]},
+            {"title": "<span style='color:black;font-size:small;'>Producto</span>", className: "dt-body-center" , "targets": [1]},
+            {"title": "<span style='color:black;font-size:small;'>Inicio cobro</span>", className: "dt-body-center" , "targets": [2]},
+            {"title": "<span style='color:black;font-size:small;'>Fin cobro</span>", className: "dt-body-center" , "targets": [3]},
+            {"title": "<span style='color:black;font-size:small;'>Prontopago</span>", className: "dt-body-center" , "targets": [4]},
+            {"title": "<span style='color:black;font-size:small;'>Opciones</span>", className: "dt-body-center" , "targets": [5]},
             {className: "dt-head-center" , "targets": [0]},
             {className: "dt-head-left"   , "targets": [1]},
             {className: "dt-head-center" , "targets": [2]},
@@ -125,8 +127,8 @@ function cargaProductos(div, url){
     xhr.send(data);
 }
 // Carga el formulario para ingresar un nuevo registro
-function carga_add(div, url){
-    document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
+function js_aniosPeriodo_carga_add( div, url )
+{   document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
     var data = new FormData();
     data.append('event', 'agregar');
     var xhr = new XMLHttpRequest();
@@ -211,7 +213,7 @@ function js_aniosPeriodo_carga_deudasfechas(div, url){
 }
 function js_aniosPeriodo_migrarfacturas( div, url )
 {   if ( document.getElementById( 'codigomes_deudas' ) )
-    {   var codigo = document.getElementById('codigomes_deudas').value
+    {   var codigo = document.getElementById('codigomes_deudas').value;
         document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
         var data = new FormData();
         data.append('event', 'migrarfacturas');
@@ -436,9 +438,9 @@ function js_aniosPeriodo_envio_deudas_lote_resultadofinal( url, cc, ce, cd, div,
             {    if ( proceso_corriendo === 1 )
                 {   var sms_notify = "";
                     if (obj_len > 1)
-                        sms_notify = "¡Se han enviado " + ( indice ) + " registros de deudas a Contífico!"
+                        sms_notify = "¡Se han enviado " + ( indice ) + " registros de deudas a Contífico!";
                     else
-                        sms_notify = "¡Envío de deudas completado!"
+                        sms_notify = "¡Envío de deudas completado!";
                     
                     var notification = new Notification('Educalinks', {
                         icon: document.getElementById('ruta_imagenes_common').value + "/favicon.png",
@@ -527,7 +529,7 @@ function js_aniosPeriodo_buscadeudas(div, url)
     xhr.open('POST', url, true);
     xhr.onreadystatechange = function()
     {   if ( xhr.readyState === 4 && xhr.status === 200 )
-        {   document.getElementById(div).innerHTML=xhr.responseText;
+        {   document.getElementById(div).innerHTML = xhr.responseText;
             $('#tabladeuda').DataTable({
                 "bPaginate": true,
                 "bStateSave": false,
@@ -557,8 +559,63 @@ function js_aniosPeriodo_buscadeudas(div, url)
     };
     xhr.send(data);
 }
-function carga_resultadoLote(div, url)
+// Consulta filtrada
+function js_aniosPeriodo_buscaItemsPeriodo(div, url)
 {   document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
+    var data = new FormData();
+    data.append('event', 'get_all_data');
+    data.append('anio', $("#codigoAnio option:selected").val());
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onreadystatechange = function()
+    {   if ( xhr.readyState === 4 && xhr.status === 200 )
+        {   document.getElementById( 'div_main_box_header' ).innerHTML =
+                        '<button class="btn btn-primary" type="button" aria-hidden="true" data-toggle="modal" data-target="#modal_add"'+
+                                'onclick="js_aniosPeriodo_carga_add(\'modal_add_body\',\'' + document.getElementById("ruta_html_finan").value + '/aniosPeriodo/controller.php\')" {disabled_agregar_item}>'+
+                                'Item&nbsp;<li class="fa fa-plus"></li></button>'+
+                        '<div class="pull-right">'+
+                        '<button type="button" class="btn btn-default"'+
+                            'aria-hidden="true" data-toggle="modal" data-target="#modal_infoPa">'+
+                            '&nbsp;<span style="color:#3c8dbc;" class="fa fa-info-circle"></span>&nbsp;</button>'+
+                    '</div>';
+            document.getElementById(div).innerHTML=xhr.responseText;
+            $('#anioPeriodo_table').addClass( 'nowrap' ).DataTable({
+                lengthChange: true,
+                responsive: true,
+                searching: true,
+                orderClasses: true,
+                paging: true,
+                language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+                "columnDefs": [
+                    {"title": "<span style='color:black;font-size:small;'>ref.</span>", className: "dt-body-center", "targets": [0]},
+                    {"title": "<span style='color:black;font-size:small;'>Producto</span>", className: "dt-body-center" , "targets": [1]},
+                    {"title": "<span style='color:black;font-size:small;'>Inicio cobro</span>", className: "dt-body-center" , "targets": [2]},
+                    {"title": "<span style='color:black;font-size:small;'>Fin cobro</span>", className: "dt-body-center" , "targets": [3]},
+                    {"title": "<span style='color:black;font-size:small;'>Prontopago</span>", className: "dt-body-center" , "targets": [4]},
+                    {"title": "<span style='color:black;font-size:small;'>Opciones</span>", className: "dt-body-center" , "targets": [5]},
+                    {className: "dt-head-center" , "targets": [0]},
+                    {className: "dt-head-left"   , "targets": [1]},
+                    {className: "dt-head-center" , "targets": [2]},
+                    {className: "dt-head-center" , "targets": [3]},
+                    {className: "dt-head-center" , "targets": [4]},
+                    {className: "dt-head-center" , "targets": [5]}
+                ]
+            });
+            $("#nav_aniosPeriodo_1").addClass("active");
+            $("#nav_aniosPeriodo_2").removeClass("active");
+            $("#nav_aniosPeriodo_3").removeClass("active");
+        }
+    };
+    xhr.send(data);
+}
+function js_aniosPeriodo_carga_resultadoLote(div, url)
+{   document.getElementById( 'div_main_box_header' ).innerHTML = 
+                    '<div class="pull-right">'+
+                        '<button type="button" class="btn btn-default"'+
+                            'aria-hidden="true" data-toggle="modal" data-target="#modal_infoPa">'+
+                            '&nbsp;<span style="color:#3c8dbc;" class="fa fa-info-circle"></span>&nbsp;</button>'+
+                    '</div>';
+    document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
     var data = new FormData();
     data.append('event', 'genera_deudas');
     var xhr = new XMLHttpRequest();
@@ -567,12 +624,38 @@ function carga_resultadoLote(div, url)
         if ( xhr.readyState === 4 && xhr.status === 200 )
         {   document.getElementById(div).innerHTML=xhr.responseText;
             $("#alumnos").select2();
+            $("#nav_aniosPeriodo_1").removeClass("active");
+            $("#nav_aniosPeriodo_2").addClass("active");
+            $("#nav_aniosPeriodo_3").removeClass("active");
+        }
+    };
+    xhr.send(data);
+}
+function js_aniosPeriodo_carga_bloqueo_alumnos(div, url)
+{   document.getElementById( 'div_main_box_header' ).innerHTML = 
+                    '<div class="pull-right">'+
+                        '<button type="button" class="btn btn-default"'+
+                            'aria-hidden="true" data-toggle="modal" data-target="#modal_infoPa">'+
+                            '&nbsp;<span style="color:#3c8dbc;" class="fa fa-info-circle"></span>&nbsp;</button>'+
+                    '</div>';
+    document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
+    var data = new FormData();
+    data.append('event', 'bloqueo_alumnos');
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+    xhr.onreadystatechange = function(){
+        if ( xhr.readyState === 4 && xhr.status === 200 )
+        {   document.getElementById(div).innerHTML=xhr.responseText;
+            $("#alumnos").select2();
+            $("#nav_aniosPeriodo_1").removeClass("active");
+            $("#nav_aniosPeriodo_2").removeClass("active");
+            $("#nav_aniosPeriodo_3").addClass("active");
         }
     };
     xhr.send(data);
 }
 // Realiza el ingreso de un registro nuevo
-function saveAddItem( div, url )
+function js_aniosPeriodo_saveAddItem( div, url )
 {   var comboProducto = document.getElementById("codigoProducto_add");
     if(comboProducto.options[comboProducto.selectedIndex].value > 0)
     {   if ( ( document.getElementById('fechaInicio_add').value.length === 0 ) || ( document.getElementById('fechaFin_add').value.length === 0 ) )
@@ -593,8 +676,7 @@ function saveAddItem( div, url )
                 xhr.onreadystatechange = function()
                 {   if ( xhr.readyState === 4 && xhr.status === 200 )
                     {   $.growl.notice({ title: "¡Item modificado!", message: "Item " + comboProducto.options[comboProducto.selectedIndex].value + ": '" + comboProducto.options[comboProducto.selectedIndex].text + "' guardado correctamente." });
-                        $('#modal_add').modal("hide");
-                        buscaItemsPeriodo(div, url);
+                        js_aniosPeriodo_buscaItemsPeriodo(div, url);
                     }
                 };
                 xhr.send(data);
@@ -609,62 +691,73 @@ function saveAddItem( div, url )
     }
 }
 // Realiza el ingreso de un registro nuevo
-function generarDeudaLote(div,div2,url)
-{   document.getElementById('btn_genera_deuda').disabled=true;
-    document.getElementById('btn_cancela_deuda').disabled=true;
-    var frm = document.getElementById(div2);
+function js_aniosPeriodo_generarDeudaLote( div2, url )
+{   var frm = document.getElementById(div2);
     var porcentaje=100;
     var productos={};
+    var bandera_prod = 0;
     for (i = 0;i<frm.elements.length;i++)
     {   if(frm.elements[i].type=="checkbox" && frm.elements[i].checked )
-        {   productos[i]=frm.elements[i].value;
+        {   productos[i] = frm.elements[i].value;
+            bandera_prod++;
         }
     }
-    var alumnos={};
-    $('#alumnos :selected').each(function(i, selected){ 
-      alumnos[i] = $(selected).val(); 
-    });
-    var data = new FormData();
-    data.append('event', 'set_deuda_ind');
-    var bandera = 0;
-    $('#alumnos :selected').each(function(i, selected){ 
-        bandera++;
-    });
-    const selected = $('#alumnos :selected').map(function() {return $(this).text()}).get()
-    if (!selected.includes(' - Todos -') && (bandera > 0) )
-    {   data.append('casos','alumno');
-    }
-    if(( selected.includes(' - Todos -') && (bandera > 0) )&&(document.getElementById('curso').value >0))
-    {   data.append('casos','curso');
-    }
-    if( document.getElementById('curso').value <= 0 )
-    {   data.append('casos','todos');
-    }
-    if( ( document.getElementById('curso').value <= 0 ) && ( document.getElementById('periodos').value <= 0 ) )
-    {   data.append('casos','todos');
-    }
-    data.append( 'producto',  JSON.stringify( productos ) );
-    data.append( 'peri_codi', document.getElementById( "periodos" ).value );
-    data.append( 'cod_curso', document.getElementById("curso").value );
-    data.append( 'cod_alum',  JSON.stringify( alumnos ) );
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
-    xhr.onreadystatechange = function()
-    {   if ( xhr.readyState === 4 && xhr.status === 200 )
-        {   document.getElementById('div_deudas_resultado').innerHTML=xhr.responseText;
-            document.getElementById('btn_genera_deuda').disabled=false;
-            document.getElementById('btn_cancela_deuda').disabled=false;
-            aumenta_porc(porcentaje); //Función llamada de general.js
+    if ( bandera_prod === 0 )
+        $.growl.warning({ title: "Educalinks informa", message: "Seleccione al menos un producto para continuar." });
+    else
+    {   document.getElementById( 'div_deudas_resultado' ).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';    aumenta_porc( 0 ); //Función llamada de general.js    document.getElementById('btn_genera_deuda').disabled = true;
+        var alumnos={};
+        $('#alumnos :selected').each(function(i, selected){ 
+          alumnos[i] = $(selected).val(); 
+        });
+        var data = new FormData();
+        data.append('event', 'set_deuda_ind');
+        var bandera = 0;
+        $('#alumnos :selected').each(function(i, selected){ 
+            bandera++;
+        });
+        const selected = $('#alumnos :selected').map(function() {return $(this).text();}).get();
+        if (!selected.includes(' - Todos -') && (bandera > 0) )
+        {   data.append('casos','alumno');
         }
-    };
-    xhr.send(data);
+        if(( selected.includes(' - Todos -') && (bandera > 0) )&&(document.getElementById('curso').value >0))
+        {   data.append('casos','curso');
+        }
+        if( document.getElementById('curso').value <= 0 )
+        {   data.append('casos','todos');
+        }
+        if( ( document.getElementById('curso').value <= 0 ) && ( document.getElementById('periodos').value <= 0 ) )
+        {   data.append('casos','todos');
+        }
+        data.append( 'producto',  JSON.stringify( productos ) );
+        data.append( 'peri_codi', document.getElementById( "periodos" ).value );
+        data.append( 'cod_curso', document.getElementById("curso").value );
+        data.append( 'cod_alum',  JSON.stringify( alumnos ) );
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.onreadystatechange = function()
+        {   if ( xhr.readyState === 4 && xhr.status === 200 )
+            {   if ( xhr.responseText.length === 0 )
+                {   document.getElementById('div_deudas_resultado').innerHTML =
+                    '<span style="color:red;font-size:small;">Por favor, seleccione una opción en el listado de Alumnos.</span>';
+                    aumenta_porc( 0 ); //Función llamada de general.js
+                }
+                else
+                {   document.getElementById('div_deudas_resultado').innerHTML = xhr.responseText;
+                    aumenta_porc(porcentaje); //Función llamada de general.js
+                }    
+                document.getElementById('btn_genera_deuda').disabled = false;
+            }
+        };
+        xhr.send(data);
+    }
 }
 function js_aniosPeriodo_validaTodos()
 {   var bandera = 0;
     $('#alumnos :selected').each(function(i, selected){ 
         bandera++;
     });
-    const selected = $('#alumnos :selected').map(function() {return $(this).text()}).get()
+    const selected = $('#alumnos :selected').map(function() {return $(this).text();}).get();
     if (selected.includes(' - Todos -') && (bandera > 1) )
     {   document.getElementById( 'span_tiene_todos' ).innerHTML = "Ha seleccionado - Todos - . Se generarán deudas para todos los estudiantes del curso seleccionado.";
         //$('option:contains(\' - Todos -\')').prop('selected', false)
@@ -672,46 +765,8 @@ function js_aniosPeriodo_validaTodos()
     else
         document.getElementById( 'span_tiene_todos' ).innerHTML = "";
 }
-// Consulta filtrada
-function buscaItemsPeriodo(div, url)
-{   document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
-    var data = new FormData();
-    data.append('event', 'get_all_data');
-    data.append('anio', $("#codigoAnio option:selected").val());
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
-    xhr.onreadystatechange = function()
-    {   if ( xhr.readyState === 4 && xhr.status === 200 )
-        {   document.getElementById(div).innerHTML=xhr.responseText;
-            $('#anioPeriodo_table').addClass( 'nowrap' ).DataTable({
-                lengthChange: false,
-                responsive: true,
-                searching: true,
-                orderClasses: true,
-                paging: true,
-                "scrollX": '100%',
-                language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
-                "columnDefs": [
-                    {"title": "<span style='color:black'>C&oacute;d.</span>", className: "dt-body-center", "targets": [0]},
-                    {"title": "<span style='color:black'>Producto</span>", className: "dt-body-center" , "targets": [1]},
-                    {"title": "<span style='color:black'>F. Inicio cobro</span>", className: "dt-body-center" , "targets": [2]},
-                    {"title": "<span style='color:black'>F. Fin cobro</span>", className: "dt-body-center" , "targets": [3]},
-                    {"title": "<span style='color:black'>No. dias prontopago</span>", className: "dt-body-center" , "targets": [4]},
-                    {"title": "<span style='color:black'>Opciones</span>", className: "dt-body-center" , "targets": [5]},
-                    {className: "dt-head-center" , "targets": [0]},
-                    {className: "dt-head-center" , "targets": [1]},
-                    {className: "dt-head-center" , "targets": [2]},
-                    {className: "dt-head-center" , "targets": [3]},
-                    {className: "dt-head-center" , "targets": [4]},
-                    {className: "dt-head-center" , "targets": [5]}
-                ]
-            });
-        }
-    };
-    xhr.send(data);
-}
 // Carga el formulario para editar un registro
-function carga_edit(codigo, div, url)
+function js_aniosPeriodo_carga_edit(codigo, div, url)
 {   document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
     var data = new FormData();
     data.append('event', 'get');
@@ -727,7 +782,7 @@ function carga_edit(codigo, div, url)
     xhr.send(data);
 }
 // Realiza la actualizacion de los datos en la BD
-function saveEditItem( div, url )
+function js_aniosPeriodo_saveEditItem( div, url )
 {   
     if ( ( document.getElementById('fechaInicio_mod').value.length === 0 ) || ( document.getElementById('fechaFin_mod').value.length === 0 ) )
     {   $.growl.warning({ title: "Educalinks informa", message: "Marque las fechas de inicio y fin de cobro para continuar." });
@@ -754,7 +809,7 @@ function saveEditItem( div, url )
                 {   if ( xhr.readyState === 4 && xhr.status === 200 )
                     {   $.growl.notice({ title: "Educalinks informa", message: "Item " + cod_producto + ": '" + nom_producto + "' modificado correctamente." });
                         $('#modal_edit_item').modal("hide");
-                        buscaItemsPeriodo(div, url);
+                        js_aniosPeriodo_buscaItemsPeriodo(div, url);
                     }
                 };
                 xhr.send(data);
@@ -777,38 +832,40 @@ function js_aniosPeriodo_cargaCursos( div, url )
     xhr.onreadystatechange = function()
     {   if ( xhr.readyState === 4 && xhr.status === 200 )
         {   document.getElementById(div).innerHTML=xhr.responseText;
-            js_aniosPeriodo_cargaAlumnos('resultadoAlumnos', url);
+            js_aniosPeriodo_cargaAlumnos( 'resultadoAlumnos' );
             document.getElementById( 'span_tiene_todos' ).innerHTML = "";
         }
     };
     xhr.send(data);
 }
-function js_aniosPeriodo_cargaAlumnos(div, url)
+function js_aniosPeriodo_cargaAlumnos( div )
 {   document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
     var comboCursos = document.getElementById("curso");
     var data = new FormData();
     data.append('cod_curso', comboCursos.value);
     data.append('event', 'get_alumnos');
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', url, true);
+    xhr.open('POST', document.getElementById('ruta_html_finan').value + '/aniosPeriodo/controller.php', true);
     xhr.onreadystatechange = function()
     {   if ( xhr.readyState === 4 && xhr.status === 200 )
         {   document.getElementById(div).innerHTML=xhr.responseText;
             if (comboCursos.value === -1 )
-            {   $('alumnos option:selected').attr('disabled','disabled');
+            {   $('#alumnos').attr('disabled','true');
             }
             else
-            {   $('alumnos option:selected').attr('disabled','enabled');
+            {   if ( $("#nav_aniosPeriodo_3").hasClass('active') )
+                {   $("#alumnos option[value='-1']").remove();
+                }
+                $('#alumnos').removeAttr('disabled');
                 $("#alumnos").select2();
             }
-            console.log(comboCursos.value);
         }
     };
     xhr.send(data);
 }
 // Realiza la eliminacion del cliente en la BD
-function del(codigo, div, url)
-{   if(confirm("¿Está seguro que desea eliminar el item del periodo actual?"))
+function js_aniosPeriodo_del( codigo, div, url )
+{   if( confirm( "¿Está seguro que desea eliminar el item del periodo actual?" ) )
     {   document.getElementById(div).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
         var data = new FormData();
         data.append('event', 'delete');
@@ -819,7 +876,93 @@ function del(codigo, div, url)
         xhr.onreadystatechange = function()
         {   if ( xhr.readyState === 4 && xhr.status === 200 )
             {   $.growl.notice({ title: "¡Item eliminado!", message: "Item " + codigo + " eliminado correctamente." });
-                buscaItemsPeriodo(div, url);
+                js_aniosPeriodo_buscaItemsPeriodo(div, url);
+            }
+        };
+        xhr.send(data);
+    }
+}
+function js_aniosPeriodo_bloquear ( div, url )
+{
+    var follow = 1;
+    
+    if( document.getElementById('curso').value <= 0 )
+    {   follow = 0;
+        $.growl.warning({ title: "Educalinks informa", message: "Seleccione un curso para continuar." });
+    }
+    var alumnos = {};
+    var bandera = 0;
+    $('#alumnos :selected').each(function(i, selected){ 
+        alumnos[i] = $(selected).val(); 
+        bandera ++;
+    });
+    if( bandera === 0 )
+    {   follow = 0;
+        $.growl.warning({ title: "Educalinks informa", message: "Seleccione al menos un alumno para continuar." });
+    }
+    if ( follow === 1 )
+    {   document.getElementById('btn_bloqueo_alumnos').disabled=true;
+        $("#nav_aniosPeriodo_1").addClass("disabled_a");
+        $("#nav_aniosPeriodo_2").addClass("disabled_a");
+        $("#nav_aniosPeriodo_3").addClass("disabled_a");
+        
+        
+        var data = new FormData();
+        data.append( 'event', 'set_bloqueo_alumno');
+        data.append( 'peri_codi', document.getElementById( "periodos" ).value );
+        data.append( 'motivo', document.getElementById("cmb_motivo").value );
+        data.append( 'opcion', document.getElementById("cmb_opciones").value );
+        data.append( 'cod_alum',  JSON.stringify( alumnos ) );
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.onreadystatechange = function()
+        {   if ( xhr.readyState === 4 && xhr.status === 200 )
+            {   if( xhr.responseText.length > 0 )
+                {   resultado = JSON.parse(xhr.responseText);
+                    document.getElementById('div_lista_bloqueados').innerHTML = resultado.tbl_listado_bloqueo_alumnos;
+                    valida_tipo_growl(resultado.mensaje);
+					js_aniosPeriodo_cargaAlumnos( 'resultadoAlumnos' );
+                }
+                else
+                {   $.growl.error({ title: "Educalinks informa",message: "No se pudo hacer conexión con el servidor." });
+                    document.getElementById('div_lista_bloqueados').innerHTML = xhr.responseText;
+                }
+                document.getElementById('btn_bloqueo_alumnos').disabled = false;
+                $("#nav_aniosPeriodo_1").removeClass("disabled_a");
+                $("#nav_aniosPeriodo_2").removeClass("disabled_a");
+                $("#nav_aniosPeriodo_3").removeClass("disabled_a");
+            }
+        };
+        xhr.send(data);
+    }
+}
+
+// Realiza la eliminacion del cliente en la BD
+function js_aniosPeriodo_del_bloqueo( codigo )
+{   if( confirm( "¿Está seguro que desea eliminar el bloqueo de este alumno?" ) )
+    {   document.getElementById( 'div_lista_bloqueados' ).innerHTML='<br><div align="center"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Por favor, espere...</div><br>';
+        var data = new FormData();
+        data.append('event', 'del_bloqueo_alumno');
+        data.append('alum_moti_bloq_opci_codi',  codigo);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', document.getElementById('ruta_html_finan').value + '/aniosPeriodo/controller.php', true);
+        xhr.onreadystatechange = function()
+        {   if ( xhr.readyState === 4 && xhr.status === 200 )
+            {   console.log(xhr.responseText);
+                if( xhr.responseText.length > 0 )
+                {   resultado = JSON.parse(xhr.responseText);
+                    document.getElementById('div_lista_bloqueados').innerHTML = resultado.tbl_listado_bloqueo_alumnos;
+                    valida_tipo_growl(resultado.mensaje);
+					js_aniosPeriodo_cargaAlumnos( 'resultadoAlumnos' );
+                }
+                else
+                {   $.growl.error({ title: "Educalinks informa",message: "No se pudo hacer conexión con el servidor." });
+                    document.getElementById('div_lista_bloqueados').innerHTML = xhr.responseText;
+                }
+                document.getElementById('btn_bloqueo_alumnos').disabled = false;
+                $("#nav_aniosPeriodo_1").removeClass("disabled_a");
+                $("#nav_aniosPeriodo_2").removeClass("disabled_a");
+                $("#nav_aniosPeriodo_3").removeClass("disabled_a");
             }
         };
         xhr.send(data);

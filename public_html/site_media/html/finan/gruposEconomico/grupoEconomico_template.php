@@ -68,32 +68,27 @@ session_start();
 <body class="hold-transition skin-blue sidebar-mini {sidebar_status}">
     <div class="wrapper">
 	{navbar}
-	
-      <!-- MENU-->
-	  {menu}
-	  <!-- Left side column. contains the logo and sidebar -->
-      <!-- /.MENU-->
-	   <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
+	{menu}
+	<div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>
-            {subtitulo}
-            <small>{mensaje}</small>
-          </h1>
-          <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-home"></i> Mantenimiento</a></li>
-            <li class="active">{subtitulo}</li>
-          </ol>
+			<h1>
+				{subtitulo}
+				<small>{mensaje}</small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><a href="#"><i class="fa fa-home"></i> Mantenimiento</a></li>
+				<li class="active">{subtitulo}</li>
+			</ol>
         </section>
         <section class="content" id="formulario">
 			{formulario}
         </section>
 		{menu_sidebar}
-      </div><!-- /.content-wrapper -->
+    </div><!-- /.content-wrapper -->
 	<form id="frm_rutas" name="frm_rutas" enctype="multipart/form-data" method="post">
-            {rutas_all}
-            <input type="hidden" id="index" name="index" value="{tipoid}" />
+		{rutas_all}
+		<input type="hidden" id="index" name="index" value="{tipoid}" />
 	</form>
 	{footer}
 	</div><!-- ./wrapper -->

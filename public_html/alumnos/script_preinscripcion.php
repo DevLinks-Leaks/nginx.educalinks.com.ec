@@ -62,11 +62,11 @@ switch($opc){
 			}
 		}
 		$alum_fech_naci = substr($_POST['alum_fech_naci'],6,4)."".substr($_POST['alum_fech_naci'],3,2)."".substr($_POST['alum_fech_naci'],0,2);
-		$alum_genero = ($_POST['genero']=='Hombre'?1:0);
+		$alum_genero = ($_POST['alum_genero']=='Hombre'?1:0);
 		$alum_resp_tarj_banco_emisor = ($_POST['alum_resp_tarj_banco_emisor']==0?'':$_POST['alum_resp_tarj_banco_emisor']);
 		$alum_resp_form_fech_vcto = substr($_POST['alum_resp_form_fech_vcto'],6,4)."".substr($_POST['alum_resp_form_fech_vcto'],3,2)."".substr($_POST['alum_resp_form_fech_vcto'],0,2);
 		$alum_resp_form_banc_tipo = ($_POST['alum_resp_form_banc_tipo'] =='CORRIENTE'?'C':'A');
-		$sql	= "{call preins_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		$sql	= "{call preins_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		$params	= array($_SESSION['alum_codi'],
 						$_SESSION['alum_curs_para_codi'],
 						$_SESSION['peri_codi_dest'],
@@ -111,7 +111,8 @@ switch($opc){
 						$_POST['alum_sect_naci'],
 						$_POST['alum_ex_plantel'],
 						$_POST['alum_ex_plantel_dire'],
-						$_POST['alum_repr_finan']);
+						$_POST['alum_repr_finan'],
+						$_POST['alum_prov']);
 		$stmt_al	= sqlsrv_query($conn,$sql,$params);
 		if ($stmt_al===false){
 			$result= json_encode(array ('state'=>'error',

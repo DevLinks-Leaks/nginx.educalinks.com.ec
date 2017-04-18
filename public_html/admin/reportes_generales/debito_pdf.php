@@ -83,14 +83,15 @@
 	// if($sexo_secretaria =='F'){$sexo_secretaria_art='la';}else{$sexo_secretaria_art='el';}
 
 	/*descencriptar numero tarjeta*/
-	if($row['alum_resp_form_banc_tarj_nume']!=null){
+	if($row['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($row['alum_resp_form_banc_tarj_nume']) ){
 		$alum_resp_form_banc_tarj_nume_dec=base64_decode($row['alum_resp_form_banc_tarj_nume']);
 		$iv = base64_decode($_SESSION['clie_iv']);
 		$alum_resp_form_banc_tarj_nume=mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $_SESSION['clie_key'], $alum_resp_form_banc_tarj_nume_dec, MCRYPT_MODE_CBC, $iv );
 		$alum_resp_form_banc_tarj_nume=preg_replace('/[^A-Za-z0-9\-]/', '', $alum_resp_form_banc_tarj_nume);
+	}else{
+		$alum_resp_form_banc_tarj_nume=$row['alum_resp_form_banc_tarj_nume'];
 	}
 	/*FIN*/
-
 	/*Creación de bloque de información de pago*/
 	$info_credito='';
 	if($row['alum_resp_form_pago']==22){ 
@@ -126,7 +127,19 @@
 		$info_credito.='';
 		$info_credito.='</table>';
 	}
-
+	$jornada = para_sist(35);
+	if ($_SESSION['directorio']=='delfos' or $_SESSION['directorio']=='delfosvesp')
+	{	$jornada_lbl  = "<h5>Jornada ".$jornada."</h5><br/>";
+	}
+	else
+	{	$jornada_lbl = "";
+	}
+	if ($_SESSION['directorio']=='moderna')
+	{	$codigo  = "<h4>Cod. Alumno: ".$alum_codi."</h4><br/><br/>";
+	}
+	else
+	{	$codigo = "";
+	}
 	/*Creación de objeto TCPDF*/
 	$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 	$pdf->SetCreator($cliente);
@@ -140,6 +153,10 @@
 	$pdf->AddPage();
 	$html=<<<EOF
 	<style>
+	h4
+	{
+		text-align: right;
+	}
 	h5
 	{	
 		text-align: center;
@@ -168,6 +185,8 @@
 		line-height: 180%;
 	}
 	</style>
+	{$codigo}
+	{$jornada_lbl}
 	<h5>AUTORIZACIÓN DE DEBITO EN CUENTA BANCARIA O TARJETA DE CREDITO</h5><br/>
 	<p class="letras_normales">
 	Señores</p>

@@ -218,6 +218,7 @@ function preinscribir_alumno()
 		data.append('alum_ex_plantel', $('#alum_ex_plantel').val());
 		data.append('alum_ex_plantel_dire', $('#alum_ex_plantel_dire').val());
 		data.append('alum_repr_finan', $('.check_finan:checked').attr('id'));
+		data.append('alum_prov', $('#alum_prov option:selected').text());
 
 		xmlhttp.onreadystatechange=function()
 		{
@@ -320,7 +321,7 @@ function comprobarObligatoriosAlum(){
 	else
 	{	$('#alum_domi').closest('.form-group').removeClass('has-error');
 	}
-	if ($('#alum_ciud').val().trim()=='')
+	if ($('#alum_ciud').text().trim()=='')
 	{	$('#alum_ciud').closest('.form-group').addClass('has-error');
 		$.growl.error({
 				title: 'Educalinks informa',
@@ -330,7 +331,7 @@ function comprobarObligatoriosAlum(){
 	else
 	{	$('#alum_ciud').closest('.form-group').removeClass('has-error');
 	}
-	if ($('#alum_parroquia').val().trim()=='')
+	if ($('#alum_parroquia').text().trim()=='')
 	{	$('#alum_parroquia').closest('.form-group').addClass('has-error');
 		$.growl.error({
 				title: 'Educalinks informa',
@@ -338,7 +339,7 @@ function comprobarObligatoriosAlum(){
 		return false;
 	}
 	else
-	{	$('#alum_parroq').closest('.form-group').removeClass('has-error');
+	{	$('#alum_parroquia').closest('.form-group').removeClass('has-error');
 	}
 	if ($('#alum_resp_form_banc_tarj_nume').val().trim()=='' && $('#alum_resp_form_banc_tarj_nume').hasClass('required'))
 	{	$('#alum_resp_form_banc_tarj_nume').closest('.form-group').addClass('has-error');
@@ -349,15 +350,21 @@ function comprobarObligatoriosAlum(){
 	}else
 	{	$('#alum_resp_form_banc_tarj_nume').closest('.form-group').removeClass('has-error');
 	}
-	if (document.getElementById('alum_resp_form_cedu').value.trim()=='')
+	if (document.getElementById('alum_resp_form_cedu').value.trim()=='' && $('#alum_resp_form_banc_tarj_nume').hasClass('required'))
 	{	$('#alum_resp_form_cedu').closest('.form-group').addClass('has-error');
+		$.growl.error({
+				title: 'Educalinks informa',
+				message: 'Por favor ingrese número de identificación del propietario de la cuenta.' });
 		return false;
-	}else{
+	}else if (document.getElementById('alum_resp_form_cedu').value.trim()!=''){
 		var response = validarNI(document.getElementById('alum_resp_form_cedu').value,$('#alum_resp_form_tipo_iden').val());
 		if(response=="Cédula Correcta" || response=="RUC Correcto" || response=="Pasaporte" ){
 			$('#alum_resp_form_cedu').closest('.form-group').removeClass('has-error');
 		}else{
 			$('#alum_resp_form_cedu').closest('.form-group').addClass('has-error');
+			$.growl.error({
+				title: 'Educalinks informa',
+				message: 'Por favor ingresar número de identificación del propietario correcto.' });
 			return false;
 		}
 	}

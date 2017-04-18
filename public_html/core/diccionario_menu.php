@@ -309,6 +309,11 @@ $diccionario_menu=array(
 						'texto'=>'<span class=\'fa fa-bookmark-o\'></span>&nbsp;Reporte mediación',
 						'permiso'=>'202'
 				),
+'{RepDebito}'=> 	array(
+						'href'=>'../../finan/rep_debito/',
+						'texto'=>'<span class=\'fa fa-bookmark-o\'></span>&nbsp;R. debito bancario',
+						'permiso'=>'202'
+				),
 '{RepFacturas}'	=> 	array(
 						'href'=>'../../finan/rep_facturas/',
 						'texto'=>'<span class=\'fa fa-bookmark-o\'></span>&nbsp;Facturas',

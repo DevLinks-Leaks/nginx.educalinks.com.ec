@@ -81,7 +81,7 @@
 						<!--<li class="{menu409}">{RepEmisiones}</li>-->
 						<li class="{menu410}">{RepMediacion}</li>
 						<li class="{menu411}">{RepAntiguedad}</li>
-						<!--<li class="{menu412}">{RepConvenioPagos}</li>-->
+						<li class="{menu412}">{RepDebito}</li>
 					</ul>
 				</li>
 				<li class="{open5} treeview">

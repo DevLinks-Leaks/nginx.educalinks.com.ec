@@ -69,6 +69,9 @@
 		$senor='Señor';
 	}
 	if($sexo_secretaria =='F'){$sexo_secretaria_art='la';}else{$sexo_secretaria_art='el';}
+	$jornada = para_sist(35);
+	$jornada_lbl  = "<h3>Jornada ".$jornada."</h3>";
+
 	/*Creación de objeto TCPDF*/
 	$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 	$pdf->SetCreator($cliente);
@@ -76,7 +79,7 @@
 	$pdf->SetTitle($cliente);
 	$pdf->SetSubject($cliente);
 	$pdf->SetMargins(PDF_MARGIN_LEFT, 10, PDF_MARGIN_RIGHT);
-	$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+	$pdf->SetAutoPageBreak(TRUE, 8);
 	$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);	 
 	/*Añadir nueva página*/
 	$pdf->AddPage();
@@ -106,6 +109,7 @@
 	}
 	</style>
 	<h1>SOLICITUD DE MATRÍCULA<br/>
+	{$jornada_lbl}
 	ASPIRANTE A ESTUDIANTE DE {$nombre_colegio}</h1>
 	<p class="letras_normales">{$ciudad}, {$fecha_hoy} </p>
 	<p class="letras_normales">
@@ -249,8 +253,8 @@ $html=<<<EOD
 		text-align: justify;
 	}
 	</style>
-	<br>
-	<h1>INFORMACIÓN PERSONAL PARA MATRÍCULA</h1>
+	<br/>
+	<h1>Jornada {$jornada}<br/>INFORMACIÓN PERSONAL PARA MATRÍCULA</h1>
 	<p class="letras_normales">Educación inicial _______ Educación Básica _______ Bachillerato _______</p>
 	<h3>DATOS DEL (LA) ASPIRANTE</h3>
 	<table width="100%" border="1">

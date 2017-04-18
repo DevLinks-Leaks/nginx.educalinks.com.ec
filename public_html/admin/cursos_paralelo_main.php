@@ -33,20 +33,21 @@
             <div class="options" style="display: block; float: left; width: 100%; height: 50px;">
 
               <ul style="display: block; float: left;">
-                <?php if (permiso_activo(28)){?>
+                <?php if (permiso_activo(36)){?>
                 <li>
                   <a class="button_text"  id="bt_curs_add" onclick="document.getElementById('curs_deta').value='';" data-toggle="modal" data-target="#curs_nuev" title="">
                     <span class="icon-add icon"></span> Nuevo Curso
                   </a>
                 </li>
+                <?php }?>
                 <li>
                   <a class="button_text"  id="bt_curs_add"  href="cursos_paralelo_nomina_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
-                    <span class="icon-file-excel"></span> Nómina Matr. General
+                    <span style='color:#22ae73;' class="icon-file-excel"></span> Nómina Matr. General
                   </a>
                 </li>
                 <li>
                   <a class="button_text"  id="bt_curs_add"  href="cursos_paralelo_nomina_totales_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
-                    <span class="icon-file-excel"></span> Nómina Matr. Resumen
+                    <span style='color:#22ae73;' class="icon-file-excel"></span> Nómina Matr. Resumen
                   </a>
                 </li>
                  <!--<li>
@@ -56,10 +57,14 @@
                 </li>-->
                 <li>
                   <a class="button_text"  id="bt_curs_add"  href="listado_alumnos_all_xls.php" >
-                    <span class="icon-file-excel"></span> Lista General
+                    <span style='color:#22ae73;' class="icon-file-excel"></span> Lista Matriculados
                   </a>
                 </li>
-				<?php }?>
+				<li>
+                  <a class="button_text"  id="bt_curs_add"  href="listado_all_xls.php" title='Todos los alumnos con estado respectivo'>
+                    <span style='color:#22ae73;' class="icon-file-excel"></span> Lista General
+                  </a>
+                </li>
                 <li>
                   <a 
                   	class="button_text"
@@ -67,7 +72,7 @@
                     data-toggle="modal"
                     data-target="#ModalExcelencia"
                     title="">
-                    	<span class="icon-star icon"></span> Excelencia Acad.
+                    	<span style='color:#d5b62e;' class="icon-star icon"></span> Excelencia Acad.
                   </a>
                 </li>
               </ul>

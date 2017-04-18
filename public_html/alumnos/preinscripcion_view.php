@@ -160,7 +160,7 @@ if($_SESSION['peri_codi_dest']!=null){
 											<label for="alum_prov_naci">Provincia de nacimiento:</label>
 											<select onchange="CargarCiudades('alum_ciud_naci',this.value);" class='form-control' id='alum_prov_naci' name='alum_prov_naci'>
 											<?php 
-											$params = array(null,$alum_view["alum_pais"]);
+											$params = array(null,($alum_view["alum_pais"]==null ? 'Ecuador' : $alum_view["alum_pais"]));
 											$sql="{call cata_provincia_cons(?,?)}";
 											$stmt = sqlsrv_query($conn, $sql, $params);
 									
@@ -295,11 +295,37 @@ if($_SESSION['peri_codi_dest']!=null){
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
+											<label for="alum_prov">Provincia:</label>
+											<select onchange="CargarCiudades('alum_ciud',this.value);" class='form-control' id='alum_prov' name='alum_prov'>
+											<?php 
+											$params = array('ECU',null);
+											$sql="{call cata_provincia_cons(?,?)}";
+											$stmt = sqlsrv_query($conn, $sql, $params);
+									
+											while($ciudad_view= sqlsrv_fetch_array($stmt))
+											{
+												$seleccionado="";
+												if($alum_view['alum_prov']==null){
+													if($ciudad_view["descripcion"]=='Guayas'){
+														$seleccionado="selected";
+													}
+												}else{
+													if ($ciudad_view["descripcion"]==$alum_view["alum_prov"])
+														$seleccionado="selected";
+												}
+												echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+											}
+											echo '</select>';
+											?>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
 											<label for="alum_ciud">(*)Ciudad:</label>
 											<!-- <input class="form-control" id="alum_ciud" name="alum_ciud" type="text" placeholder="Ingrese la ciudad del alumno..." value="<?=$alum_view['alum_ciud'];?>"> -->
 											<select onchange="CargarParroquias('alum_parroquia',this.value);" class='form-control' id='alum_ciud' name='alum_ciud'>
 											<?php 
-											$params = array(10,null);
+											$params = array(null,($alum_view["alum_prov"]==''?'Guayas':$alum_view["alum_prov"]));
 											$sql="{call cata_ciudad_cons(?,?)}";
 											$stmt = sqlsrv_query($conn, $sql, $params);
 											while($ciudad_view= sqlsrv_fetch_array($stmt))

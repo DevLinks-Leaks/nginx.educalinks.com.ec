@@ -961,4 +961,22 @@
 			}
 		}
 	}
+	
+	if (!function_exists('licencia_activa')) {
+        function licencia_activa(){
+            $current_file_name = basename($_SERVER['PHP_SELF']);
+            /*echo "=======>".$current_file_name;
+            echo "=======>".$_SESSION['alum_curs_para_codi'];
+            echo "=======>".$_SESSION['pin'];
+            echo "=======>".para_sist(407);*/
+            if (para_sist(407)){
+                if ($_SESSION['alum_curs_para_codi']!= null && $_SESSION['alum_curs_para_codi']!= ""){
+                    if ($_SESSION['pin'] == null || $_SESSION['pin'] == ""){
+                        if ($current_file_name != "activar_licencia.php")
+                            header("Location: activar_licencia.php");
+                    }
+                }
+            }
+        }
+    }
 ?>

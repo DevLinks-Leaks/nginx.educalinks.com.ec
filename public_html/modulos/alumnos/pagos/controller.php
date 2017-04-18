@@ -762,7 +762,13 @@ function handler() {
                 
             //Ejecución de Creación de Valores para la Solicitud de Interpretación de la Respuesta
             if(VPOSResponse($arrayIn,$arrayOut,$llaveVPOSFirmaPub,$llaveComercioCryptoPriv,$vector))
-			{   $general->set_operacion_respuesta(
+			{   $general->set_operacion_auditoria(
+												$arrayOut['authorizationCode'], $arrayOut['authorizationResult'],
+												$arrayOut['errorCode'], $arrayOut['errorMessage'],
+												$arrayOut['cardNumber'], $arrayOut['cardType'],
+												$arrayOut['purchaseOperationNumber'], $arrayOut['purchaseAmount']/100,
+												$arrayOut['reserved11'] );
+				$general->set_operacion_respuesta(
 												$arrayOut['authorizationCode'], $arrayOut['authorizationResult'],
 												$arrayOut['errorCode'], $arrayOut['errorMessage'],
 												$arrayOut['cardNumber'], $arrayOut['cardType'],
@@ -813,7 +819,13 @@ function handler() {
 				}
             }
 			else
-			{   $general->set_operacion_respuesta(
+			{   $general->set_operacion_auditoria(
+												$arrayOut['authorizationCode'], $arrayOut['authorizationResult'],
+												$arrayOut['errorCode'], $arrayOut['errorMessage'],
+												$arrayOut['cardNumber'], $arrayOut['cardType'],
+												$arrayOut['purchaseOperationNumber'], $arrayOut['purchaseAmount']/100,
+												$arrayOut['reserved11'] );
+				$general->set_operacion_respuesta(
 												$arrayOut['authorizationCode'], $arrayOut['authorizationResult'],
 												$arrayOut['errorCode'], $arrayOut['errorMessage'],
 												$arrayOut['cardNumber'], $arrayOut['cardType'],

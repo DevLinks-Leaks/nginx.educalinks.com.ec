@@ -460,6 +460,7 @@ function asign_grupoEconomico(div,url) {
 	data.append('event', 'asigna_grupo_economico');
 	data.append('codigoEstudiante', $('#codigoEstudiante').val());
 	data.append('codigoGrupoEconomico', $("#combo_grupoEconomico option:selected").val() );
+	data.append('ingresoFamiliar', $('#txt_ge_ingresoFamiliar').val());
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', url , true);
 	xhr.onreadystatechange=function(){

@@ -14,13 +14,13 @@ require_once '../../../includes/finan/proc_comp_elec.php';
 function handler() {
 	session_start();
     require('../../../core/rutas.php');
-    $factura 	= get_mainObject('Factura');
-    $permiso 	= get_mainObject('General');
-	$item 		= get_mainObject('Item');
-	$periodo 	= get_mainObject('Periodo');
-	$grupEcon 	= get_mainObject('GrupoEconomico');
-    $event 		= get_actualEvents(array(VIEW_GET_ALL, GET_PENDING_BILLS, SEND_TO_SRI, RESEND_TO_SRI,VIEW_QUERY_BANCOS), VIEW_GET_ALL);
-    $user_data 	= get_frontData();
+    $factura 		= get_mainObject('Factura');
+    $permiso 		= get_mainObject('General');
+	$item 			= get_mainObject('Item');
+	$periodo 		= get_mainObject('Periodo');
+	$grupEcon 		= get_mainObject('GrupoEconomico');
+    $event 			= get_actualEvents(array(VIEW_GET_ALL, GET_PENDING_BILLS, SEND_TO_SRI, RESEND_TO_SRI,VIEW_QUERY_BANCOS), VIEW_GET_ALL);
+    $user_data 		= get_frontData();
 	
 	global $diccionario;
 	
@@ -100,10 +100,10 @@ function handler() {
 				$_SESSION['ERROR_MSG']="Por favor inicie sesión";
 				header("Location:".$domain);
 			}
-            $factura->get_facturas();
-            $data['mensaje'] = "Facturas por autorizar, autorizadas, DNA, etc.";
 			$today=new DateTime('yesterday');
 			$tomorrow=new DateTime('today');
+            $factura->get_facturas();
+            $data['mensaje'] = "Facturas por autorizar, autorizadas, DNA, etc.";
 			$data['txt_fecha_ini'] = $today->format('d/m/Y');
 			$data['txt_fecha_fin'] = $tomorrow->format('d/m/Y');
 			$item->get_item_selectFormat('');
@@ -292,7 +292,8 @@ function handler() {
 											$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 											$estado, $tneto_ini, $tneto_fin,
 											$user_data['periodos'],$user_data['cmb_grupoEconomico'],$user_data['cmb_nivelesEconomicos'],
-											$user_data['cursos'],$user_data['txt_fecha_deuda_ini'],$user_data['txt_fecha_deuda_fin'] );
+											$user_data['cursos'],$user_data['txt_fecha_deuda_ini'],$user_data['txt_fecha_deuda_fin'],
+											$user_data['txt_fecha_aut_ini'],$user_data['txt_fecha_aut_fin'] );
 			}
 			if( $user_data['tipo_reporte'] == 'mini' )
 			{   $factura->get_facturas( $estadoElectronico, $fechavenc_ini, $fechavenc_fin,
@@ -300,7 +301,8 @@ function handler() {
 										$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 										$estado, $tneto_ini, $tneto_fin,
 										$user_data['periodos'],$user_data['cmb_grupoEconomico'],$user_data['cmb_nivelesEconomicos'],
-										$user_data['cursos'],$user_data['txt_fecha_deuda_ini'],$user_data['txt_fecha_deuda_fin'] );
+										$user_data['cursos'],$user_data['txt_fecha_deuda_ini'],$user_data['txt_fecha_deuda_fin'],
+										$user_data['txt_fecha_aut_ini'],$user_data['txt_fecha_aut_fin'] );
 			}
             $facturas=$factura->rows;
 			$i_deta_fila=2;
@@ -313,7 +315,7 @@ function handler() {
 			foreach ($facturas as $registro)
 			{	$i_deta_col=0;
 			  	foreach ($registro as $campo =>$valor )
-				{	$objPHPExcel->getActiveSheet()->setCellValueExplicitByColumnAndRow($i_deta_col, $i_deta_fila, $valor);       
+				{	$objPHPExcel->getActiveSheet()->setCellValueExplicitByColumnAndRow($i_deta_col, $i_deta_fila, $valor);
 					$i_deta_col=$i_deta_col+1;
 				}
 				$i_deta_fila=$i_deta_fila+1;
@@ -417,7 +419,8 @@ function handler() {
 									$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 									$estado, $tneto_ini, $tneto_fin,
 									$user_data['periodo'],$user_data['grupoEconomico'],$user_data['nivelEconomico'],
-									$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'] );
+									$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'],
+									$user_data['fechaAut_ini'],$user_data['fechaAut_fin']);
 			$data['tabla'] = tablaFactura($tabla, $factura, $permiso, $estado);
 			retornar_result($data);
             break;
@@ -539,7 +542,8 @@ function handler() {
 									$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 									$estado, $tneto_ini, $tneto_fin,
 									$user_data['periodo'],$user_data['grupoEconomico'],$user_data['nivelEconomico'],
-									$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin']);
+									$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'],
+									$user_data['fechaAut_ini'],$user_data['fechaAut_fin']);
 			$data['tabla'] = tablaFactura($tabla, $factura, $permiso);
             retornar_result($data);
             break;
@@ -576,7 +580,7 @@ function handler() {
 													$user_data['estado']);
 			}
 			echo json_encode($data, true);
-		break;
+			break;
 		case GET_PENDING_BILLS_CODI_JSON:
 			global $diccionario;
 			if(!isset($user_data['tipoDocumentoAutorizado']))
@@ -663,8 +667,8 @@ function handler() {
 									$nombre_titular, $ptvo_venta, $sucursal, $ref_factura, $prod_codigo, 
 									$estado, $tneto_ini, $tneto_fin,
 									$user_data['periodo'],$user_data['grupoEconomico'],$user_data['nivelEconomico'],
-									$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin']);
-									
+									$user_data['curso'],$user_data['fechadeuda_ini'],$user_data['fechadeuda_fin'],
+									$user_data['fechaAut_ini'],$user_data['fechaAut_fin']);
 			for($i=0; $i<count($factura->rows)-1; $i++) 
 			{	if( !empty ( $factura->rows[$i]['codigoFactura'] ) )
 					$data[]=$factura->rows[$i]['codigoFactura'];
@@ -1082,7 +1086,12 @@ function tablaFactura($tabla, $factura, $permiso, $estadoFac = 'P')
 	$construct_table="
 				<br>
 				<table class='table table-bordered table-hover' id='".$tabla."'>
-					<thead><tr>
+					<thead><tr id='tr_row_head' name='tr_row_head'>
+						<th id='select_deud_codigo_box' name='select_deud_codigo_box'>
+							<div style='font-size:x-small;text-align:center;' >
+								<input style='display:none;' type='checkbox' id='ckb_codigoDocumento_head' name='ckb_codigoDocumento_head' onClick='js_gestionFactura_select_all(this)'></input>
+							</div>
+						</th>
 						<th style='font-size:small;text-align:center;'>Ref.</th>
 						<th style='font-size:small;text-align:center;'>Datos</th>
 						<th style='font-size:small;text-align:center;'>T. Neto</th>
@@ -1107,7 +1116,10 @@ function tablaFactura($tabla, $factura, $permiso, $estadoFac = 'P')
 	}
 	foreach($factura->rows as $row)
 	{	if($c<($aux-1))
-		{	$body.="<tr>";
+		{	$body.="<tr id='tr_row_{codigoDocumento}' name='tr_row_{codigoDocumento}'><td id='td_select_".$c."' name='td_select_".$c."' align='center'><div style='font-size:x-small;'>".
+						"<input type='checkbox' id='ckb_codigoDocumento' name='ckb_codigoDocumento[]' value='{codigoDocumento}'
+							onclick='js_gestionFactura_select_check_ind (this, ".$c.")'></input>".
+						"</div></td>";
 			$x=0;
 			$datos="";
 			foreach($row as $column)
@@ -1150,6 +1162,7 @@ function tablaFactura($tabla, $factura, $permiso, $estadoFac = 'P')
 				{	$body.="<td><div style='font-size:11px;'>".$column."</div></td>";
 					if($x==0)
 					{	$codigo = $column;
+						$body = str_replace('{codigoDocumento}',$codigo,$body);
 					}
 				}
 				$x++;

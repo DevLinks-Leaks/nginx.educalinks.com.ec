@@ -65,7 +65,13 @@ function handler() {
 			$_SESSION['caja_fecha']=$gene->caja_fecha;
 			
 			$periodo->get_all_selectFormat();
-			$cmb_sidebar_periodo = '<select name="cmb_sidebar_periodo" id="cmb_sidebar_periodo" required="required" class="form-control">';	
+			$cmb_sidebar_periodo = 
+			'<select name="cmb_sidebar_periodo" id="cmb_sidebar_periodo" required="required" class="form-control input-sm"
+						onchange="js_general_change_periodo(document.getElementById(\'ruta_html_common\').value + \'/general/controller.php\' )" 
+						onmouseover="$(this).tooltip(\'show\');"
+						title="Período activo"
+						data-placement="left"
+						style="margin-top:7px">';
 			for($i=0;$i<count($periodo->rows)-1;$i++){
 				if(trim($periodo->rows[$i][0])==trim(''))
 				{   $sel="selected='selected'";
@@ -126,6 +132,54 @@ function handler() {
 				$_SESSION['ruta_documentos_requisitos'] = $ruta_documentos_requisitos;
 				$_SESSION['ruta_documentos_sintesis'] = $ruta_documentos_sintesis;
 				switch($domain){
+				case  "americano.educalinks.com.ec":
+					$_SESSION['llaveactiva']=$llavecolegioamericanoguayaquil;
+					$_SESSION['passllaveactiva']=$clavecolegioamericanoguayaquil;
+					$_SESSION['rutallave']=$rutallave;
+					$_SESSION['ambiente']=2;
+					$_SESSION['contribuyente_especial']='1305';
+					$_SESSION['correofacturas']='pablo.villao@colegioamericano.edu.ec';
+					$_SESSION['visor']='americano.educalinks.com.ec/finan/visor';
+					$_SESSION['dir_logo_cliente']=$ruta_logo_cag;
+					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_cag;
+					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_cag_bg;
+					break;
+				case  "delfos.educalinks.com.ec":
+					$_SESSION['llaveactiva']=$llavedelfos;
+					$_SESSION['passllaveactiva']=$clavellavedelfos;
+					$_SESSION['rutallave']=$rutallave;
+					$_SESSION['ambiente']=2;
+					$_SESSION['contribuyente_especial']='';
+					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
+					$_SESSION['visor']='delfos.educalinks.com.ec/finan/visor';
+					$_SESSION['dir_logo_cliente']=$ruta_logo_delfos;
+					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_delfos;
+					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_delfos_bg;
+					break;
+				case  "delfosvesp.educalinks.com.ec":
+					$_SESSION['llaveactiva']=$llavedelfos;
+					$_SESSION['passllaveactiva']=$clavellavedelfos;
+					$_SESSION['rutallave']=$rutallave;
+					$_SESSION['ambiente']=2;
+					$_SESSION['contribuyente_especial']='';
+					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
+					$_SESSION['visor']='delfosvesp.educalinks.com.ec/finan/visor';
+					$_SESSION['dir_logo_cliente']=$ruta_logo_delfosvesp;
+					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_delfosvesp;
+					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_delfosvesp_bg;
+					break;
+				case  "dev.educalinks.com.ec":
+					$_SESSION['llaveactiva']=$llavedesarrollo;
+					$_SESSION['passllaveactiva']=$clavellavedesarrollo;
+					$_SESSION['rutallave']=$rutallavedesarrollo;
+					$_SESSION['ambiente']=1;
+					$_SESSION['contribuyente_especial']='9999';
+					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
+					$_SESSION['visor']='dev.educalinks.com.ec/finan/visor';
+					$_SESSION['dir_logo_cliente']=$ruta_logo_desarrollo;
+					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_liceopanamericano;
+					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_liceopanamericano_bg;
+					break;
 				case  "ecobab.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavebabahoyo;
 					$_SESSION['passllaveactiva']=$clavellavebabahoyo;
@@ -137,42 +191,6 @@ function handler() {
 					$_SESSION['dir_logo_cliente']=$ruta_logo_ecobab;
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_ecobab;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_ecobab_bg;
-					break;
-				case  "ecobabdemo.educalinks.com.ec":
-					$_SESSION['llaveactiva']=$llavedesarrollo;
-					$_SESSION['passllaveactiva']=$clavellavedesarrollo;
-					$_SESSION['rutallave']=$rutallavedesarrollo;
-					$_SESSION['ambiente']=1;
-					$_SESSION['contribuyente_especial']='';
-					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
-					$_SESSION['visor']='ecobabdemo.educalinks.com.ec/finan/visor';
-					$_SESSION['dir_logo_cliente']=$ruta_logo_ecobab;
-					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_ecobab;
-					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_ecobab_bg;
-					break;
-				case  "contifico.educalinks.com.ec":
-					$_SESSION['llaveactiva']=$llavedesarrollo;
-					$_SESSION['passllaveactiva']=$clavellavedesarrollo;
-					$_SESSION['rutallave']=$rutallavedesarrollo;
-					$_SESSION['ambiente']=1;
-					$_SESSION['contribuyente_especial']='';
-					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
-					$_SESSION['visor']='contifico.educalinks.com.ec/finan/visor';
-					$_SESSION['dir_logo_cliente']=$ruta_logo_ecobab;
-					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_ecobab;
-					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_ecobab_bg;
-					break;
-				case  "desarrollo.educalinks.com.ec":
-					$_SESSION['llaveactiva']=$llavedesarrollo;
-					$_SESSION['passllaveactiva']=$clavellavedesarrollo;
-					$_SESSION['rutallave']=$rutallavedesarrollo;
-					$_SESSION['ambiente']=1;
-					$_SESSION['contribuyente_especial']='9999';
-					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
-					$_SESSION['visor']='desarrollo.educalinks.com.ec/finan/visor';
-					$_SESSION['dir_logo_cliente']=$ruta_logo_desarrollo;
-					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_liceopanamericano;
-					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_liceopanamericano_bg;
 					break;
 				case  "ecobabvesp.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavebabahoyo;
@@ -210,29 +228,29 @@ function handler() {
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_liceopanamericanosur;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_liceopanamericanosur_bg;
 					break;
-				case  "delfos.educalinks.com.ec":
-					$_SESSION['llaveactiva']=$llavedelfos;
-					$_SESSION['passllaveactiva']=$clavellavedelfos;
+				case  "liceonaval.educalinks.com.ec":
+					$_SESSION['llaveactiva']=$llaveliceonaval;
+					$_SESSION['passllaveactiva']=$claveliceonaval;
 					$_SESSION['rutallave']=$rutallave;
 					$_SESSION['ambiente']=2;
 					$_SESSION['contribuyente_especial']='';
 					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
-					$_SESSION['visor']='delfos.educalinks.com.ec/finan/visor';
-					$_SESSION['dir_logo_cliente']=$ruta_logo_delfos;
-					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_delfos;
-					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_delfos_bg;
+					$_SESSION['visor']='liceonaval.educalinks.com.ec/finan/visor';
+					$_SESSION['dir_logo_cliente']=$ruta_logo_liceonaval;
+					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_liceonaval;
+					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_liceonaval_bg;
 					break;
-				case  "delfosvesp.educalinks.com.ec":
-					$_SESSION['llaveactiva']=$llavedelfos;
-					$_SESSION['passllaveactiva']=$clavellavedelfos;
+				case  "liceonavalvesp.educalinks.com.ec":
+					$_SESSION['llaveactiva']=$llaveliceonaval;
+					$_SESSION['passllaveactiva']=$claveliceonaval;
 					$_SESSION['rutallave']=$rutallave;
 					$_SESSION['ambiente']=2;
 					$_SESSION['contribuyente_especial']='';
 					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
-					$_SESSION['visor']='delfosvesp.educalinks.com.ec/finan/visor';
-					$_SESSION['dir_logo_cliente']=$ruta_logo_delfosvesp;
-					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_delfosvesp;
-					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_delfosvesp_bg;
+					$_SESSION['visor']='liceonavalvesp.educalinks.com.ec/finan/visor';
+					$_SESSION['dir_logo_cliente']=$ruta_logo_liceonaval;
+					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_liceonaval;
+					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_liceonaval_bg;
 					break;
 				case  "moderna.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavemoderna;
@@ -246,17 +264,17 @@ function handler() {
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_moderna;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_moderna_bg;
 					break;
-				case  "americano.educalinks.com.ec":
-					$_SESSION['llaveactiva']=$llavecolegioamericanoguayaquil;
-					$_SESSION['passllaveactiva']=$clavecolegioamericanoguayaquil;
+				case  "novus.educalinks.com.ec":
+					$_SESSION['llaveactiva']=$llavenovus;
+					$_SESSION['passllaveactiva']=$clavellavenovus;
 					$_SESSION['rutallave']=$rutallave;
 					$_SESSION['ambiente']=2;
-					$_SESSION['contribuyente_especial']='1305';
-					$_SESSION['correofacturas']='pablo.villao@colegioamericano.edu.ec';
-					$_SESSION['visor']='americano.educalinks.com.ec/finan/visor';
-					$_SESSION['dir_logo_cliente']=$ruta_logo_cag;
-					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_cag;
-					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_cag_bg;
+					$_SESSION['contribuyente_especial']='';
+					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
+					$_SESSION['visor']='novus.educalinks.com.ec/finan/visor';
+					$_SESSION['dir_logo_cliente']=$ruta_logo_moderna;
+					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_novus;
+					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_novus_bg;
 					break;
 				case  "preprod.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavecolegioamericanoguayaquil;

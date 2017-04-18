@@ -42,6 +42,7 @@
 	RewriteRule ^finan/rep_ctasporcobrar/$ /modulos/finan/rep_ctasporcobrar/controller.php
 	RewriteRule ^finan/rep_emisiones/$ /modulos/finan/rep_emisiones/controller.php
 	RewriteRule ^finan/rep_mediacion/$ /modulos/finan/rep_mediacion/controller.php
+	RewriteRule ^finan/rep_debito/$ /modulos/finan/rep_debito/controller.php
 	RewriteRule ^finan/rep_antiquity/$ /modulos/finan/rep_antiquity/controller.php
 	RewriteRule ^finan/cobros/$ /modulos/finan/cobros/controller.php
 	RewriteRule ^finan/descuentofacturas/$ /modulos/finan/descuentofacturas/controller.php

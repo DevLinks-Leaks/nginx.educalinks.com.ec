@@ -3,53 +3,61 @@
 	header("Content-Disposition:attachment;filename='contrato.pdf'");
 	session_start();
 
-	require_once('../../framework/AifLibNumber.php');
-	require_once('../../framework/tcpdf/tcpdf.php');
-	require_once ('../../framework/funciones.php'); 
+	require_once ('../../framework/tcpdf/tcpdf.php');
 	require_once ('../../framework/dbconf.php'); 
-	
-	/*Parámetros del convenio*/
-	$nombre_legal = para_sist(53);
+	require_once ('../../framework/funciones.php'); 
+	require_once ('../../framework/AifLibNumber.php'); 
+		
+	ini_set('memory_limit', '640M');
+	$rector = para_sist(5);
+	$secretario = para_sist(6);
+	$etiqueta_rector=para_sist(33);
+	$etiqueta_secretario=para_sist(34);
+	$ciudad = para_sist (31);
 	$nombre_colegio = para_sist(3);
 	$antes_del_nombre = para_sist(36);
 	$nombre_financiero = para_sist(37);
-	$ciudad = para_sist (31);
 	
 	$sql="{call alum_info_contrato(?)}";
 	$params = array($_GET['alum_curs_para_codi']);
 	$stmt = sqlsrv_query($conn, $sql, $params);
+
 	if( $stmt === false )
-	{	echo "Error in executing statement .\n";
+	{
+		echo "Error in executing statement .\n";
 		die( print_r( sqlsrv_errors(), true));
 	}
 	
 	$sql="{call convenio_consulta_alumInfo(?)}";
 	$params = array($_GET['alum_curs_para_codi']);
 	$stmt_val = sqlsrv_query($conn, $sql, $params);
+
 	if( $stmt_val === false )
 	{
 		echo "Error in executing statement .\n";
 		die( print_r( sqlsrv_errors(), true));
 	}
-	if (sqlsrv_has_rows($stmt_val))
-	{
-		/*Valores en letras*/
-		$row_valores = sqlsrv_fetch_array($stmt_val);
-		$total_deuda = number_format(($row_valores['precio_pension']-$row_valores['desc_pension'])*10+$row_valores["precio_matricula"],2,'.',',');
-		$total_deuda_let = strtoupper(AifLibNumber::toWord(number_format(($row_valores['precio_pension']-$row_valores['desc_pension'])*10+$row_valores["precio_matricula"],2,'.',',')));
-		$precio_pension = number_format($row_valores['precio_pension']-$row_valores['desc_pension'],2,'.',',');
-		$val_matri_let = strtoupper(AifLibNumber::toWord($row_valores['precio_matricula']));
-		$val_pensi_let = strtoupper(AifLibNumber::toWord((number_format($row_valores['precio_pension']-$row_valores['desc_pension'],2,'.',','))));
-		$val_pront_let = strtoupper(AifLibNumber::toWord($row_valores['desc_prontopago']));
-		$val_pens_tota_let = strtoupper(AifLibNumber::toWord($total));
-	}
-
+	$row_valores = sqlsrv_fetch_array($stmt_val);
+	
 	class MYPDF extends TCPDF 
-	{	public function Header() 
-		{}
+	{
+
+		public function Header() 
+		{	$logo_minis = '../'.$_SESSION['ruta_foto_logo_index'];
+			$this->Image($logo_minis, 12, 5, 40, 15, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+			
+			// $this->SetFont('helvetica', '', 6);
+			// $this->Cell(0,10,'Código: R13-08 ', 0, false, 'R', 0, '', 0, false, 'T', 'M');
+			// $this->Cell(0,15,'Versión: 5 ', 0, false, 'R', 0, '', 0, false, 'T', 'M');
+			// $this->Cell(0,20,'Nov/2016', 0, false, 'R', 0, '', 0, false, 'T', 'M');
+
+			//FORMATO
+			// Image($file, $x='', $y='', $w=0, $h=0, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0, $fitbox=false, $hidden=false, $fitonpage=false)
+		}
 
 		public function Footer() 
-		{	$this->SetY(-15);
+		{
+			$this->SetY(-15);
 			$this->SetFont('helvetica', 'I', 8);
 			$this->Cell(0, 10, 'Página '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
 		}
@@ -60,22 +68,46 @@
 	$pdf->SetAuthor($_SESSION['cliente']);
 	$pdf->SetTitle($_SESSION['cliente']);
 	$pdf->SetSubject($_SESSION['cliente']);
-	$pdf->SetMargins(PDF_MARGIN_LEFT, 10, PDF_MARGIN_RIGHT);
-	$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+	$pdf->SetMargins(PDF_MARGIN_LEFT, 25, PDF_MARGIN_RIGHT);
+	$pdf->SetAutoPageBreak(TRUE, 17);
 	$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);	 
-	$pdf->AddPage();
+
 	while ($alumno=sqlsrv_fetch_array($stmt))
-	{	$sql	="{call repr_info_vida(?,?)}";
+	{	
+		$sql="{call repr_info_vida(?,?)}";
 		$params = array($alumno["alum_codi"], "R");
-		$stmt_r	= sqlsrv_query($conn, $sql, $params);
-		if( $stmt_r === false )
-		{	echo "Error in executing statement .\n";
+		$stmt_repr = sqlsrv_query($conn, $sql, $params);
+	
+		if( $stmt_repr === false )
+		{
+			echo "Error in executing statement .\n";
 			die( print_r( sqlsrv_errors(), true));
 		}
-		$representante=sqlsrv_fetch_array($stmt_r);
+		$representante=sqlsrv_fetch_array($stmt_repr);
+		
+		$sql2="{call repr_info_vida(?,?)}";
+		$params2 = array($alumno["alum_codi"], "F");
+		$stmt_repr_fina = sqlsrv_query($conn, $sql2, $params2);
+	
+		if( $stmt_repr_fina === false )
+		{
+			echo "Error in executing statement .\n";
+			die( print_r( sqlsrv_errors(), true));
+		} 
+		$representante_fina=sqlsrv_fetch_array($stmt_repr_fina);
+
+		$pdf->AddPage();
 		date_default_timezone_set('America/Guayaquil');
 		setlocale(LC_TIME, 'spanish');
 		$fecha_hoy=strftime("$ciudad, el día %d de %B del año %Y");
+		$fecha_hoy2=strftime("$ciudad, %d de %B de %Y");
+		
+		/*Valores en letras*/
+		$total = number_format($row_valores['precio_pension']*10+$row_valores["precio_matricula"],2,'.',',');
+		$val_matri_let = strtoupper(AifLibNumber::toWord($row_valores['precio_matricula']));
+		$val_pensi_let = strtoupper(AifLibNumber::toWord($row_valores['precio_pension']));
+		$val_pront_let = strtoupper(AifLibNumber::toWord($row_valores['desc_prontopago']));
+		$val_pens_tota_let = strtoupper(AifLibNumber::toWord($total));
 	
 	$tbl=<<<EOF
 	<style>
@@ -88,6 +120,14 @@
 	{
 		text-align: center;
 	}
+	.izquierda
+	{
+		text-align: left;
+	}
+	.derecha
+	{
+		text-align: right;
+	}
 	.contenedor
 	{
 		width: 100%;
@@ -97,167 +137,229 @@
 		font-size: 10px;
 		text-align: justify;
 	}
+	.subrayado
+	{
+		font-weight: bolder;
+		font-style: italic;
+		text-decoration: underline;
+	}
 	</style>
+	
 	<div class="contenedor">
-	<table width="755">
+	<table >
 		<tr>
-			<td width="30%"><img width="130px" height="50px" src="../{$_SESSION['ruta_foto_logo_index']}" /></td>
-			<td><br/><br/><strong>CONVENIO DE MATRÍCULA</strong></td>
+			<td class="centrar"><h1>CONVENIO DE PRESTACIÓN DE SERVICIOS</h1></td>
+			<!--<td class="derecha" style="font-size: 8px" width="25%">R13-08 <br/>Versión 5 <br/>Sep/2016</td>-->
 		</tr>
 	</table>
 	<p class="letras_pequenas">
-	Conste por el presente documento, el Convenio de Matrícula que se celebra en forma libre y voluntaria entre las partes, al tenor de las siguientes cláusulas:
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA PRIMERA: INTERVINIENTES:</strong> Participan en forma libre y voluntaria en la celebración del presente convenio, por una parte el (la) señor (a) {$representante["nombres"]} a quien en lo posterior podrá denominarse como “el (la) representante”, quien comparece a nombre y en representación del (la) menor Alumno(a): {$alumno["nombres"]} {$alumno["apellidos"]} a quien en lo posterior podrá denominarse como “el (la) estudiante”; y por la otra, el {$nombre_financiero}, por los derechos que representa de {$nombre_legal}, propietaria de la {$antes_del_nombre} {$nombre_colegio}, en su calidad de Gerente y a quien en lo posterior podrá denominarse como “{$nombre_colegio}” o “la institución”.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA SEGUNDA: ANTECEDENTES: UNO:</strong> El (la) representante, conocedor de la misión, visión, filosofía, principios, Proyecto Educativo Institucional - PEI,  Código de Convivencia, Reglamento Interno y demás reglamentación  y normatividad interna de {$nombre_colegio}, y luego de una serie de análisis y comparación de su oferta educativa con la de otras instituciones,   ha solicitado matrícula en la Institución  para su representado el (la) estudiante (referidos en la cláusula anterior), para el {$alumno["detalle"]}., para lo cual ha presentado la solicitud de matrícula con los compromisos a los que se obliga y consigna los datos personales correspondientes, documentos y declaraciones que forman parte integrante del presente convenio de matrícula.
-	DOS: {$nombre_colegio} es una Unidad Educativa autofinanciada de carácter particular, legalmente reconocida y autorizada por las autoridades de educación, que brinda servicios educativos ofertados en el PEI y en la forma y modo señalado en la Constitución y Leyes de la República del Ecuador, recibiendo como contraprestación del servicio educativo el monto económico fijado en legal forma por concepto de pensiones y matrícula, siendo esa su única fuente de ingreso para brindar educación de calidad.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA TERCERA: OBJETO DEL CONVENIO:</strong> Luego del análisis de la solicitud de matrícula y la documentación presentada, así como  de los datos consignados en ella y de las pruebas y valoraciones efectuadas, {$nombre_colegio} acepta otorgar  la matrícula solicitada para el (la) representante del (la) estudiante, para brindarle el servicio educativo de calidad y calidez, conforme a su oferta constante en el Proyecto Educativo Institucional - PEI, con sujeción al Código de Convivencia y demás normatividad interna institucional; y, en especial al presente convenio que de conformidad a la normatividad legal, es considerado Ley entre las partes. La matrícula y servicio educativo, se encuentra condicionada a que se cumplan todas las obligaciones legales, del Código de Convivencia, Reglamentos Internos y las cláusulas del presente convenio.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA CUARTA: CONTRAPRESTACIÓN DEL SERVICIO EDUCATIVO:</strong> Se entiende como servicio educativo, la oferta que efectúa {$nombre_colegio} en la formación y educación, bajo el sistema escolarizado de los niños (as) y jóvenes de conformidad a su PEI,  y comprende las actividades y servicios de clases en todo su sistema de educación, controles y seguridad interna, implementos de uso común como laboratorios de computación, de física, química y anatomía, implementos deportivos, canchas, biblioteca, tutorías, asesoría estudiantil, servicio pedagógico, psicopedagógico y médico, y toda actividad propia del sistema educativo programado en el PEI. Como contraprestación del servicio educativo que brinda {$nombre_colegio} al (la) estudiante, el (la) representante se obliga a pagar los valores fijados por la autoridad educativa por concepto de matrícula y pensiones prorrateadas a 10 meses o en los meses que señale la autoridad competente, para cada año lectivo, durante los siete primeros días de cada mes. Así mismo los valores que voluntariamente se comprometa a pagar el representante por los servicios complementarios o no educativos.
-	LA MATRÍCULA: Se pagará una sola vez al año en el periodo señalado para el efecto y el valor no podrá ser superior al 75% de la cuota mensual de la pensión señalada por la autoridad de educación, pagaderos antes del inicio de clases, <strong>sin cuyo pago, no se perfecciona o no entra en vigencia el presente Convenio de Matrícula.</strong><br/>
-	VALOR DE LA PENSIÓN: Se fijará un valor de pago prorrateado en 10 mensualidades o periodos mensuales, o en el número de meses que autorice la autoridad educativa, que corresponde a la contraprestación del servicio de educación que se otorga al (la) estudiante y en el que se incluye todos los servicios educativos; pensión que no excederá el monto anual autorizado por la Autoridad Educativa. En caso que la institución aplique voluntariamente algún programa de descuento, éste no afectará ni modificará la fijación de pensiones y matrículas efectuada por la autoridad educativa, para ese período lectivo.<br/>
-	VALOR DE OTROS COBROS: Existen otros valores que se cobran en forma periódica o esporádica y que han sido solicitados y aceptados en forma expresa y voluntaria por el (la) representante legal del (la) estudiante, que corresponden a servicios no educativos o complementarios, que son prestados por la institución o facilitados para que los proporcione otras personas naturales o jurídicas dentro de {$nombre_colegio}, como son, entre otros,  los servicios de alimentación, bar, o de apoyo profesional para educación especial, los que no constituyen elemento propio de la prestación del servicio de educación y no están comprendidos o cubiertos dentro del concepto de pensión y matrícula, por lo que tienen que ser pagados en forma directa por los padres o representantes legales de los estudiantes. Tampoco están cubiertos o considerados dentro de los valores de matrículas y pensiones, aquellos rubros que no constan en los listados oficiales de útiles escolares y libros y serán considerados complementarios y de apoyo, los valores que correspondan a otros libros, cuadernos, y demás útiles escolares, o implementos o materiales de trabajo de aprendizaje, uniformes, disfraces de presentación para eventos u obras de arte, o equipos para eventos deportivos,  sistemas externos de apoyo educativo tecnológico, computadoras personales, iPad o Tabletas, o programas que voluntariamente los padres o representantes aprueben y que se utilicen dentro del sistema educativo como apoyo al mismo, o alquiler de locales o escenarios para incorporaciones, ceremonias o baile de graduados; los cuales deberán ser pagados en forma directa por el representante legal del estudiante al proveedor del bien o servicio, o por intermedio de {$nombre_colegio}, si es que se brinda esa facilidad en beneficio del representante.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA QUINTA: </strong>
-	En el presente convenio queda establecido que el (la) representante del (la) estudiante {$alumno["nombres"]} {$alumno["apellidos"]} para el pago de pensiones es quien suscribe el presente convenio {$alumno["repr_factura"]} y la representación legal para asuntos de citaciones, notificaciones  académicos, disciplinarios, retiro de documentos y demás temas educativos que se desprendan de este documento la ejercerá(n) {$alumno["representante"]} y a quien(es) será(n) notificados con los citatorios, comunicaciones, circulares y demás documentación interna, al correo electrónico {$alumno["repr_email"]}.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA SEXTA: OBLIGACIÓN DE PAGO POR LOS SERVICIOS EDUCATIVOS.</strong>
-	Los valores que {$nombre_colegio}  cobrará por los servicios educativos constituyen los valores correspondientes a la matrícula anual y la pensión fijada por la autoridad correspondiente, por lo que el (la) representante declara que debe y pagará, y se obliga a pagar incondicionalmente para cubrir los servicios educativos básicos, los siguientes rubros:
-	<ol>
+	Conste por el presente documento, el Convenio de Prestación de Servicios el mismo que se celebra al tenor de las siguientes cláusulas:
+	<br/>
+	<strong>PRIMERA: INTERVINIENTES:</strong> 
+	Participan en forma libre y voluntaria en la celebración del presente convenio, por una parte el (la) señor (a) {$representante["nombres"]}, a nombre y en representación del (la) menor {$alumno["nombres"]} {$alumno["apellidos"]} ; y, por otra parte, el ingeniero Franklin Calderón Quijano, por los derechos que representa en calidad de Gerente General de la compañía Espíritu de Babahoyo Centro de Estudios EBCES S.A. quien es la Promotora de la {$antes_del_nombre} {$nombre_colegio}, a quienes en lo posterior y para efectos del presente instrumento se los podrá denominar como "el (la) representante", "el (la) estudiante" y la “Unidad Educativa" o "la Institución”, respectivamente.
+	<br/>
+	<strong>SEGUNDA: ANTECEDENTES: </strong> UNO:
+	La {$antes_del_nombre} {$nombre_colegio}, es una Unidad Educativa auto financiada, de carácter particular, legalmente reconocida y autorizada por las autoridades de educación, sin fines de lucro, que pertenece a la compañía Espíritu de Babahoyo Centro de Estudios EBCES S.A., que brinda servicios educativos en la forma y modo señalado en la Constitución y Leyes de la República del Ecuador, recibiendo como contraprestación del servicio educativo el monto económico fijado en legal forma por concepto de pensiones y matrícula, el cual constituye, su única fuente de ingreso para brindar educación de calidad.
+	<br/>
+	DOS:
+	El (la) representante, conocedor de la misión, visión, filosofía, principios, Proyecto Educativo Institucional - PEI, Código de Convivencia, y demás reglamentación y normatividad interna de la Unidad Educativa y luego de una serie de análisis y comparaciones de su oferta educativa con la de otras instituciones, ha solicitado matrícula en la Institución para su representado el (la) estudiante (referidos en la cláusula anterior), para el periodo lectivo {$alumno["periodo"]} en el {$alumno["curs_deta"]} de {$alumno["nive_deta"]}, para lo cual ha presentado la solicitud de matrícula que está como anexo al presente instrumento contractual, el cual, no genera derecho alguno, sino que constituye una mera expectativa.
+	<br/>
+	<strong>TERCERA: OBJETO DEL CONVENIO:</strong>
+	El presente convenio tiene como objeto regular las relaciones contractuales entre las partes, una vez que ha sido aceptada la matriculación y se hubiere pagado el valor de la misma y que en definitiva está relacionado al proceso de enseñanza aprendizaje y al pago que como contraprestación a este servicio realizan los padres de familiares.<br/>
+	Tratándose de un convenio bilateral, el (la) representante que lo suscriba, no podrá cambiar o designar a otra persona que ejerza la representación legal del (la) estudiante, sin que haya sido aceptado por la Institución o exista resolución judicial sobre la tenencia y patria potestad del menor, caso contrario se considerará como incumplimiento de la relación bilateral y causal de terminación del convenio.
+	<br/>
+	<strong>CUARTA: CONTRAPRESTACIÓN DEL SERVICIO EDUCATIVO:</strong> 
+	Se entiende como servicio educativo, la oferta que efectúa la institución en la formación y educación, bajo el sistema escolarizado de los niños y jóvenes de conformidad a su PEI, y comprende las actividades y servicios de clases en todo su sistema de educación, controles y seguridad interna, materiales de uso común como laboratorios de computación, (de) química y biología, enfermería y médico, implementos deportivos, canchas, biblioteca, tutorías, asesoría estudiantil, servicio pedagógico, psicopedagógico y toda actividad propia del sistema educativo programado en el PEI. Como contraprestación del servicio educativo que brinda la institución, al (la) estudiante, el (la) representante se obliga a pagar los valores fijados por concepto de matrícula y pensiones, por cada año lectivo, de conformidad a las siguientes consideraciones:
+	<br/>
+	<b>4.1. LA MATRÍCULA:</b> De conformidad a la normativa legal vigente, la matricula corresponde al 75% del valor de la pensión neta fijada por las Autoridades Educativas. En este sentido, este valor deberá ser cancelado en el mes de abril del 2017, se exceptúan aquellos padres de familia que bajo su responsabilidad y petición expresa celebren Convenio de Mandato con este fin y  salvo disposición en contrario del Nivel Central de la Autoridad Educativa Nacional.
+	<br/>
+		El valor por concepto de matrícula, podrá ser cancelado hasta antes del primer día de clases y sólo con el cumplimiento de dicho pago a través de los medios pertinentes, se formalizará la matrícula, por ende, el aspirante adquiere la calidad de estudiante. Se dará preferencia en la reserva y otorgamiento de cupos para matrículas a los representantes de nuestros estudiantes o sus familiares, siempre que hayan manifestado durante el periodo señalado para el efecto, su voluntad de estudiar o continuar en La Institución.
+	<br/>
+	<b>4.2. VALOR DE LA PENSIÓN:</b> Este rubro fijado por las Autoridades Educativas corresponde a la contraprestación del servicio educativo por el año lectivo {$alumno["periodo"]}, que el representante del estudiante pagará en diez cuotas, durante los cinco primeros días hábiles de cada mes, para sujetarse a los beneficios institucionales sobre el tema.
+	<br/>
+		El pago de los valores referidos en los numerales precedentes será efectuado mediante débito bancario automático o recurrente a cuenta corriente o de ahorro, o mediante tarjeta de débito o de crédito, en la caja correspondiente del Banco que autorice La Institución, emitiéndose como constancia el comprobante respectivo, el mismo que se constituye en única evidencia de cumplimiento.
+	<br/>
+
+	<strong>QUINTA: COMPROMISOS Y OBLIGACIONES</strong>
+	Entendiéndose que el pago de la matrícula y pensiones como contraprestación del servicio educativo, sirve para poder cubrir los costos del proceso enseñanza aprendizaje, que genera los gastos corrientes y operativos, las partes establecen, se comprometen y obligan a lo siguiente:
+	<br/>
+	5.1.1. El representante
+	<ol type="a">
 	<li>
-	Los valores autorizados por el Ministerio de Educación, mediante resolución 00017609D05  de fecha 25 de marzo de 2015, para el cobro de matrículas en el periodo lectivo {$alumnos["periodo"]} es de <span class="subrayado">$ {$row_valores["precio_matricula"]} (US {$val_matri_let} DÓLARES AMERICANOS)</span> y para las pensiones es de <span class="subrayado">$ {$precio_pension} (US $ {$val_pensi_let} DÓLARES AMERICANOS)</span>.
+		Cumplir la Constitución de la República, la Ley y la reglamentación en materia educativa;
+	</li>
+	<li> 
+	Garantizar que sus representados asistan regularmente y correctamente uniformados a los centros educativos, durante el periodo de educación obligatoria, de conformidad con la modalidad educativa;
 	</li>
 	<li>
-	A su vez, el (la) representante, autoriza al banco en que mantiene su cuenta de ahorro o corriente, o a quien administra  su tarjeta de crédito para que todos los meses, durante los siete primero días de cada mes, durante los 10 meses en que se prorratea la pensión, o los meses que señale la autoridad educativa, se efectúe el descuento directo de sus cuentas, pago a {$nombre_colegio} el valor que corresponde a la matrícula y pensión. Si el pago no se lo efectúa durante los siete primeros días,  autoriza que el débito se efectúe en los días siguientes.
+	Apoyar y hacer seguimiento al aprendizaje de sus representados y atender los llamados y requerimientos de las y los profesores y autoridades de plantel;  
 	</li>
 	<li>
-	Para el cumplimiento de los términos y condiciones del pago del servicio educativo contratado, el (la) representante, Sr./Sra {$representante["nombres"]} reconoce que debe y, promete que pagará, a la orden y a favor de {$nombre_legal} en forma incondicional, en sus oficinas ubicadas en la Av. Enrique Ponce Luque y Calle “A”, en la ciudad de Babahoyo, donde funciona {$nombre_colegio} , y en la fecha que se me reconvenga,  la suma de $ {$total_deuda} ({$total_deuda_let}) equivalente al valor total de la matrícula y los 10 meses de pensiones prorrateadas, reconociendo a esta obligación, el valor de Pagaré a la orden de ESPIRITU DE BABAHOYO CENTRO DE ESTUDIOS EBCES S.A., el mismo que se entiende suscrito y aceptado en el lugar y fecha en que se firma este contrato, sin protesto, y que constituye título de crédito con una obligación líquida, pura y de plazo vencido, exigible en juicio ejecutivo ante uno de los jueces de lo civil del cantón Babahoyo.
+	Participar en la evaluación de las y los docentes y de la gestión de las instituciones educativas;
 	</li>
 	<li>
-	Sólo el recibo de pago emitido por {$nombre_colegio}  o la institución bancaria autorizada, será el documento probatorio que evidencie el pago de la matrícula y pensiones mensuales.
+	Respetar leyes, reglamentos y normas de convivencia en su relación con las instituciones educativas;
+	</li>
+	<li>
+	Propiciar un ambiente de aprendizaje adecuado en su hogar, organizando espacios dedicados a las obligaciones escolares y a la recreación y esparcimiento, en el marco del uso adecuado del tiempo;
+	</li>
+	<li>
+	Participar en las actividades extracurriculares que complementen el desarrollo emocional, físico y psico - social de sus representados y representadas;
+	</li>
+	<li>
+	Apoyar y motivar a sus representados y representadas, especialmente cuando existan dificultades en el proceso de aprendizaje, de manera constructiva y creativa;
+	</li>
+	<li>
+	Participar con el cuidado, mantenimiento y mejoramiento de las instalaciones físicas de las instituciones educativas, sin que ello implique erogación económica; 
+	</li>
+	<li>
+	Contribuir y participar activamente en la aplicación permanente de los derechos y garantías constitucionales.
+	</li>
+	<li>
+	Pagar puntualmente los valores de pensiones y matrículas;
+	</li>
+	<li>
+	Controlar que sus representados al salir de sus casas, hacia la institución se encuentren aseados y bien uniformados, con sus implementos de estudio, tareas o trabajos; al igual que enviar el lunch recomendado, para una correcta dieta alimenticia; por tanto, estos deben ser realizados al inicio de la jornada académica (clases) no durante las mismas;
+	</li>
+	<li>
+	Controlar que sus representados no traigan  a la institución sustancias u objetos prohibidos o que no tengan relación con la actividad educativa;
+	</li>
+	<li>
+	Aceptar la distribución de profesores, materias y horarios de conformidad a la oferta educativa de la institución, así como la asignación o cambio de paralelo que se le asigne por circunstancia formativas, académicas o disciplinarias, sin que exista derecho a reclamo alguna por dicha medida;
+	</li>
+	<li>
+	Mantener actualizada la información relacionada a teléfono, dirección domiciliaria, correo electrónico y demás datos personales;
+	</li>
+	<li>
+	A revisar el correo electrónico y el aula virtual por ser la vía acordada para mantener una comunicación fluida con el representante del estudiante, dándole a conocer sobre el accionar diario, hoja de vida, tareas, citaciones, noticias, comunicaciones y demás asuntos relacionados con el accionar educativo, a la vez, los representantes podrán comunicarse con los directivos y profesores, simplificando la interrelación entre la Unidad Educativa y el representante, por lo cual se comprometen a revisarlos día a día, en forma periódica;
+	</li>
+	<li>
+	Presentar dentro de los plazos señalados para el efecto, la solicitud de matrícula para al siguiente periodo lectivo;
+	</li>
+	<li>
+	Hacer seguimiento y responder a los llamados que envía el establecimiento educativo, por intermedio del internet o el aula virtual;
+	</li>
+	<li>
+	Acatar estrictamente, lo dispuesto en el literal t) artículo 2 de la Ley Orgánica de Educación Intercultural, que determina la convivencia pacífica y respetuosa en el trato de las relaciones internas de la comunidad educativa, y su inobservancia así como la mora en las obligaciones de contraprestación de servicios causará la perdida de los beneficios otorgados voluntariamente por la institución, como becas y descuentos en pensiones, así como, que se convierte en causal para la no concesión de matrícula para el próximo año lectivo.
+	</li>
+	<li>
+	Cumplir con lo dispuesto en el presente convenio.
 	</li>
 	</ol>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA SÉPTIMA: FORMA DE PAGO,  PLAZOS, COMPROMISOS Y OBLIGACIONES:</strong> Entendiéndose que el pago de la matrícula y pensiones como contraprestación del servicio educativo, sirve para poder cubrir los costos del proceso enseñanza aprendizaje, que genera los gastos comunes como: remuneraciones a profesores, energía eléctrica, agua potable, materiales e insumos, pagos de seguros y proveedores, arriendo y costo de dividendo de préstamos, las partes establecen se comprometen y obligan al siguiente proceso y plazos:
-	<ol>
-	<li>    
-	La institución se obliga a dar educación de calidad con calidez, en la forma y modo constante en su Proyecto Educativo Institucional (PEI), Código de Convivencia de {$nombre_colegio} , Reglamentos internos y demás normatividad que rige en {$nombre_colegio} , con sujeción a la Constitución de la República, Ley de Educación, su Reglamento y demás normatividad y disposición válida y legal, de la Autoridad de Educación competente.
+	<br/>
+	5.2. La Unidad Educativa:
+	<ol type="a">
+	<li>
+	Cumplir la Constitución de la República, la Ley y la reglamentación en materia educativa;
 	</li>
 	<li>
-	Todo valor pagado a {$nombre_colegio}  deberá ser efectuado mediante débito bancario automático o recurrente a cuenta corriente o de ahorro, o mediante tarjeta de débito o de crédito, en la caja correspondiente del Banco que autorice {$nombre_colegio} , emitiéndose como constancia el comprobante respectivo, el mismo que se constituye en única evidencia de cumplimiento.
+	Cumplir con lo dispuesto en el presente convenio;
 	</li>
 	<li>
-	El (la) representante suscribirá la correspondiente orden de débito automático y recurrente, para que la institución bancaria donde mantiene sus cuentas corrientes o de ahorro, o las tarjetas de crédito, procedan a efectuarle el descuento directo y trasladar esos fondos a la cuenta que señale {$nombre_colegio}. 
+	Brindar una educación de calidad y de calidez, en la forma y modo constante en su Proyecto Educativo Institucional (PEI), Código de Convivencia, en sujeción  a lo determinado en la Constitución de la República del Ecuador y demás normativa que rige al Sistema Nacional de Educación;
 	</li>
 	<li>
-	El valor por concepto de matrícula, deberá ser cancelada durante el período señalado para el efecto, hasta antes del primer día de clases y solo con el cumplimiento de dicho requisito indispensable, se formalizará la matrícula y el aspirante adquiere la calidad de estudiante. Se dará preferencia en la reserva y otorgamiento de cupos para matrículas a los representantes de nuestros estudiantes o sus familiares, siempre que hayan manifestado durante el periodo señalado para el efecto, su voluntad de estudiar o continuar en {$nombre_colegio} .
+	Ser actores fundamentales en una educación pertinente, de calidad y calidez con las y los estudiantes a su cargo;
 	</li>
 	<li>
-	El no actualizar los datos y reservar el cupo mediante  dentro de las fechas señaladas por {$nombre_colegio} , es considerado como la manifestación de voluntad de no continuar utilizando los servicios educativos que oferta la Institución y por tanto, desisten del cupo para el próximo año, lo cual deja en libertad a {$nombre_colegio}  de disponerlo, en beneficio de otro estudiante. 
+	Respetar el derecho de las y los estudiantes y de los miembros de la comunidad educativa, a expresar sus opiniones fundamentadas y promover la convivencia armónica y la resolución pacífica de los conflictos;
 	</li>
 	<li>
-	El pago de la pensión será durante  cada periodo mensual que corresponda, sea que éste se contabilice del día 1 al 30 de cada mes, o del 15 de un mes al día 14 del otro mes.
+	Fomentar una actitud constructiva en sus relaciones interpersonales en la institución educativa;
 	</li>
 	<li>
-	No se aumentará  la pensión o cuota mensual acordada, durante el año lectivo que rige el presente contrato, salvo autorización de autoridad competente. Para el cálculo y ajuste de la matrícula y pensión, se aplicará la normativa expedida por la autoridad educativa. 
+	Atender y evaluar a las y los estudiantes de acuerdo con su diversidad cultural y lingüística y las diferencias individuales y comunicarles oportunamente, presentando argumentos pedagógicos sobre el resultado de las evaluaciones;
 	</li>
 	<li>
-	La mora del  primer mes será considerado como un atraso. Si no paga el segundo mes, el representante será requerido para el pago de lo adeudado como contraprestación del servicio educativo y si persiste en la falta de pago, cumplido el tercer mes de mora, el padre de familia o representante, ante la imposibilidad de cumplir con su compromiso en el pago de la pensión como contraprestación del servicio educativo, para evitar problemas familiares, psicológicos, de estrés, o conflictividad con el sistema, el representante se obliga a cambiarlo a otra institución fiscal gratuita o particular acorde sus posibilidades, para lo cual deberá solicitar el pase a otra institución educativa, o solicitar en forma directa la documentación del estudiante. Sin perjuicio de las acciones legales que se tomen para el cobro de las pensiones adeudadas.
+	Dar apoyo y seguimiento pedagógico a las y los estudiantes, para superar el rezago y dificultades en los aprendizajes y en el desarrollo de competencias, capacidades, habilidades y destrezas;
 	</li>
 	<li>
-	En caso de que el representante, no cumpla con cambiar de institución educativa al estudiante, para evitarle problemas psicológicos, al tener que asistir a {$nombre_colegio} a sabiendas que su representante no ha cumplido su compromiso contractual, lo que podría acarrear  trastornos en su comportamiento y que afectaría su proceso formativo, sobre todo en su  rendimiento y  comportamiento, {$nombre_colegio} a su elección, recurrirá a uno de los Centros de Mediación de la jurisdicción correspondiente o al Centro de Arbitraje y Mediación – CAM - de la Universidad de Especialidades Espíritu Santo – UEES, explicando el caso mediante escrito, al que se adjuntará copia certificada del presente convenio como justificativo para el cumplimiento de lo acordado.
+	Cuidar la privacidad e intimidad propias y respetar la de sus estudiantes y de los demás actores de la comunidad educativa;
 	</li>
 	<li>
-	Si no se llegare a acuerdo alguno y en beneficio del estudiante, para que no se vulnere el derecho a la educación,  siendo obligación del Estado el proporcionarle al menor este servicio público en forma gratuita, {$nombre_colegio} procederá a notificar el particular a la Dirección del Distrito Educativo correspondiente, para que el (la) estudiante sea  ubicado (a) en una entidad educativa fiscal que según el sector le corresponda, donde deba continuar su proceso educativo. En este caso {$nombre_colegio} procederá a entregar la documentación del estudiante a la autoridad de educación o la remitirá oficialmente a la entidad que se designe en el trámite correspondiente. De esa forma, se evitará que el incumplimiento en el pago interrumpa el proceso educativo del estudiante. Se deja a salvo el derecho de {$nombre_colegio} para cobrar al representante las pensiones adeudadas.
+	Mantener el servicio educativo en funcionamiento de acuerdo con la Constitución y la normativa vigente;
 	</li>
 	<li>
-	En caso de falta de pago o mora en las pensiones u obligaciones para con {$nombre_colegio} , no se podrá otorgar o renovar matrícula al estudiante para el próximo año lectivo, por lo que, el representante lo matriculará en otra institución, para no conculcarle el derecho a la educación a su representado.
+	Vincular la gestión educativa al desarrollo de la comunidad, asumiendo y promoviendo el liderazgo social que demandan las comunidades y la sociedad en general;
 	</li>
 	<li>
-	El correo electrónico, redes sociales y el aula virtual son las  vías acordadas para mantener una intercomunicación fluida con el representante del estudiante, dándole a conocer sobre el accionar diario, hoja de vida, tareas, citaciones, noticias,  comunicaciones y demás asuntos relacionados con el accionar educativo, a la vez, los representantes podrán comunicarse con los directivos y profesores, simplificando la interrelación entre la Unidad Educativa y el representante, por lo cual se comprometen a revisarlos día a día, en forma periódica.
+	Promover la interculturalidad y la pluralidad en los procesos educativos;
 	</li>
 	<li>
-	Es obligación y se compromete el representante revisar diariamente el contenido de los maletines, maletas portafolios y mochilas del educando, para evitar que traigan a la institución objetos, sustancias, materiales extraños al proceso educativo o de mucho valor, o sustancias prohibidas o nocivas a la salud física o mental.
+	Difundir el conocimiento de los derechos y garantías constitucionales de los niños, niñas, adolescentes y demás actores del sistema; y,
 	</li>
 	<li>
-	El servicio educativo de {$nombre_colegio} es inclusivo para niños y jóvenes con necesidades educativas especiales que se encuentren consideradas como leves y dentro del primer grado de dificultad, siempre que no sean combinadas. No es un centro de educación especial, por lo que, si el estudiante necesita más apoyo para mejorar o superar su conducta o aprendizaje, se podrá autorizar que ingresen y laboren, profesionales o personas especializadas en esas áreas para brindarles atención complementaria con servicio fijo o itinerante, en los casos más serios o complejos, para efectuar acompañamiento y apoyo personalizado al estudiante, a costa y bajo responsabilidad del representante.
-	</li>
-	<li>
-	Para poder aplicar o sujetarse al programa de inclusión, es necesario que así se determine en el respectivo convenio y contar con evaluaciones externas iniciales y periódicas, para verificar el avance del programa y su conveniencia para la formación, aprendizaje y continuidad del estudiante en el programa inclusivo. De no existir las evaluaciones y compromiso del representante se aplicará el programa escolarizado general o regular.
-	</li>
-	<li>
-	Si luego de haberse matriculado el menor, se estableciere que necesita apoyo especial del programa de inclusión, su representante deberá cumplir con el programa de inclusión de {$nombre_colegio}, sus presupuestos y requisitos. La no aceptación o implementación del programa de inclusión, deslinda toda responsabilidad a la institución, por el poco o deficiente avance educativo en el proceso formativo escolarizado.
+	Respetar y proteger la integridad física, psicológica y sexual de las y los estudiantes, y denunciar cualquier afectación ante las autoridades judiciales y administrativas competentes.
 	</li>
 	</ol>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA OCTAVA: DURACIÓN:</strong> El presente convenio tiene duración de un año lectivo, pero podrá ser renovado por mutuo acuerdo mediante el correspondiente convenio de matrícula para el próximo año lectivo, actualizando los datos correspondientes para las notificaciones. Se entenderá renovado en todas sus partes, si  no existe pronunciamiento alguno  de una de las partes  sobre la voluntad de dejarlo sin efecto, y en ese caso, el costo de la matrícula y pensión se reajustará al que se fijare legalmente para el año que corresponda o recurra. El hecho de pagar matrícula y pagar la primera pensión por parte del representante, surtirá los efectos de la renovación tácita del contrato.
+
+	<strong>SEXTA: DURACIÓN.</strong>
+	El presente convenio tiene una duración de un año lectivo, el cual, podrá ser renovado siempre que exista la voluntad manifiesta por escrito de las partes, dentro de los plazos que para el efecto señale la Unidad Educativa.
+	<br/>
+	<strong>SÉPTIMA: DE LA TERMINACIÓN DEL CONVENIO:</strong>
+	El presente convenio concluirá por las siguientes causas: 
+	<br/>
+	1) Por el vencimiento del plazo, caso en el cual, culminará de pleno derecho.
+	<br/>
+	2) Por voluntad o acuerdo de ambas partes.
+	<br/> 
+	3) Por fallecimiento del (la) estudiante.  
+	<br/>
+	4) Por fallecimiento del representante del estudiante, a menos que otra persona con derecho suficiente asuma la representación del educando. En lo relativo al pago de pensiones, se estará a lo establecido en la Ley Orgánica de Educación Intercultural.
+	<br/>
+	5) Por suspensión de actividades de la unidad educativa por más de sesenta días o por cierre definitivo.
+	<br/>  
+	6) Por voluntad del representante. Si una vez matriculado el alumno, sus progenitores o representantes deciden retirarlo de la institución, deberán comunicar de inmediato a los directivos del centro educativo. No se podrá solicitar el reembolso de la matrícula ni de las pensiones que hayan sido devengadas. El Representante se compromete a cancelar los valores correspondientes a los servicios educativos y adicionales voluntarios recibidos a favor del estudiante que representa, hasta el último período mensual de asistencia al plantel.
+	<br/>
+	7) Por incumplimiento de cualquiera de las cláusulas que se establecen en este convenio, Código de Convivencia, o por incumplimiento de disposiciones emanadas de las autoridades de la institución y que correspondan al desarrollo de los programas educativos.  
+	<br/>
+	8) Por voluntad de una de las partes, manifiesta dentro del término legal.
+	<br/>
+	9) Por las demás causas previstas en el ordenamiento jurídico del país, Código de Convivencia y Reglamentos de la institución.
+	<br/>
+	<strong>OCTAVA: DE LA MORA DEL REPRESENTANTE LEGAL DEL ESTUDIANTE:</strong>
+	La mora del  primer mes será considerado como un atraso. Si no paga el segundo mes, el representante será requerido para el pago de lo adeudado como contraprestación del servicio educativo y si persiste en la falta de pago, cumplido el tercer mes de mora, ante la imposibilidad de cumplir con su compromiso en el pago de la pensión como contraprestación del servicio educativo, para evitar problemas familiares, psicológicos, de estrés, o conflictividad con el sistema, el  (la) representante se obliga a cambiarlo a una institución fiscal gratuita o a otra institución particular acorde sus posibilidades, para lo cual deberá solicitar el pase a otra institución educativa, o solicitar en forma directa la documentación del estudiante. Sin perjuicio de las acciones legales que se tomen para el cobro de las pensiones adeudadas.
+	<br/>
+	Si el representante, no cumple con cambiar de institución educativa al estudiante, para evitarle problemas psicológicos, al tener que asistir a la Institución a sabiendas que su representante no ha cumplido su compromiso contractual, lo que podría acarrear  trastornos en su comportamiento y que afectaría su proceso formativo, sobre todo en su  rendimiento y  comportamiento, la institución recurrirá a las instancias judiciales o de mediación y arbitraje respectivas en aras de ejercer de forma efectiva la presente cláusula, sin que este hecho constituya violación al derecho a la educación del menor.
+	<br/>
+	En caso de falta de pago o mora en las pensiones u obligaciones para con la Institución, no se podrá otorgar o renovar matrícula al estudiante para el próximo año lectivo, por lo que, el representante lo matriculará en otra institución, para que no se conculque o vulnere el derecho a la educación a su representado.
+	<br/>
+	Así mismo, “la institución” por medio de su Promotora o propietaria, podrá iniciar en caso de mora de “el (la) representante” las acciones contempladas en el Código Orgánico General de Procesos, por lo que “el (la) representante”, se obliga para con la Promotora o propietaria desde el momento de la interposición de la demanda o de la notificación de la deuda por parte de los abogados externos al pago de los rubros vencidos, así como de las costas procesales y honorarios del profesional contratado.
+	<br/>
+	<strong>NOVENA: DEL SEGURO DE ACCIDENTES PERSONALES:</strong> 
+	De conformidad a la normativa expedida por el Ministerio de Educación, en el Acuerdo Ministerial MINEDUC-ME-2017-00006-A, se pone a consideración de los padres de familia un seguro de accidentes personales, en aras de cubrir posibles lesiones que pueda tener el estudiante dentro de la institución educativa. En caso de que el padre o representante no acepte dicho seguro, deslinda de responsabilidad a la Unidad Educativa y su Promotor, en relación al posible accidente y sus consecuencias.
+	<br/>
+	La institución educativa solamente se compromete, en caso de accidente a llamar al ECU-911, para que brinde la asistencia que sea del caso.
+	<br/>
+	En caso que “el la representante” tenga un seguro de accidentes personales propio ya sea nacional o internacional, deberá notificar de dicho particular a “la institución” con todos lo datos para poder solicitar la ayuda en los casos que sean necesarios. 
+	<br/>
+	<strong>DÉCIMA: DE LOS SERVICIOS COMPLEMENTARIOS:</strong>
+	Existen otros valores que se cobran en forma periódica o esporádica y que han sido solicitados y aceptados en forma expresa y voluntaria por el (la) representante legal del (la) estudiante, que corresponden a servicios no educativos o complementarios, que son prestados por la institución o facilitados para que los preste otras personas naturales o jurídicas dentro de la Institución, como son, entre otros,  los servicios de alimentación, bar, transporte escolar, o de apoyo profesional para educación especial, los que no constituyen elemento propio de la prestación del servicio de educación y no están comprendidos o cubiertos dentro del concepto de pensión y matrícula, por lo que tienen que ser pagados en forma directa por los padres o representantes legales de los estudiantes. Tampoco están cubiertos o considerados dentro de los valores de matrículas y pensiones, los libros, cuadernos, y demás útiles escolares, o implementos o materiales de trabajo de aprendizaje, uniformes, disfraces de presentación para eventos u obras de arte, o equipos para eventos deportivos,  sistemas externos de apoyo educativo tecnológico, computadoras personales, IPad o Tabletas, que voluntariamente los padres o representantes aprueben y que se utilicen dentro del sistema educativo como apoyo al mismo, o alquiler de locales o escenarios para incorporaciones, ceremonias o baile de graduados; los cuales deberán ser pagados en forma directa por el representante legal del estudiante al proveedor del bien o servicio, o por intermedio de la Institución, si es que se brinda esa facilidad en beneficio del representante.
+	<br/>
+
+	<strong>DÉCIMA PRIMERA: SOBRE LAS EXCURSIONES Y GIRAS DE OBSERVACION:</strong>
+	De conformidad a la normativa vigente las instituciones educativas pueden realizar excursiones y giras de observación. En este sentido los representantes legales se comprometen a dar respuesta a las solicitudes de permiso, así como ha cubrir los valores que por concepto de estas actividades se generen, siempre que los mismos, no contravengan normativa de igual o mayor jerarquía expedida.
+	<br/>
+	<strong>DÉCIMA SEGUNDA: TRÁMITE Y COMPETENCIA: CLÁUSULA COMPROMISORIA:</strong>
+	Cualquiera cuestión o controversia originadas en este convenio o relacionadas con él y que no sea para el cobro de pensiones, serán resueltas por arbitraje en la Cámara de Arbitraje y Mediación de la Universidad de Especialidades Espíritu Santo  de acuerdo con las reglas de la Ley de Arbitraje y Mediación y del Reglamento de dicho Centro. Las partes convienen además en lo siguiente:
+	<br/>
+	a.-Los árbitros serán seleccionados conforme lo establecido en la Ley de Arbitraje y Mediación.
+	<br/>
+	b.-Las partes renuncian a la jurisdicción ordinaria, se obligan a acatar el laudo que expida el Tribunal Arbitral  y se compromete a no interponer ningún recurso en contra del mismo. 
+	<br/>
+	c.-Para la ejecución de  medidas cautelares el Tribunal Arbitral está facultado  para solicitar de los funcionarios públicos, judiciales, policiales y administrativos su cumplimiento, sin que sea necesario recurrir a juez ordinario alguno.
+	<br/>
+	d.-El Tribunal Arbitral está integrado por -uno o tres  árbitros- (establecer el número de árbitros que integrará el tribunal arbitral)
+	<br/>
+	e.-El procedimiento arbitral será confidencial.
+	<br/>
+	f.-El lugar de arbitraje será las instalaciones de la Cámara de Arbitraje y Mediación de la Universidad de Especialidades Espíritu Santo"
+	<br/>
+	En relación a la mora de “el (la) representante)” será resuelta por uno de los Jueces de las Unidades Judiciales del Consejo de la Judicatura, de conformidad a lo determinado en el Código Orgánico General de Procesos y a la Cláusula Octava, Inciso último del presente instrumento.
 	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA NOVENA: DE LA TERMINACIÓN DEL CONTRATO:</strong>
-	El presente contrato concluirá por las siguientes causas:
-	<ol>
-	<li>
-	Por el vencimiento del plazo, caso en el cual, culminará de pleno derecho.
-	</li>
-	<li>
-	Por voluntad o acuerdo de ambas partes.
-	</li>
-	<li>
-	Por fallecimiento del (la) estudiante.
-	</li>
-	<li>
-	Por fallecimiento del representante del estudiante, a menos que otra persona con derecho suficiente asuma la representación del educando. En lo relativo al pago de pensiones, se estará a lo establecido en los Art. 7 literal J) y 135 de la LOEI.
-	</li>
-	<li>
-	Por suspensión de actividades de la unidad educativa por más de sesenta días o por cierre definitivo.
-	</li>
-	<li>
-	Por voluntad del representante. Si una vez matriculado el alumno, sus progenitores o representantes deciden retirarlo de {$nombre_colegio} , deberán comunicar de inmediato a los directivos de la institución. No se podrá solicitar el reembolso de la matrícula ni de las pensiones que hayan sido devengadas. El Representante se compromete a cancelar los valores correspondientes a los servicios educativos y adicionales voluntarios recibidos a favor del estudiante que representa, hasta el último periodo mensual de asistencia al plantel.
-	</li>
-	<li>
-	Por incumplimiento de cualquiera de las cláusulas que se establecen en este contrato, Código de Convivencia, o de los Reglamentos Internos, o por incumplimiento de disposiciones emanadas de las autoridades de {$nombre_colegio}  y que correspondan al desarrollo de los programas educativos.
-	</li>
-	<li>
-	Por incurrir sus representados en las faltas que establece el Art. 134 de la Ley Orgánica de Educación Intercultural.
-	</li>
-	<li>
-	Por las demás causas previstas en el ordenamiento jurídico del país, Código de Convivencia y Reglamentos de {$nombre_colegio} .
-	</li>
-	</ol>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA DÉCIMA: TRÁMITE Y COMPETENCIA: CLÁUSULA COMPROMISORIA:</strong> Cualquier controversia, diferencia o reclamación que se derive o esté relacionada con la interpretación o ejecución del presente convenio, en atención a lo establecido en la Ley de Arbitraje y Mediación, las partes acuerdan renunciar a su domicilio legal t fuero, sometiéndose en primera instancia al Centro de Arbitraje y Mediación – CAM - de la Universidad de Especialidades Espíritu Santo – UEES.  En caso de que las partes intervinientes no hayan podido llegar a un acuerdo en la etapa de mediación, estos resuelven al tenor de lo dispuesto en el Artículo 47 de la Ley ibídem, someterse en forma expresa, para que la problemática sea resuelta al Tribunal de Arbitraje del Centro de Arbitraje y Mediación – CAM - de la Universidad de Especialidades Espíritu Santo – UEES. En este caso, las partes se comprometen a aceptar las medidas cautelares que se disponga; a aceptar lo resuelto en la etapa de mediación; y, acatar el laudo arbitral a expedirse, desistiendo de presentar recurso alguno respecto del mismo.
-	</p>
-	<p class="letras_pequenas">
-	Para constancia de lo acordado, luego de ser vuelto a leer en alta voz,  las partes suscriben el presente convenio en el cantón {$fecha_hoy}
-	</p>
-	
+
 	<p class="letras_pequenas">
 	<table>
-	<tr>
-	<td colspan="2">
-	<br/><br/><br/><br/>
-	</td>
-	</tr>
-	<tr>
-	<td class="centrar">
-	f)___________________________________________<br/>
-	{$representante["nombres"]}<br/>
-	El (la) Representante 
-	</td>
-	<td class="centrar">
-	f)___________________________________________<br/>
-	{$nombre_financiero}<br/>
-	{$nombre_legal}
-	</td>
-	</tr>
 	<tr>
 	<td colspan="2">
 	<br/><br/>
@@ -265,25 +367,48 @@
 	</tr>
 	<tr>
 	<td colspan="2">
-	Dirección Domicilio: {$representante["domicilio"]}
+	Para constancia de lo acordado, las partes suscriben el presente convenio en la ciudad de {$fecha_hoy}
 	</td>
 	</tr>
 	<tr>
 	<td colspan="2">
-	Telefono: {$representante["telefono"]}
+	<br/>
 	</td>
 	</tr>
 	<tr>
 	<td colspan="2">
-	ACEPTO TODAS LAS CONDICIONES Y OBLIGACIONES.-
-	VISTO BUENO.- Sin protesto.- Fecha Up Supra.-
+	FIRMAS DEL CONVENIO CIVIL DE PRESTACIÓN DE SERVICIOS. 
 	</td>
+	</tr>
+	<tr>
+	<td colspan="2">
+	<br/><br/><br/><br/>
+	</td>
+	</tr>
+	<tr>
+	<td class="">
+	f)_______________________________________________<br/>
+	Nombre: {$representante_fina["nombres"]}<br/>
+	Dirección Dom: {$representante_fina["domicilio"]}<br/>
+	Teléfono No:{$representante_fina["telefono"]}<br/>
+	Correo Electrónico: {$representante_fina["correo"]}
+	</td>
+	<td class="">
+	f)_______________________________________________<br/>
+	Ing. Franklin Calderón Quijano, MBA.<br/>
+	GERENTE GENERAL EBCES S.A.
+	</td>
+	</tr>
+	<tr>
+		<td>
+			<br/><br/><br/><br/>
+			RPB.JLT.tia
+		</td>
+		<td>
+		</td>
 	</tr>
 	</table> 
-	</p>   
-	</p>
-	</p>
-	</p>
+	</p>        
 	</div>
 EOF;
 $pdf->writeHTML($tbl, true, false, false, false, '');

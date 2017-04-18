@@ -76,6 +76,25 @@ class General extends DBAbstractModel{
         }
         return $this->rows;
     }
+	public function set_operacion_auditoria($authorizationCode, $authorizationResult,
+											$errorCode, $errorMessage,
+											$cardNumber, $cardType,
+											$purchaseOperationNumber, $purchaseAmount, $reserved11 )
+	{   $this->parametros = array(  $authorizationCode, $authorizationResult,
+									$errorCode, $errorMessage,
+									$cardNumber, $cardType,
+									$purchaseOperationNumber, number_format( str_replace( ',', '.', $purchaseAmount ), 2 ),
+									$reserved11);
+		$this->sp = "str_auditoria_botonPago_deuda";
+		$this->executeSPConsulta();
+        if (count($this->rows)>0)
+		{   array_pop($this->rows);
+            $this->mensaje="Deuda auditada.";
+        }else
+		{   $this->mensaje="Deuda no auditada.";
+        }
+        return $this->rows;
+    }
 	public function set_operacion_respuesta($authorizationCode, $authorizationResult,
 											$errorCode, $errorMessage,
 											$cardNumber, $cardType,

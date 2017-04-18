@@ -11,8 +11,9 @@ class DebitosAutomaticos extends DBAbstractModel
     public $contadornopagados;
     public $contadorsaldoafavor; 
     
-    public function get_all_campos()
-	{	$this->sp = "str_consultaDebitosAutomaticos_campos";
+    public function get_all_campos( $vista )
+	{	$this->parametros = array( $vista );
+        $this->sp = "str_consultaDebitosAutomaticos_campos";
         $this->executeSPConsulta();
         if (count($this->rows)<=0)
         {    $this->mensaje="No existen campos en la Vista";

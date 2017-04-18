@@ -1,6 +1,3 @@
-<?php 
-session_start();
-?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
 <head>
@@ -51,6 +48,10 @@ session_start();
     padding: 0;
     margin: 0;
   }
+  .disabled_a {
+	   pointer-events: none;
+	   cursor: default;
+	}
 </style>
 
 </head>
@@ -129,8 +130,9 @@ session_start();
 	<script src="{ruta_includes_common}/maskmoney/src/jquery.maskMoney.js" type="text/javascript"></script>
 	<script src="{ruta_includes_common}/bootstrap-validator-master/js/validator.js" type="text/javascript"></script>
     <script src="{ruta_includes_common}/plugins/jQuery/numeric.js"></script>
+	<script src="{ruta_includes_common}/shortcut.js"></script>
 	
-	<script src="{ruta_js_finan}/aniosPeriodo.js?we=4321"></script>
+	<script src="{ruta_js_finan}/aniosPeriodo.js"></script>
 	<script src="{ruta_js_finan}/general.js"></script>
 	<script src="{ruta_js_common}/general.js"></script>
 	<script src="{ruta_js_common}/mensajeria.js"></script>

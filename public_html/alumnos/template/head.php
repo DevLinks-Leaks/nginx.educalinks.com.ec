@@ -20,7 +20,7 @@
     //     // session_activa(3);
     // }
 
-
+	licencia_activa();
     $rand = rand().rand();
 ?>
 	<head>

@@ -103,7 +103,18 @@
 <script type="text/javascript" charset="utf-8">
 	$("#alum_fech_naci").datepicker();
 	$("#alum_resp_form_fech_vcto").datepicker();
+  $("#repr_fech_promoc").datepicker();
+  shortcut.add("Shift+I", function() {
+      $('#btn_inscribir').trigger("click");
+  });
+  shortcut.add("Shift+G", function() {
+      $('#btn_guardar').trigger("click");
+  },{'disable_in_input':true});
+  shortcut.add("Shift+F", function() {
+      $('#btn_repre').trigger("click");
+  },{'disable_in_input':true});
 </script>
 		<!-- InstanceEndEditable -->
 </body>
-<!-- InstanceEnd --></html>
+<!-- InstanceEnd -->
+</html>

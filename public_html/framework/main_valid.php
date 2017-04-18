@@ -62,6 +62,7 @@
 						$_SESSION['peri_dist_cab_tipo']=$row_resu_alum_info['peri_dist_cab_tipo'];
 						
 						$_SESSION['alum_curs_para_codi']=$row_resu_alum_info['alum_curs_para_codi'];
+						$_SESSION['pin'] = $row_resu_alum_info['pin'];
 						
 						$_SESSION['ISBIEN_ALUM'] = 'YESIN';
 						$_SESSION['ISBIEN_ADMIN'] = 'NOTIN';
@@ -140,6 +141,7 @@
 						$_SESSION['alum_upd']=$row_resu_alum_info['alum_upd'];
 						
 						$_SESSION['alum_curs_para_codi']=$row_resu_alum_info['alum_curs_para_codi'];
+						$_SESSION['pin'] = $row_resu_alum_info['pin'];
 
 						//datos de usuario representante
 						$_SESSION['ISBIEN_ADMIN'] = 'NOTIN';

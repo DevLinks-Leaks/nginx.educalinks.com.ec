@@ -445,21 +445,32 @@ function handler()
 			$data["codigoEstudiante"] = $user_data["codigoEstudiante"];
 			$data["codigoGrupoEconomico"] = $cliente->rows[0]["codigoGrupoEconomico"];
 			$data["nombreGrupoEconomico"] = $cliente->rows[0]["nombreGrupoEconomico"];
-
+			$data["txt_ge_ingresoFamiliar"] = $cliente->rows[0]["ingresoFamiliar"];
+			
+			if ( $cliente->rows[0]["para_ge_aut_by_ingFa"] == 'S' )
+			{   $data["display_cmb_grupoEconomico"] = 'style="display:none;"';
+				$data["display_ingreso_familiar"] = '';
+			}
+			else
+			{   $data["display_cmb_grupoEconomico"] = '';
+				$data["display_ingreso_familiar"] = 'style="display:none;"';
+			}
 			$grupoEconomico = new GrupoEconomico();
 			$grupoEconomico->getCategorias_selectFormat();
-			$data['{combo_grupoEconomicos}'] = array("elemento"  => "combo", 
-												   "datos"     => $grupoEconomico->rows, 
-												   "options"   => array("name"=>"combo_grupoEconomico",
-																		"id"=>"combo_grupoEconomico",
-																		"class"=>"form-control",
-																		"required"=>"required"),
+			$data['{combo_grupoEconomicos}']=array(	"elemento"  =>"combo", 
+													"datos"     =>$grupoEconomico->rows, 
+													"options"   =>array("name"		=>"combo_grupoEconomico",
+																		"id"		=>"combo_grupoEconomico",
+																		"class"		=>"form-control",
+																		"required"	=>"required"),
 												   "selected"  => 0);
 
 			retornar_formulario(VIEW_SET_GRUPO_ECONOMICO, $data);
 			break;
         case SET_GRUPO_ECONOMICO:
-			$resultado = $cliente->setGrupoEconomico($user_data["codigoEstudiante"], $user_data["codigoGrupoEconomico"]);
+			$resultado=$cliente->setGrupoEconomico( $user_data["codigoEstudiante"],
+													$user_data["codigoGrupoEconomico"],
+													$user_data["ingresoFamiliar"]);
 			$data['mensaje']=$resultado->mensaje;
 			retornar_result($data);
 			break;

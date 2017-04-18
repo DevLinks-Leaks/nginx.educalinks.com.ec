@@ -63,6 +63,9 @@
                   <span class="icon-print icon"> </span>Imprimir  Notas
              	</a>
             </li>
+            <li>
+              <a href="JavaScript:imprimirActa(<?=$row_curs_peri_view['curs_para_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>);" class="option"><span class="icon-print icon"> </span>Imprimir  Acta</a>
+            </li>
           </ul>
         </div>           
      </td>

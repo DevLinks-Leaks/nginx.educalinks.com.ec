@@ -22,7 +22,7 @@
 	$curso_descr = $periodo_descrp = "";
 	$largo_head=0;
 	$materias_cuantitativas_count=0;
-	$ancho_para_firmas=45;//se dividirá por el numero de subcolumnas.
+	$ancho_para_firmas=47;//se dividirá por el numero de subcolumnas.
 	$cont_retirados=0;
 	
 	//Estilo para los bordes de cada celda y las letras
@@ -137,13 +137,16 @@
 	//Escala de impresión
 	$objPHPExcel->getActiveSheet()->getPageSetup()->setScale(55);
 	
+	$objPHPExcel->getActiveSheet()->
+		getPageSetup()->setPaperSize(PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+
 	//Horizontal
 	$objPHPExcel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
 	
 	//Márgenes
 	$objPHPExcel->getActiveSheet()->getPageMargins()->setTop(0.25);
-	$objPHPExcel->getActiveSheet()->getPageMargins()->setRight(0.25);
-	$objPHPExcel->getActiveSheet()->getPageMargins()->setLeft(0.25);
+	$objPHPExcel->getActiveSheet()->getPageMargins()->setRight(0.35);
+	$objPHPExcel->getActiveSheet()->getPageMargins()->setLeft(0.35);
 	$objPHPExcel->getActiveSheet()->getPageMargins()->setBottom(0.25);
         
         $una=true;
@@ -182,8 +185,8 @@
 				$aux_col[$i][3] = $row['mate_padr'];
 				$aux_col[$i][4] = $row['mate_orde'];
 				
-				$aux_sub_col[$i][0] = $row['peri_dist_codi'];
-				$aux_sub_col[$i][1] = $row['peri_dist_deta'];
+				// $aux_sub_col[$i][0] = $row['peri_dist_codi'];
+				// $aux_sub_col[$i][1] = $row['peri_dist_deta'];
 				
 				$aux_fil[$i][0] = $row['alum_codi'];
 				$aux_fil[$i][1] = $row['alum_apel'];
@@ -203,6 +206,18 @@
 		{	$aux[$key] = $row[4];//se guarda en el arreglo auxiliar sólo la columna por la que quieres ordenar.
 		}
 		
+		//Consulta cabeceras
+		$params = array($peri_dist_codi, 'C');
+		$sql="{call peri_dist_padr_libr_view(?,?)}";
+		$peri_dist_padr_view = sqlsrv_query($conn, $sql, $params);
+		$k=0;
+		while($row_peri_dist_padr_view= sqlsrv_fetch_array($peri_dist_padr_view)){
+			$aux_sub_col[$k][0] = $row_peri_dist_padr_view['peri_dist_codi'];
+			$aux_sub_col[$k][1] = $row_peri_dist_padr_view['peri_dist_deta'];
+			$aux_sub_col[$k][2] = $row_peri_dist_padr_view['peri_dist_nota_tipo'];
+			$k++;
+		}
+
 		//Subcolumnas finales
 		$subcolumnas =arrayUnique ($aux_sub_col);
 		
@@ -711,6 +726,8 @@
 		$objDrawing->setCoordinates('B1');
 		$objDrawing->setHeight($maxHeight);
 		$offsetX =$maxWidth - $objDrawing->getWidth();
+		if($offsetX<0)
+			$offsetX=0;
 		$objDrawing->setOffsetX($offsetX);
 	}
 	else

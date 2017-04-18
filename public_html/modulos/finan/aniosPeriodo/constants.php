@@ -21,6 +21,7 @@ const GET_CURSO					= 'get_curso'; //Obtiene cursos para combobox
 const GET_ALUMNOS				= 'get_alumnos';//Obtiene alumnos para combobox
 const MIGRARFACTURAS			= 'migrarfacturas';
 const MIGRARFACTURASINDIVIDUALES= 'migrarfacturasindividuales';
+const VIEW_MIGRACION			= 'migracion';
 # vistas
 const VIEW_GET_ALL				= 'buscar_todos'; // Carga toda la vista con todos los datos
 const VIEW_SET					= 'agregar'; // Mostrar formulario para agregar

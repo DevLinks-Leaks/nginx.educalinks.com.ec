@@ -63,10 +63,10 @@
               <th>
               <div class="options">
               	<button 
-                    class="icon-print btn btn-primary"
+                    class="btn btn-primary"
                     onClick="window.open('libretas/<?= $_SESSION['directorio']; ?>/<?= $_SESSION['peri_codi']; ?>/<?= $url_libreta_general?>?peri_dist_codi=' + selectvalue(document.getElementById('peri_dist_codi')) +'&curs_para_codi=<?= $_GET["curs_para_codi"]; ?>','_blank')"
                     style="margin: 10px 0px;">
-                    Imprimir Todo
+                    <span class='icon-print'></span> Imprimir Todo
                 </button>
                 </div>
               </th>

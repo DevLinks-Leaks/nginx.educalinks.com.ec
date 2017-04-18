@@ -1,5 +1,5 @@
 /**
- * Creado por Redlinks, Roberto Macías, el 10/06/2015.
+ * Creado por Redlinks, Marcos Alvear, el 24/02/2017.
  */
 document.addEventListener('DOMContentLoaded', function ()
 {   if (Notification.permission !== "granted")
@@ -13,6 +13,22 @@ $(document).ready(function() {
     $("#txt_fecha_fin").datepicker();
 	$("#txt_fecha_deuda_ini").datepicker();
     $("#txt_fecha_deuda_fin").datepicker();
+	$("#txt_fecha_aut_ini").datepicker({ format: 'yyyy-mm-dd' });
+	$("#txt_fecha_aut_fin").datepicker({ format: 'yyyy-mm-dd' });
+	$("#txt_fecha_aut_ini").inputmask({
+		mask: "y-1-2", 
+		placeholder: "yyyy-mm-dd", 
+		leapday: "-02-29", 
+		separator: "-", 
+		alias: "yyyy/mm/dd"
+	});
+	$("#txt_fecha_aut_fin").inputmask({
+		mask: "y-1-2", 
+		placeholder: "yyyy-mm-dd", 
+		leapday: "-02-29", 
+		separator: "-", 
+		alias: "yyyy/mm/dd"
+	});
 	$("#cmb_producto").select2();
 	$("#txt_tneto_ini").numeric({ decimal : ".",  negative : false, scale: 2, precision: 8 });
 	$("#txt_tneto_fin").numeric({ decimal : ".",  negative : false, scale: 2, precision: 8 });
@@ -70,7 +86,7 @@ function js_gestionFactura_envio_factura(codigo, div, url, envio, estadoFac )
 		{   if (xhr.readyState==4 && xhr.status==200)
 			{   document.getElementById(div).innerHTML=xhr.responseText;
 				proceso_individual_corriendo = 0;
-				js_gestionFactura_carga_busquedaFacturas('resultadoProceso', url);
+				js_gestionFactura_carga_busquedaFacturas('resultadoProceso');
 			}
 		};
 		xhr.send(data);	
@@ -93,7 +109,7 @@ function js_gestionFactura_reenvio_factura(codigo, div, url, estadoFac ){
 			if (xhr.readyState==4 && xhr.status==200){
 				document.getElementById(div).innerHTML=xhr.responseText;
 				proceso_individual_corriendo = 0;
-				js_gestionFactura_carga_busquedaFacturas('resultadoProceso', url);
+				js_gestionFactura_carga_busquedaFacturas('resultadoProceso');
 			}
 		};
 		xhr.send(data);
@@ -159,79 +175,39 @@ function js_gestionFactura_save_edited(url){
 	}
 }
 function js_gestionFactura_get_fac_pdtes_codi_json( div, url, evento )
-{   var tipoDocumentoAutorizado = 'FAC';
-    var fechavenc_ini = document.getElementById("txt_fecha_ini").value;
-    var fechavenc_fin = document.getElementById("txt_fecha_fin").value;
-    var data = new FormData();
-    data.append('event', 'get_fac_pdtes_codi_json');
-    data.append('tipoDocumentoAutorizado', tipoDocumentoAutorizado);
-    data.append('fechavenc_ini', fechavenc_ini);
-    data.append('fechavenc_fin', fechavenc_fin);
-    var ckb_opc_adv = document.getElementById("ckb_gestionFactura_opc_adv").checked;
-	data.append('ckb_opc_adv', ckb_opc_adv);
-    if(ckb_opc_adv)
-    {   data.append('estadoElectronico', document.getElementById("cmb_estadoElectronico").value);
-		data.append('id_titular', document.getElementById("txt_id_titular").value);
-        data.append('cod_estudiante', document.getElementById("txt_cod_cliente").value);
-        data.append('nombre_estudiante', document.getElementById("txt_nom_cliente").value);
-        data.append('nombre_titular', document.getElementById("txt_nom_titular").value);
-        data.append('ptvo_venta', document.getElementById("txt_ptoVenta").value);
-        data.append('sucursal', document.getElementById("txt_sucursal").value);
-        data.append('ref_factura', document.getElementById("txt_ref_factura").value);
-        var productos = []; 
-		$('#cmb_producto :selected').each(function(i, selected){ 
-		  productos[i] = $(selected).val(); 
-		});
-        data.append('prod_codigo', JSON.stringify( productos ) );
-        data.append('estado', document.getElementById("cmb_estado").value);
-		var chk_tneto = document.getElementById("chk_tneto").checked;
-		if(chk_tneto)
-		{   data.append('tneto_ini', document.getElementById("txt_tneto_ini").value);
-			data.append('tneto_fin', document.getElementById("txt_tneto_fin").value);
+{   checkboxes = document.getElementsByName('ckb_codigoDocumento[]');
+    var factura=[];
+	var bandera = 0;
+	for(var i = 0, n = checkboxes.length; i < n; i++ )
+    {   if ( checkboxes[i].checked )
+		{   factura.push(checkboxes[i].value);
+			bandera++;
 		}
-		var chk_fechadeuda = document.getElementById("chk_fecha_deuda").checked;
-		if(chk_fechadeuda)
-		{   data.append('fechadeuda_ini', document.getElementById("txt_fecha_deuda_ini").value);
-			data.append('fechadeuda_fin', document.getElementById("txt_fecha_deuda_fin").value);
-		}
-        data.append('periodo', document.getElementById("periodos").value);
-        data.append('grupoEconomico', document.getElementById("cmb_grupoEconomico").value);
-        data.append('nivelEconomico', document.getElementById("cmb_nivelesEconomicos").value);
-        data.append('curso', document.getElementById("curso").value);
     }
-	var responseText = "";
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url , true);
-    xhr.onreadystatechange=function()
-	{   if (xhr.readyState==4 && xhr.status==200)
-		{   var obj = JSON.parse(xhr.responseText);
-			if ( obj )
-			{   var chartgrama = new Array();
-				chartgrama['NO AUTORIZADO'] = 0;
-				chartgrama['PROCESANDOSE'] = 0;
-				chartgrama['AUTORIZADO'] = 0;
-				chartgrama['DEVUELTA'] = 0;
-				chartgrama['ERROR'] = 0;
-				chartgrama['NOCAJA'] = 0;
-				proceso_corriendo = 1;
-				var start_time = new Date().getTime();
-				var request_time = 0;
-				var per_complete_first = 0;
-				js_gestionFactura_get_fac_pdtes_codi_json_followed ( div, url, evento, obj, 0, obj.length, chartgrama, start_time, request_time, per_complete_first );	
-			}
-			else
-			{   document.getElementById(div).innerHTML=
-				"<div id='facturasGeneradas' class='form-group'>"+
-					"<div class='callout' role='alert'>"+
-						"<h4><i class='icon fa fa-info-circle'></i> No hay facturas pendiente de envío</h4>"+
-						"<p>En este momento no hay facturas pendiente de envío. Por favor, redefina su búsqueda o intente más tarde.</p>"+
-					"</div>"+
-				"</div>";
-			}
-			
-        }
-    };
-    xhr.send(data);
+	console.log(factura);
+	if ( bandera > 0 )
+	{   var chartgrama = new Array();
+		chartgrama['NO AUTORIZADO'] = 0;
+		chartgrama['PROCESANDOSE'] = 0;
+		chartgrama['AUTORIZADO'] = 0;
+		chartgrama['DEVUELTA'] = 0;
+		chartgrama['ERROR'] = 0;
+		chartgrama['NOCAJA'] = 0;
+		proceso_corriendo = 1;
+		var start_time = new Date().getTime();
+		var request_time = 0;
+		var per_complete_first = 0;
+		js_gestionFactura_get_fac_pdtes_codi_json_followed ( div, url, evento, factura, 0, factura.length, chartgrama, start_time, request_time, per_complete_first );	
+	}
+	else
+	{   document.getElementById(div).innerHTML=
+		"<div id='facturasGeneradas' class='form-group'>"+
+			"<div class='callout' role='alert'>"+
+				"<h4><i class='icon fa fa-info-circle'></i> No hay facturas pendiente de envío</h4>"+
+				"<p>En este momento no hay facturas pendiente de envío. Por favor, redefina su búsqueda o intente más tarde.</p>"+
+			"</div>"+
+		"</div>";
+	}
 }
 var proceso_individual_corriendo = 0;
 var proceso_corriendo = 0;
@@ -303,7 +279,7 @@ function js_gestionFactura_get_fac_pdtes_codi_json_followed ( div, url, evento, 
 						' estar trabajando con una <b>caja abierta</b> para poder realizar esta operación.'+
 					'</div>';		
 		proceso_corriendo = 0;
-		js_gestionFactura_carga_busquedaFacturas( 'resultadoProceso', url );
+		js_gestionFactura_carga_busquedaFacturas( 'resultadoProceso');
 	}
 	else
 	{   var per_complete = Math.round( ( ( ( indice + 1 ) * 100 ) / obj_len ) );
@@ -470,7 +446,7 @@ function js_gestionFactura_get_fac_pdtes_codi_json_followed ( div, url, evento, 
 				}
 			}
 			proceso_corriendo = 0;
-			js_gestionFactura_carga_busquedaFacturas( 'resultadoProceso', url );
+			js_gestionFactura_carga_busquedaFacturas( 'resultadoProceso');
 		}
 	}
 }
@@ -526,27 +502,16 @@ function js_gestionFactura_pausar_envio_SRI(progress_bar)
 function js_gestionFactura_continuar_envio_SRI(progress_bar)
 {   proceso_corriendo = 1;
 }
-function queryBank(div, url){
-    document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
-    var data = new FormData();
-    data.append('event', 'get_query_bancos');
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', url , true);
-    xhr.onreadystatechange=function(){
-        if (xhr.readyState==4 && xhr.status==200){
-            document.getElementById(div).innerHTML=xhr.responseText;
-        }
-    };
-    xhr.send(data);
-}
 function js_gestionFactura_to_excel_busquedaFacturas( evento, tipo_reporte )
 {   document.getElementById( 'evento' ).value = evento;
     document.getElementById( 'tipo_reporte' ).value = tipo_reporte;
 	document.getElementById( 'file_form' ).submit();
 }
-function js_gestionFactura_carga_busquedaFacturas(div, url)
+function js_gestionFactura_carga_busquedaFacturas(div)
 {   document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
-    var tipoDocumentoAutorizado = 'FAC';
+    $('#span_codigoDocumento_head1').removeClass('fa-check-square-o').addClass('fa-square-o');	
+	$('#span_codigoDocumento_head2').html("Marcar todos");
+	var tipoDocumentoAutorizado = 'FAC';
     var fechavenc_ini = document.getElementById("txt_fecha_ini").value;
     var fechavenc_fin = document.getElementById("txt_fecha_fin").value;
     var data = new FormData();
@@ -570,7 +535,6 @@ function js_gestionFactura_carga_busquedaFacturas(div, url)
 		  productos[i] = $(selected).val(); 
 		});
         data.append('prod_codigo', JSON.stringify( productos ) );
-		//console.log(JSON.stringify( productos ));
         data.append('estado', document.getElementById("cmb_estado").value);
 		var chk_tneto = document.getElementById("chk_tneto").checked;
 		if(chk_tneto)
@@ -582,14 +546,19 @@ function js_gestionFactura_carga_busquedaFacturas(div, url)
 		{   data.append('fechadeuda_ini', document.getElementById("txt_fecha_deuda_ini").value);
 			data.append('fechadeuda_fin', document.getElementById("txt_fecha_deuda_fin").value);
 		}
+		var chk_fechaAut = document.getElementById("chk_fecha_aut").checked;
+		if(chk_fechaAut)
+		{   data.append('fechaAut_ini', document.getElementById("txt_fecha_aut_ini").value);
+			data.append('fechaAut_fin', document.getElementById("txt_fecha_aut_fin").value);
+		}
         data.append('periodo', document.getElementById("periodos").value);
         data.append('grupoEconomico', document.getElementById("cmb_grupoEconomico").value);
         data.append('nivelEconomico', document.getElementById("cmb_nivelesEconomicos").value);
         data.append('curso', document.getElementById("curso").value);
     }
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', url , true);
-    xhr.onreadystatechange=function()
+    xhr.open('POST', document.getElementById('ruta_html_finan').value + '/gestionFacturas/controller.php' , true);
+	xhr.onreadystatechange=function()
     {   if (xhr.readyState==4 && xhr.status==200)
         {   document.getElementById(div).innerHTML=xhr.responseText;
             $(".detalle").tooltip({
@@ -672,4 +641,123 @@ function js_gestionFactura_check_fechadeuda()
 		document.getElementById("txt_fecha_deuda_ini").value = "";
         document.getElementById("txt_fecha_deuda_fin").value = "";
     }
+}
+function js_gestionFactura_check_fechaAut()
+{    var chk_tneto = document.getElementById("chk_fecha_aut").checked;
+    if(chk_tneto)
+    {   document.getElementById("txt_fecha_aut_ini").disabled = false;
+        document.getElementById("txt_fecha_aut_fin").disabled = false;
+    }
+    else
+    {   document.getElementById("txt_fecha_aut_ini").disabled = true;
+        document.getElementById("txt_fecha_aut_fin").disabled = true;
+		document.getElementById("txt_fecha_aut_ini").value = "";
+        document.getElementById("txt_fecha_aut_fin").value = "";
+    }
+}
+function js_gestionFactura_select_all2 (  )
+{   if ( $('#span_codigoDocumento_head1').hasClass('fa-square-o') )
+	{   $('#span_codigoDocumento_head1').removeClass('fa-square-o').addClass('fa-check-square-o');
+		$('#span_codigoDocumento_head2').html("Desmarcar todos");
+		checked = true;
+	}
+	else
+	{   $('#span_codigoDocumento_head1').removeClass('fa-check-square-o').addClass('fa-square-o');	
+		$('#span_codigoDocumento_head2').html("Marcar todos");
+		checked = false;
+	}
+	checkboxes = document.getElementsByName('ckb_codigoDocumento[]');
+    for(var i = 0, n = checkboxes.length; i < n; i++ )
+    {   checkboxes[i].checked = checked;
+		
+		if ( checked )
+		{   if ( document.getElementById( 'tr_row_' + checkboxes[i].value ) )
+				document.getElementById( 'tr_row_' + checkboxes[i].value ).style.backgroundColor = '#ffc';
+		}
+		else
+		{   if ( document.getElementById( 'tr_row_' + checkboxes[i].value ) )
+				document.getElementById( 'tr_row_' + checkboxes[i].value ).style.backgroundColor = 'white';
+		}
+    }
+	if ( checked )
+	{   //document.getElementById('tr_row_head').style.backgroundColor = '#ffc';
+		//document.getElementById('btn_send').disabled = false;
+		//document.getElementById('btn_resend').disabled = false;
+		document.getElementById('ckb_codigoDocumento_head').checked = true;
+	}
+	else
+	{   //document.getElementById('tr_row_head').style.backgroundColor = 'white';
+		//document.getElementById('btn_send').disabled = true;
+		//document.getElementById('btn_resend').disabled = true;
+		document.getElementById('ckb_codigoDocumento_head').checked = false;
+	}		
+}
+function js_gestionFactura_select_all ( source )
+{   checkboxes = document.getElementsByName('ckb_codigoDocumento[]');
+    for(var i = 0, n = checkboxes.length; i < n; i++ )
+    {   checkboxes[i].checked = source.checked;
+		if ( source.checked )
+		{   if ( document.getElementById( 'tr_row_' + checkboxes[i].value ) )
+				document.getElementById( 'tr_row_' + checkboxes[i].value ).style.backgroundColor = '#ffc';
+		}
+		else
+		{   if ( document.getElementById( 'tr_row_' + checkboxes[i].value ) )
+				document.getElementById( 'tr_row_' + checkboxes[i].value ).style.backgroundColor = 'white';
+		}
+    }
+	if ( source.checked )
+	{  // document.getElementById('tr_row_head').style.backgroundColor = '#ffc';
+		//document.getElementById('btn_send').disabled = false;
+		//document.getElementById('btn_resend').disabled = false;
+		$('#span_codigoDocumento_head1').removeClass('fa-square-o').addClass('fa-check-square-o');
+		$('#span_codigoDocumento_head2').html("Desmarcar todos");
+	}
+	else
+	{   //document.getElementById('tr_row_head').style.backgroundColor = 'white';
+		//document.getElementById('btn_send').disabled = true;
+		//document.getElementById('btn_resend').disabled = true;
+		$('#span_codigoDocumento_head1').removeClass('fa-check-square-o').addClass('fa-square-o');	
+		$('#span_codigoDocumento_head2').html("Marcar todos");
+	}	
+}
+function js_gestionFactura_select_check_ind ( source, num_linea )
+{   var marcar = 'si';
+	checkboxes = document.getElementsByName('ckb_codigoDocumento[]');
+	var total_sinchecar = 0;
+    for(var i = 0, n = checkboxes.length; i < n; i++ )
+    {   if ( !checkboxes[i].checked )
+		{	marcar = 'no';
+			total_sinchecar++;
+		}
+    }
+	if ( source.checked )
+	{   if ( document.getElementById( 'tr_row_' + source.value ) )
+			document.getElementById( 'tr_row_' + source.value ).style.backgroundColor = '#ffc';
+	}
+	else
+	{   if ( document.getElementById( 'tr_row_' + source.value ) )
+			document.getElementById( 'tr_row_' + source.value ).style.backgroundColor = 'white';
+	}
+	if ( marcar === 'si' )
+	{	document.getElementById('ckb_codigoDocumento_head').checked = 'checked';
+		$('#span_codigoDocumento_head1').removeClass('fa-square-o').addClass('fa-check-square-o');
+		$('#span_codigoDocumento_head2').html("Desmarcar todos");
+		//document.getElementById('tr_row_head').style.backgroundColor = '#ffc';
+		//document.getElementById('btn_send').disabled = false;
+		//document.getElementById('btn_resend').disabled = false;
+	}
+	else
+	{	document.getElementById('ckb_codigoDocumento_head').checked = false;
+		$('#span_codigoDocumento_head1').removeClass('fa-check-square-o').addClass('fa-square-o');
+		$('#span_codigoDocumento_head2').html("Marcar todos");
+		//document.getElementById('tr_row_head').style.backgroundColor = 'white';
+	}
+	if ( total_sinchecar == n )
+	{	//document.getElementById('btn_send').disabled = true;
+		//document.getElementById('btn_resend').disabled = true;
+	}
+	else
+	{	//document.getElementById('btn_send').disabled = false;
+		//document.getElementById('btn_resend').disabled = false;
+	}
 }

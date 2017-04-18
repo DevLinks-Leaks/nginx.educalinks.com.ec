@@ -39,7 +39,7 @@ xmlns:fb="http://www.facebook.com/2008/fbml"><!-- InstanceBegin template="/Templ
 							<input type="hidden" name="nota_perm_codi" id="nota_perm_codi" value=""/>
 							<input type="hidden" name="opc" id="opc" value="upload_view"/>
 						</form>                    
-                     <script src="js/notasv2.js"></script>
+                     <script src="js/notasv2.js?<?=$rand;?>"></script>
                         <!-- InstanceEndEditable -->
                     </div>
 				</div>
@@ -55,10 +55,4 @@ xmlns:fb="http://www.facebook.com/2008/fbml"><!-- InstanceBegin template="/Templ
 <!-- InstanceBeginEditable name="EditRegion4" --><!-- InstanceEndEditable -->
 </body>
 
-<script>
-
-var myVar=setInterval(function () {myTimer()}, 120000);
-
-
-</script>
 <!-- InstanceEnd --></html>

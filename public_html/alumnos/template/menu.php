@@ -33,7 +33,7 @@
 					{	?><li class="<? if ($Menu==5) echo 'active'; ?>"><a href="citas.php"><i class="fa fa-clock-o"></i> <span>Citas</span></a></li><?php 
 					}
 				}
-				if( $_SESSION['certus_medic'] == '1' )
+				if( $_SESSION['certus_boton_de_pago'] == '1' )
 				{	echo '<li><a href="#" onclick="js_menu_pagos();"><i class="fa fa-credit-card"></i> <span>Pagos</span></a></li>';
 				}
 				?>

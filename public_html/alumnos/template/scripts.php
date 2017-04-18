@@ -66,6 +66,7 @@
     
     <script src="js/posts.js?<?= $rand?>"></script>
     <script src="js/agendas.js?<?= $rand?>"></script>
+	<script src="js/activar_licencia.js?<?= $rand?>"></script>
     <script type="text/javascript" src="../framework/funciones.js?<?= $rand?>"></script>
     <script src="../framework/funciones_mensajes.js?<?= $rand?>"></script> 
     <script src="js/citas.js?<?= $rand?>"></script>

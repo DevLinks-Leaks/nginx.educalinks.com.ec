@@ -249,6 +249,31 @@
 						</div>
 					</div>
 					<div class='form-group'>
+						<div class="col-md-6 col-sm-10 col-md-offset-0 col-sm-offset-1">
+						</div>
+						<div class="col-md-6 col-sm-10 col-md-offset-0 col-sm-offset-1" id="div_fini" name="div_fini" >
+							<div class="input-group" id="div_fini" name="div_fini" data-placement="top"
+								 title='Fecha de autorización, desde, hasta.'
+								 onmouseover='$(this).tooltip("show")'>
+								<span class="input-group-addon">
+									<input type="checkbox" id='chk_fecha_aut' name='chk_fecha_aut' onclick='js_gestionFactura_check_fechaAut();'>
+								</span>
+								<span class="input-group-addon">
+									<span style="text-align:left;font-size:small;font-weight:bold;">F. autorizaci&oacute;n</span>
+								</span>				
+								<span class="input-group-addon">
+									<small>Inicio</small></span>
+								<input type="text" class="form-control input-sm" name="txt_fecha_aut_ini" id="txt_fecha_aut_ini" 
+											value="" placeholder="dd/mm/yyyy" disabled='disabled'>
+							
+								<span class="input-group-addon">
+									<small>Fin</small></span>
+								<input type="text" class="form-control input-sm" name="txt_fecha_aut_fin" id="txt_fecha_aut_fin" 
+											value="" placeholder="dd/mm/yyyy" disabled='disabled'>
+							</div>
+						</div>
+					</div>
+					<div class='form-group'>
 						<label class="col-md-2 col-sm-3 control-label" style='text-align: right;' for='txt_id_titular'>Id. titular:</label>
 						<div class="col-md-4 col-sm-8"
 								data-placement="bottom"
@@ -352,12 +377,18 @@
 <div class="box box-default">
 	<div class="box-header with-border">
 		<h3 class="box-title">
+			<button class="btn btn-default" type='button' id='ckb_codigoDocumento_head2' name='ckb_codigoDocumento_head2'
+				onClick='js_gestionFactura_select_all2( )'>
+				<span id='span_codigoDocumento_head1' class="fa fa-square-o"></span>&nbsp;
+				<span id='span_codigoDocumento_head2'>Marcar todos</span></button>
 			<button class="btn btn-success fa fa-upload" type="button" aria-hidden='true' data-toggle='modal' data-target='#modal_lote'
+					id='btn_send' name='btn_send'
 					data-placement="bottom"
 					title='Envío al SRI por lote'
 					onmouseover='$(this).tooltip("show")'
 					onclick="js_gestionFactura_envio_facturasPorLote('modal_lote_body','{ruta_html_finan}/gestionFacturas/controller.php')" {disabled_enviar_lote}></button>
 			<button class="btn btn-warning fa fa-repeat" type="button" aria-hidden='true' data-toggle='modal' data-target='#modal_lote' 
+					id='btn_resend' name='btn_resend'
 					data-placement="bottom"
 					title='Reenvío al SRI por lote'
 					onmouseover='$(this).tooltip("show")'

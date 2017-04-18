@@ -10,7 +10,7 @@ switch($opc){
 		$repr_fech_naci = substr($_POST['repr_fech_naci'],6,4)."".substr($_POST['repr_fech_naci'],3,2)."".substr($_POST['repr_fech_naci'],0,2);
 		$es_colaborador = ($_POST['repr_escolaborador']=='true' ? 1 : 0 );
 		$repr_ex_alum = ($_POST['repr_ex_alum']=='true' ? 1 : 0 );
-		$sql_opc = "{call repr_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		$sql_opc = "{call repr_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		$params_opc= array( $_POST['repr_nomb'],
 							$_POST['repr_apel'],
 							$_POST['repr_cedula'],
@@ -37,7 +37,10 @@ switch($opc){
 							$repr_fech_naci,
 							$_POST['repr_pais_naci'],
 							$_POST['repr_prov_naci'],
-							$_POST['repr_ciud_naci']);
+							$_POST['repr_ciud_naci'],
+                            $_POST['identificacion_niv_1'],
+                            $_POST['identificacion_niv_2'],
+                            $_POST['identificacion_niv_3']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
 		
@@ -66,7 +69,7 @@ switch($opc){
 		$repr_fech_naci = substr($_POST['repr_fech_naci'],6,4)."".substr($_POST['repr_fech_naci'],3,2)."".substr($_POST['repr_fech_naci'],0,2);
 		$es_colaborador = ($_POST['repr_escolaborador']=='true' ? 1 : 0 );
 		$repr_ex_alum = ($_POST['repr_ex_alum']=='true' ? 1 : 0 );
-		$sql_opc = "{call repr_upd(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		$sql_opc = "{call repr_upd(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		$params_opc= array( $_POST['repr_nomb'],
 							$_POST['repr_apel'],
 							$_POST['repr_cedula'],
@@ -93,7 +96,10 @@ switch($opc){
 							$repr_fech_naci,
 							$_POST['repr_pais_naci'],
 							$_POST['repr_prov_naci'],
-							$_POST['repr_ciud_naci']);
+							$_POST['repr_ciud_naci'],
+                            $_POST['identificacion_niv_1'],
+                            $_POST['identificacion_niv_2'],
+                            $_POST['identificacion_niv_3']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
 		$repr_view_opc=0;
@@ -237,7 +243,41 @@ switch($opc){
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
 		echo "Todo OK";
 	break;
-	case 'carga_data_repre':
+    case 'cargar_idenficacion_nivel_2':
+        $data = array(); $res = ""; $msj = "";
+        $sql = "{call identificaciones_niv2_view(?)}";
+        $params = array($_POST['id']);
+        $stmt = sqlsrv_query( $conn, $sql,$params);
+        if( $stmt === false ){
+            $res = "error";
+            $msj = "Error en la conexión";
+        }
+        else{
+            $res = "success";
+            $msj = "Todo Ok";
+            while ($row = sqlsrv_fetch_array($stmt))
+                array_push($data,array("id"=>$row["id"], "nombre"=>$row["nombre"]));
+        }
+        print json_encode(array("res"=>$res, "msj"=>$msj, "data"=>$data));
+    break;
+    case 'cargar_idenficacion_nivel_3':
+        $data = array(); $res = ""; $msj = "";
+        $sql = "{call identificaciones_niv3_view(?)}";
+        $params = array($_POST['id']);
+        $stmt = sqlsrv_query( $conn, $sql,$params);
+        if( $stmt === false ){
+            $res = "error";
+            $msj = "Error en la conexión";
+        }
+        else{
+            $res = "success";
+            $msj = "Todo Ok";
+            while ($row = sqlsrv_fetch_array($stmt))
+                array_push($data,array("id"=>$row["id"], "nombre"=>$row["nombre"]));
+        }
+        print json_encode(array("res"=>$res, "msj"=>$msj, "data"=>$data));
+    break;
+    case 'carga_data_repre':
 		$sql_opc = "{call repr_info_cedu_form(?,?)}";
 		$params_opc= array($_POST['repr_cedu'],$_POST['tipo_iden']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
@@ -268,7 +308,7 @@ switch($opc){
     	<input id="repr_domi" name="repr_domi" type="text" placeholder="<?php echo lng_form_ph('address'); ?>" value="<?=$row_repr_view['repr_domi'];?>">
     	</div>
     	<div class="form_element">
-    	<label for="repr_estado_civil"><?php echo lng_form_label('marital status'); ?>:</label>
+    	<label for="idestadocivil"><?php echo lng_form_label('marital status'); ?>:</label>
     	<?php 
                     include ('../framework/dbconf.php');		
                     $params = array(1);
@@ -280,7 +320,7 @@ switch($opc){
                         echo "Error in executing statement .\n";
                         die( print_r( sqlsrv_errors(), true));
                     }
-                    echo '<select id="repr_estado_civil" name="repr_estado_civil">';
+                    echo '<select id="idestadocivil" name="idestadocivil">';
                     while($esta_civil_padr_view= sqlsrv_fetch_array($stmt))
                     {
 						$seleccionado="";
@@ -305,8 +345,13 @@ switch($opc){
 			while($pais_view= sqlsrv_fetch_array($stmt2))
 			{
 				$seleccionado="";
-				if ($pais_view["descripcion"]==$row_repr_view["repr_pais_naci"])
-					$seleccionado="selected";
+				if($row_repr_view['repr_pais_naci']==''){
+					if ($pais_view["descripcion"]=='Ecuador')
+						$seleccionado="selected";
+				}else{
+					if ($pais_view["descripcion"]==$row_repr_view["repr_pais_naci"])
+						$seleccionado="selected";
+				}
 				echo '<option value="'.$pais_view["codigo"].'" '.$seleccionado.'>'.$pais_view["descripcion"].'</option>';
 			}
 			echo '</select>';
@@ -314,9 +359,9 @@ switch($opc){
 		</div>
 		<div class="form_element">
 			<label>Provincia de Nacimiento:</label>
-			<select onchange="CargarCiudades('repr_ciud_naci',this.value);" id='repr_prov_naci' name='repr_prov_naci'>
+			<select  onchange="CargarCiudades('repr_ciud_naci',this.value);" id='repr_prov_naci' name='repr_prov_naci'>
 			<?php 
-			$params = array(null,$row_repr_view["repr_pais_naci"]);
+			$params = array(null,($row_repr_view["repr_prov_naci"]==''?'Ecuador':$row_repr_view["repr_pais_naci"]));
 			$sql="{call cata_provincia_cons(?,?)}";
 			$stmt3 = sqlsrv_query($conn, $sql, $params);
 	
@@ -372,7 +417,7 @@ switch($opc){
     	<input id="repr_cargo" name="repr_cargo" type="text" placeholder="<?php echo lng_form_ph('charge'); ?>" value="<?=$row_repr_view['repr_cargo'];?>">
     	</div>
         <div class="form_element">
-    	<label for="repr_religion"><?php echo lng_form_label('religion'); ?>:</label>
+    	<label for="idreligion"><?php echo lng_form_label('religion'); ?>:</label>
     	<?php 
                     include ('../framework/dbconf.php');		
                     $params = array(328);
@@ -384,7 +429,7 @@ switch($opc){
                         echo "Error in executing statement .\n";
                         die( print_r( sqlsrv_errors(), true));
                     }
-                    echo '<select id="repr_religion" name="repr_religion">';
+                    echo '<select id="idreligion" name="idreligion">';
                     while($religion_view= sqlsrv_fetch_array($stmt))
                     {
 						$seleccionado="";
@@ -420,7 +465,83 @@ switch($opc){
     	<label for="repr_estado_civil">¿Es o fue colaborador de la institución?</label>
     	<input id="repr_escolaborador" name="repr_escolaborador" type="checkbox" <?= ($row_repr_view['repr_escolaborador']==1 ? 'checked':'');?>/>
     	</div>
-		
+
+        <div style="<?= (para_sist(408)==0?'display: none':'')?>">
+            <div class="form_element">
+            <label>Nivel 1:</label>
+            <?php
+            include ('../framework/dbconf.php');
+            $params = array();
+            $sql="{call identificaciones_niv1_view()}";
+            $stmt = sqlsrv_query($conn, $sql, $params);
+            if( $stmt === false )
+            {   echo "Error in executing statement .\n";
+                die( print_r( sqlsrv_errors(), true));
+            }
+            echo '<select id="identificacion_niv_1" name="identificacion_niv_1" onchange="CargarIdentNiv2(this.value)">';
+            echo '<option value="-1">Seleccione</option>';
+            while($row = sqlsrv_fetch_array($stmt))
+            {   $seleccionado="";
+                if ($row["id"] == $row_repr_view["ident_niv_1"])
+                    $seleccionado = "selected";
+                echo '<option value="'.$row["id"].'" '.$seleccionado.'>'.$row["nombre"].'</option>';
+            }
+            echo '</select>';
+            ?>
+            </div>
+
+            <div class="form_element">
+                <label>Nivel 2: </label>
+                <select id="identificacion_niv_2" name="identificacion_niv_2" onchange="CargarIdentNiv3(this.value)">
+                    <?
+                    if ($row_repr_view['repr_nomb'] != ""){
+                        $sql = "{call identificaciones_niv2_view(?)}";
+                        $params = array($row_repr_view["ident_niv_1"]);
+                        $stmt = sqlsrv_query( $conn, $sql,$params);
+                        if( $stmt === false ){
+                            echo "Error in executing statement .\n";
+                            die( print_r( sqlsrv_errors(), true));
+                        }
+                        else{
+                            echo '<option value="-1">Seleccione</option>';
+                            while ($row = sqlsrv_fetch_array($stmt)){
+                                $seleccionado = "";
+                                if ($row["id"] == $row_repr_view["ident_niv_2"])
+                                    $seleccionado="selected";
+                                echo "<option value='".$row['id']."' ".$seleccionado.">".$row["nombre"]."</option>";
+                            }
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <div class="form_element">
+                <label>Nivel 3:</label>
+                <select id="identificacion_niv_3" name="identificacion_niv_3">
+                    <?
+                    if ($row_repr_view['repr_nomb'] != ""){
+                        $sql = "{call identificaciones_niv3_view(?)}";
+                        $params = array($row_repr_view["ident_niv_2"]);
+                        $stmt = sqlsrv_query( $conn, $sql,$params);
+                        if( $stmt === false ){
+                            echo "Error in executing statement .\n";
+                            die( print_r( sqlsrv_errors(), true));
+                        }
+                        else{
+                            echo '<option value="-1">Seleccione</option>';
+                            while ($row = sqlsrv_fetch_array($stmt)){
+                                $seleccionado = "";
+                                if ($row["id"] == $row_repr_view["ident_niv_3"])
+                                    $seleccionado="selected";
+                                echo "<option value='".$row['id']."' ".$seleccionado.">".$row["nombre"]."</option>";
+                            }
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
     	<div class="form_element"></div>
 	<?php break;
 	

@@ -16,9 +16,9 @@
 				<li class="{menuRepr02}"><a href="../../alumnos/clases.php"><i class="glyphicon glyphicon-book"></i><span> Materiales</span></a></li>
 				<li class="{menuRepr03}"><a href="../../alumnos/notas.php"><i class="fa fa-book"></i><span> Calificaciones</span></a></li>
 				<li class="{menuRepr04}"><a href="../../alumnos/visitas_medicas.php"><i class="fa fa-medkit"></i><span> Visitas médicas</span></a></li>
-				<li class="{menuRepr05}"><a href="../../alumnos/citas.php"><i class="fa fa-clock-o"></i><span> Citas</span></a></li>
-				<li class="{menuRepr06}"><a href="../../alumnos/observaciones_main.php"><i class="fa fa-comments"></i><span> Observaciones</span></a></li>
+				<li {citas_display} class="{menuRepr05}"><a href="../../alumnos/citas.php"><i class="fa fa-clock-o"></i><span> Citas</span></a></li>
 				<li class="{menuRepr07}"><a href="#/" onclick="js_menu_pagos();"><i class="fa fa-credit-card"></i><span> Pagos</span></a></li>
+				<li class="{menuRepr06}"><a href="../../alumnos/observaciones_main.php"><i class="fa fa-comments"></i><span> Hoja de vida</span></a></li>
 				<li class="{menuRepr08}"><a href="../../alumnos/mensajes.php"><i class="fa fa-envelope"></i><span> Mensajes</a></li>
 				<li><a href="../../../help/MANUAL_REPR.pdf" target='_blank'><i class="fa fa-info-circle"></i><span>Manual de ayuda</span></a><li>
 				<li class="{open7}"><a href="../../alumnos/acerca.php"><i class="icon icon-logo"></i> <span> Acerca de Educalinks</span></a></li>

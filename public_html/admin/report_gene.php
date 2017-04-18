@@ -192,6 +192,16 @@
                          <h1>
                          </td>
                      </tr>
+                    <tr>
+                        <td><h3>Reporte de Asistencia</h3></td>
+                        <td>
+                            <h1>
+                                <a href="JavaScript:getURLReporteAsistenciaPDF();">
+                               <span class="icon-file-pdf icon"></span>
+                                </a>
+                            <h1>
+                        </td>
+                    </tr>
                   </tbody>
               </table>
           </div>
@@ -204,7 +214,7 @@
 </div>
 
 
-<input name="mens_de"  		type="hidden" id="mens_de" 		value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
+<input name="mens_de"     type="hidden" id="mens_de"    value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
 <input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 
 <!-- Modal SELECCION DE PERIODO -->
@@ -223,7 +233,7 @@
 
             </tr>
 
-            <? 	
+            <?  
             $params = array();
             $sql="{call peri_view()}";
             $peri_view = sqlsrv_query($conn, $sql, $params);  

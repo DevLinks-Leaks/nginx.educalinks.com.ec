@@ -129,6 +129,7 @@ header("Pragma: no-cache");
 
 	<script>
         $(document).ready(function(){
+		$('#usua').focus();
         $('.select').fancySelect();
         }); 
 		

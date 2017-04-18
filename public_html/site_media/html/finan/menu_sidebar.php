@@ -5,7 +5,6 @@
 			<div class="modal-header" style='background-color:#1A286A'>
 				<h4 class="modal-title" id="modal_configColecturia" style='color:white;'>
 					<i style="font-size:large;color:white;" class="fa fa-cog fa-spin"></i>&nbsp;Parámetros del sistema</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<div class="modal-body" id="modal_configColecturia_body" style='background-color:#f4f4f4;'>
 			</div>
@@ -56,6 +55,80 @@
 	</div>
 </div>
 <!-- Modal Configuración Botón-->
+<!-- Modal quick access-->
+<div class="modal fade" id="modal_quick_access" tabindex="-1" role="dialog" aria-labelledby="modal_configBoton" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header" style='background-color:#1A286A'>
+				<h4 class="modal-title" id="modal_configBoton" style='color:white;'>
+					<i style="font-size:large;color:white;" class="fa fa-desktop"></i>&nbsp;Educalinks</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body" id="modal_quick_access_body" style='background-color:#f4f4f4;'>
+				<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<a href="../../../admin/index.php" title="Ir al módulo académico">
+							<div class="info-box">
+								<span class="info-box-icon bg-yellow"><i class="fa fa-graduation-cap"></i></span>
+								<div class="info-box-content">
+									<span class="info-box-text">Académico</span>
+									<span class="info-box-number"><small>Notas, tutoría, clase virtual</small></span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<a href="../../../main_finan.php" title="Ir al módulo académico">
+							<div class="info-box">
+								<span class="info-box-icon bg-green"><i class="fa fa-usd"></i></span>
+								<div class="info-box-content">
+									<span class="info-box-text">Financiero</span>
+									<span class="info-box-number"><small>Colecturía, cobranza y facturación electrónica</small></span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<a href="../../../biblio/index.php" title="Ir al módulo académico">
+							<div class="info-box">
+								<span class="info-box-icon bg-blue"><i class="fa fa-book"></i></span>
+								<div class="info-box-content">
+									<span class="info-box-text">Biblioteca</span>
+									<span class="info-box-number"><small>Mantenimiento de inventario de biblioteca</small></span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<a href="../../../main_medic.php" title="Ir al módulo académico">
+							<div class="info-box">
+								<span class="info-box-icon bg-red"><i class="fa fa-medkit"></i></span>
+								<div class="info-box-content">
+									<span class="info-box-text">Médico</span>
+									<span class="info-box-number"><small>Inventario médico y ficha médica ocupacional</small></span>
+								</div>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-12">
+						<a href="../../../main_admisiones.php" title="Ir al módulo académico">
+							<div class="info-box">
+								<span class="info-box-icon bg-purple"><i class="fa fa-child"></i></span>
+								<div class="info-box-content">
+									<span class="info-box-text">Admisiones</span>
+									<span class="info-box-number"><small>Módulo de Pre-selección</small></span>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer" style='background-color:#f4f4f4;'>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Ocultar</button>
+			</div>
+		</div>
+	</div>
+</div>
 <aside class="control-sidebar control-sidebar-dark">
 	<!-- Create the tabs -->
 	<ul class="nav nav-tabs nav-justified control-sidebar-tabs">
@@ -82,9 +155,7 @@
 				<h3 class="control-sidebar-heading">Configuración general</h3>
 				<div class="form-group">
 					<label class="control-sidebar-subheading">
-						Per&iacute;odo activo
-						<button type="button" class="pull-right btn btn-warning btn-xs glyphicon glyphicon-refresh"
-							onclick="js_general_change_periodo(document.getElementById('ruta_html_common').value + '/general/controller.php' )"></button>
+							Per&iacute;odo activo
 					</label>
 					{cmb_sidebar_periodo}
 				</div><!-- /.form-group -->

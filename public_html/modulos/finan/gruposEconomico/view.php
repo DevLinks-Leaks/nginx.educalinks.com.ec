@@ -7,7 +7,7 @@ $diccionario = array(
         VIEW_SET=>'Crear una nuevo Grupo Economico',
 		    VIEW_SET_GET_ALL=>'Crear y mostrar los grupos economico',
         VIEW_GET=>'Buscar item',
-        VIEW_GET_ALL=>'Consultar todas los grupos economico',					  
+        VIEW_GET_ALL=>'Grupos económicos',					  
         VIEW_DELETE=>'Eliminar un grupo economico',
         VIEW_EDIT=>'Modificar un grupo economico'
                      ),

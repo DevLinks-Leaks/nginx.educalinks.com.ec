@@ -38,6 +38,75 @@ class AnioPeriodo extends DBAbstractModel{
             unset($rol);
         }
     }
+	public function get_motivos_all(  )
+	{   $this->parametros = array(  );
+        $this->sp = "moti_bloq_all";
+        $this->executeSPConsulta();
+        if (count($this->rows)<=0)
+		{   $this->mensaje="Error al comunicarse con el servidor.";
+            array_pop($rol);
+            array_push($rol, array(0 => -1, 
+                                   1 => ' - Seleccione un motivo -',
+                                   3 => ''));
+        }
+		else
+		{   $rol = array();
+            array_pop($rol);
+            foreach($this->rows as $categorias){
+                array_push($rol, array_values($categorias));
+            }
+
+            $this->rows = $rol;
+            unset($rol);
+        }
+    }
+	public function get_opciones_a_bloquear(  )
+	{   $this->parametros = array(  );
+        $this->sp = "opci_all";
+        $this->executeSPConsulta();
+        if (count($this->rows)<=0)
+		{   $this->mensaje="Error al comunicarse con el servidor.";
+            array_pop($rol);
+            array_push($rol, array(0 => -1, 
+                                   1 => ' - Seleccione una opción -',
+                                   3 => ''));
+        }
+		else
+		{   $rol = array();
+            array_pop($rol);
+            foreach($this->rows as $categorias){
+                array_push($rol, array_values($categorias));
+            }
+
+            $this->rows = $rol;
+            unset($rol);
+        }
+    }
+	public function get_alumnos_bloqueados(  )
+	{   $this->parametros = array(  );
+        $this->sp = "opci_all";
+        $this->executeSPConsulta();
+        if (count($this->rows)<=0)
+		{   $this->mensaje="Error al comunicarse con el servidor.";
+            array_pop($rol);
+            array_push($rol, array(0 => -1, 
+                                   1 => ' - Todos -',
+                                   3 => ''));
+        }
+		else
+		{   $rol = array();
+            array_pop($rol);
+            array_push($rol, array(0 => -1, 
+                                   1 => ' - Todos -',
+                                   3 => ''));
+            foreach($this->rows as $categorias){
+                array_push($rol, array_values($categorias));
+            }
+
+            $this->rows = $rol;
+            unset($rol);
+        }
+    }
 	public function getfacturacontifico( $busq="", $anio )
 	{   $this->parametros = array( $busq, $anio );
         $this->sp = "str_consultaMigracioncontificodeuda";
@@ -80,7 +149,7 @@ class AnioPeriodo extends DBAbstractModel{
     }
 	public function get_all_alumnos($busq="")
 	{   $this->parametros = array($busq);
-        $this->sp = "str_consultaAlumnosrpt_cons";
+        $this->sp = "str_consultaAnioPeriodo_alumnos_elegibles";
         $this->executeSPConsulta(); 
 		if (count($this->rows)<=0)
 		{   $this->mensaje="No existen categorias en la BD.";
@@ -307,6 +376,45 @@ class AnioPeriodo extends DBAbstractModel{
 		{   $this->mensaje="No se han generado las deudas  - Faltan campos importantes. ".$this->ErrorToString();
         }
     }
+	public function get_bloqueo_alumno( $peri_coci, $opci_codi, $moti_bloq_codi )
+	{   $this->parametros = array( $peri_coci, $opci_codi, $moti_bloq_codi );
+		$this->sp = "str_common_alum_moti_bloq_poci_all";
+		$this->executeSPConsulta();
+		if (count($this->rows)>=1)
+		{   foreach($this->rows[0] as $propiedad=>$valor)
+			{   $this->$propiedad=$valor;
+			}
+			 $this->mensaje="¡Exito! Alumno(s) bloqueado(s) correctamente.";
+		}
+		else
+			$this->mensaje="¡Error! No se pudo completar la operación.";
+	}
+	public function del_bloqueo_alumno( $alum_moti_bloq_opci_codi )
+	{   $this->parametros = array( $alum_moti_bloq_opci_codi );
+		$this->sp = "alum_moti_bloq_opci_del";
+		$this->executeSPConsulta();
+		if (count($this->rows)>=1)
+		{   foreach($this->rows[0] as $propiedad=>$valor)
+			{   $this->$propiedad=$valor;
+			}
+			 $this->mensaje="¡Exito! Bloqueo eliminado correctamente.";
+		}
+		else
+			$this->mensaje="¡Error! No se pudo completar la operación.";
+	}
+	public function set_bloqueo_alumno( $xml_alumnos, $moti_bloq_codi, $opci_codi, $peri_codi )
+	{   $this->parametros = array( $xml_alumnos, $moti_bloq_codi, $opci_codi, $peri_codi, $_SESSION['usua_codigo'], $_SESSION['USUA_TIPO_CODI'] );
+		$this->sp = "str_common_alum_moti_bloq_opci_add_masivo";
+		$this->executeSPConsulta();
+		if (count($this->rows)>=1)
+		{   foreach($this->rows[0] as $propiedad=>$valor)
+			{   $this->$propiedad=$valor;
+			}
+			 $this->mensaje="¡Exito! Alumno(s) bloqueado(s) correctamente.";
+		}
+		else
+			$this->mensaje="¡Error! No se pudo completar la operación.";
+	}
 	public function set_deudas_cursolote_ind ($data=array())
 	{   if (array_key_exists('peri_codi',$data) && array_key_exists('codigoUsuario',$data) && array_key_exists('xml',$data)){
             foreach($data as $campo=>$valor)
@@ -365,7 +473,7 @@ class AnioPeriodo extends DBAbstractModel{
 	{   foreach ($data as $campo=>$valor)
 		{   $$campo = $valor;
         }
-        $this->parametros = array($anio, $producto, $fechaInicio, $diasProntopago, $fechaFin, $ckb_deudasPendientes, $_SESSION['usua_codigo'],$_SESSION['USUA_TIPO_CODI']);
+        $this->parametros = array($anio, $producto, $fechaInicio, $diasProntopago, $fechaFin, $ckb_deudasPendientes, $_SESSION['usua_codigo'],$_SESSION['USUA_TIPO_CODI'] );
         $this->sp = "str_consultaAnioPeriodo_upd";
         $this->executeSPAccion();
         if($this->filasAfectadas>0)

@@ -27,12 +27,21 @@
 			}
 		}
 		public function Footer()
-		{	// Position at 15 mm from bottom
+		{	
+			$this->SetFont('helvetica', 'I', 10);
+			$this->SetY(-15);
+			$this->SetX(70);
+			$this->Cell(0, 10, '_______________________________________', 0, false, 'L', 0, '', 0, false, 'T', 'M');
+			$this->SetY(-10);
+			$this->SetX(90);
+			$this->Cell(0, 8, 'El(la)Representante', 0, false, 'L', 0, '', 0, false, 'T', 'M');
+			// Position at 15 mm from bottom
 			$this->SetY(-15);
 			// Set font
 			$this->SetFont('helvetica', 'I', 8);
 			// Page number
 			$this->Cell(0, 10, 'Fecha y hora: '.date('d-M-Y H:i'), 0, false, 'L', 0, '', 0, false, 'T', 'M');
+
 			$this->Cell(0, 10, 'Página '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
 		}
 		public function setRutaFoto($root)
@@ -382,6 +391,8 @@
 	</table>
 	<br/><br/>
 	{$tabla_historial}
+	<br/><br/><br/><br/>
+	
 EOF;
 		$pdf->writeHTML($tbl, true, false, false, false, '');
 		$pdf->Output('hoja_vida_estudiantil.pdf', 'I');

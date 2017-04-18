@@ -44,7 +44,7 @@ function handler() {
 
 			$permiso->permiso_activo($_SESSION['usua_codigo'], 166);
 			if ($permiso->rows[0]['veri']==1)
-			{   $opciones["Editar"] = "<span onclick='carga_edit(".'"{codigo}"'.",".'"modal_edit_body"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/aniosPeriodo/controller.php"'.")' class='btn_opc_lista_editar glyphicon glyphicon-pencil cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_edit_item' id='{codigo}_editar' onmouseover='$(".'"#{codigo}_editar"'.").tooltip(".'"show"'.")' title='Editar' data-placement='left'>&nbsp;</span>";
+			{   $opciones["Editar"] = "<span onclick='js_aniosPeriodo_carga_edit(".'"{codigo}"'.",".'"modal_edit_body"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/aniosPeriodo/controller.php"'.")' class='btn_opc_lista_editar glyphicon glyphicon-pencil cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_edit_item' id='{codigo}_editar' onmouseover='$(".'"#{codigo}_editar"'.").tooltip(".'"show"'.")' title='Editar' data-placement='left'>&nbsp;</span>";
 			}
 			else
 			{   $opciones["Editar"] = "";
@@ -52,7 +52,7 @@ function handler() {
 
 			$permiso->permiso_activo($_SESSION['usua_codigo'], 167);
 			if ($permiso->rows[0]['veri']==1)
-			{   $opciones["Eliminar"] = "<span onclick='del(".'"{codigo}"'.",".'"resultado"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/aniosPeriodo/controller.php"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' id='{codigo}_eliminar' onmouseover='$(".'"#{codigo}_eliminar"'.").tooltip(".'"show"'.")' title='Eliminar'></span>";
+			{   $opciones["Eliminar"] = "<span onclick='js_aniosPeriodo_del(".'"{codigo}"'.",".'"resultado"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/aniosPeriodo/controller.php"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' id='{codigo}_eliminar' onmouseover='$(".'"#{codigo}_eliminar"'.").tooltip(".'"show"'.")' title='Eliminar'></span>";
 			}
 			else
 			{   $opciones["Eliminar"] = "";
@@ -80,11 +80,11 @@ function handler() {
                                     "clase"=>"table table-bordered table-hover",
                                     "id"=>$tabla,
                                     "datos"=> $anioPeriodo->rows,
-                                    "encabezado" => array("Codigo Producto",
+                                    "encabezado" => array("Ref.",
                                                           "Producto",
-                                                          "Fecha Inicio cobro",
-                                                          "Fecha Fin cobro",
-                                                          "Días\nProntopago",
+                                                          "Inicio cobro",
+                                                          "Fin cobro",
+                                                          "Prontopago",
                                                           "Opciones"),
                                     "options"=>array($opciones),
                                     "campo"=>"codigoProducto");
@@ -110,14 +110,14 @@ function handler() {
             global $diccionario;
             $permiso->permiso_activo($_SESSION['usua_codigo'], 166);
             if ($permiso->rows[0]['veri']==1)
-            {   $opciones["Editar"] = "<span onclick='carga_edit(".'"{codigo}"'.",".'"modal_edit_body"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/aniosPeriodo/controller.php"'.")' class='btn_opc_lista_editar glyphicon glyphicon-pencil cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_edit_item' id='{codigo}_editar' onmouseover='$(".'"#{codigo}_editar"'.").tooltip(".'"show"'.")' title='Editar' data-placement='left'>&nbsp;</span>";
+            {   $opciones["Editar"] = "<span onclick='js_aniosPeriodo_carga_edit(".'"{codigo}"'.",".'"modal_edit_body"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/aniosPeriodo/controller.php"'.")' class='btn_opc_lista_editar glyphicon glyphicon-pencil cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_edit_item' id='{codigo}_editar' onmouseover='$(".'"#{codigo}_editar"'.").tooltip(".'"show"'.")' title='Editar' data-placement='left'>&nbsp;</span>";
             }
             else
             {   $opciones["Editar"] = "";
             }
             $permiso->permiso_activo($_SESSION['usua_codigo'], 167);
             if ($permiso->rows[0]['veri']==1)
-            {   $opciones["Eliminar"] = "<span onclick='del(".'"{codigo}"'.",".'"resultado"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/aniosPeriodo/controller.php"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' id='{codigo}_eliminar' onmouseover='$(".'"#{codigo}_eliminar"'.").tooltip(".'"show"'.")' title='Eliminar'></span>";
+            {   $opciones["Eliminar"] = "<span onclick='js_aniosPeriodo_del(".'"{codigo}"'.",".'"resultado"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/aniosPeriodo/controller.php"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' id='{codigo}_eliminar' onmouseover='$(".'"#{codigo}_eliminar"'.").tooltip(".'"show"'.")' title='Eliminar'></span>";
             }
             else
             {   $opciones["Eliminar"] = "";
@@ -140,11 +140,11 @@ function handler() {
                                     "clase"=>"table table-bordered table-hover",
                                     "id"=>$tabla,
                                     "datos"=>$anioPeriodo->rows,
-                                    "encabezado" => array("Codigo Producto",
+                                    "encabezado" => array("Ref.",
                                                           "Producto",
-                                                          "Fecha Inicio cobro",
-                                                          "Fecha Fin cobro",
-                                                          "Días\nProntopago",
+                                                          "Inicio cobro",
+                                                          "Fin cobro",
+                                                          "Prontopago",
                                                           "Opciones"),
                                     "options"=>array($opciones),
                                     "campo"=>"codigoProducto");
@@ -395,11 +395,159 @@ function handler() {
 					break;
 			}
 			retornar_mensaje($anioPeriodo->mensaje);
-            break; 
+            break;
+		case BLOQUEA_ALUMNO:
+			$datosAlumnos = array();
+			$datosAlumnos = json_decode($user_data['cod_alum'], true);
+			$xml_textAlum='<?xml version="1.0" encoding="iso-8859-1"?>';
+			$xml_textAlum.='<alumnos>';
+			
+			foreach($datosAlumnos as $valor)
+			{	$xml_textAlum.='<alumno codigo="'.$valor.'"/>';
+			}
+			$xml_textAlum.='</alumnos>';
+			$user_data['xml_textAlum']=$xml_textAlum;
+			
+			$anioPeriodo->set_bloqueo_alumno($xml_textAlum, $user_data['motivo'], $user_data['opcion'], $user_data['peri_codi'] );
+			
+			$data['mensaje'] = $anioPeriodo->mensaje;
+			
+			$listado_alumnos = new AnioPeriodo();
+			
+			$listado_alumnos->get_bloqueo_alumno( $_SESSION['peri_codi'], 2, -1 );
+			
+			$tbl_listado_alumnos_bloq ="<table class='table table-striped table-hover' id='tbl_listado_alumnos_bloq' name='tbl_listado_alumnos_bloq'>
+						<thead>
+						<tr><th style='text-align:center;'>Ref.</th>
+							<th style='text-align:center;'>Alumno</th>
+							<th style='text-align:center;'>Opción bloqueada</th>
+							<th style='text-align:center;'>Motivo</th>
+							<th style='text-align:center;'>Opciones</th>
+						</tr>
+						</thead>";
+			$tbl_listado_alumnos_bloq.="<tbody>";
+			
+			$total_numero_detalle = 0;
+			foreach( $listado_alumnos->rows as $rows )
+			{   if ( !empty ($rows) )
+				{	$tbl_listado_alumnos_bloq.="<tr>";
+					foreach( $rows as $column )
+					{   $tbl_listado_alumnos_bloq.="<td style='text-align:center;'>".$column."</td>";
+					}
+					$opciones["Eliminar"] = "<span onclick='js_aniosPeriodo_del_bloqueo(".'"'.$rows['alum_moti_bloq_opci_codi'].'"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_deudas' id='".$rows['alum_moti_bloq_opci_codi']."_eliminar' onmouseover='$(this).tooltip(".'"show"'.")' title='Eliminar'>&nbsp;</span>";
+					$tbl_listado_alumnos_bloq.="<td style='text-align:center;'>". $opciones["Eliminar"] ."</td>";
+					$tbl_listado_alumnos_bloq.="</tr>";
+				}
+			}
+			$tbl_listado_alumnos_bloq.="</tbody></table>";
+			$data['tbl_listado_bloqueo_alumnos'] = $tbl_listado_alumnos_bloq;
+			echo json_encode($data, true);
+			break;
+		case DELETE_BLOQUEO_ALUMNO:
+			$anioPeriodo->del_bloqueo_alumno( $user_data['alum_moti_bloq_opci_codi'] );
+			
+			$data['mensaje'] = $anioPeriodo->mensaje;
+			
+			$listado_alumnos = new AnioPeriodo();
+			
+			$listado_alumnos->get_bloqueo_alumno( $_SESSION['peri_codi'], 2, -1 );
+			
+			$tbl_listado_alumnos_bloq ="<table class='table table-striped table-hover' id='tbl_listado_alumnos_bloq' name='tbl_listado_alumnos_bloq'>
+						<thead>
+						<tr><th style='text-align:center;'>Ref.</th>
+							<th style='text-align:center;'>Alumno</th>
+							<th style='text-align:center;'>Opción bloqueada</th>
+							<th style='text-align:center;'>Motivo</th>
+							<th style='text-align:center;'>Opciones</th>
+						</tr>
+						</thead>";
+			$tbl_listado_alumnos_bloq.="<tbody>";
+			
+			$total_numero_detalle = 0;
+			foreach( $listado_alumnos->rows as $rows )
+			{   if ( !empty ($rows) )
+				{	$tbl_listado_alumnos_bloq.="<tr>";
+					foreach( $rows as $column )
+					{   $tbl_listado_alumnos_bloq.="<td style='text-align:center;'>".$column."</td>";
+					}
+					$opciones["Eliminar"] = "<span onclick='js_aniosPeriodo_del_bloqueo(".'"'.$rows['alum_moti_bloq_opci_codi'].'"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_deudas' id='".$rows['alum_moti_bloq_opci_codi']."_eliminar' onmouseover='$(this).tooltip(".'"show"'.")' title='Eliminar'>&nbsp;</span>";
+					$tbl_listado_alumnos_bloq.="<td style='text-align:center;'>". $opciones["Eliminar"] ."</td>";
+					$tbl_listado_alumnos_bloq.="</tr>";
+				}
+			}
+			$tbl_listado_alumnos_bloq.="</tbody></table>";
+			$data['tbl_listado_bloqueo_alumnos'] = $tbl_listado_alumnos_bloq;
+			echo json_encode($data, true);
+			break;
 		case VIEW_GENERA_DEUDAS:
 			$anioPeriodo->get_deudas_anuales($_SESSION['peri_codi']);
+			$curso->get_all_cursos( $_SESSION['peri_codi'] );
 			$periodo->get_all_periodos();	
             global $diccionario;
+			
+			$i=0;
+			$array1=array();
+			foreach ($anioPeriodo->rows as $row)
+			{   if( !empty( $row ) )
+				{   $array1[]= '
+						<div class="{columna}" style="text-align:left;">
+							<label><input type="checkbox" id="check_'. $row['codigo'] .'" name="check_'. $row['codigo'] .'" value="'. $row['codigo'] .'">'.
+							$row['nombre'] .'<div id="div_check_'. $row['codigo'] .'"></div></label>
+						</div>';
+					$i++;
+				}
+			}
+			if( $i == 0)
+				$array1[]= '<div class="col-sm-12">No hay productos/servicios seleccionados para la generación masiva de deudas.</div>';
+			$construct_table = '
+			<div class="contenedor">
+				<div align="center">'.genera_div_grid_por_columnas($array1,  3).
+				  '
+				</div>
+			</div>';
+	
+			$data = array(
+            'deudas_checklist'=> $construct_table,
+		    '{combo_periodo}' => array(	"elemento"  => "combo", 
+										"datos"     => $periodo->rows, 
+										"options"   =>array("name"		=>"periodos",
+															"id"		=>"periodos",
+                                                            "class"		=>"form-control",
+															"required"	=>"required",
+															"disabled"	=> "disabled",
+															"onChange"	=>"js_aniosPeriodo_cargaCursos('resultadoCursos','".$diccionario['rutas_head']['ruta_html_finan']."/aniosPeriodo/controller.php')"),
+										"selected"  => $_SESSION['peri_codi']),
+			'{combo_curso}' => array(	"elemento"  => "combo",
+										"datos"     => $curso->rows,
+										"options"   => array("name"		=>"curso",
+															 "id"		=>"curso",
+                                                             "class"	=>"form-control",
+															 "required"	=>"required",
+															 "onChange"	=>"js_aniosPeriodo_cargaAlumnos('resultadoAlumnos','".$diccionario['rutas_head']['ruta_html_finan']."/aniosPeriodo/controller.php')"),
+										"selected"  => 0),
+			'{combo_alumnos}' => array("elemento"  => "combo", 
+									   "datos"     => array(0 => array( 0 => -1, 
+																		1 => '- Todos -',
+																		3 => ''),
+															1=> array()),
+									   "options"   => array("name"		=>"alumnos",
+															"id"		=>"alumnos",
+                                                            "class"		=>"form-control",
+															"required"	=>"required"),
+									   "selected"  => 0)
+			);
+            retornar_formulario(VIEW_GENERA_DEUDAS, $data);
+			break;
+		case VIEW_BLOQUEO_ALUMNOS:
+			$anioPeriodo->get_alumnos_bloqueados($_SESSION['peri_codi']);
+			$curso->get_all_cursos( $_SESSION['peri_codi'] );
+			$periodo->get_all_periodos();
+			$opciones_bloqueo = new AnioPeriodo( );
+			$opciones_bloqueo -> get_opciones_a_bloquear ( );
+			$motivo_bloqueo = new AnioPeriodo( );
+			$motivo_bloqueo -> get_motivos_all ( );
+            global $diccionario;
+			
 			$data = array(
             '{deudas_checklist}'=>array("elemento"=>'checkListBox',
 										"datos"=>$anioPeriodo->rows,
@@ -409,42 +557,90 @@ function handler() {
 
 										"funcion"=>""),
 		    '{combo_periodo}' => array(	"elemento"  => "combo", 
-
 										"datos"     => $periodo->rows, 
-										"options"   => array("name"=>"periodos","id"=>"periodos",
-                                                                            "class"=>"form-control","required"=>"required",
-										"onChange"=>"js_aniosPeriodo_cargaCursos('resultadoCursos','".$diccionario['rutas_head']['ruta_html_finan']."/aniosPeriodo/controller.php')"),
-										"selected"  => 0),
+										"options"   =>array("name"		=>"periodos",
+															"id"		=>"periodos",
+                                                            "class"		=>"form-control",
+															"required"	=>"required",
+															"disabled"	=> "disabled",
+															"onChange"	=>"js_aniosPeriodo_cargaCursos('resultadoCursos','".$diccionario['rutas_head']['ruta_html_finan']."/aniosPeriodo/controller.php')"),
+										"selected"  => $_SESSION['peri_codi']),
 			'{combo_curso}' => array(	"elemento"  => "combo",
-										"datos"     => array(0 => array(  0 => -1, 
-																		  1 => '- Todos -',
-																		  3 => ''), 
-
-															 1=> array()),
-										"options"   => array("name"=>"curso","id"=>"curso",
-                                                                            "class"=>"form-control","required"=>"required",
-								 			 
-										"onChange"=>"js_aniosPeriodo_cargaAlumnos('resultadoAlumnos','".$diccionario['rutas_head']['ruta_html_finan']."/aniosPeriodo/controller.php')"),
+										"datos"     => $curso->rows,
+										"options"   => array("name"		=>"curso",
+															 "id"		=>"curso",
+                                                             "class"	=>"form-control",
+															 "required"	=>"required",
+															 "onChange"	=>"js_aniosPeriodo_cargaAlumnos('resultadoAlumnos','".$diccionario['rutas_head']['ruta_html_finan']."/aniosPeriodo/controller.php')"),
 										"selected"  => 0),
 			'{combo_alumnos}' => array("elemento"  => "combo", 
 									   "datos"     => array(0 => array( 0 => -1, 
 																		1 => '- Todos -',
 																		3 => ''),
 															1=> array()),
-									   "options"   => array("name"=>"alumnos","id"=>"alumnos",
-                                                                            "class"=>"form-control","required"=>"required"),
-									   "selected"  => 0)
+									   "options"   => array("name"		=>"alumnos",
+															"id"		=>"alumnos",
+                                                            "class"		=>"form-control",
+															"required"	=>"required"),
+									   "selected"  => 0),
+		   '{combo_motivo}' =>  array(	"elemento"  => "combo",
+										"datos"     => $motivo_bloqueo->rows,
+										"options"   => array("name"		=>"cmb_motivo",
+															 "id"		=>"cmb_motivo",
+                                                             "class"	=>"form-control",
+															 "required"	=>"required",
+															),
+										"selected"  => 0),
+		   '{combo_opcion_a_bloquear}' =>  array(	"elemento"  => "combo",
+										"datos"     => $opciones_bloqueo->rows,
+										"options"   => array("name"		=>"cmb_opciones",
+															 "id"		=>"cmb_opciones",
+                                                             "class"	=>"form-control",
+															 "required"	=>"required",
+															 "disabled"	=>"disabled"
+															),
+										"selected"  => 2)
 			);
-            retornar_formulario(VIEW_GENERA_DEUDAS, $data);
+			
+			$listado_alumnos = new AnioPeriodo();
+			
+			$listado_alumnos->get_bloqueo_alumno( $_SESSION['peri_codi'], 2, -1 );
+			
+			$tbl_listado_alumnos_bloq ="<table class='table table-striped table-hover' id='tbl_listado_alumnos_bloq' name='tbl_listado_alumnos_bloq'>
+						<thead>
+						<tr><th style='text-align:center;'>Ref.</th>
+							<th style='text-align:center;'>Alumno</th>
+							<th style='text-align:center;'>Opción bloqueada</th>
+							<th style='text-align:center;'>Motivo</th>
+							<th style='text-align:center;'>Opciones</th>
+						</tr>
+						</thead>";
+			$tbl_listado_alumnos_bloq.="<tbody>";
+			
+			$total_numero_detalle = 0;
+			foreach( $listado_alumnos->rows as $rows )
+			{   if ( !empty ($rows) )
+				{	$tbl_listado_alumnos_bloq.="<tr>";
+					foreach( $rows as $column )
+					{   $tbl_listado_alumnos_bloq.="<td style='text-align:center;'>".$column."</td>";
+					}
+					$opciones["Eliminar"] = "<span onclick='js_aniosPeriodo_del_bloqueo(".'"'.$rows['alum_moti_bloq_opci_codi'].'"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_deudas' id='".$rows['alum_moti_bloq_opci_codi']."_eliminar' onmouseover='$(this).tooltip(".'"show"'.")' title='Eliminar'>&nbsp;</span>";
+					$tbl_listado_alumnos_bloq.="<td style='text-align:center;'>". $opciones["Eliminar"] ."</td>";
+					$tbl_listado_alumnos_bloq.="</tr>";
+				}
+			}
+			$tbl_listado_alumnos_bloq.="</tbody></table>";
+			$data['tbl_listado_bloqueo_alumnos'] = $tbl_listado_alumnos_bloq;
+            retornar_formulario(VIEW_BLOQUEO_ALUMNOS, $data);
 			break;
         case GET:
-            $anioPeriodo->get($user_data['producto'], $user_data['anio']);
+            $anioPeriodo->get($user_data['producto'],  $user_data['anio']);
             $data = array('aperiodo_codigoProducto' => $user_data['producto'],
-                          'aperiodo_nombreProducto'=> $anioPeriodo->nombreProducto,
-                          'aperiodo_fechaInicio' => $anioPeriodo->fechaInicio,
-                          'aperiodo_fechaFin'=> $anioPeriodo->fechaFin,
-                          'aperiodo_codigoPeriodo'=>$anioPeriodo->anio,
-                          'aperiodo_diasProntoPago'=>$anioPeriodo->diasProntoPago);
+                          'aperiodo_nombreProducto'	=> $anioPeriodo->nombreProducto,
+                          'aperiodo_fechaInicio' 	=> $anioPeriodo->fechaInicio,
+                          'aperiodo_fechaFin'		=> $anioPeriodo->fechaFin,
+                          'aperiodo_codigoPeriodo'	=> $anioPeriodo->anio,
+                          'aperiodo_diasProntoPago'	=> $anioPeriodo->diasProntoPago);
             retornar_formulario(VIEW_EDIT, $data);
             break;
         case DELETE:
@@ -465,8 +661,34 @@ function handler() {
             }
             break;
         default :
+			echo "Resultado desconocido";
         	break;
     }
+}
+function genera_div_grid_por_columnas( $array_con_div_col, $num_columnas = 3)
+{	//Lo que hace esta función es 'construir' una tabla con 'X' columnas, dependiendo de la variable '$num_columnas', que por default es 2.
+	//Si num_columnas es 2, devuelve una tabla con 2 columnas, etc.
+	//Como se usa bootstrap, sólo puedo retornar 1,2,3,4,6,12 columnas que midan exactamente igual.
+	if ( $num_columnas < 6 ) $num_columnas = 3;
+	if ( $num_columnas >= 6 && $num_columnas < 10 ) $num_columnas = 6;
+	if ( $num_columnas >= 9 && $num_columnas < 13 ) $num_columnas = 12;
+	$col_md = ( 12 / $num_columnas );
+	$aux = 0;
+	$c = count($array_con_div_col);
+	$body = "";
+	$body.='<div class="row" style="text-align:left;">';
+	while ($aux < $c)
+	{	$body.= str_replace( '{columna}', 'col-md-'.$col_md, $array_con_div_col[$aux] );
+		$aux+=1;
+		if (fmod($aux, $num_columnas)==0) $body.='</div><div class="row">';
+	}
+	$body.='</div>';
+	
+	$table= "<div class='grid'>";
+	$table.= $body;
+	$table.= "</div>";
+	
+	return $table;
 }
 handler();
 ?>

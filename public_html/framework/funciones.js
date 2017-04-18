@@ -498,22 +498,71 @@ function new_username ()
 	}
 }
 
-
 function validaNumeros(e, field)
-{
-	key = e.keyCode ? e.keyCode : e.which
-   if (key == 8) return true
-   if (key > 47 && key < 58) 
-   {
-     if (field.value == "") return true
-     regexp = /.[0-9]{5}$/
-     return !(regexp.test(field.value))
-   }
-   if (key == 46) 
-   {
-     if (field.value == "") return false
-     regexp = /^[0-9]+$/
-     return regexp.test(field.value)
-   }
-   return false
+{   key = e.keyCode ? e.keyCode : e.which
+	if (key == 8) return true
+	if (key > 47 && key < 58) 
+	{   if (field.value == "") return true
+		regexp = /.[0-9]{5}$/
+		return !(regexp.test(field.value))
+	}
+	if (key == 46) 
+	{   if (field.value == "") return false
+		regexp = /^[0-9]+$/
+		return regexp.test(field.value)
+	}
+	return false
+}
+function js_funciones_valida_tipo_growl( str )
+{   "use strict";
+    var str1 =  str;
+    var wordsToFind = ["¡exito!", "*¡exito!*"];
+    if (str1.toLowerCase().indexOf(wordsToFind[0]) === 0 || str1.toLowerCase().indexOf(wordsToFind[1]) === 0)
+    {   str = str.replace("¡Exito!", "");
+        $.growl.notice({ title: "Educalinks informa", message: str});
+    }
+    else
+    {   wordsToFind = ["¡error!", "*¡error!*"];
+        if (str1.toLowerCase().indexOf(wordsToFind[0]) === 0 || str1.toLowerCase().indexOf(wordsToFind[1]) === 0)
+        {   str = str.replace("¡Error!", "");
+            $.growl.error({ title: "Educalinks informa", message: str});
+        }
+        else
+        {   wordsToFind = ["¡advertencia!", "*¡advertencia!*"];
+            if (str1.toLowerCase().indexOf(wordsToFind[0]) === 0 || str1.toLowerCase().indexOf(wordsToFind[1]) === 0)
+            {   str = str.replace("¡Advertencia!", "");
+                $.growl.warning({ title: "Educalinks informa", message: str});
+            }
+            else
+            {   $.growl({ title: "Educalinks informa", message: str});
+            }
+        }
+    }
+}
+function toggleFullScreen(  ) {
+    var toggle = 'false';
+    if ((document.fullScreenElement && document.fullScreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen))
+    {   if (document.documentElement.requestFullScreen)
+        {   document.documentElement.requestFullScreen();  
+        }
+        else if (document.documentElement.mozRequestFullScreen)
+        {   document.documentElement.mozRequestFullScreen();  
+        }
+        else if (document.documentElement.webkitRequestFullScreen)
+        {   document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+        } 
+        toggle = 'true';
+    }
+    else 
+    {   if (document.cancelFullScreen)
+        {   document.cancelFullScreen();  
+        }
+        else if (document.mozCancelFullScreen)
+        {   document.mozCancelFullScreen();  
+        }
+        else if (document.webkitCancelFullScreen)
+        {   document.webkitCancelFullScreen();  
+        }
+        toggle = 'false';
+    }
 }

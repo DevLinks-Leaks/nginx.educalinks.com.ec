@@ -15,25 +15,20 @@
 			<br>
 			<div class="form-group">
 				<input type="hidden" class="form-control" name="usua_codigo" id="usua_codigo" value='{usua_codigo}'>
-				<label for="desc_pronto">Usar prontopago y días de validez en descuento</label>
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" id="check_usa_pp_dv" name="check_usa_pp_dv" onclick='js_general_check_usa_pp_dv();' {usa_pp_dv}> Permitir el uso de prontopago y días de validez en el sistema.
-					</label>
-				</div>
-			</div>
-			<br>
-			<div class="form-group">
-				<input type="hidden" class="form-control" name="usua_codigo" id="usua_codigo" value='{usua_codigo}'>
 				<label for="desc_pronto">Porcentaje de descuento en deudas que apliquen al prontopago</label>
 				<div class="input-group">
-					<input type="text" class="form-control" name="desc_pronto" id="desc_pronto" placeholder="Ingrese el porcentaje de descuento"  value='{prontopago}' required="required" {usa_pp_dv_disable_txtpp}><span class="input-group-addon">%</span>
+					<input type="text" class="form-control" name="desc_pronto" id="desc_pronto" placeholder="Ingrese el porcentaje de descuento"  value='{prontopago}' required="required"><span class="input-group-addon">%</span>
 				</div>
 			</div>
 			<div class="form-group">   
 				<label for="desc_pronto">Porcentaje del I.V.A.</label>
 				<div class="input-group">
 					<input type="text" class="form-control" name="desc_prepago" id="desc_prepago" placeholder="Ingrese el porcentaje de descuento"  value='{prepago}' required="required"><span class="input-group-addon" >%</span>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" id="check_usa_pp_dv" name="check_usa_pp_dv" {usa_pp_dv}> Aplicar cambio del IVA a todas las deudas por cobrar con abono 0.
+					</label>
 				</div>
 			</div>
 			<div class="form-group">

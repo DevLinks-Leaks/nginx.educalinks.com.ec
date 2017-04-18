@@ -283,17 +283,17 @@ class Cliente extends DBAbstractModel{
         }
     }
 
-    public function setGrupoEconomico( $codigoEstudiante = "", $codigoGrupoEconomico = "" )
-	{   if($codigoEstudiante!="" && $codigoGrupoEconomico!="")
-		{   $this->parametros = array($codigoEstudiante, $codigoGrupoEconomico);
+    public function setGrupoEconomico( $codigoEstudiante = "", $codigoGrupoEconomico = "", $ingresoFamiliar = "" )
+	{   if($codigoEstudiante!="" && $codigoGrupoEconomico!="" && $ingresoFamiliar != "" )
+		{   $this->parametros = array($codigoEstudiante, $codigoGrupoEconomico, $ingresoFamiliar );
             $this->sp = "str_consultaCliente_addGrupoEconomico";
             $this->executeSPAccion();
         }
         if($this->filasAfectadas>0)
-		{   $this->mensaje="¡Exito! Grupo economico modificado.";
+		{   $this->mensaje="¡Exito! Grupo economico modificado";
         }
 		else
-		{   $this->mensaje="¡Error! Actualización no se pudo realizar.";
+		{   $this->mensaje="¡Error! No se pudo completar la solicitud al sistema";
         }
 		return $this;
     }
