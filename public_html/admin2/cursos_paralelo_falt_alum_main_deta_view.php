@@ -34,40 +34,24 @@
 
 <input  type="hidden" value="<?= $alum_curs_para_codi; ?>" id="alum_curs_para_codi"/>
 
-<table  class="table_striped">
-        <thead>
+<table  class="table table-striped table-bordered">
+        <thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
             <tr>
-              <th width="68"  align="left">Periodo</th>
-              <th width="76"   align="center" valign="middle">Fecha</th>
-              <th width="53"   align="center" valign="middle">Tipo</th>
-              <th width="184" align="left">Opciones</th>
+              <th width="68"  style='text-align:left' >Periodo</th>
+              <th width="76"  style='text-align:center'>Fecha</th>
+              <th width="53"  style='text-align:center'>Tipo</th>
+              <th width="184" style='text-align:center'>Eliminar falta</th>
             </tr>
         </thead>
         <tbody>
             <?php  while ($row_alum_peri_falt = sqlsrv_fetch_array($alum_peri_falt)) { $cc +=1; ?> 
             <tr>
-              <td  ><span class="left">
-                <?= $row_alum_peri_falt["peri_dist_deta"]; ?>
-              </span></td>
-              <td align="center" valign="middle"><span class="left">
-                 <?=  date_format($row_alum_peri_falt["falt_fech"], 'd/M/Y' ); ?>
-              </span></td>
-              <td align="center" valign="middle"><span class="left">
-                <?= $row_alum_peri_falt["Falt_tipo_deta"]; ?>
-              </span></td>
-              <td align="left"> 
-            
-                    <div class="menu_options">
-                          <ul>
-                           <li>
-                              
-                              <a  class="option"   onclick="alum_curs_para_falt_del(<?= $row_alum_peri_falt["falt_codi"]; ?>)" data-toggle="modal" data-target="#ModalFalta" title=""> 
-                                  <span class="icon-del icon"> </span> Eliminar
-                              </a>
-                        
-                            </li>                         
-                          </ul>
-                        </div>
+              <td style='text-align:left'><?= $row_alum_peri_falt["peri_dist_deta"]; ?></td>
+              <td style='text-align:center'><?=  date_format($row_alum_peri_falt["falt_fech"], 'd/M/Y' ); ?></td>
+              <td style='text-align:center'><?= $row_alum_peri_falt["Falt_tipo_deta"]; ?></td>
+              <td style='text-align:center'>
+				<a  class="btn btn-default" title='Eliminar' onmouseover='$(this).tooltip("show");'
+					onclick="alum_curs_para_falt_del(<?= $row_alum_peri_falt["falt_codi"]; ?>)" data-toggle="modal" data-target="#ModalFalta" title=""> <span class="fa fa-trash btn_opc_lista_eliminar"></span></a>
                 </td>
               </tr>
             <?php }?>

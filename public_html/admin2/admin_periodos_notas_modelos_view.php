@@ -14,35 +14,33 @@
 ?>
 
 
-<table  class="table_striped" >
+<table  class="table table-striped" >
 	<thead>
         <tr>
-          <th width="49"  >Codigo</th>
+          <th width="49" class='text-center'>Codigo</th>
           <th width="238"  >Detalle de Modelo de Nota</th>
-          <th width="54"  >Tipo</th>
-          <th width="231"  >Opciones</th>
+          <th width="54" class='text-center'>Tipo</th>
+          <th width="231" class='text-center' >Opciones</th>
         </tr>
       </thead>
   <tbody>
 	<?php  while ($row_nota_refe_cab_view = sqlsrv_fetch_array($nota_refe_cab_view)) {  ?>
   	 <tr>
-    	<td><?= $row_nota_refe_cab_view['nota_refe_cab_codi']; ?></td>     
+    	<td class='text-center'><?= $row_nota_refe_cab_view['nota_refe_cab_codi']; ?></td>     
         <td><?= $row_nota_refe_cab_view['nota_refe_cab_deta']; ?></td>     
-        <td><?= $row_nota_refe_cab_view['nota_refe_cab_tipo']; ?></td>   
-         <td> 
-         <div class="menu_options">
-           <ul>
-            		        	<li>
-                <a class="option" onclick="">
-                    <span class="icon-pencil2 icon"></span>Editar
-                </a>
-            </li>
-                	<li>
-            	<a class="option" onclick="">
-                    <span class="icon-remove icon"></span>Eliminar</a>
-            </li>
-           </ul>
-	</div>
+        <td class='text-center'><?= $row_nota_refe_cab_view['nota_refe_cab_tipo']; ?></td>   
+         <td class='text-center'>
+			<a 
+					onmouseover='$(this).tooltip("show")'
+					title='Editar'
+					class="btn btn-default" onclick="" disabled>
+				<span class="fa fa-pencil"></span>
+			</a>
+			<a 
+					onmouseover='$(this).tooltip("show")'
+					title='Eliminar'
+					class="btn btn-default" onclick="" disabled>
+				<span class="fa fa-trash"></span></a>
          </td>     
   	 </tr>
     <?php   }?>

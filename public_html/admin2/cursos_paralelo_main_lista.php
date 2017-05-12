@@ -48,6 +48,12 @@
 
 <div class="cursos_paralelo_main">
 	<style>
+		a {
+			color: #424242;
+		}
+		a:hover {
+			color: #4285F4;
+		}
 		.rTable {
 			display: table;
 			width: 100%;
@@ -94,9 +100,9 @@
         <thead>
             <tr>
               <th width="25%">Detalle</th>
-              <th width="15%">Info</th>
+              <th width="15%" style='text-align:center'>Info</th>
               <th width="45%">Opciones</th>
-              <th width="15%">Admin</th>             
+              <th width="15%" style='text-align:center'>Administrar</th>             
             </tr>
         </thead>
         <tbody>
@@ -122,7 +128,7 @@
 						</strong> )
 				</h6>
 				</td>
-				<td class="center">
+				<td  style='text-align:center'>
 					<div class='rTable' style='text-align:".$align."; width:100%;' >
 						<div class="rTableRow">
 							<div class='rTableCell' style='text-align:left;'>Matriculados:</div>
@@ -166,7 +172,7 @@
 						{	$opciones[]="<div class='rTableCell'>
 								<a class='option'
 									onclick=\"window.location='cursos_paralelo_notas_mate_main_v2.php?peri_codi=". $row_curs_peri_view["peri_codi"] ."&curs_para_codi=". $row_curs_peri_view["curs_para_codi"] ."';\" >
-									<span class='icon-tree icon' style='margin-right:3px;'></span> Notas
+									<span class='fa fa-address-book-o' style='margin-right:3px;'></span> Notas
 								</a>
 							</div>";
 						}
@@ -226,34 +232,25 @@
 						echo $tabla;
 						?>
 				</td>
-				<td>
-					<div class='rTable'>
-						<div class='rTableRow'><div class='rTableCell'>
+				<td style='text-align:center'>
 								<?php 
 								if (permiso_activo(32))
 								{
-								?>  <a class='option'
+								?>  <a class='btn btn-default' title='Administrar' onmouseover='$(this).tooltip("show")'
 										onclick="window.location='cursos_paralelo_info_main.php?curs_para_codi=<?php echo $row_curs_peri_view["curs_para_codi"]; ?>';">
-											<i style='color:#a24917;' class='fa fa-briefcase' style='margin-right:3px;'></i> Administrar
+											<i style='color:#5b5b5b;' class='fa fa-cog' style='margin-right:3px;'></i>
 									</a>
 								<?php 
 								}
 								?>
-							</div>
-						</div>
-						<div class='rTableRow'>
-							<div class='rTableCell'>
 								<?php 
 								if (permiso_activo(33))
 								{
-								?>  <a class='option'
+								?>  <a class='btn btn-default' title='Eliminar' onmouseover='$(this).tooltip("show")'
 										onclick='curs_para_del(<?php echo $row_curs_peri_view["curs_para_codi"]; ?>)'> 
-										<i style='color:#dd4b39;' class='fa fa-trash' style='margin-right:3px;'></i> Eliminar
+										<i style='color:#dd4b39;' class='fa fa-trash btn_opc_lista_eliminar' style='margin-right:3px;'></i>
 									</a>
 							<?php }?>
-							</div>
-						</div>
-					</div>
 				</td>
 			</tr>
  <?php  }?>

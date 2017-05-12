@@ -63,15 +63,15 @@
 		<script type="text/javascript">
 		$(window).load(function(){
 			//if('<?= $_SESSION['usa_app'];?>'=='1'){
-				if('<?= $_SESSION['pop_up_repr_flag'];?>'== '1' ){
-					if('<?= $_SESSION['USUA_TIPO'];?>'=='A'){ //es de tipo alumno
-						if('<?= $_SESSION['alum_app'];?>'=='0')
-							$('#pop_up_repr').modal('show');
-					}else{
-						if('<?= $_SESSION['repr_app'];?>'=='0')
-							$('#pop_up_repr').modal('show');
-					}
-				}
+				// if('<?= $_SESSION['pop_up_repr_flag'];?>'== '1' ){
+				// 	if('<?= $_SESSION['USUA_TIPO'];?>'=='A'){ //es de tipo alumno
+				// 		if('<?= $_SESSION['alum_app'];?>'=='0')
+				// 			$('#pop_up_repr').modal('show');
+				// 	}else{
+				// 		if('<?= $_SESSION['repr_app'];?>'=='0')
+				// 			$('#pop_up_repr').modal('show');
+				// 	}
+				// }
 			//}
 		});
 		</script>

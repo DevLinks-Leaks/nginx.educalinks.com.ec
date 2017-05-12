@@ -31,7 +31,7 @@
 				<?php }?>
 				<?php if (permiso_activo(3)){?>
 				<li class="<? if (substr($Menu,0,1)==2) echo 'active'; ?> treeview"><!-- AQUI SERIA EL OPEN --><!--  -->
-					<a href="#"><i class="fa fa-user"></i> <span>Cursos</span> <i class="fa fa-angle-left pull-right"></i></a>
+					<a href="#"><i class="fa fa-list-alt"></i> <span>Cursos</span> <i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
 						<?php if(permiso_activo(10))?> <li <? if($Menu==201) echo 'class="active"'; ?>><a href="cursos_paralelo_main.php"><span class='fa fa-circle-o'></span> Cursos Paralelo</a></li>
 						<?php if(permiso_activo(11))?> <li <? if($Menu==202) echo 'class="active"'; ?>><a href="cursos_notas_permisos_main.php"><span class='fa fa-circle-o'></span> Notas Permisos</a></li>
@@ -46,16 +46,16 @@
 				<?php }?>
 				<?php if (permiso_activo(4)){?>
 				<li class="<? if (substr($Menu,0,1)==4) echo 'active'; ?> treeview"><!-- AQUI SERIA EL OPEN --><!--  -->
-					<a href="#"><i class="fa fa-user"></i> <span>Administración</span> <i class="fa fa-angle-left pull-right"></i></a>
+					<a href="#"><i class="fa fa-cogs"></i> <span>Administración</span> <i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
-						<?php if(permiso_activo(15))?> <li <? if($Menu==401) echo 'class="active"'; ?>><a href="roles_main.php"><span class='fa fa-circle-o'></span> Roles </a></li>
+						<?php if(permiso_activo(15))?> <li <? if($Menu==401) echo 'class="active"'; ?>><a href="roles_main.php"><span class='fa fa-briefcase'></span> Roles </a></li>
 						<?php if(permiso_activo(16))?> <li <? if($Menu==402) echo 'class="active"'; ?>><a href="usuarios_main.php"><span class='fa fa-users'></span> Usuarios</a></li>
 						<?php if(permiso_activo(71))?> <li <? if($Menu==407) echo 'class="active"'; ?>><a href="reset_pass.php"><span class='fa fa-key'></span> Reseteo de Clave</a></li>
 						<?php if(permiso_activo(17))?> <li <? if($Menu==403) echo 'class="active"'; ?>><a href="admin_periodos.php"><span class='fa fa-circle-o'></span> Periodos</a> </li>
-						<?php if(permiso_activo(18))?> <li <? if($Menu==404) echo 'class="active"'; ?>><a href="admin_auditoria.php"><span class='fa fa-circle-o'></span> Auditoria</a></li>
+						<?php if(permiso_activo(18))?> <li <? if($Menu==404) echo 'class="active"'; ?>><a href="admin_auditoria.php"><span class='fa fa-wpforms'></span> Auditoria</a></li>
 						<!--<?php if(permiso_activo(19))?> <li <? if($Menu==405) //echo 'class="active"'; ?>><a href="alumnos_blacklist_main.php"><span class='fa fa-circle-o'></span> Parámetros generales</a></li>-->
 						<?php if(permiso_activo(20))?> <li <? if($Menu==406) echo 'class="active"'; ?>><a href="admin_permisos.php"><span class='fa fa-lock'></span> Permisos</a></li>
-						<?php if(permiso_activo(84))?> <li <? if($Menu==410) echo 'class="active"'; ?>><a href="para_sistema_main.php"><span class='fa fa-circle-o'></span> Parámetros del sistema</a></li>
+						<?php if(permiso_activo(84))?> <li <? if($Menu==410) echo 'class="active"'; ?>><a href="para_sistema_main.php"><span class='fa fa-toggle-on'></span> Parámetros del sistema</a></li>
 						<?php if(permiso_activo(87))?> <li <? if($Menu==411) echo 'class="active"'; ?>><a href="usua_pass_main.php"><span class='fa fa-key'></span> Usuarios y Claves</a></li>
 					</ul>
 				</li>
@@ -67,7 +67,7 @@
 						<?php if(permiso_activo(66))?> <li <? if($Menu==602) echo 'class="active"'; ?>><a href="cursos_paralelo_profe_listas_main.php"><span class='fa fa-bookmark-o'></span> R. Profesores</a></li>
 						<?php if(permiso_activo(66))?> <li <? if($Menu==603) echo 'class="active"'; ?>><a href="cursos_paralelo_peri_listas_main.php"><span class='fa fa-bookmark-o'></span> R. Cursos</a></li>
 						<?php if(permiso_activo(66))?> <li <? if($Menu==604) echo 'class="active"'; ?>><a href="hora_aten_repr_listas_main.php"><span class='fa fa-bookmark-o'></span> R. Citas Profesores</a></li>
-						<?php if(permiso_activo(66))?> <li <? if($Menu==605) echo 'class="active"'; ?>><a href="alum_matri_main.php"><span class='fa fa-bookmark-o'></span> R. Alumnos Matriculados</a></li>
+						<?php if(permiso_activo(66))?> <li <? if($Menu==605) echo 'class="active"'; ?>><a href="alum_matri_main.php"><span class='fa fa-bookmark-o'></span> R. Alumnos</a></li>
 						<?php if(permiso_activo(66))?> <li <? if($Menu==606) echo 'class="active"'; ?>><a href="report_gene.php"><span class='fa fa-bookmark-o'></span> R. Generales</a></li>
 						<?php if(permiso_activo(76))?> <li <? if($Menu==607) echo 'class="active"'; ?>><a href="report_gene_actas.php"><span class='fa fa-bookmark-o'></span> Actas</a></li>
 					</ul>
@@ -76,7 +76,7 @@
 				
 				<li class="<? if ($Menu==700) echo 'active'; ?>"><a href="mensajes.php"><i class="fa fa-envelope"></i> <span>Mensajes</span></a></li>
 				<li><a href="../help/ACADEMICO.pdf" target='_blank'><i class="fa fa-info-circle"></i> <span>Manual de ayuda</span></a><li><!-- {menu001} -->
-				<li class=""><a href="acerca.php"><i class="icon icon-logo"></i> <span>Acerca de Educalinks</span></a></li>
+				<li class="<? if ($Menu==800) echo 'active'; ?>"><a href="acerca.php"><i class="icon icon-logo"></i> <span>Acerca de Educalinks</span></a></li>
 			</ul>
         </section>
         <!-- /.sidebar -->

@@ -23,7 +23,7 @@
     <thead>
       <tr>
         <th width="23%" class="center">Listado de Materias</th>
-        <th class="center">Tipo</th>
+        <!-- <th class="center">Tipo</th> -->
         <th class="center">Área</th>
         <th class="center">Agrupada</th>
 
@@ -38,7 +38,7 @@
       <tr>
         <td ><?= $row_mate_view["mate_deta"]; ?>  &nbsp;("<?= $row_mate_view["mate_abre"]; ?>")(<?= $row_mate_view["mate_codi"]; ?>)&nbsp;&nbsp; <? if ($row_mate_view["peri_codi"]==0) echo '*';?> 
          </td>
-        <td width="22%" class="center"><?= $row_mate_view["mate_tipo"]; ?></td>
+        <!-- <td width="22%" class="center"><?= $row_mate_view["mate_tipo"]; ?></td> -->
         <td width="22%" class="center"><?= $row_mate_view["area_deta"]; ?></td>
         <td width="22%" class="center"><?= $row_mate_view["mate_padr_deta"]; ?></td>
         <td width="12%" class="center"><?= $row_mate_view["mate_prom"]; ?></td>
@@ -100,8 +100,8 @@
 		$(document).ready(function() {
 	    $('#mate_table').datatable({
 			pageSize: 20,
-		  sort: [false, false,false, false,false,false],
-			filters: [true,'select','select','select','select',false],
+		  sort: [false,false, false,false,false],
+			filters: [true,'select','select','select',false],
 			filterText: 'Escriba para buscar... '
 		}) ;
 } );

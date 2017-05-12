@@ -26,11 +26,11 @@
 							<div style="float:right">
 								<? if($row_peri_dist_peri_view['peri_dist_nive'] <> 0){ ?>
 								<button type="button" class="btn btn-default btn-xs" onclick="nota_refe_add()" style="float:right">
-									<span class="icon-minus icon"></span>  
+									<span class="fa fa-minus"></span>  
 								</button>
 								<?php 	 } ?>
 								<button type="button" class="btn btn-default btn-xs" onclick="nota_refe_add()" style="float:right">
-									<span class="icon-add icon"></span>  
+									<span class="fa fa-plus"></span>  
 								</button>
 							   
 							</div>
@@ -51,18 +51,22 @@
 	  $nota_refe_cab_view = sqlsrv_query($conn, $sql, $params); 
 	 ?>
 		<div class="admin_periodos_notas_view_script_acc"  style="height:40px; background:#b2d7e9; text-align:center;" >
-			MODELO DE CALIFICACIÓN:
-			<select name="cb_nota_refe_cab_codi" id="cb_nota_refe_cab_codi"  class="form-control" style=" width:50%;" onchange="peri_dist_codi_view_in_acc(0)">
-			<?php
-			while ($row_nota_refe_cab_view = sqlsrv_fetch_array($nota_refe_cab_view)){ ?>
-			<option value="<?= $row_nota_refe_cab_view['nota_refe_cab_codi'] ; ?>">
-				<?= $row_nota_refe_cab_view['nota_refe_cab_deta'] ; ?>
-			</option>
-			<? } ?>
-			</select>
-	  </div>          
-
-
+			<div class="row">
+				<div class="col-sm-4">
+					MODELO DE CALIFICACIÓN
+				</div>
+				<div class="col-sm-6">
+					<select name="cb_nota_refe_cab_codi" id="cb_nota_refe_cab_codi"  class="form-control input-sm" onchange="peri_dist_codi_view_in_acc(0)">
+					<?php
+					while ($row_nota_refe_cab_view = sqlsrv_fetch_array($nota_refe_cab_view)){ ?>
+					<option value="<?= $row_nota_refe_cab_view['nota_refe_cab_codi'] ; ?>">
+						<?= $row_nota_refe_cab_view['nota_refe_cab_deta'] ; ?>
+					</option>
+					<? } ?>
+					</select>
+				</div>
+			</div>
+		</div>
 	</div>
 
 		<div id="in_notas">

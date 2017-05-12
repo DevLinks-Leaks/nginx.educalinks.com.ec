@@ -18,7 +18,8 @@ function js_rep_debito_carga_reports_deudores( div, url, evento ) //PDF DE LA TA
         {    nivelEcon='';
         }
         var periodos= document.getElementById('periodos').value;
-        var url2=url+'?event='+evento+'&curs_codi='+curso+'&nivelEcon_codi='+nivelEcon+'&peri_codi='+periodos;
+		var quienes = document.querySelector('input[id="rdb_quienes"]:checked').value;
+        var url2=url+'?event='+evento+'&curs_codi='+curso+'&nivelEcon_codi='+nivelEcon+'&peri_codi='+periodos+'&quienes='+quienes;
         console.log(url2);
         window.open(url2);
     }

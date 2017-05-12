@@ -11,10 +11,10 @@
 	$usua_busq = sqlsrv_query($conn, $sql, $params);  
 	$cc = 0;?>
     <table class="table table-striped" id="usua_table">
-      <thead>
+    <thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
       <tr>
         <th width="50%">Profesor</th>
-        <th width="50%">Opciones</th>
+        <th width="50%" style='text-align:center;'>Atenci&oacute;n a Padres</th>
       </tr>
       </thead>
       <tbody>
@@ -30,13 +30,15 @@
         <input type="hidden" id="usua_cedu_edi_<?= $row_usua_busq["prof_codi"]?>" name="usua_cedu_edi_<?= $row_usua_busq["prof_codi"]?>" value="<?= $row_usua_busq["prof_cedu"]?>">
         <input type="hidden" id="usua_codi_edi_<?= $row_usua_busq["prof_codi"]?>" name="usua_codi_edi_<?= $row_usua_busq["prof_codi"]?>" value="<?= $row_usua_busq["prof_codi"]?>">
         </td>
-        <td>
+        <td style='text-align:center;'>
 			<?php if (permiso_activo(525)){?>
 				<a data-toggle="modal" data-target="#ModalUsuaEdi" onclick="carga_info_prof_usua_edit('<?= $row_usua_busq["prof_codi"]?>');" class="btn btn-default"><span class="fa fa-pencil btn_opc_lista_editar"></span> Editar</a>
 			<?php }if (permiso_activo(526)){?>
 				<a onClick="load_ajax_del_prof('usua_main','script_profe.php','opc=del&prof_codi=<?= $row_usua_busq['prof_codi']?>');" class="btn btn-default"><span class="fa fa-trash btn_opc_lista_eliminar"></span> Eliminar</a>
 			<?php }?>
-				<a onClick="window.location='profesores_horario.php?prof_codi=<?= $row_usua_busq['prof_codi']?>';" class="btn btn-default"><span class="fa fa-calendar"></span> Atenci&oacute;n a Padres</a>
+				<a onClick="window.location='profesores_horario.php?prof_codi=<?= $row_usua_busq['prof_codi']?>';"
+					title='Atenci&oacute;n a Padres' onmouseover='$(this).tooltip("show");' data-placement='left'
+					class="btn btn-default"><span style='color:#185d26' class="fa fa-calendar"></span></a>
         </td>
       </tr>
      <?php  }?>

@@ -15,7 +15,7 @@
 		{
 			if (sqlsrv_has_rows($stmt))
 			{		
-				echo 'Paralelo: <select id="sl_paralelos" name="sl_paralelos" onchange="CargarAlumnos(this.value);">';
+				echo 'Paralelo: <select  class="form-control" id="sl_paralelos" name="sl_paralelos" onchange="CargarAlumnos(this.value);">';
 				echo '<option value="0">Seleccione...</option>';
 				while($curso_view= sqlsrv_fetch_array($stmt))
 				{

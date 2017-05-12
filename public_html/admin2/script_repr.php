@@ -134,6 +134,20 @@ switch($opc){
 		$detalle="Código: ".$_POST['repr_codi'];
 		registrar_auditoria (18, $detalle);
 	break;
+	case 'repr_exist':
+		$sql	= "{call repr_exist(?,?)}";
+		$params	= array($_POST['repr_cedula'],$_POST['repr_tipo_iden']);
+		$repr_exist	= sqlsrv_query($conn,$sql,$params);
+		if ($repr_exist===false){
+			$result= json_encode(array ('state'=>'error',
+						'result'=>'Error al consultar datos del representante.',
+						'console'=> sqlsrv_errors() ));
+		}else{
+			$result= json_encode(array ('state'=>'success',
+						'result'=>'Se encontraron coincidencias con el número de identificación de acuerdo al tipo.' ));
+		}
+		echo $result;
+	break;
 	case 'repr_list':
 		/*Para los parentescos*/
 		$row_parentescos = array();
@@ -153,7 +167,7 @@ switch($opc){
 		$params_opc= array($_POST['alum_codi']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} ?>
-		<table class="table_full">
+		<table class="table table-stripped">
         <tr>       
 			<td style='text-align:center'><?php echo show_this_phrase(20000020); ?></td>
 			<td style='text-align:center'><?php echo PrimeraMayuscula(show_this(10000015)); ?></td>
@@ -206,8 +220,8 @@ switch($opc){
 
 	<?php break;
 	case 'vali_repr':
-		$sql_opc = "{call repr_info_cedu_vali(?,?)}";
-		$params_opc= array($_POST['repr_cedu'],$_POST['tipo_iden']);
+		$sql_opc = "{call repr_info_cedu_vali(?)}";
+		$params_opc= array($_POST['repr_cedu']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
 		$row_repr_view=sqlsrv_fetch_array($stmt_opc);
@@ -220,13 +234,13 @@ switch($opc){
 	break;
 	case 'upd_repr_princ':
 		$sql_opc = "{call repr_alum_upd(?,?)}";
-		$params_opc= array($_POST['alum_codi'],$_POST['repr_cedu']);
+		$params_opc= array($_POST['alum_codi'],$_POST['repr_codi']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} else {echo "1";} 
 	break;
 		case 'upd_repr_princ_finan':
 		$sql_opc = "{call repr_finan_alum_upd(?,?)}";
-		$params_opc= array($_POST['alum_codi'],$_POST['repr_cedu']);
+		$params_opc= array($_POST['alum_codi'],$_POST['repr_codi']);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));}  else {echo "1";}
 	break;
@@ -345,8 +359,13 @@ switch($opc){
 			while($pais_view= sqlsrv_fetch_array($stmt2))
 			{
 				$seleccionado="";
-				if ($pais_view["descripcion"]==$row_repr_view["repr_pais_naci"])
-					$seleccionado="selected";
+				if($row_repr_view['repr_pais_naci']==''){
+					if ($pais_view["descripcion"]=='Ecuador')
+						$seleccionado="selected";
+				}else{
+					if ($pais_view["descripcion"]==$row_repr_view["repr_pais_naci"])
+						$seleccionado="selected";
+				}
 				echo '<option value="'.$pais_view["codigo"].'" '.$seleccionado.'>'.$pais_view["descripcion"].'</option>';
 			}
 			echo '</select>';
@@ -356,7 +375,7 @@ switch($opc){
 			<label>Provincia de Nacimiento:</label>
 			<select onchange="CargarCiudades('repr_ciud_naci',this.value);" id='repr_prov_naci' name='repr_prov_naci'>
 			<?php 
-			$params = array(null,($row_repr_view["repr_pais_naci"]==null ? 'Ecuador':''));
+			$params = array(null,($row_repr_view["repr_prov_naci"]==''?'Ecuador':$row_repr_view["repr_pais_naci"]));
 			$sql="{call cata_provincia_cons(?,?)}";
 			$stmt3 = sqlsrv_query($conn, $sql, $params);
 	

@@ -13,8 +13,8 @@
     <table class="table table-striped" id="usua_table">
 		<thead>
 			<tr>
-				<th width="85%">Usuario</th>
-				<th width="15%">Opciones</th>
+				<th width="70%">Usuario</th>
+				<th  style='text-align:center;' width="30%">Opciones</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -27,8 +27,9 @@
 					<input type="hidden" id="usua_username_edi_<?= $row_usua_busq["usua_codi"]?>" name="usua_username_edi_<?= $row_usua_busq["usua_codi"]?>" value="<?= $row_usua_busq["usua_codi"]?>">
 					<input type="hidden" id="usua_tipo_edi_<?= $row_usua_busq["usua_codi"]?>" name="usua_tipo_edi_<?= $row_usua_busq["usua_codi"]?>" value="<?= $row_usua_busq["usua_tipo"]?>">
 				</td>
-				<td>
-					<a class='btn btn-default' data-toggle="modal" data-target="#ModalUsuaEdi" onclick="carga_info_usua_edit('<?= $row_usua_busq["usua_codi"]?>');" class="option"><span class="fa fa-pencil btn_opc_lista_editar"></span> Editar</a>
+				<td style='text-align:center;'>
+					<a class='btn btn-default' data-toggle="modal" data-target="#ModalUsuaEdi" onclick="carga_info_usua_edit('<?= $row_usua_busq["usua_codi"]?>');" 
+						title='Editar' onmouseover='$(this).tooltip("show");' data-placement='left'><span class="fa fa-pencil btn_opc_lista_editar"></span></a>
 				</td>
 			</tr>
 		 <?php  }?>

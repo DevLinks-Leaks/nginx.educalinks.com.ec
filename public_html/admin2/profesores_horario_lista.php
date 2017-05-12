@@ -15,23 +15,23 @@
 	$cc = 0;?>
     <div id="hora_lista">
     <table class="table table-striped">
-    <thead>
+    <thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
     <tr>
-    <th>D&iacute;as</th>
-    <th>Hora Inicial</th>
-    <th>Hora Final</th>
-    <th>Opciones</th>
+    <th style='text-align:center;'>D&iacute;as</th>
+    <th style='text-align:center;'>Hora Inicial</th>
+    <th style='text-align:center;'>Hora Final</th>
+    <th style='text-align:center;'>Eliminar</th>
     </tr>
     </thead>
     <tbody>
 	<?php $c=0;
 	while($row_hora_prof_view=sqlsrv_fetch_array($hora_prof_busq)){$c++;?>
 	<tr>
-    <td><?=$row_hora_prof_view['dia_large']?></td>
-    <td><?=$row_hora_prof_view['hora_ini']?></td>
-    <td><?=$row_hora_prof_view['hora_fin']?></td>
-    <td><a onClick="hora_aten_del('hora_aten_main','script_profe_hora.php','<?=$row_hora_prof_view['hora_codi']?>','<?=$prof_codi?>')" class="btn btn-default">
-		<span class="fa fa-trash btn_opc_lista_eliminar"></span> Eliminar</a></li>
+    <td style='text-align:center;'><?=$row_hora_prof_view['dia_large']?></td>
+    <td style='text-align:center;'><?=$row_hora_prof_view['hora_ini']?></td>
+    <td style='text-align:center;'><?=$row_hora_prof_view['hora_fin']?></td>
+    <td style='text-align:center;'><a onClick="hora_aten_del('hora_aten_main','script_profe_hora.php','<?=$row_hora_prof_view['hora_codi']?>','<?=$prof_codi?>')" class="btn btn-default">
+		<span class="fa fa-trash btn_opc_lista_eliminar"></span></a></li>
 
     </td>
     </tr>	

@@ -16,7 +16,7 @@
         <tr>
           <th colspan="10"> PROCESO DE CALIFICACIÓN  
           	<button type="button" class="btn btn-default btn-xs" onclick="nota_refe_add()" style="float:right">
-            	<span class="icon-add icon"></span>  
+            	<span class="fa fa-plus"></span>  
             </button>
            </th>
         </tr>
@@ -60,16 +60,16 @@
 		</select>
 	</td>
     <td width="5%" align="center" valign="middle">
-    	<button class="" onclick="nota_refe_upt_cc(<?= $cc; ?>,<?= $row_nota_refe_cab_view_deta['nota_refe_cod'] ; ?>)"><span class="icon-book icon"></span></button>
+    	<button class="" onclick="nota_refe_upt_cc(<?= $cc; ?>,<?= $row_nota_refe_cab_view_deta['nota_refe_cod'] ; ?>)"><span class="fa fa-book"></span></button>
 	</td>
     <td width="5%" align="center" valign="middle">
-		<button class="" onclick=" nota_refe_del(<?= $row_nota_refe_cab_view_deta['nota_refe_cod'] ; ?>)"><span class="icon-close icon"></span></button>
+		<button class="" onclick=" nota_refe_del(<?= $row_nota_refe_cab_view_deta['nota_refe_cod'] ; ?>)"><span class="fa fa-close"></span></button>
 	</td>
     <td width="5%" align="center" valign="middle">
-    	<button class="" onclick="nota_refe_pos('D',<?= $row_nota_refe_cab_view_deta['nota_refe_cod'] ; ?>)"><span class=" icon-arrow-down icon"></span></button>
+    	<button class="" onclick="nota_refe_pos('D',<?= $row_nota_refe_cab_view_deta['nota_refe_cod'] ; ?>)"><span class=" fa fa-chevron-down"></span></button>
 	</td>
     <td width="5%" align="center" valign="middle">
-		<button class="" onclick="nota_refe_pos('U',<?= $row_nota_refe_cab_view_deta['nota_refe_cod'] ; ?>)"><span class="icon-arrow-up icon"></span></button>
+		<button class="" onclick="nota_refe_pos('U',<?= $row_nota_refe_cab_view_deta['nota_refe_cod'] ; ?>)"><span class="fa fa-arrow-up"></span></button>
 	</td>
   </tr> 
   <?php 	 } ?>

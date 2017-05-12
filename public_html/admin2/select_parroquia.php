@@ -11,6 +11,7 @@
 		die( print_r( sqlsrv_errors(), true));
 	}
 	echo '<select class="form-control" id="alum_parr_naci" name="alum_parr_naci">';
+	echo '<option value="">Seleccione</option>';
 	while($parroquia_view= sqlsrv_fetch_array($stmt))
 	{
 		echo '<option value="'.$parroquia_view["codigo"].'" '.$seleccionado.'>'.$parroquia_view["descripcion"].'</option>';

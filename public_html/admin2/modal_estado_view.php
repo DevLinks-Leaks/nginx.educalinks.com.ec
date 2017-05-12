@@ -140,6 +140,15 @@
 						</td>
 					</tr>
 					<? } ?>
+					<?php if(para_sist(409)=='1' and $alum_curs_para_codi!=0){?>
+					<tr>
+					<td id="div_obse" colspan="2">
+						<? 	include('modal_estado_observacion_view.php'); ?>
+						
+					</td>
+					<td></td>
+					</tr>
+					<?}?>
 				</table>
 			</div>
 		</div>

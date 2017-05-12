@@ -38,7 +38,7 @@
 <table  class="table table-striped">
         <thead>
             <tr>
-              <th  align="left">
+              <th style='vertical-align:top'>
 					<? 	$params = array($curs_para_codi);
 						$sql="{call peri_dist_peri_view_Lb_NEW(?)}";
 						$peri_dist_peri_view = sqlsrv_query($conn, $sql, $params);  
@@ -60,15 +60,12 @@
 					  ?>
                     </select> 
               </th>
-              <th>
-              <div class="options">
+              <th style='vertical-align:top'>
               	<button 
                     class="btn btn-danger"
-                    onClick="window.open('libretas/<?= $_SESSION['directorio']; ?>/<?= $_SESSION['peri_codi']; ?>/<?= $url_libreta_general?>?peri_dist_codi=' + selectvalue(document.getElementById('peri_dist_codi')) +'&curs_para_codi=<?= $_GET["curs_para_codi"]; ?>','_blank')"
-                    style="margin: 10px 0px;">
+                    onClick="window.open('libretas/<?= $_SESSION['directorio']; ?>/<?= $_SESSION['peri_codi']; ?>/<?= $url_libreta_general?>?peri_dist_codi=' + selectvalue(document.getElementById('peri_dist_codi')) +'&curs_para_codi=<?= $_GET["curs_para_codi"]; ?>','_blank')">
                     <span class='fa fa-file-pdf-o'></span> Imprimir Todas las libretas
                 </button>
-                </div>
               </th>
             </tr>
         </thead>

@@ -51,6 +51,7 @@
 						<div class="box box-default">
 							<div class="box-header with-border">
 								<h3 class="box-title">
+									<a href='profesores_main.php' class="btn btn-warning"><span class="fa fa-chevron-left"></span> Volver</a>
 									<?php if (permiso_activo(46)){?>
 									<a class="btn btn-primary" data-toggle="modal" data-target="#ModalUsuaAdd" title="">
 										<span class="fa fa-clock-o"></span><span class="fa fa-plus"></span> Agregar Horario de Atenci&oacute;n
@@ -59,7 +60,10 @@
 							</div><!-- /.box-header -->
 							<div class="box-body">
 								<script type="text/javascript" src="js/funciones_profe_hora.js"></script> 
-								Horario de Atenci&oacute;n de <?= $row_prof_busq['prof_nomb']." ".$row_prof_busq['prof_apel'];?>
+								<div class="callout callout-info">
+									<h4>Horarios de Atenci&oacute;n de</h4>
+									<?= $row_prof_busq['prof_nomb']." ".$row_prof_busq['prof_apel'];?>
+								</div>
 								<div id="hora_aten_main" >
 									 <?php include ('profesores_horario_lista.php'); ?>
 								</div>

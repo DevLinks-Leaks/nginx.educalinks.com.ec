@@ -1,4 +1,82 @@
 // JavaScript Document
+function inicializar_radioBtn(){
+	$('input').iCheck({
+	    checkboxClass: 'icheckbox_flat-blue',
+	    radioClass: 'iradio_flat-blue'
+  	});
+	$('.principal').on('ifChecked', function(event){
+		if($(this).is(':checked')){
+			var repr_codi=$(this).data('reprcodi');
+		    repr_upd_princ('div_repr_list','script_repr.php',document.getElementById('hd_alum_codi').value,repr_codi);
+		}
+	});
+	$('.financiero').on('ifChecked', function(event){
+		if($(this).is(':checked')){
+			var repr_codi=$(this).data('reprcodi');
+		    repr_upd_princ_finan('div_repr_list','script_repr.php',document.getElementById('hd_alum_codi').value,repr_codi);
+		}
+	});
+	
+}
+function repre_exist_edit(div,url){
+	document.getElementById(div).innerHTML='';
+	if($('#hd_repr_cedula').val()!=$('#repr_cedula').val()){
+		
+		if (window.XMLHttpRequest)
+		{// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp=new XMLHttpRequest();
+		}
+		else
+		{// code for IE6, IE5
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		var tipo_iden = document.getElementById('repr_tipo_iden');
+		xmlhttp.onreadystatechange=function()
+		{
+			if (xmlhttp.readyState==4 && xmlhttp.status==200){
+				if (xmlhttp.responseText=="OK"){
+					//La identificación ya se encuentra registrada
+					$('#btn_guardar_repr').attr('disabled',true);
+					document.getElementById(div).innerHTML='<span class="fa fa-exclamation-triangle"></span> El <b>número de identificación</b> ingresado ya se encuentra registrado.<br/>Para agregar representantes ya registrados realizarlo desde la opción "<span class="fa fa-plus"></span> Representante".';
+				}else{
+					$('#btn_guardar_repr').attr('disabled',false);
+					if(xmlhttp.responseText=="Cédula Correcta" || xmlhttp.responseText=="RUC Correcto" || xmlhttp.responseText=="Pasaporte"){
+						//La identificación no se encuentra registrada pero es correcto el formato
+
+					}else{
+						//La identificación no se encuentra registrada y es incorrecto el formato
+					}
+				}
+			}
+		}
+		var data="opc=vali_repr&repr_cedu="+$('#repr_cedula').val()+"&tipo_iden="+$('#repr_tipo_iden').val();		
+		xmlhttp.open("POST",url,true);
+		xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+		xmlhttp.send(data);
+	}
+}
+function load_modal_repre_view(div,url,data){
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			document.getElementById(div).innerHTML=xmlhttp.responseText;
+			$("#repr_fech_promoc").datepicker();
+			$("#repr_fech_naci").datepicker();
+		}
+	}
+	xmlhttp.open("POST",url,true);
+	xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	xmlhttp.send(data);	
+}
 function valida_repre(repr_cedu,div,url){
 	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
 	document.getElementById(div).innerHTML='';
@@ -41,7 +119,7 @@ function valida_repre(repr_cedu,div,url){
 	xmlhttp.send(data);	
 }
 
-function repr_upd_princ(div,url,alum_codi,repr_cedu){
+function repr_upd_princ(div,url,alum_codi,repr_codi){
 	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
 	document.getElementById(div).innerHTML='';
 	if (window.XMLHttpRequest)
@@ -61,16 +139,16 @@ function repr_upd_princ(div,url,alum_codi,repr_cedu){
 			else
 			{	$.growl.error({ title: "Educalinks informa:",message: "No se pudo realizar los cambios." });
 			}
-			load_list_repr('div_repr_list','script_repr.php','opc=repr_list&alum_codi='+alum_codi);
+			load_list_repr('div_repr_list','representantes_add_script.php','alum_codi='+alum_codi);
 		}
 	};
-	var data="opc=upd_repr_princ&repr_cedu="+repr_cedu+"&alum_codi="+alum_codi;	
+	var data="opc=upd_repr_princ&repr_codi="+repr_codi+"&alum_codi="+alum_codi;	
 	xmlhttp.open("POST",url,true);
 	xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 	xmlhttp.send(data);	
 }
 
-function repr_upd_princ_finan(div,url,alum_codi,repr_cedu){
+function repr_upd_princ_finan(div,url,alum_codi,repr_codi){
 	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
 	document.getElementById(div).innerHTML='';
 	if (window.XMLHttpRequest)
@@ -90,10 +168,10 @@ function repr_upd_princ_finan(div,url,alum_codi,repr_cedu){
 			else
 			{	$.growl.error({ title: "Educalinks informa:",message: "No se pudo realizar los cambios." });
 			}
-			load_list_repr('div_repr_list','script_repr.php','opc=repr_list&alum_codi='+alum_codi);
+			load_list_repr('div_repr_list','representantes_add_script.php','alum_codi='+alum_codi);
 		}
 	};
-	var data="opc=upd_repr_princ_finan&repr_cedu="+repr_cedu+"&alum_codi="+alum_codi;	
+	var data="opc=upd_repr_princ_finan&repr_codi="+repr_codi+"&alum_codi="+alum_codi;	
 	xmlhttp.open("POST",url,true);
 	xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 	xmlhttp.send(data);	
@@ -120,7 +198,7 @@ function update_relative(div,url,alum_codi,repr_codi,idparentesco){
 			else
 			{	$.growl.error({ title: "Educalinks informa:",message: "No se pudo realizar los cambios." });
 			}
-			load_list_repr('div_repr_list','script_repr.php','opc=repr_list&alum_codi='+alum_codi);
+			load_list_repr('div_repr_list','representantes_add_script.php','alum_codi='+alum_codi);
 		}
 	};
 	var data="opc=update_relative&repr_codi="+repr_codi+"&alum_codi="+alum_codi+"&idparentesco="+idparentesco;	
@@ -273,9 +351,10 @@ function load_ajax_del_repr(div,url,data){
 		xmlhttp.send(data);
 	}
 }
-function load_ajax_upd_repr(div,url,repr_codi){	
+function load_ajax_upd_repr(url,repr_codi){	
 	if (ValidarRepresentante())
 	{	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+		$('#btn_guardar_repr').button('loading');
 		if (window.XMLHttpRequest)
 		{// code for IE7+, Firefox, Chrome, Opera, Safari
 			xmlhttp=new XMLHttpRequest();
@@ -314,7 +393,7 @@ function load_ajax_upd_repr(div,url,repr_codi){
 		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
 		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
 		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
-		data.append('alum_codi', document.getElementById('alum_codi').value);
+		data.append('hd_alum_codi', document.getElementById('hd_alum_codi').value);
 		data.append('identificacion_niv_1', ($('#identificacion_niv_1').val() > 0 ? $('#identificacion_niv_1').val() : ''));
         data.append('identificacion_niv_2', ($('#identificacion_niv_2').val() > 0 ? $('#identificacion_niv_2').val() : ''));
         data.append('identificacion_niv_3', ($('#identificacion_niv_3').val() > 0 ? $('#identificacion_niv_3').val() : ''));
@@ -324,8 +403,11 @@ function load_ajax_upd_repr(div,url,repr_codi){
 			if (xmlhttp.readyState==4 && xmlhttp.status==200){
 				if(xmlhttp.responseText=="OK"){
 					$.growl.notice({ title: "Listo!",message: "Se actualizaron correctamente los datos del representante." });	
+					$('#btn_guardar_repr').button('reset');
+					$('#modal_representante_edit').modal('hide');
 				}else{
 					$.growl.error({ title: "Atención!",message: "Ocurrió un error al actualizar los datos del representante." });	
+					$('#btn_guardar_repr').button('reset');
 				}
 			}
 		}
@@ -348,6 +430,7 @@ function load_list_repr(div,url,data){
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200){
 			document.getElementById(div).innerHTML=xmlhttp.responseText;
+			inicializar_radioBtn();
 		}
 	}
 	
@@ -356,29 +439,35 @@ function load_list_repr(div,url,data){
 	xmlhttp.send(data);
 }
 function ValidarRepresentante ()
-{	if (document.getElementById('repr_nomb').value=='')
+{	if (document.getElementById('repr_nomb').value.trim()=='')
 	{	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese los nombres del representante" });	
-		document.getElementById('repr_nomb').style.border='solid 1px red';
+		$('#repr_nomb').closest('.form-group').addClass('has-error');
+		$('#repr_nomb').focus();
+        $('#tabs a[href="#tab1"]').tab('show');
 		return false;
 	}
 	else
-	{	document.getElementById('repr_nomb').style.border='';
+	{	$('#repr_nomb').closest('.form-group').removeClass('has-error');
 	}
-	if (document.getElementById('repr_apel').value=='')
+	if (document.getElementById('repr_apel').value.trim()=='')
 	{	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese los apellidos del representante" });	
-		document.getElementById('repr_apel').style.border='solid 1px red';
+		$('#repr_apel').closest('.form-group').addClass('has-error');
+		$('#repr_apel').focus();
+        $('#tabs a[href="#tab1"]').tab('show');
 		return false;
 	}
 	else
-	{	document.getElementById('repr_apel').style.border='';
+	{	$('#repr_apel').closest('.form-group').removeClass('has-error');
 	}
-	if (document.getElementById('repr_email').value=='')
+	if (document.getElementById('repr_email').value.trim()=='')
 	{	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese el correo electrónico del representante" });	
-		document.getElementById('repr_email').style.border='solid 1px red';
+		$('#repr_email').closest('.form-group').addClass('has-error');
+		$('#repr_email').focus();
+        $('#tabs a[href="#tab1"]').tab('show');
 		return false;
 	}
 	else
-	{	document.getElementById('repr_email').style.border='';
+	{	$('#repr_email').closest('.form-group').removeClass('has-error');
 	}
 	return true;
 }

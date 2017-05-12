@@ -12,8 +12,8 @@ class Rep_debito extends DBAbstractModel
 	public $banc_fechcreacion;
 	public $banc_usucreacion;
 	
-	public function get_all_deudores( 	$curs_codi=0, 		$niveEcon_codi=0, $peri_codi=0 )
-	{	$this->parametros = array( $curs_codi, $niveEcon_codi, $peri_codi );
+	public function get_all_deudores( 	$curs_codi=0, 		$niveEcon_codi=0, $peri_codi=0, $quienes=1 )
+	{	$this->parametros = array( $curs_codi, $niveEcon_codi, $peri_codi, $quienes );
         $this->sp = "str_consultareptDebito_busq";
         $this->executeSPConsulta();
 		if (count($this->rows)>0)

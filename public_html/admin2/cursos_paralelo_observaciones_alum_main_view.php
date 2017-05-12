@@ -30,7 +30,7 @@
 ?>
 
 <?php echo $row_alum_curs_para_view["alum_nomb"]; ?>
-<table  class="table_striped">
+<table class="table table-striped">
     <thead>
         <tr>
           <th align="left" colspan="2">
@@ -39,7 +39,7 @@
                     $sql="{call peri_dist_peri_view_Lb_NEW(?)}";
                     $peri_dist_peri_view = sqlsrv_query($conn, $sql, $params);  
                 ?>
-                <select  id="peri_dist_codi" >
+                <select class='form-control input-sm' id="peri_dist_codi" >
                   <? 
                   while($row_peri_dist_peri_view = sqlsrv_fetch_array($peri_dist_peri_view))
                   { 
@@ -62,7 +62,7 @@
         <?php  while ($row_alum_curs_para_view = sqlsrv_fetch_array($alum_curs_para_view)) { $cc +=1; ?> 
         <tr>
           <td width="80%">
-            <table class="table_basic">
+            <table>
               <tr>
                 <?php
                 $file_exi = $_SESSION['ruta_foto_alumno'].$row_alum_curs_para_view["alum_codi"].'.jpg';
@@ -81,18 +81,11 @@
               </tr>
             </table>
           </td>
-          <td> 
-            <div class="menu_options">
-              <ul>
-                <li>
-                  <button 
-                    class="icon-pencil btn btn-primary"
-                    onClick="window.location='<?= $url_libreta.$_SESSION['directorio'] ?>.php?peri_dist_codi=' + selectvalue(document.getElementById('peri_dist_codi')) +'&alum_codi=<?= $row_alum_curs_para_view["alum_codi"]; ?>&curs_para_codi=<?= $curs_para_codi; ?>'">
-                    Editar
-                </button>
-                </li>
-              </ul>
-            </div>
+          <td>
+			  <button type='button' class="btn btn-default"
+				onClick="window.location='<?= $url_libreta.$_SESSION['directorio'] ?>.php?peri_dist_codi=' + selectvalue(document.getElementById('peri_dist_codi')) +'&alum_codi=<?= $row_alum_curs_para_view["alum_codi"]; ?>&curs_para_codi=<?= $curs_para_codi; ?>'">
+				<span class='fa fa-edit btn_opc_lista_editar'></span> Editar
+			</button>
           </td>
           </tr>
         <?php }?>   

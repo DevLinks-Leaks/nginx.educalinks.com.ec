@@ -37,7 +37,7 @@
 	<link href="../../includes/common/jquery/jquery-ui/jquery-ui.css" rel="stylesheet">
     <link rel="stylesheet" href="../../includes/common/plugins/daterangepicker/daterangepicker-bs3.css">
 	<link rel="stylesheet" href="../../includes/common/plugins/datepicker/datepicker3.css" />
-	<link rel="shortcut icon" href="{ruta_imagenes_common}/favicon.png" />
+	<link rel="shortcut icon" href="../../imagenes/favicon.png" />
 	<link href="../../includes/common/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet">
 	<link href="../../includes/common/plugins/datatables/jquery.dataTables.min.css?" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css" rel="stylesheet">
@@ -63,6 +63,9 @@
     <link rel="stylesheet" href="../../includes/common/dist/css/skins/_all-skins.min.css?<?= $rand?>">
     <!-- iCheck -->
     <link rel="stylesheet" href="../../includes/common/plugins/iCheck/flat/blue.css">
+    <!-- Slick Carousel -->
+    <link href="../includes/common/slick/slick.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../includes/common/slick/slick-theme.css"/>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

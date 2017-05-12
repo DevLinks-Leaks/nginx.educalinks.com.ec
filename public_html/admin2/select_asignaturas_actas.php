@@ -14,7 +14,7 @@
 		{
 			if (sqlsrv_has_rows($stmt))
 			{
-				echo 'Asignatura: <select id="sl_asignatura" name="sl_asignatura">';
+				echo 'Asignatura: <select  class="form-control" id="sl_asignatura" name="sl_asignatura">';
 				echo '<option value="0">Seleccione</option>';
 				while($asign_view= sqlsrv_fetch_array($stmt))
 				{
@@ -25,7 +25,7 @@
 			}
 			else
 			{
-				echo 'Asignatura:<select id="sl_asignatura" name="sl_asignatura"  disabled="disabled">';
+				echo 'Asignatura:<select  class="form-control" id="sl_asignatura" name="sl_asignatura"  disabled="disabled">';
                 echo '<option value="0">Seleccione</option>';
                 echo '</select>';
 			}

@@ -59,7 +59,7 @@
 
     if (sqlsrv_has_rows($stmt))
 	{		
-		echo '<select id="pg_peri_dist_codi" style="width:75%; margin-top:10px;">';
+		echo '<select class="form-control input-sm" id="pg_peri_dist_codi" style="width:75%; margin-top:10px;">';
 		while($row = sqlsrv_fetch_array($stmt))
 		{	
 			echo '<option value="'.$row["peri_dist_codi"].'">'.$row["peri_dist_padr_deta"].'-'.$row["peri_dist_deta"].'</option>';
@@ -67,7 +67,7 @@
 	}
 	else
 	{
-		echo '<select id="pg_peri_dist_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
+		echo '<select class="form-control input-sm" id="pg_peri_dist_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
 		echo '<option value="-1">Seleccione</option>';
 	}
     echo "</select>";
@@ -83,7 +83,7 @@
 
     if (sqlsrv_has_rows($stmt))
 	{		
-		echo '<select id="pi_peri_dist_codi" style="width:75%; margin-top:10px;">';
+		echo '<select class="form-control input-sm" id="pi_peri_dist_codi" style="width:75%; margin-top:10px;">';
 		while($row = sqlsrv_fetch_array($stmt))
 		{	
 			echo '<option value="'.$row["peri_dist_codi"].'">'.$row["peri_dist_padr_deta"].'-'.$row["peri_dist_deta"].'</option>';
@@ -108,7 +108,7 @@
     if (sqlsrv_has_rows($stmt))
 	{		
 ?>
-	<select id="repo_peri_dist_codi" style="width:250px; margin-top:10px;" onchange="load_ajax_get('curs_para_main_repo_deta','cursos_notas_permisos_main_view_repo.php?peri_dist_codi=' + this.value + '&peri_dist_cab_codi='+document.getElementById('sl_repo_peri_dist_cab').value)">
+	<select class="form-control input-sm" id="repo_peri_dist_codi" style="width:250px; margin-top:10px;" onchange="load_ajax_get('curs_para_main_repo_deta','cursos_notas_permisos_main_view_repo.php?peri_dist_codi=' + this.value + '&peri_dist_cab_codi='+document.getElementById('sl_repo_peri_dist_cab').value)">
 <?
 		echo '<option value="-1">Seleccione</option>';
 		while($row = sqlsrv_fetch_array($stmt))
@@ -118,7 +118,7 @@
 	}
 	else
 	{
-		echo '<select id="repo_peri_dist_codi" style="width:250px; margin-top:10px;" disabled="disabled">';
+		echo '<select class="form-control input-sm" id="repo_peri_dist_codi" style="width:250px; margin-top:10px;" disabled="disabled">';
 		echo '<option value="-1">Seleccione</option>';
 	}
     echo "</select>";
@@ -140,7 +140,7 @@
 	style="margin-left: 15px; margin-right:10px; margin-top:10px;">';	
     if (sqlsrv_has_rows($stmt))
 	{		
-		echo '<select id="pg_curs_para_codi" style="width:75%; margin-top:10px;">';
+		echo '<select class="form-control input-sm" id="pg_curs_para_codi" style="width:75%; margin-top:10px;">';
 		while($row = sqlsrv_fetch_array($stmt))
 		{	
 			echo '<option value="'.$row["curs_para_codi"].'">'.$row["curs_deta"].' ('.$row["para_deta"].')</option>';
@@ -148,7 +148,7 @@
 	}
 	else
 	{
-		echo '<select id="pg_curs_para_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
+		echo '<select class="form-control input-sm" id="pg_curs_para_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
 		echo '<option value="-1">Seleccione</option>';
 	}
     echo "</select>";
@@ -165,7 +165,7 @@
     if (sqlsrv_has_rows($stmt))
 	{	
 ?>	
-		<select id='pi_curs_para_codi' style='width:75%; margin-top:10px;' onchange='CargarProfesoresIndividual(this.value,"div_profesor_materia_ind")'>
+		<select class="form-control input-sm" id='pi_curs_para_codi' style='width:75%; margin-top:10px;' onchange='CargarProfesoresIndividual(this.value,"div_profesor_materia_ind")'>
 <?
 		echo '<option value="-1">Seleccione</option>';
 		while($row = sqlsrv_fetch_array($stmt))
@@ -175,7 +175,7 @@
 	}
 	else
 	{
-		echo '<select id="pi_curs_para_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
+		echo '<select class="form-control input-sm" id="pi_curs_para_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
 		echo '<option value="-1">Seleccione</option>';
 	}
     echo "</select>";
@@ -197,7 +197,7 @@
 	style="margin-left: 15px; margin-right:10px; margin-top:10px;">';	
     if (sqlsrv_has_rows($stmt))
 	{		
-		echo '<select id="pg_prof_codi" style="width:75%; margin-top:10px;">';
+		echo '<select class="form-control input-sm" id="pg_prof_codi" style="width:75%; margin-top:10px;">';
 		while($row = sqlsrv_fetch_array($stmt))
 		{	
 			echo '<option value="'.$row["prof_codi"].'">'.$row["prof_apel"].' '.$row["prof_nomb"].'</option>';
@@ -205,7 +205,7 @@
 	}
 	else
 	{
-		echo '<select id="pg_prof_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
+		echo '<select class="form-control input-sm" id="pg_prof_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
 		echo '<option value="-1">Seleccione</option>';
 	}
     echo "</select>";
@@ -221,7 +221,7 @@
 	
     if (sqlsrv_has_rows($stmt))
 	{		
-		echo '<select id="pi_profesor_materia" style="width:75%; margin-top:10px;">';
+		echo '<select class="form-control input-sm" id="pi_profesor_materia" style="width:75%; margin-top:10px;">';
 		while($row = sqlsrv_fetch_array($stmt))
 		{	
 			echo '<option value="'.$row["curs_para_mate_prof_codi"].'">'.$row["prof_apel"].' '.$row["prof_nomb"].' ('.$row["mate_deta"].')</option>';
@@ -229,7 +229,7 @@
 	}
 	else
 	{
-		echo '<select id="pi_profesor_materia" style="width:75%; margin-top:10px;" disabled="disabled">';
+		echo '<select class="form-control input-sm" id="pi_profesor_materia" style="width:75%; margin-top:10px;" disabled="disabled">';
 		echo '<option value="-1">Seleccione</option>';
 	}
     echo "</select>";

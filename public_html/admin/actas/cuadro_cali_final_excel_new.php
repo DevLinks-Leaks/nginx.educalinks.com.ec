@@ -193,6 +193,7 @@
 				$aux_fil[$i][2] = $row['alum_nomb'];
 				$aux_fil[$i][3] = $row['alum_est_det'];
 				$aux_fil[$i][4] = $row['num_mate'];
+				$aux_fil[$i][5] = $row['alum_apel'].' '.$row['alum_nomb'];
 
 				$datos[]=$row;
 				$i++;
@@ -229,6 +230,10 @@
 		//Filas finales
 		$filas = arrayUnique ($aux_fil);
 		
+		usort($filas, function($a, $b) {
+		    return strcmp($a[5], $b[5]);
+		});
+
 		//Quimestre y Parcial
 		$params = array($peri_dist_codi);
 		$sql="{call peri_dist_peri_codi (?)}";

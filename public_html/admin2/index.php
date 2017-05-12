@@ -43,10 +43,14 @@
 			</form>
 			<?php include("template/footer.php");?>
 		</div>
-		<!-- =============================== -->
+		
+		
 		<input name="mens_de"  		type="hidden" id="mens_de" 		value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
 		<input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 		<?php include("template/scripts.php");?>
+		<!-- ===================== -->
+		<?php include('modal_changelog.php');?>
+		<!-- =============================== -->
 		<script>
 			$(function () {
 				$('#myTab a:last').tab('show');

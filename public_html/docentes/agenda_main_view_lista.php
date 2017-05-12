@@ -29,13 +29,13 @@
 ?>
 
  
-<table width="100%" class="table_striped">
+<table id='tbl_agenda_main_view' class="table table-striped">
 <thead>
   <tr>
     <th width="9%" align="left">Fecha Inicio</th>
     <th width="9%" align="left">Fecha Fin&nbsp;</th>
     <th width="67%" align="left">Detalles</th>
-     <th width="15%" align="left">Opciones</th>
+     <th width="15%" style='text-align:center'>Opciones</th>
   </tr>
 </thead> 
 <tbody>
@@ -45,23 +45,17 @@
     <td align="left"><?=  date_format( $row_agen_curs_para_mate_view["agen_fech_fin"], 'd/M/Y' ); ?> </td>
   
     <td align="left">
-    	<h4><?= $row_agen_curs_para_mate_view["agen_titu"]; ?></h4>
+    	<h4><b><?= $row_agen_curs_para_mate_view["agen_titu"]; ?></b></h4>
         <h5><?= $row_agen_curs_para_mate_view["agen_deta"] ?> ...</h5>    
     </td>
-      <td align="left"><div class="menu_options" style="text-align:left;">
-			  <ul>
-
-			  
-
-						<li>
-				<a class="option" onclick="agen_del(<?= $row_agen_curs_para_mate_view["agen_codi"]; ?>)"> <span class="icon-remove icon"></span> </a>
-			</li> 
-			
-			  </ul>
-			</div></td>
+      <td style='text-align:center'>
+		<a class="btn btn-default" onclick="agen_del(<?= $row_agen_curs_para_mate_view["agen_codi"]; ?>)"
+			title='Eliminar' onmouseover='$(this).tooltip("show")'>
+			<span class="fa fa-trash btn_opc_lista_eliminar"></span> </a></td>
   </tr>
   <? } ?> 
   </tbody>
 </table>
-
-
+<style>
+	div.dataTables_length { display: none !important; }
+</style>

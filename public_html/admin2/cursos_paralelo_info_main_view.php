@@ -25,21 +25,20 @@ $curs_peri_info = sqlsrv_query($conn, $sql, $params);
 $cc = 0;
 
 ?>
-<?php  if  ($row_curs_peri_info = sqlsrv_fetch_array($curs_peri_info)) {   ?>
-<div class="cursos_paralelo_info_main">
-       <div id="mate_view" > 
-        <?php include ('cursos_paralelo_info_main_mate_view.php'); ?>   
-      </div>  
-
- 
-      <div id="alum_view" > 
-        <?php include ('cursos_paralelo_info_main_alum_view.php'); ?>
-      </div> 
-
-
+<?php if( $row_curs_peri_info = sqlsrv_fetch_array($curs_peri_info) ){?>
+<div class="row">
+	<div class="col-sm-8">
+		<div id="mate_view">
+			<?php include ('cursos_paralelo_info_main_mate_view.php'); ?>   
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div id="alum_view">
+			<?php include ('cursos_paralelo_info_main_alum_view.php'); ?>
+		</div>
+	</div>
 </div>
-
-<?php  }?>
+<?php } ?>
 
 <script >
   function texto_buscar_mate() {							   
@@ -72,7 +71,7 @@ function alum_mate_view(curs_para_codi, alum_curs_para_codi, alum_codi) {
                   <tr>
                     <td style="padding-top: 15px;"><label for="texto">Búsqueda:</label>
                       <input id="texto_alum" value="" onkeypress="texto_buscar_alum();" style="width: 97%" autofocus="true">
-                      <span class="icon-search" style="padding: auto"></span>
+                      <span class="fa fa-search" style="padding: auto"></span>
                       </td>
                     </tr>
                     <tr>
@@ -109,7 +108,7 @@ function alum_mate_view(curs_para_codi, alum_curs_para_codi, alum_codi) {
               <tr>
                 <td style="padding-top: 15px;"><label for="texto">Búsqueda:</label>
                 	<input id="texto_mate" value="" style="width: 70%"> 
-                    <button class="btn btn-default" onclick="texto_buscar_mate();"><span class="icon-search" style="padding: auto"> Buscar</span></button>
+                    <button class="btn btn-default" onclick="texto_buscar_mate();"><span class="fa fa-search" style="padding: auto"> Buscar</span></button>
 				</td>
                 </tr>
                 <tr>

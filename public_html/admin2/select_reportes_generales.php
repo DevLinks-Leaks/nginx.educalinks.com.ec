@@ -41,7 +41,7 @@
 
     if (sqlsrv_has_rows($stmt))
     {
-      echo "<select id='sl_periodo_dist' style='width: 200px' onchange=\"var sl_periodo_dist = document.getElementById('sl_periodo_dist'); 
+      echo "<select  class=\"form-control\" id='sl_periodo_dist' style='width: 200px' onchange=\"var sl_periodo_dist = document.getElementById('sl_periodo_dist'); 
 						       var sl_periodo_distText = sl_periodo_dist.options[sl_periodo_dist.selectedIndex].innerHTML;
 							   ValidarOpciones(sl_periodo_distText);\">";
       while ($row = sqlsrv_fetch_array($stmt))
@@ -51,7 +51,7 @@
     }
     else
     {
-      echo "<select id='sl_periodo_dist' style='width: 200px' disabled='disabled'
+      echo "<select  class=\"form-control\" id='sl_periodo_dist' style='width: 200px' disabled='disabled'
 				onchange=\"var sl_periodo_dist = document.getElementById('sl_periodo_dist'); 
 						  var sl_periodo_distText = sl_periodo_dist.options[sl_periodo_dist.selectedIndex].innerHTML;
 					ValidarOpciones(sl_periodo_distText);\">";
@@ -70,7 +70,7 @@
 
     if (sqlsrv_has_rows($stmt))
     {
-      echo "<select id='sl_paralelos' style='width: 200px' onChange='CargarCursosParalelosAlumnos(this.value);'>";
+      echo "<select  class='form-control' id='sl_paralelos' style='width: 200px' onChange='CargarCursosParalelosAlumnos(this.value);'>";
 	  echo "<option value='0'>Curso/Paralelo</option>";
       while ($row = sqlsrv_fetch_array($stmt))
       {
@@ -79,7 +79,7 @@
     }
     else
     {
-      echo "<select id='sl_paralelos' style='width: 200px' disabled='disabled'>";
+      echo "<select class='form-control' id='sl_paralelos' style='width: 200px' disabled='disabled'>";
       echo "<option value='0'>Curso/Paralelo</option>";
     }
     echo "</select>";
@@ -94,7 +94,7 @@
 
     if (sqlsrv_has_rows($stmt))
     {
-      echo "<select id='sl_paralelos' style='width: 200px' onChange='CargarCursosParalelosAlumnos(this.value);'>";
+      echo "<select class='form-control' id='sl_paralelos' style='width: 200px' onChange='CargarCursosParalelosAlumnos(this.value);'>";
 	  echo "<option value='0'>Curso/Paralelo</option>";
 	  echo "<option value='0'>Todos</option>";
       while ($row = sqlsrv_fetch_array($stmt))
@@ -104,7 +104,7 @@
     }
     else
     {
-      echo "<select id='sl_paralelos' style='width: 200px' disabled='disabled'>";
+      echo "<select class='form-control' id='sl_paralelos' style='width: 200px' disabled='disabled'>";
       echo "<option value='0'>Curso/Paralelo</option>";
     }
     echo "</select>";
@@ -119,7 +119,7 @@
 
     if (sqlsrv_has_rows($stmt))
     {
-      echo "<select id='sl_alumnos' style='width: 200px'>";
+      echo "<select class='form-control' id='sl_alumnos' style='width: 200px'>";
 	  echo "<option value='-1'>TODOS</option>";
       while ($row = sqlsrv_fetch_array($stmt))
       {
@@ -128,7 +128,7 @@
     }
     else
     {
-      echo "<select id='sl_alumnos' style='width: 200px' disabled='disabled'>";
+      echo "<select class='form-control' id='sl_alumnos' style='width: 200px' disabled='disabled'>";
       echo "<option value='0'>Alumno</option>";
     }
     echo "</select>";

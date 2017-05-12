@@ -24,49 +24,66 @@
 					<div id="information">
 						<div class='panel panel-info dismissible' id='panel_search' name='panel_search'>
 							<div class="panel-heading">
-								<h3 class="panel-title"><a href="#/" id="boton_busqueda" name="boton_busqueda" style='text-decoration:none;'><span class="fa fa-search"></span>&nbsp;Búsqueda</a>
-									<a href="#/" class="pull-right" data-target="#panel_search" data-dismiss="alert" aria-hidden="true"><span class='fa fa-times'></span></a>
+								<h3 class="panel-title"><span class="fa fa-search"></span>&nbsp;Búsqueda
+									<div class="pull-right">
+										<a href="#/"  id="boton_busqueda" name="boton_busqueda" style='text-decoration:none;'><span class='fa fa-minus'></span></a>
+										<!--<a href="#/" data-target="#panel_search" data-dismiss="alert" aria-hidden="true"><span class='fa fa-times'></span></a>-->
+									</div>
 								</h3>
 							</div>
 							<div class="panel-body" id="desplegable_busqueda" name="desplegable_busqueda">
-								<div class="form-horizontal" role="form">
-									<div class='form-group'>
-										<div class='col-md-1 col-sm-12'>
-										<button id='btn_buscar_alumnos' name='btn_buscar_alumnos' class="btn btn-primary"
-											title="Presione [Enter] para buscar alumno(s)"
-											onclick="BuscarAlumnos(document.getElementById('alum_codi_in').value,document.getElementById('alum_apel_in').value,document.getElementById('curs_para_codi_in').value);">
-												<span class="fa fa-search"></span> Buscar</button></td>
+								<div id="tbl_search" class="form-horizontal" role="form">
+									<div class='col-md-11 col-sm-12'>
+										<div class='form-group'>
+											<label class="col-md-2 col-sm-4 control-label" style='text-align: right;' for='alum_codi_in'>Cod. del alumno:</label>
+											<div class="col-md-4 col-sm-8">
+												<input type="text" class="form-control input-sm" name="alum_codi_in" id="alum_codi_in" >
+											</div>
+											<label class="col-md-2 col-sm-4 control-label" style='text-align: right;' for='alum_apel_in'>Apellido del alumno:</label>
+											<div class="col-md-4 col-sm-8"
+													data-placement="bottom"
+													title='Apellidos del alumno'
+													onmouseover='$(this).tooltip("show")'>
+												<input type="text" class="form-control input-sm" name="alum_apel_in" id="alum_apel_in" >
+											</div>
 										</div>
-										<label class="col-md-2 col-sm-3 control-label" style='text-align: right;' for='alum_codi_in'>Cod. del alumno:</label>
-										<div class="col-md-3 col-sm-8">
-											<input type="text" class="form-control input-sm" name="alum_codi_in" id="alum_codi_in" >
-										</div>
-										<label class="col-md-2 col-sm-3 control-label" style='text-align: right;' for='alum_apel_in'>Nombre del alumno:</label>
-										<div class="col-md-4 col-sm-8"
-												data-placement="bottom"
-												title='Apellidos del alumno'
-												onmouseover='$(this).tooltip("show")'>
-											<input type="text" class="form-control input-sm" name="alum_apel_in" id="alum_apel_in" >
+										<div class='form-group'>
+											<label class="col-md-2 col-sm-4 control-label" style='text-align: right;' for='alum_apel_in'>Curso:</label>
+											<div class="col-md-4 col-sm-8" >
+												<select class="form-control"  id="curs_para_codi_in" />
+													<option value="0">- Todos -</option>
+													<?
+													$sql	= "{call curs_para_view (?)}";
+													$params	= array($_SESSION["peri_codi"]);
+													$stmt	= sqlsrv_query($conn,$sql,$params);
+													while ($row = sqlsrv_fetch_array($stmt))
+													{
+														?>
+														<option value="<?= $row["curs_para_codi"]?>"><?= $row["curs_deta"]." (".$row["para_deta"].")"?></option>
+														<?
+													}
+													?>
+												</select>
+											</div>
+											<label class="col-md-2 col-sm-4 control-label" style='text-align: right;' for='alum_apel_in'>Estado:</label>
+											<div class="col-md-4 col-sm-8">
+												<select class="form-control" id="cmb_alum_estado" name="cmb_alum_estado" />
+													<option value="-1">- Todos -</option>
+													<option value="1">RESERVADO</option>
+													<option value="2">MATRICULADO POR PAGAR</option>
+													<option value="3">MATRICULADO</option>
+													<option value="4">OYENTE</option>
+													<option value="5">RETIRADO</option>
+													<option value="6">ADMITIDO</option>
+												</select>
+											</div>
 										</div>
 									</div>
-									<div class='form-group'>
-										<label class="col-md-2 col-sm-3 control-label" style='text-align: right;' for='alum_apel_in'>Curso:</label>
-										<div class="col-md-4 col-sm-8" >
-											<select class="form-control"  id="curs_para_codi_in" />
-												<option value="0">- Todos -</option>
-												<?
-												$sql	= "{call curs_para_view (?)}";
-												$params	= array($_SESSION["peri_codi"]);
-												$stmt	= sqlsrv_query($conn,$sql,$params);
-												while ($row = sqlsrv_fetch_array($stmt))
-												{
-													?>
-													<option value="<?= $row["curs_para_codi"]?>"><?= $row["curs_deta"]." (".$row["para_deta"].")"?></option>
-													<?
-												}
-												?>
-											</select>
-										</div>
+									<div class='col-md-1 col-sm-12'>
+										<button id='btn_buscar_alumnos' name='btn_buscar_alumnos' class="btn btn-primary"
+												title="Presione [Enter] para buscar alumno(s)"
+												onclick="BuscarAlumnos(document.getElementById('alum_codi_in').value,document.getElementById('alum_apel_in').value,document.getElementById('curs_para_codi_in').value);">
+													<span class="fa fa-search"></span></button></td>
 									</div>
 								</div>
 							</div>
@@ -102,9 +119,16 @@
 		<input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 		<?php include("template/scripts.php");?>
 		<script>
+			$(document).ready(function(){
+				$("#boton_busqueda").click(function(){
+					$("#desplegable_busqueda").slideToggle(200);
+				});
+				$("#desplegable_busqueda").show();
+				$('#alum_codi_in').focus();
+			});
 			shortcut.add("Enter", function() {
-			$('#btn_buscar_alumnos').trigger("click");
-		});
+				$('#btn_buscar_alumnos').trigger("click");
+			},{'target':document.getElementById('tbl_search')});
 		</script>
 	</body>
 </html>
@@ -202,113 +226,8 @@
 				<h4 class="modal-title">Documentos</h4>
 			</div>
 			<div class="modal-body">
-				<div id="div_documentos">
-					<div class="form_element" style='font-size:small;'>
-						<table width="100%" cellspacing="0" cellpadding="0" border="0">
-							<tr>
-								<td style="padding-top: 15px">
-									<a onclick="window.open('reportes_generales/contrato_<?= $_SESSION['directorio'] ?>_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')">
-										<span class='fa fa-download'></span> Descargar
-									</a>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Convenio de matrícula <b>(El alumno debe estar registrado en un curso)</b>
-									<input type="hidden" id="alum_curs_para_codi" value="" />
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top: 15px">
-									<a onclick="window.open('reportes_generales/pagare_<?= $_SESSION['directorio'] ?>_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')"><span class='fa fa-download'></span> Descargar</a>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Pagaré <b>(El alumno debe estar registrado en un curso)</b>
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top: 15px">
-									<a onclick="window.open('reportes_generales/soli_matr_<?= $_SESSION['directorio'] ?>_pdf.php?alum_codi='+document.getElementById('alum_codi').value+'&peri_codi=<?=$_SESSION["peri_codi"]?>','_blank')"><span class='fa fa-download'></span> Descargar</a>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Solicitud de matrícula <b>(El alumno debe estar registrado en un curso)</b>
-									<input type="hidden" id="alum_codi" value="" />
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top: 15px">
-									<a onclick="window.open('reportes_generales/ficha_estudiantil_pdf.php?alum_codi='+document.getElementById('alum_codi').value,'_blank')"><span class='fa fa-download'></span> Descargar</a>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Ficha de datos <b>(El alumno debe estar registrado en un curso)</b>
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top: 15px">
-									<?php 
-										if($_SESSION['directorio']=='liceopanamericano' or $_SESSION['directorio']=='liceopanamericanosur'){
-
-									?>
-									<a onclick="window.open('reportes_generales/ficha_matricula_<?= $_SESSION['directorio'] ?>_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')"><span class='fa fa-download'></span> Descargar</a>
-									<?php 
-									}else{
-									?>
-									<a onclick="window.open('reportes_generales/ficha_matricula_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')"><span class='fa fa-download'></span> Descargar</a>
-									<?php
-										}
-									?>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Ficha de matrícula <b>(El alumno debe estar registrado en un curso)</b>
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top: 15px">
-									<a onclick="window.open('reportes_generales/carta_compromiso_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')"><span class='fa fa-download'></span> Descargar</a>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Carta de compromiso <b>(El alumno debe estar registrado en un curso)</b>
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top: 15px">
-									<a onclick="window.open('reportes_generales/autorizacion_fotos_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')"><span class='fa fa-download'></span> Descargar</a>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Autorización de fotos <b>(El alumno debe estar registrado en un curso)</b>
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top: 15px">
-									<a onclick="window.open('reportes_generales/debito_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')"><span class='fa fa-download'></span> Descargar</a>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Autorización de débito <b>(El alumno debe estar registrado en un curso)</b>
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top: 15px">
-									<a onclick="window.open('reportes_generales/compromiso_rendimiento_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')">
-										<span class='fa fa-download'></span> Descargar
-									</a>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Compromiso de rendimiento académico <b>(El alumno debe estar registrado en un curso)</b>
-									<input type="hidden" id="alum_curs_para_codi" value="" />
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top: 15px">
-									<a onclick="window.open('reportes_generales/compromiso_comportamiento_pdf.php?alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value,'_blank')">
-										<span class='fa fa-download'></span> Descargar
-									</a>
-								</td>
-								<td width="85%" style="padding-top: 15px">
-									Compromiso de comportamiento <b>(El alumno debe estar registrado en un curso)</b>
-									<input type="hidden" id="alum_curs_para_codi" value="" />
-								</td>
-							</tr>
-						</table>
-					</div>
-					<div class="form_element">&nbsp;</div>
+				<div id="div_document" class="row">
+					
 				</div>
 			</div>
 			<div class="modal-footer">

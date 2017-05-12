@@ -11,10 +11,10 @@
     
     <div class="main_lista">
     <table class="table table-striped" id="rol_table">
-		<thead>
+		<thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
 			<tr>
-			<th width="85%">Roles de Usuarios</th>
-			<th width="15%">Opciones</th>
+			<th width="70%">Roles de Usuarios</th>
+			<th style='text-align:center' width="30%">Opciones</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -25,11 +25,14 @@
 				<input type="hidden" id="rol_deta_edi_<?= $row_rol_busq["rol_codi"]?>" name="rol_deta_edi_<?= $row_rol_busq["rol_codi"]?>" value="<?= $row_rol_busq["rol_deta"]?>">
 				<input type="hidden" id="rol_finan_edi_<?= $row_rol_busq["rol_codi"]?>" name="rol_finan_edi_<?= $row_rol_busq["rol_codi"]?>" value="<?= $row_rol_busq["rol_finan"]?>">
 			</td>
-			<td>
+			<td style='text-align:center'>
 				<?php if (permiso_activo(47)){?>
-				<a class='btn btn-default' data-toggle="modal" data-target="#ModalRolEdi" onclick="carga_info_rol_edit('<?= $row_rol_busq["rol_codi"]?>');" class="option"><span class="fa fa-edit btn_opc_lista_editar"></span> Editar</a>
+				<a class='btn btn-default' data-toggle="modal" data-target="#ModalRolEdi" onclick="carga_info_rol_edit('<?= $row_rol_busq["rol_codi"]?>');"
+					title='Editar' onmouseover='$(this).tooltip("show");' data-placement='left'><span class="fa fa-edit btn_opc_lista_editar"></span></a>
 				<?php }if (permiso_activo(48)){?>
-				<a class='btn btn-default' onClick="load_ajax_del_rol('rol_main','script_usua.php','opc=del_rol&rol_codi=<?= $row_rol_busq['rol_codi']?>');" class="option"><span class="fa fa-trash btn_opc_lista_eliminar"></span> Eliminar</a>            	
+				<a class='btn btn-default' onClick="load_ajax_del_rol('rol_main','script_usua.php','opc=del_rol&rol_codi=<?= $row_rol_busq['rol_codi']?>');"
+					title='Eliminar' onmouseover='$(this).tooltip("show");' data-placement='top'>
+					<span class="fa fa-trash btn_opc_lista_eliminar"></span></a>
 				<?php }?>
 			</td>
 			</tr>

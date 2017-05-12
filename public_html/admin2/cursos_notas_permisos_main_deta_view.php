@@ -36,38 +36,33 @@
 ?>
 
 
- <table class=" table_striped ">
- <thead>
+ <table class="table table-striped">
+ <thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
     <tr>
-    <th>#</th>
-    <th>Unidad</th>
-    <th>Fecha Inicio</th>
-    <th>Fecha Terminacion</th>
-    <th>Estado</th>
-    <th>Fecha de Ingreso</th>
-    <th>Usuario Asigno</th>
-    <th>&nbsp;</th>
+    <th style='text-align:center;'>#</th>
+    <th style='text-align:center;'>Unidad</th>
+    <th style='text-align:center;'>Fecha Inicio</th>
+    <th style='text-align:center;'>Fecha Terminacion</th>
+    <th style='text-align:center;'>Estado</th>
+    <th style='text-align:center;'>Fecha de Ingreso</th>
+    <th style='text-align:center;'>Usuario Asigno</th>
+    <th style='text-align:center;'>Eliminar</th>
   </thead>
   <?php  while ($row_curs_peri_view = sqlsrv_fetch_array($curs_peri_view)) { $cc +=1; ?>
     <tr>
-      <td><?= $cc?></td>
-    <td><?= $row_curs_peri_view['peri_dist_padr'].'-'.$row_curs_peri_view['peri_dist_deta']?></td>
-    <td><?=  date_format($row_curs_peri_view['nota_peri_fec_ini'], 'd/M/Y' ); ?></td>
-    <td><?= date_format($row_curs_peri_view['nota_peri_fec_fin'], 'd/M/Y' ); ?></td>
-    <td><?= $row_curs_peri_view['resu']?></td>
-    <td><?= date_format($row_curs_peri_view['nota_peri_fec_in'], 'd/M/Y' ); ?></td>
-    <td><?= $row_curs_peri_view['usua_codi']?></td>
-    <td> <div class="menu_options">
-              <ul>
-                <li>
-                  <a   class="option"  onclick="nota_perm_del(<?= $row_curs_peri_view['nota_perm_codi']?>,<?= $curs_para_mate_codi?>,<?= $curs_para_mate_prof_codi?>)"> 
-                      <span class="icon-close icon"> </span> Eliminar
-                  </a>
-            
-                </li>
-              </ul>
-            </div>           
-     </td>
+		<td style='text-align:center;'><?= $cc?></td>
+		<td style='text-align:center;'><?= $row_curs_peri_view['peri_dist_padr'].'-'.$row_curs_peri_view['peri_dist_deta']?></td>
+		<td style='text-align:center;'><?=  date_format($row_curs_peri_view['nota_peri_fec_ini'], 'd/M/Y' ); ?></td>
+		<td style='text-align:center;'><?= date_format($row_curs_peri_view['nota_peri_fec_fin'], 'd/M/Y' ); ?></td>
+		<td style='text-align:center;'><?= $row_curs_peri_view['resu']?></td>
+		<td style='text-align:center;'><?= date_format($row_curs_peri_view['nota_peri_fec_in'], 'd/M/Y' ); ?></td>
+		<td style='text-align:center;'><?= $row_curs_peri_view['usua_codi']?></td>
+		<td style='text-align:center;'> <a class="btn btn-default"
+				title='Eliminar' onmouseover='$(this).tooltip("show");' data-placement='left'
+				onclick="nota_perm_del(<?= $row_curs_peri_view['nota_perm_codi']?>,<?= $curs_para_mate_codi?>,<?= $curs_para_mate_prof_codi?>)"> 
+					<span class="fa fa-trash btn_opc_lista_eliminar"></span>
+			</a>
+		</td>
   </tr>
  <?php  }   ?>
 <tfoot>

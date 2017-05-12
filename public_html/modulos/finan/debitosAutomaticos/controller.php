@@ -431,7 +431,7 @@ function handler()
 					}
 				}
 				if($pago>0)
-				{	$carga->setpagodebito( $codigodeuda, str_replace(",", ".", $valor), $_SESSION['usua_codigo'], $nombrearchivo, $debito_data['fecha_debito'] );
+				{	$carga->setpagodebito( $codigodeuda, str_replace(",", ".", $valor), $_SESSION['usua_codigo'], $nombrearchivo, $debito_data['fecha_debito'], $debito_data['id_formaPago'] );
 					$rowcontador=$carga->rows[0];
 					$contador1=$contador1+$rowcontador['contadorpagados'];
 					$contador3=$contador3+$rowcontador['contadorsaldoafavor'];

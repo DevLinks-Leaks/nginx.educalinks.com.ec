@@ -513,7 +513,10 @@ if($alum_view['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($alum_view[
 				<input id="alum_discapacidad" name="alum_discapacidad" type="text" value="<?=$alum_view['alum_discapacidad'];?>"
 					<?= ($alum_view['alum_tiene_discapacidad']==1?'':' disabled=true placeholder="No tiene" style="background-color:#d1d1d1;" ');?> >
 			</div>
-			
+			<div class="form_element">
+				<label for="alum_tiene_seguro">¿Tiene seguro médico?</label>
+				<input id="alum_tiene_seguro" name="alum_tiene_seguro" type="checkbox"   <?= ($alum_view['alum_tiene_seguro']==1 ? 'checked':'');?> />
+			</div>
 			<div class="form_element">
 				<label for="alum_activ_deportiva">Disciplinas o deportes que practica:</label>
 				<textarea id="alum_activ_deportiva" name="alum_activ_deportiva"><?=$alum_view['alum_activ_deportiva'];?></textarea>
@@ -545,6 +548,7 @@ if($alum_view['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($alum_view[
 				<label for="div_veri_alum">&nbsp;</label>
 				<div>&nbsp;</div>
 			</div>
+			
 			<script>
 			function verif_usua(text){
 				js_student_verify_user('div_veri_alum','script_alum.php','opc=veri_usua&alum_usua='+text);

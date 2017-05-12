@@ -83,14 +83,14 @@ $llavedesarrollo = "gustavo_alfonso_decker_zambrano.p12";
 $llaveliceonaval = "*.p12";
 $llaveliceopanamericano = "julio_alberto_cordova_empuno.p12";
 $llavemoderna = "luz__maria_pesantes_fajardo.p12";
-$llavenovus = "*.p12";
+$llavenovus = "cesar_humberto_rodriguez_larrea.p12";
 $llavecolegioamericanoguayaquil = "fersen_harold_leon_villamar.p12";
 $clavellavebabahoyo = "Ec0mund0";
 $clavellavedelfos = "Sarai676750";
 $clavellaveliceonaval = "";
 $clavellaveliceopanamericano = "Liceo2020";
 $clavellavemoderna = "RLgg2016";
-$clavellavenovus = "";
+$clavellavenovus = "Pepita1978001";
 $clavecolegioamericanoguayaquil = "FL8239ad";
 $clavellavedesarrollo = "Gustavo123";
 /* *** Logos institucionales *** */

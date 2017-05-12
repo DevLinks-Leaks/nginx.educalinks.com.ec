@@ -1,131 +1,100 @@
-<div class="representantes_add_script">
 <?php  
-session_start();
-include ('../framework/dbconf.php');
-include ('../framework/funciones.php');
-if(isset($_POST['alum_codi'])){$alum_codi=$_POST['alum_codi'];}else{if(isset($_GET['alum_codi'])){$alum_codi=$_GET['alum_codi'];}else{$alum_codi=0;}}
-if(isset($_POST['repr_codi'])){$repr_codi=$_POST['repr_codi'];}else{if(isset($_GET['repr_codi'])){$repr_codi=$_GET['repr_codi'];}else{$repr_codi=0;}}
-$params = array($alum_codi);
-$sql="{call alum_info(?)}";
-$stmt = sqlsrv_query($conn, $sql, $params);
-if( $stmt === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
-$alum_view= sqlsrv_fetch_array($stmt);
-
-$params_repr = array($repr_codi);
-
-$sql_repr="{call repr_info(?)}";
-$stmt_repr = sqlsrv_query($conn, $sql_repr, $params_repr);
-if( $stmt_repr === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
-$repr_view= sqlsrv_fetch_array($stmt_repr);?>
-<div id="div_blacklist_warning_repr" style=""></div>
-<form id="frm_repr" name="frm_repr" action="" enctype="multipart/form-data" method="post">
-<input id="alum_codi" name="alum_codi" type="hidden" value="<?=$alum_view['alum_codi'];?>">
-<div class="full">
-
-<div class="picture">
-    <div class="buttons">
-        <h3><?= $repr_codi!=0?"":"";?> <?= $alum_view['alum_nomb']." ".$alum_view['alum_apel'];?></h3>
-        <ul>
-            <li>
-            <? if ($repr_codi==0){?>
-                <button id="btn_guardar" name="btn_guardar" type="button" onClick="load_ajax_add_repr('div_repr_list','script_repr.php');">Guardar</button>
-            <? }else{?>
-                <button id="btn_guardar" name="btn_guardar" type="button" onClick="load_ajax_upd_repr('div_repr_list','script_repr.php','<?= $repr_codi?>');">Grabar cambios</button>
-            <? }?>
-            </li>
-            <li>
-                <button id="btn_cancelar" name="btn_cancelar" type="reset">Cancelar</button>
-            </li>
-            <li>
-                <button id="btn_regresar" name="btn_regresar" type="button" onclick="window.history.back();">Regresar</button>
-            </li>
-        </ul>
-    </div>
-
-</div>
-<div class="data">
+    session_start();
+    include ('../framework/dbconf.php');
+    include ('../framework/funciones.php');
+    if(isset($_POST['alum_codi'])){$alum_codi=$_POST['alum_codi'];}else{if(isset($_GET['alum_codi'])){$alum_codi=$_GET['alum_codi'];}else{$alum_codi=0;}}
+    // if(isset($_POST['repr_codi'])){$repr_codi=$_POST['repr_codi'];}else{if(isset($_GET['repr_codi'])){$repr_codi=$_GET['repr_codi'];}else{$repr_codi=0;}}
     
-	<div class="form_element">
-    	<label id="lbl_repr_cedula" for="repr_cedula">N&uacute;mero de Identificaci&oacute;n:</label>
-    	<input id="repr_cedula" name="repr_cedula" type="text" placeholder="Ingrese la c&eacute;dula del representante..." value="<?= $repr_codi>0? $repr_view['repr_cedula']:"";?>" onchange="load_ajax_blacklist_warning_repr('div_blacklist_warning_repr','script_alumnos_blacklist.php','warning_blacklist' );valida_repre(this.value,'div_precargar','script_repr.php');" onkeyup="valida_repre(this.value,'div_precargar','script_repr.php');">
-    </div>
-    <div class="form_element">
-        <label for="repr_tipo_iden">Tipo de Identificaci&oacute;n:</label>
-
-        <?php 
-            include ('../framework/dbconf.php');        
-            $sql="select tipo_iden_codi, tipo_iden_deta from Tipo_Identificacion where tipo_iden_estado='A' and tipo_iden_show_acad ='Y'";
-            $stmt = sqlsrv_query($conn, $sql);
-    
-            if( $stmt === false )
-            {
-                echo "Error in executing statement .\n";
-                die( print_r( sqlsrv_errors(), true));
-            }
-            echo "<select id='repr_tipo_iden' name='repr_tipo_iden' onchange=valida_repre(document.getElementById('repr_cedula').value,'div_precargar','script_repr.php'); >";
-            while($tipo_iden_result= sqlsrv_fetch_array($stmt))
-            {
-                $seleccionado="";
-                if ($tipo_iden_result["tipo_iden_codi"]==trim($repr_view['REPR_TIPOIDFACTURA']," "))
-                            $seleccionado="selected";
-                echo '<option value="'.$tipo_iden_result["tipo_iden_codi"].'" '.$seleccionado.'>'.$tipo_iden_result["tipo_iden_deta"].'</option>';
-            }
-            echo '</select>';
-        ?> 
-    </div>
-    <div id="div_precargar"></div>
-    <? if($repr_codi!=0){?>
-	<script>
-    var tipo_iden = document.getElementById("repr_tipo_iden");
-    carga_data_repre('<?= $repr_view['repr_cedula']?>', tipo_iden.options[tipo_iden.selectedIndex].value,'script_repr.php','div_precargar');</script>
-	<? }?>
-    
-
-
-
-<br> 
-<br>
-<br>
-<br>
-
-    <div id="div_repr_list" class="section">
-    </div>
-    <? if ($repr_codi!=0){?>
-        <div id="div_alum_repr_list" class="section">
-        <table class="table_full">
-        <tr>
-        <td>Alumno</td>
-        <td>Parentesco</td>
-        <td>Curso</td>
-        <td>Opciones</td>
-        </tr>
-        <?  $params = array($repr_codi);
-            $sql="{call alum_repr_info(?)}";
-            $alum_busq = sqlsrv_query($conn, $sql, $params);
-            $c=0;
-            while($row_alum_busq = sqlsrv_fetch_array($alum_busq)){?>
-                <tr>
-                <td><?=$row_alum_busq['alum_apel']." ".$row_alum_busq['alum_nomb']?></td>
-                <td><?=$row_alum_busq['repr_parentesco']?></td>
-                <td><?=$row_alum_busq['curs_deta']." ".$row_alum_busq['para_deta']?></td>
-                <td> <div class="menu_options"><ul><li><a class="option" href="javascript:quitar_representado('script_repr.php','<?=$row_alum_busq['alum_codi']?>','<?=$repr_codi?>');"><span class="icon-remove icon"></span>Quitar</a></li></ul></div>
-                </td>
-                </tr>
-                <? $c++;
-            }?>
-        </table>
+    /*Para los parentescos*/
+    $row_parentescos = array();
+    $sql="{call parentescos_cons()}";
+    $stmt = sqlsrv_query($conn, $sql);
+    if( $stmt === false )
+    {
+        echo "Error in executing statement .\n";
+        die( print_r( sqlsrv_errors(), true));
+    }
+    else
+        if (sqlsrv_has_rows($stmt))
+            while($row_parentescos[]= sqlsrv_fetch_array($stmt));
+        array_pop($row_parentescos);
+    $sql_opc = "{call repr_alum_info(?)}";
+    $params_opc= array($alum_codi);
+    $stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
+    $cc=0;
+?>
+<input id="hd_alum_codi" name="hd_alum_codi" type="hidden" value="<?=$alum_codi;?>"/>
+<div class="box box-default">
+    <div class="box-header with-border">
+        <h3 class="box-title">
+            <button id="btn_regresar" name="btn_regresar" class='btn btn-warning' type="button" onclick="window.history.back();"><span class='fa fa-arrow-left'></span> Volver</button>
+            
+        </h3>
+        <div class="pull-right">
+            <a id="bt_curs_add" class="btn btn-primary" data-toggle="modal" data-target="#modal_representante_edit" onclick="load_modal_repre_view('modal_representante_edit_content','representantes_add_modal.php','repr_codi=0');">
+                <span class="fa fa-plus"></span> Representante
+            </a>
         </div>
-    <? }else{?>
+    </div><!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-striped" id="repr_table">
+            <thead>
+                <tr>
+                    <th class="text-center">Número de identidad </th>
+                    <th class="text-center">Nombre </th>
+                    <th class="text-center">Relación </th>
+                    <th class="text-center">Principal / Legal </th>
+                    <th class="text-center">Financiero </th>
+                    <th >Opciones</th>
+                </tr>
+            </thead>
+                <tbody>
+                   <?php while ($row_repr_view = sqlsrv_fetch_array($stmt_opc)) { $cc +=1; ?>
+                   <tr> 
+                        <td class="text-center"><?=$row_repr_view['repr_cedula'];?></td>
+                        <td class="text-center"><?=$row_repr_view['repr_apel']." ".$row_repr_view['repr_nomb'];?></td>
+                        <td class="text-center">
+                            <select id="<?= $row_repr_view['repr_codi'];?>" class="form-control" onchange="update_relative('div_repr_list','script_repr.php','<?=$alum_codi?>','<?=$row_repr_view['repr_codi']?>',this.value);">
+                                <option value="0">Elija</option>
+                                <?  $selected="";
+                                foreach ($row_parentescos as $row_par)
+                                {
+                                 if ($row_par["codigo"]==$row_repr_view["idparentesco"])
+                                     $selected="selected";
+                                 else
+                                     $selected="";
+                                echo "<option value='".$row_par["codigo"]."' $selected>".$row_par["descripcion"]."</option>";
+                                }
+                                ?>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" class="principal" name="principal" data-reprcodi="<?=$row_repr_view['repr_codi']?>"  title='Hacer principal'
+                            <?php if($row_repr_view['repre_alum_princ']=='P'){echo " checked='checked' ";}?> />
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" class="financiero" name="financiero" data-reprcodi="<?=$row_repr_view['repr_codi']?>" title='Hacer financiero'
+                            <?php if($row_repr_view['repre_alum_fact']=='S'){echo " checked='checked' ";}?> />
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a class="btn btn-default" data-toggle="modal" onmouseover="$(this).tooltip('show')" title="Editar Representante" data-target="#modal_representante_edit" onclick="load_modal_repre_view('modal_representante_edit_content','representantes_add_modal.php','repr_codi=<?=$row_repr_view['repr_codi']?>');"  >
+                                    <span class="fa fa-pencil btn_opc_lista_editar"></span>
+                                </a>
+                                <a class="btn btn-danger" onmouseover="$(this).tooltip('show')" title="Eliminar Representante" href="javascript:quitar_representado('script_repr.php','<?=$alum_codi?>','<?=$row_repr_view['repr_codi']?>');" >
+                                    <span class="fa fa-trash "></span>
+                                </a> 
+                            </div>
+                        </td>
+                    </tr>
 
-        <script>load_list_repr('div_repr_list','script_repr.php','opc=repr_list&alum_codi='+document.getElementById('alum_codi').value);</script>
-    
-    <? }?>
+                <?php  }?>
+                <tr class="pager_table">
+                    <td colspan="2">
+                        <span class="fa fa-users"> </span> Total de Representantes ( <?php echo $cc;?> )
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-
-
-
-</div>
-</form>
-
-
 </div>

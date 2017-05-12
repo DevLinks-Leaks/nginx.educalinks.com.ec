@@ -6,6 +6,7 @@
       <!-- Nuevos Css Js -->
 	
       <!-- Fin -->
+	  
 	</head> 
 	<body class="general admin"> 
 								<!-- InstanceBeginEditable name="EditRegion3" --><?php  $Menu=102;    ?><!-- InstanceEndEditable -->
@@ -40,7 +41,7 @@
           </div>
           	<div class="alumnos_add_script" style="padding-top: 0px;margin: 0 0 0 0;">
 				<div>
-					<table border="0" width="100%" style="background-color: #ffffff">
+					<table id="tbl_search" border="0" width="100%" style="background-color: #ffffff">
 						<tr>
 							<td width="10%" ><input id="alum_codi_in" maxlength="15" type="text" style="width:90%;background-color: #ffffff" placeholder="Código" /></td>
 							<td width="40%"><input id="alum_apel_in" maxlength="50" type="text" style="width:90%;background-color: #ffffff" placeholder="Apellidos" /></td>
@@ -188,7 +189,7 @@
 												</tr>
 												<tr>
 													<td width="75%" style="padding-top: 15px">
-														Solicitud de matrícula <b>(El alumno debe estar registrado en un curso)</b>
+														<?php if($_SESSION['directorio']=='americano') {?>Ficha de Inscripción<?}else{?>Solicitud de Matricula<?}?> <b>(El alumno debe estar registrado en un curso)</b>
 														<input type="hidden" id="alum_codi" value="" />
 													</td>
 													<td style="padding-top: 15px">
@@ -545,7 +546,7 @@
 </body>
 <script>
 	shortcut.add("Enter", function() {
-	$('#btn_buscar_alumnos').trigger("click");
-});
+		$('#btn_buscar_alumnos').trigger("click");
+	},{'target':document.getElementById('tbl_search')});
 </script>
 <!-- InstanceEnd --></html>

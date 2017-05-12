@@ -43,55 +43,40 @@
 	$peri_dist_cab_view = sqlsrv_query($conn, $sql, $params);  
 	$cc = 0; 	
 ?> 
-<table width="100%"   class="table_striped">
+<table width="100%"   class="table table-striped">
 	<thead>
 		<tr>
 			<th width="40%"><strong>Listado de Distribuciones</strong></th>
-			<th colspan="2"><strong>Opciones</strong></th>
+			<th colspan="2" class='text-center'><strong>Opciones</strong></th>
 		</tr>
 	</thead>
 <tbody>
  <?php  while ($row_peri_dist_cab_view = sqlsrv_fetch_array($peri_dist_cab_view)) { $cc +=1; ?>
   <tr >
     <td height="29">  <?= $row_peri_dist_cab_view["peri_dist_cab_deta"]; ?> - Año : <?= $row_peri_dist_cab_view["peri_dist_cab_ano"]; ?></td>
-    <td width="60%">
-			<div class="menu_options" style="text-align:left;">
-			  <ul>
+    <td width="60%" style='text-align:center'>
                <?php if (permiso_activo(54)){?>
-			    <li>
-				    <a class="option" href="admin_periodos_notas.php?peri_dist_cab_codi=<?= $row_peri_dist_cab_view["peri_dist_cab_codi"]; ?>&peri_codi=<?= $row_peri_dist_cab_view["peri_codi"]; ?>" >
-				    <span class="icon-users icon"></span>Dist. Notas
+			    
+				    <a class="btn bg-olive" href="admin_periodos_notas.php?peri_dist_cab_codi=<?= $row_peri_dist_cab_view["peri_dist_cab_codi"]; ?>&peri_codi=<?= $row_peri_dist_cab_view["peri_codi"]; ?>" >
+				    <span class="fa fa-users"></span> Dist. Notas
 				    </a>
-			    </li>
+			    
                  <?php }?>
                     <?php if (permiso_activo(54)){?>
-			    <li>
-				    <a class="option"    href="admin_periodos_notas_modelos.php?peri_dist_cab_codi=<?= $row_peri_dist_cab_view["peri_dist_cab_codi"]; ?>" >
-				    <span class="icon-users icon"></span> Modelos de Notas
-				    </a></li>
-                 <?php }?>
-               <?php if (permiso_activo(54)){?>
-			    <li>
-				    <a class="option"   onclick="peri_dist_cab_edi(<?= $row_peri_dist_cab_view["peri_dist_cab_codi"]; ?>,'<?= $row_peri_dist_cab_view["peri_dist_cab_deta"]; ?>',<?= $row_peri_dist_cab_view["peri_dist_cab_ano"]; ?>)" data-toggle="modal" data-target="#peri_dist_cab_nuev" >
-				    <span class="icon-users icon"></span> Editar
-				    </a></li>
-                 <?php }?>
-                 
-                 
-                 <?php if (permiso_activo(54)){?>
-			    <li>
-				    <a class="option" onclick="peri_dist_cab_del(<?= $row_peri_dist_cab_view["peri_dist_cab_codi"]; ?>)">
-				    <span class="icon-users icon"></span>Eliminar
+			    
+				    <a class="btn bg-olive" href="admin_periodos_notas_modelos.php?peri_dist_cab_codi=<?= $row_peri_dist_cab_view["peri_dist_cab_codi"]; ?>" >
+				    <span class="fa fa-users"></span> Modelos de Notas
 				    </a>
-			    </li>
                  <?php }?>
-                </ul>
-                </div>
-
-	 
+                 <?php if (permiso_activo(54)){?>
+			    
+				    <a class="btn btn-default" onclick="peri_dist_cab_del(<?= $row_peri_dist_cab_view["peri_dist_cab_codi"]; ?>)">
+				    <span class="fa fa-trash btn_opc_lista_eliminar"></span> Eliminar
+				    </a>
+			    
+                 <?php }?>
     </td>
     </tr>
- 
  <?php  }?>
 
 </tbody>

@@ -50,6 +50,9 @@ class Pagos extends DBAbstractModel{
             array_push($bypass, array(0 => '', 
                                    1 => '- Seleccione forma de pago -',
                                    3 => ''));
+			array_push($bypass, array(0 => '8', 1 => 'DEBITO BANCARIO', 3 => ''));
+			array_push($bypass, array(0 => '10', 1 => 'CONVENIO DE PAGO', 3 => ''));
+			array_push($bypass, array(0 => '11', 1 => 'PAGO POR VENTANILLA', 3 => ''));
             foreach($this->rows as $formasPago)
 			{   array_push($bypass, array_values($formasPago));
             }

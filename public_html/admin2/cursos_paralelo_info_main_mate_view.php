@@ -90,11 +90,11 @@
 	
 
 ?>
-<table class=" table_striped " style="margin-bottom: 200px">
-    <thead>
+<table class="table table-striped table-bordered" style="margin-bottom: 200px">
+    <thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
         <tr>
             <th>#</th>           
-            <th>Materias</th>
+            <th style='width:30%;'>Materias</th>
             <th>Áreas</th>
             <th>Profesores(Aula)</th>
             <th>Opcion</th>
@@ -132,187 +132,139 @@ while ($row_curs_peri_mate_view = sqlsrv_fetch_array($curs_peri_mate_view))
             }
         ?>
         <td align="left">
-		<table>
-        <?php 
+			<?php 
 			$params = array($row_curs_peri_mate_view["curs_para_mate_codi"]);
 			$sql="{call curs_para_mate_prof_view(?)}";
 			$curs_para_mate_prof_view = sqlsrv_query($conn, $sql, $params);
 			while ($row_curs_para_mate_prof_view = sqlsrv_fetch_array($curs_para_mate_prof_view))
-			{
-		?>
-				<tr>
-				<td colspan='3'>
-					<button 
-						style='width: 100%; text-align: left; font-size: 0.8em' 
-						class='btn btn-default btn' 
-						title='<?= $row_curs_para_mate_prof_view["prof_apel"]." ".$row_curs_para_mate_prof_view["prof_nomb"]?>'
-						onclick='Asignar_Profesor(<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"] ?>)'>
-					<?= substr($row_curs_para_mate_prof_view["prof_apel"],0,6) ?>(<?= $row_curs_para_mate_prof_view["aula_deta"] ?>)"
-					</button>
-				</td>
-				<td>
-				<ul class="nav nav-pills">
-				  <li role="presentation" class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu" style="width: 150px;">
-						<?
-						/*Permiso para cambiar de profesor*/
-						if (permiso_activo(218))
-						{
-						?>
-						<li>
-							<a 
-							class="option" 
-							data-toggle="modal" 
-							data-target="#ModalEditCurso" 
-							onclick="alum_curs_para_mate_upd(<?= $row_curs_peri_mate_view["curs_para_mate_codi"]?>,
-							<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"]?>,
-							<?= $row_curs_para_mate_prof_view["aula_codi"] ?>,
-							<?= $row_curs_para_mate_prof_view["prof_codi"] ?>)"
-							title="Editar profesor">
-								<span class="icon-pencil2 icon"></span> Cambiar Profesor
-							</a>
-						</li>
-						<?
-						}
-						/*Permiso para quitar al profesor asignado*/
-						if (permiso_activo(219))
-						{
-						?>
-						<li>
-							<a 
-							class="option" 
-							onclick="curs_para_mate_prof_del(<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"] ?>,
-							<?= $row_curs_peri_mate_view["curs_para_codi"] ?>)"
-							title="Quitar profesor">
-							<span class="icon-close icon"></span> Quitar Profesor
-						</a>
-						</li>
-						<?
-						}
-						/*Permiso para asignar un tutor al curso paralelo*/
-						if (permiso_activo(215))
-						{
-						?>
-						<li>
-							<a
-								class="option"
-								title="Asignar como tutor">
-								<input 
-									name='tutor' 
-									onclick='curs_para_mate_prof_tutor (
-											<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"] ?>,
-											<?= $curs_para_codi ?>)' 
-									type='radio' <?= ($row_curs_para_mate_prof_view["es_tutor"]==1?'checked':'') ?>>
-								Tutor
-							</a>
-						</li>
-						<?
-						}
-						?>
-					</ul>
-				  </li>
-				</ul>
+			{ ?>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="btn-group">
+						<button 
+								class='btn btn-default btn-sm' 
+								title='<?= $row_curs_para_mate_prof_view["prof_apel"]." ".$row_curs_para_mate_prof_view["prof_nomb"]?>'
+								onclick='Asignar_Profesor(<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"] ?>)'>
+							<?= substr($row_curs_para_mate_prof_view["prof_apel"],0,6) ?>(<?= $row_curs_para_mate_prof_view["aula_deta"] ?>)"
+						</button>
+						<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"
+							 data-placement='right' title='Ver opciones' onmouseover='$(this).tooltip("show");'>
+							<span class="caret"></span>
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<?  /*Permiso para cambiar de profesor*/
+								if (permiso_activo(218))
+								{ ?>
+								<li>
+									<a class="option" data-toggle="modal" data-target="#ModalEditCurso" 
+									onclick="alum_curs_para_mate_upd(<?= $row_curs_peri_mate_view["curs_para_mate_codi"]?>,
+									<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"]?>,
+									<?= $row_curs_para_mate_prof_view["aula_codi"] ?>,
+									<?= $row_curs_para_mate_prof_view["prof_codi"] ?>)"
+									title="Editar profesor"><span class="fa fa-edit btn_opc_lista_editar" style='margin-right:3px;'></span> Cambiar Profesor</a>
+								</li> <?
+								}
+								/*Permiso para quitar al profesor asignado*/
+								if (permiso_activo(219))
+								{ ?>
+								<li>
+									<a class="option" onclick="curs_para_mate_prof_del(<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"] ?>,
+									<?= $row_curs_peri_mate_view["curs_para_codi"] ?>)"
+									title="Quitar profesor"> <span class="fa fa-trash btn_opc_lista_eliminar" style='margin-right:3px;'></span> Quitar Profesor </a>
+								</li>
+								<? } ?>
+						<?php if (permiso_activo(215)){?>
+							<li class="divider"></li>
+							<li><a class="option" title="Asignar como tutor">
+										<input name='tutor' onclick='curs_para_mate_prof_tutor (
+													<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"] ?>,
+													<?= $curs_para_codi ?>)' 
+											type='radio' <?= ($row_curs_para_mate_prof_view["es_tutor"]==1?'checked':'') ?> style='margin-right:3px;'> Tutor</a></li>
+						<?php }?>
+						</ul>
+					</div>
+				</div>
+			</div>
 			<?
 			}
 			?>
-		</td>
-		</tr>
-		</table>
         </td>
-        <td align="right">
-		<ul class="nav nav-pills">
-		  <li role="presentation" class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-				<span class="caret"></span>
-			</a>
-			<ul class="dropdown-menu" style="width: 150px;">
-			<? 
-			if  ($row_curs_peri_mate_view["mate_hijo_cc"] == 0)
-			{ 
-				/*Permiso para agregar un profesor*/
-				if (permiso_activo(216))
-				{
-			?> 
-				<li>
-					<a 
-						class="option" 
-						data-toggle="modal" 
-						data-target="#ModalEditCurso" 
-						onclick="alum_curs_para_mate_upd(<?= $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,0,
-						0,0)"
-						title="Agregar profesor">
-						<span class="icon-add icon" title="Agregar profesor"></span> Agregar Profesor
-					</a>
-				</li>
-			<?
+        <td align="center">
+			<div class="btn-group" data-placement='left' title='Ver opciones' onmouseover='$(this).tooltip("show");'>
+				<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" >
+					<span class="caret"></span>
+					<span class="sr-only">Toggle Dropdown</span>
+				</button>
+				<ul class="dropdown-menu" role="menu">
+					<? 
+				if ($row_curs_peri_mate_view["mate_hijo_cc"] == 0)
+				{   /*Permiso para agregar un profesor*/
+					if (permiso_activo(216))
+					{ ?> 
+					<li><a  class="option" 
+							data-toggle="modal" 
+							data-target="#ModalEditCurso" 
+							onclick="alum_curs_para_mate_upd(<?= $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,0,
+							0,0)"
+							title="Agregar profesor">
+							<span class="fa fa-plus" title="Agregar profesor"></span> Agregar Profesor</a>
+					</li>
+				<?  }
 				}
-			}
 				/*Permiso para eliminar la materia del curso paralelo*/
 				if (permiso_activo(217))
-				{
-				?>
-				<li>
-					<a 
-						class="option" 
-						onclick="curs_para_mate_del(<?= $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,
-						<?= $row_curs_peri_mate_view["curs_para_codi"];?>)"
-						title="Eliminar materia">
-						<span class="icon-remove icon"></span> Eliminar Materia
-					</a>
-				</li>
-				<?
+				{ ?><li><a class="option" 
+							onclick="curs_para_mate_del(<?= $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,
+							<?= $row_curs_peri_mate_view["curs_para_codi"];?>)"
+							title="Eliminar materia">
+							<span class="fa fa-remove"></span> Eliminar Materia</a>
+					</li> <?
 				}
 				/*Permiso para asignar un modelo de calificación a la materia*/
 				if (permiso_activo(220))
-				{
-				?>
-				<li>
-					<a 
-						class="option" 
-						data-toggle="modal" 
-						data-target="#ModalAsignarModelo" 
-						onclick="curs_para_mate_mode_upd(<?= $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>, <?= $row_curs_peri_mate_view["nota_refe_cab_cod"]; ?>)"
-						title="Asignar modelo calificación">
-						<span class="icon-cogs icon" title="Asignar modelo calificación"></span> Modelo de Calif.
-					</a>
-				</li>
-				<?
-				}
-				?>
-			</ul>
-		  </li>
-		</ul>
+				{ ?><li><a  class="option" 
+							data-toggle="modal" 
+							data-target="#ModalAsignarModelo" 
+							onclick="curs_para_mate_mode_upd(<?= $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>, <?= $row_curs_peri_mate_view["nota_refe_cab_cod"]; ?>)"
+							title="Asignar modelo calificación">
+							<span class="fa fa-cog" title="Asignar modelo calificación"></span> Modelo de Calif.</a>
+					</li><?
+				} ?>
+				</ul>
+			</div>
         </td> 
 		<td>
 			<input 
-				class="option"
+				class="option" data-placement='left' onmouseover='$(this).tooltip("show");'
 				style="margin-right: 3px"
 				onclick="curs_para_mate_agend_add(this, <?= $curs_para_codi ?>, <?= $row_curs_peri_mate_view["curs_para_mate_codi"] ?>);"
 				title="Mostrar en agenda" 
 				type="checkbox" <? echo ($row_curs_peri_mate_view["curs_para_mate_agen"]==0?"":"checked")?>/>
 			<input 
-				class="option" 
+				class="option" data-placement='right' onmouseover='$(this).tooltip("show");'
 				style="margin-right: 3px"
 				onclick="curs_para_mate_promoc_add(this, <?= $curs_para_codi ?>, <?= $row_curs_peri_mate_view["curs_para_mate_codi"] ?>);"
 				title="Mostrar en promoción" 
 				type="checkbox" <? echo ($row_curs_peri_mate_view["curs_para_mate_promoc"]==0?"":"checked")?>/>
 		</td>
         <td>
-            <button 
-            	onclick="curs_para_mate_up_down(<?php echo $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,
-				<?php echo $row_curs_peri_mate_view["curs_para_codi"]; ?>,'up');"
-                title="Subir">
-                <i class="icon-arrow-up"></i>
-            </button>
-            <button  
-            	onclick="curs_para_mate_up_down(<?php echo $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,
-				<?php echo $row_curs_peri_mate_view["curs_para_codi"]; ?>,'down');"
-                title="Bajar">
-                <i class="icon-arrow-down"></i>
-            </button>
+			<div class="btn-group-vertical">
+				<button data-placement='top' title='Subir posición' onmouseover='$(this).tooltip("show");'
+					type='button' class='btn btn-default btn-sm'
+					onclick="curs_para_mate_up_down(<?php echo $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,
+					<?php echo $row_curs_peri_mate_view["curs_para_codi"]; ?>,'up');"
+					title="Subir">
+					<i class="fa fa-chevron-up"></i>
+				</button>
+				<button data-placement='bottom' title='Bajar posición' onmouseover='$(this).tooltip("show");'
+					type='button' class='btn btn-default btn-sm'
+					onclick="curs_para_mate_up_down(<?php echo $row_curs_peri_mate_view["curs_para_mate_codi"]; ?>,
+					<?php echo $row_curs_peri_mate_view["curs_para_codi"]; ?>,'down');"
+					title="Bajar">
+					<i class="fa fa-chevron-down"></i>
+				</button>
+			</div>
         </td>
     </tr>
 <?php }?>

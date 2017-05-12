@@ -110,9 +110,12 @@
 			}
 			else
 			{
-				$detalle = "Profesor código: ".$prof_codi;
-				$detalle.= " Aula código: ".$aula_codi;
-				$detalle.= " Curso paralelo materia: ".$curs_para_mate_codi;
+				$res = sqlsrv_fetch_array($alum_curs_para_mate_del);
+				$detalle = "alum_curs_para_mate_codi: ".$alum_curs_para_mate_codi;
+				$detalle.= " Código Alumno: ".$res['alum_codi'];
+				$detalle.= " Curso: ".$res['curs_deta'];
+				$detalle.= " Paralelo: ".$res['para_deta'];
+				$detalle.= " Materia: ".$res['mate_deta'];
 				registrar_auditoria (47, $detalle);
 			}
 	}

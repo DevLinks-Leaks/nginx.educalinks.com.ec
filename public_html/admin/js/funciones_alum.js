@@ -1,5 +1,38 @@
 // $('#repr_fech_naci').inputmask({mask: "99/99/9999"});
-
+function add_obse(div,alum_curs_para_codi,alum_codi){
+    $('#btn_add_obse').button('loading');
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    var data = new FormData();
+    data.append('opc', 'alum_curs_para_obse_upd');
+    data.append('alum_curs_para_codi', alum_curs_para_codi);
+    data.append('obse', document.getElementById('txt_obse').value);
+    xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            var json = JSON.parse(xmlhttp.responseText);
+            if (json.state=="success"){               
+                $.growl.notice({ title: "Educalinks informa", message: json.result });
+                                
+            }else{
+                $.growl.error({ title: "Educalinks informa",message: json.result });
+                
+                // $('#ModalMatri').modal('hide');
+            }
+            $('#btn_add_obse').button('reset');
+            load_ajax_noload(div,'modal_estado_observacion_view.php','alum_codi='+alum_codi);
+            // BuscarAlumnos(document.getElementById('alum_codi_in').value,document.getElementById('alum_apel_in').value,document.getElementById('curs_para_codi_in').value);
+        }
+    };
+    xmlhttp.open("POST",'script_alum.php',true);
+    xmlhttp.send(data);  
+}
 function activar_boton(value){
     var deuda = (document.getElementById('total_deuda')==null ? 0 : document.getElementById('total_deuda').value);
     var bloqueo_hard = document.getElementById('bloqueo_hard').value;
@@ -498,6 +531,7 @@ function load_ajax_add_alum(div,url,elem)
         data.append('alum_hijo_ex_cadete', document.getElementById('alum_hijo_ex_cadete') === null ? '0' : document.getElementById('alum_hijo_ex_cadete').checked );
         data.append('alum_hno_ex_cadete', document.getElementById('alum_hno_ex_cadete') === null ? '0' : document.getElementById('alum_hno_ex_cadete').checked );
         data.append('alum_prov', $('#alum_prov option:selected').text());
+        data.append('alum_tiene_seguro', document.getElementById('alum_tiene_seguro').checked);
 
         xmlhttp.onreadystatechange=function()
         {   if (xmlhttp.readyState==4 && xmlhttp.status==200)
@@ -589,6 +623,7 @@ function load_ajax_edit_alum( div, url, alum_codi )
         data.append('alum_hijo_ex_cadete', document.getElementById('alum_hijo_ex_cadete') === null ? '0' : document.getElementById('alum_hijo_ex_cadete').checked );
         data.append('alum_hno_ex_cadete', document.getElementById('alum_hno_ex_cadete') === null ? '0' : document.getElementById('alum_hno_ex_cadete').checked );
         data.append('alum_prov', $('#alum_prov option:selected').text());
+        data.append('alum_tiene_seguro', document.getElementById('alum_tiene_seguro').checked);
 
         xmlhttp.onreadystatechange=function()
         {   if ( xmlhttp.readyState === 4 && xmlhttp.status === 200 )

@@ -1,67 +1,70 @@
-<link href="../theme/jquery1_11/jquery-ui.css" rel="stylesheet">
-<link href="../theme/jquery1_11/external/jquery/jquery_growl/stylesheets/jquery.growl.css" rel="stylesheet" type="text/css" />
 <?
 session_start();	 
 include ('../framework/dbconf.php');
-include ('../framework/funciones.php');?>
+include ('../framework/funciones.php');
 
-
-
-<?php 
-  if(isset($_POST['texto'])) $texto=$_POST['texto'];    
-  else   $texto='%';
-  $params = array($texto,$_SESSION['peri_codi']);
-  $sql="{call repr_peri_busq(?,?)}";
-  $repr_busq = sqlsrv_query($conn, $sql, $params);  
-  $cc = 0; 
+	if (isset($_POST["repr_id"]))
+	{	$repr_id = $_POST["repr_id"];
+	}
+	else
+	{	$repr_id = "";
+	}
+	
+	if (isset($_POST["repr_apel"]))
+	{	$repr_apel = $_POST["repr_apel"];
+	}
+	else
+	{	$repr_apel = "";
+	}
+  
+	$params = array( $repr_id, $repr_apel, $_SESSION['peri_codi'] );
+	$sql="{call repr_peri_busq2(?,?,?)}";
+	$repr_busq = sqlsrv_query($conn, $sql, $params);  
+	$cc = 0;
 ?>
-
-<div class="alumnos_main_lista">
-	<div class="box box-default">
-		<div class="box-header with-border">
-			<h3 class="box-title">Listado de representantes</h3>
-		</div><!-- /.box-header -->
-		<div class="box-body">
-			<table class="table table-striped" id="repre_table">
-				<thead>
-					<tr>
-						<th width="25%" class="sort"><span class="icon-sort icon"></span>Nombre</th>
-						<th width="45%" class="sort"><span class="icon-sort icon"></span>Alumnos</th>
-						<th width="30%" class="sort"><span class="icon-sort icon"></span>Opciones</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php  while ($row_repr_busq = sqlsrv_fetch_array($repr_busq)) { $cc +=1; ?>
-					<tr onclick="" >
-						<td><?= $row_repr_busq["repr_apel"]." ".$row_repr_busq["repr_nomb"]." - ".$row_repr_busq["repr_usua"]; ?></td>
-						<td>
-							<?  $params = array($row_repr_busq["repr_codi"]);
-								$sql="{call alum_repr_info(?)}";
-								$alum_busq = sqlsrv_query($conn, $sql, $params);
-								$c=0;
-								while($row_alum_busq = sqlsrv_fetch_array($alum_busq)){
-									echo $c>0?"<br>":"";
-									echo $row_alum_busq['alum_codi']."-".$row_alum_busq['alum_apel']." ".$row_alum_busq['alum_nomb']." (".$row_alum_busq['curs_deta']." ".$row_alum_busq['para_deta'].")";
-									$c++;
-								}?>
-						</td>
-						<td>
-						  <?php if (permiso_activo(25)){?>
-							<a class="btn btn-default" onclick="goto_url('representantes_add.php?repr_codi=<?= $row_repr_busq["repr_codi"]?>');" ><span class="fa fa-pencil btn_opc_lista_editar"></span> Editar</a></li>
-							<?php }if (permiso_activo(26)){?>
-							<a class="btn btn-default" onclick="load_ajax_del_repr('repr_main','script_repr.php','opc=repr_del&repr_codi=<?= $row_repr_busq["repr_codi"]?>')" ><span class="fa fa-trash btn_opc_lista_eliminar"></span> Eliminar</a></li>
-							<?php }?>
-						</td>
-					</tr>
-					<?php  }?>
-				</tbody>
-				<tfoot>
-					<tr class="pager_table" >
-						<td><span class="icon-users icon"></span>Total de Representantes ( <?php echo $cc;?> )</td>
-						<td colspan="2" class="right"><div class="paging"></div></td>
-					</tr>
-				</tfoot>
-			</table>
-		</div>
-	</div>
-</div>
+<table class="table table-striped" id="repre_table">
+	<thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
+		<tr>
+			<th width="5%"></th>
+			<th width="15%">ID</th>
+			<th width="65%">Nombre</th>
+			<th width="15%"></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php  while ($row_repr_busq = sqlsrv_fetch_array($repr_busq)) { $cc +=1; ?>
+		<tr onclick="">
+			<td class='details-control'><i style='color:green; cursor: pointer' class='fa fa-plus-circle'></i></td>
+			<td data-repr_codi="<?= $row_repr_busq["repr_codi"] ?>"><?= '('.$row_repr_busq["repr_tipo_id"].') '.$row_repr_busq["repr_cedula"] ?></td>
+			<td><?= $row_repr_busq["repr_apel"]." ".$row_repr_busq["repr_nomb"] ?></td>
+			<!--<td>
+				<?  /*$params = array($row_repr_busq["repr_codi"]);
+					$sql="{call alum_repr_info(?)}";
+					$alum_busq = sqlsrv_query($conn, $sql, $params);
+					$c=0;
+					while($row_alum_busq = sqlsrv_fetch_array($alum_busq)){
+						echo $c>0?"<br>":"";
+						echo $row_alum_busq['alum_codi']."-".$row_alum_busq['alum_apel']." ".$row_alum_busq['alum_nomb']." (".$row_alum_busq['curs_deta']." ".$row_alum_busq['para_deta'].")";
+						$c++;
+					}*/?>
+			</td>-->
+			<td>
+				<div class="btn-group" role="group">
+					<?php if (permiso_activo(25)){?>
+						<a class="btn btn-default" target="_blank" title="Editar" onmouseover="$(this).tooltip('show')" href="representantes_add.php?repr_codi=<?= $row_repr_busq["repr_codi"]?>" ><span class="fa fa-pencil btn_opc_lista_editar"></span></a>
+					<?php }
+					if (permiso_activo(26)){?>
+					<a class="btn btn-default" title="Eliminar" onmouseover="$(this).tooltip('show')" onclick="load_ajax_del_repr('repr_main','script_repr.php','opc=repr_del&repr_codi=<?= $row_repr_busq["repr_codi"]?>')" ><span class="fa fa-trash btn_opc_lista_eliminar"></span></a>
+					<?php }?>
+				</div>
+			</td>
+		</tr>
+		<?php  }?>
+	</tbody>
+	<tfoot>
+		<tr class="pager_table" >
+			<td colspan="3"><span class="icon-users icon"></span>Total de Representantes ( <?php echo $cc;?> )</td>
+			<td class="right"><div class="paging"></div></td>
+		</tr>
+	</tfoot>
+</table>

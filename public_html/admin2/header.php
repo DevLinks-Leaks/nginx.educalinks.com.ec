@@ -67,14 +67,19 @@
 		</div>
 	</div>
 </div>
-<div class="header" >
-    <a id="btn" href="#" ><span class=" icon-menu"></span></a>
-		<div  style=" position:absolute;left: 35%;display:block;width: 150px;top:8px;">                  
-		<button   data-toggle="modal" data-target="#ModalPeriodoActivo" style=" width:200px; height:40px;">
-		 Peridodo Activo <?= $_SESSION['peri_deta']; ?>
-		</button> 
-	</div>
-	<div class="userbar dropdown">
+<div class="header">
+
+    <a id="btn" href="#" > <span class=" icon-menu"> </span> Mostrar / Ocultar Menu</a> 
+    
+		
+     <div  style=" position:absolute;left: 35%;display:block;width: 150px;top:8px;">                  
+        <button   data-toggle="modal" data-target="#ModalPeriodoActivo" style=" width:200px; height:40px;">
+         Peridodo Activo <?= $_SESSION['peri_deta']; ?>
+        </button> 
+     </div>
+
+    <div class="userbar dropdown">
+			
 				<ul>
 					<li class="userProfile">
 							<a class="profile" href="#" data-toggle="dropdown"  >
@@ -285,4 +290,5 @@ function envio_mensaje_resp(mens_para,mens_para_tipo){
 	}
 	
 }
+
 </script>

@@ -40,7 +40,9 @@
 			?>
 			<div class="navbar-custom-menu">
 				<ul class="nav navbar-nav">
-					<!-- Messages: style can be found in dropdown.less-->
+					<li title="Seleccionar período activo">
+						<a href="#" ><i class="fa fa-calendar"></i>&nbsp;Período: <?= $_SESSION['peri_deta']; ?></a>
+					</li>
 					<?php
 					$combo="";
 					if($_SESSION['USUA_TIPO']=='R')

@@ -18,6 +18,7 @@
 						<div class="box box-default">
 							<div class="box-header with-border">
 								<h3 class="box-title">
+									<a class="btn btn-warning" href="cursos_paralelo_main.php" title=""><span class="fa fa-chevron-left"></span> Volver</a>
 								</h3>
 							</div><!-- /.box-header -->
 							<div class="box-body">

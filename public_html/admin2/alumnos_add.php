@@ -33,7 +33,7 @@
 									<?php echo $titulo_pagina; ?>
 								</h3>
 							</div>
-							<div class="panel-body">
+							<div id="alumnos_add_panel" class="panel-body">
 								<?php include("alumnos_add_script.php");?>
 							</div>
 						</div>
@@ -58,14 +58,26 @@
 			$("#alum_resp_form_fech_vcto").datepicker();
 		  $("#repr_fech_promoc").datepicker();
 		  shortcut.add("Shift+I", function() {
-			  $('#btn_inscribir').trigger("click");
+		      $('#btn_inscribir').trigger("click");
 		  });
 		  shortcut.add("Shift+G", function() {
-			  $('#btn_guardar').trigger("click");
+		      $('#btn_guardar').trigger("click");
 		  },{'disable_in_input':true});
 		  shortcut.add("Shift+F", function() {
-			  $('#btn_repre').trigger("click");
+		      $('#btn_repre').trigger("click");
 		  },{'disable_in_input':true});
+		  $('input').iCheck({
+		    checkboxClass: 'icheckbox_flat-blue',
+		    radioClass: 'iradio_flat-blue'
+		  });
+		  $(document).ready(function() {
+                $('#repr_table').datatable({
+                    pageSize: 20,
+                    sort: [false, false,false],
+                    filters: [true,'select',false],
+                    filterText: 'Escriba para buscar... '
+                }) ;
+        	} );
 		</script>
 	</body>
 </html>

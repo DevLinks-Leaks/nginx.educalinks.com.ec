@@ -116,7 +116,7 @@
 										$sql="{call dist_peri_cab_view(?)}";
 										$dist_peri_cab_view = sqlsrv_query($conn, $sql, $params);  
 									?>
-									<select 
+									<select class='form-control input-sm'
 										id="sl_peri_dist_cabe_codi" 
 										style="width: 75%; background-color:#CDF8F6;" 
 										onchange="CargarModelos(this.value,document.getElementById('nota_refe_cab_codi').value);">
@@ -146,7 +146,7 @@
 										$sql="{call curs_view()}";
 										$curs_view = sqlsrv_query($conn, $sql, $params);  
 										?> 
-										<select 
+										<select class='form-control input-sm'
 											name="curs_codi" 
 											id="curs_codi" 
 											style="width: 75%; margin-top: 5px;">
@@ -173,7 +173,7 @@
 										$sql="{call para_view()}";
 										$para_view = sqlsrv_query($conn, $sql, $params);  
 										?> 
-										<select 
+										<select class='form-control input-sm'
 											name="para_codi"   
 											id="para_codi" 
 											style="width: 25%; margin-top: 5px;">
@@ -195,7 +195,7 @@
 								<tr>
 									<td>Cupos: </td>
 									<td>
-										<input 
+										<input class='form-control input-sm'
 											id="curs_para_cupo" 
 											name="curs_para_cupo" 
 											type="number" 
@@ -213,11 +213,10 @@
 			<div class="modal-footer">
 				<button 
 					type="button" 
-					class="btn btn-primary"  
+					class="btn btn-success"  
 					onClick="curs_para_save(<?= $_SESSION['peri_codi'];  ?>	,selectvalue(document.getElementById('sl_peri_dist_cabe_codi')),selectvalue(document.getElementById('curs_codi')),selectvalue(document.getElementById('para_codi')),document.getElementById('curs_para_cupo').value);" 
 					data-dismiss="modal" ><span class='fa fa-floppy-o'></span> Guardar cambios
 				</button>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<button 
 					type="button" 
 					class="btn btn-default" 

@@ -10,7 +10,7 @@
 			die( print_r( sqlsrv_errors(), true));
 		}
 		
-		echo '<select id="sl_curso" name="sl_curso" onchange="CargarParalelos(this.value);VaciarAsignaturas();" >';
+		echo '<select  class="form-control" id="sl_curso" name="sl_curso" onchange="CargarParalelos(this.value);VaciarAsignaturas();" >';
 		echo '<option value="0">Seleccione</option>';
 		while($curso_view= sqlsrv_fetch_array($stmt))
 		{

@@ -33,8 +33,8 @@
 ?>
 
 
-<table  class="table_striped">
-<thead>
+<table class="table table-striped table-bordered">
+<thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
     <tr>
       <th>#</th>              
       <th>Nombres</th>
@@ -72,8 +72,8 @@
                         width="58" height="59"  
                         style="text-align:right; border:none; width:30px; height:30px;"/>
                 </td>
-                <td>
-                <a href="alumnos_add.php?alum_codi=<?= $row_alum_curs_para_view["alum_codi"]; ?>">
+                <td style='font-size:small;'>
+                <a title='Editar información' data-placement='bottom' onmouseover='$(this).tooltip("show");' href="alumnos_add.php?alum_codi=<?= $row_alum_curs_para_view["alum_codi"]; ?>">
                     <?
                         echo $row_alum_curs_para_view["alum_codi"].' - ';
                         echo $row_alum_curs_para_view["alum_apel"]." ";
@@ -85,69 +85,49 @@
               </tr>
           </table>
       </td>
-      <td>  
-		<div class="menu_options">
-            <ul>
-				<?
-				/*Permiso para agregar/quitar materias a un estudiante*/
-				if (permiso_activo(221))
-				{
-				?>
-                <li>
-                    <a  
-                        class="option" 
-                        <? 
-							if ($row_alum_curs_para_view["alum_curs_para_estado"]=="A")
-							{
-						?>
-                        	onclick="alum_mate_view(<?php echo $row_alum_curs_para_view["curs_para_codi"]; ?>,
-							<?php echo $row_alum_curs_para_view["alum_curs_para_codi"];?>,
-                            <?php echo $row_alum_curs_para_view["alum_codi"];?>)" 
-                            data-toggle="modal" 
-                            data-target="#ModalAlumMate"
-                        <?
-							}
-                        ?>
-                            title="Agregar/Quitar materia">
-                            <span class="icon-book icon"></span>
-                    </a>
-                </li>
-				<?
-				}
-				?>
-            </ul>
-        </div>
+      <td>
+			<?
+			/*Permiso para agregar/quitar materias a un estudiante*/
+			if (permiso_activo(221))
+			{
+			?><a    class="btn btn-default" 
+					<? if ($row_alum_curs_para_view["alum_curs_para_estado"]=="A")
+						{ 
+					?>
+						onclick="alum_mate_view(<?php echo $row_alum_curs_para_view["curs_para_codi"]; ?>,
+						<?php echo $row_alum_curs_para_view["alum_curs_para_codi"];?>,
+						<?php echo $row_alum_curs_para_view["alum_codi"];?>)" 
+						data-toggle="modal" 
+						data-target="#ModalAlumMate"
+					<?php
+						}
+					?>
+						title="Agregar/Quitar materia" data-placement='left' onmouseover='$(this).tooltip("show");'>
+						<span class="fa fa-book"></span></a>
+			</li>
+			<?
+			}
+			?>
 	  </td> 
-      <td>  
-        <div class="menu_options">
-            <ul>
-				<?
-				/*Permiso para cambiar a un estudiante de paralelo*/
-				if (permiso_activo(222))
-				{
-				?>
-                <li>
-                    <a  
-                        class="option" 
-                        <? 
-							if ($row_alum_curs_para_view["alum_curs_para_estado"]=="A")
-							{
-						?>
-                        	onclick="curs_para_cambiar_load(<?= $row_alum_curs_para_view["alum_curs_para_codi"]?>, <?= $row_alum_curs_para_view["alum_codi"]?>)" 
-                            data-toggle="modal" 
-                            data-target="#ModalCambioParalelo"
-                        <?
-							}
-                        ?>
-                            title="Cambiar de paralelo">
-                            <span class="icon-cog icon"></span>
-                    </a>
-                </li>
-				<?
-				}
-				?>
-            </ul>
-        </div>
+      <td>
+			<?
+			/*Permiso para cambiar a un estudiante de paralelo*/
+			if (permiso_activo(222))
+			{
+			?>
+				<a  class="btn btn-default" 
+					<? 
+						if ($row_alum_curs_para_view["alum_curs_para_estado"]=="A")
+						{?>
+						onclick="curs_para_cambiar_load(<?= $row_alum_curs_para_view["alum_curs_para_codi"]?>, <?= $row_alum_curs_para_view["alum_codi"]?>)" 
+						data-toggle="modal" 
+						data-target="#ModalCambioParalelo"
+					<?	}
+					?>
+						title="Cambiar de paralelo" data-placement='top' onmouseover='$(this).tooltip("show");'>
+						<span class="fa fa-cog"></span></a>
+			<?
+			}?>
       </td>
 	  <!-- <td>  
         <div class="menu_options">

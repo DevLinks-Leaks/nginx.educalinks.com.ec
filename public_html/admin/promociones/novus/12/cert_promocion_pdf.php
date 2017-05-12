@@ -40,10 +40,10 @@
 		public function Header() 
 		{
 			$logo_minis = '../../../'.$_SESSION['ruta_foto_logo_minis'];
-			$this->Image($logo_minis, 180, 10, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+			$this->Image($logo_minis, 180, 10, 20, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 			
 			$logo_distr = '../../../'.$_SESSION['ruta_foto_logo_distr'];
-			$this->Image($logo_distr, 13, 10, '', '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+			$this->Image($logo_distr, 13, 10, '', 20, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 			
 			$logo_web = '../../../'.$_SESSION['ruta_foto_escudo_ecuador'];
 			$this->Image($logo_web, 100, 10, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);

@@ -34,12 +34,13 @@ switch($opc){
 			$alum_resp_form_banc_tarj_nume_encrypt =base64_encode($alum_resp_form_banc_tarj_nume_encrypt);
 			/*FIN*/
 		}
-		$alum_condicionado = ($_POST['alum_condicionado']=='on'?1:0);
-		$alum_tiene_discapacidad = ($_POST['alum_tiene_discapacidad']=='on'?1:0);
+		$alum_tiene_seguro = ($_POST['alum_tiene_seguro']=='true'?1:0);
+		$alum_condicionado = ($_POST['alum_condicionado']=='true'?1:0);
+		$alum_tiene_discapacidad = ($_POST['alum_tiene_discapacidad']=='true'?1:0);
 		$alum_genero = ($_POST['alum_genero']=='Hombre'?1:0);
 		$alum_fech_naci=substr($_POST['alum_fech_naci'],6,4)."".substr($_POST['alum_fech_naci'],3,2)."".substr($_POST['alum_fech_naci'],0,2);
 		$alum_fech_vcto=substr($_POST['alum_resp_form_fech_vcto'],6,4)."".substr($_POST['alum_resp_form_fech_vcto'],3,2)."".substr($_POST['alum_resp_form_fech_vcto'],0,2);
-		$sql_opc = "{call alum_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		$sql_opc = "{call alum_add(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		$params_opc= array($alum_fech_naci,
 							$_POST['alum_apel'],
 							$_POST['alum_nomb'],
@@ -100,7 +101,8 @@ switch($opc){
 							$_POST['alum_hno_ex_cadete'],
 							$_POST['alum_etnia'],
 							$_POST['curs_prom'],
-							$_POST['alum_prov']);
+							$_POST['alum_prov'],
+							$alum_tiene_seguro);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false )
 		{	echo "¡Error! No se pudo hacer el ingreso";
@@ -130,7 +132,15 @@ switch($opc){
 			$detalle.=" Usuario: ".$_POST['alum_usua'];
 			$detalle.=" Forma Pago: ".$_POST['alum_resp_form_pago'];
 			$detalle.=" Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj'];
-			$detalle.=" # Cta. Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			// iNFO NUMERO CUENTA
+			if(strpos($alum_resp_form_banc_tarj_nume, 'X') ===true)
+				$detalle.=" # Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			else{ 
+				if (is_numeric($_POST['alum_resp_form_banc_tarj_nume']))
+					$detalle.=" # Banco/Tarjeta: ".$alum_resp_form_banc_tarj_nume_encrypt;
+				else
+					$detalle.=" # Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			}
 			$detalle.=" Tipo Cuenta: ".($_POST['alum_resp_form_banc_tipo']=='C'?'Corriente':'Ahorro');
 			$detalle.=" Responsable económico: ".$_POST['alum_resp_form_cedu'].' '.$_POST['alum_resp_form_nomb'];
 			//$detalle.=" Descuento tipo: ".$_POST['alum_desc_tipo'];
@@ -267,12 +277,13 @@ switch($opc){
 				$alum_resp_form_banc_tarj_nume_encrypt=null;
 			}
 		}
-		$alum_tiene_discapacidad = ($_POST['alum_tiene_discapacidad']=='on'?1:0);
-		$alum_condicionado = ($_POST['alum_condicionado']=='on'?1:0);
+		$alum_tiene_seguro = ($_POST['alum_tiene_seguro']=='true'?1:0);
+		$alum_tiene_discapacidad = ($_POST['alum_tiene_discapacidad']=='true'?1:0);
+		$alum_condicionado = ($_POST['alum_condicionado']=='true'?1:0);
 		$alum_genero = ($_POST['alum_genero']=='Hombre'?1:0);
 		$alum_fech_naci=substr($_POST['alum_fech_naci'],6,4)."".substr($_POST['alum_fech_naci'],3,2)."".substr($_POST['alum_fech_naci'],0,2);
 		$alum_fech_vcto=substr($_POST['alum_resp_form_fech_vcto'],6,4)."".substr($_POST['alum_resp_form_fech_vcto'],3,2)."".substr($_POST['alum_resp_form_fech_vcto'],0,2);
-		$sql_opc = "{call alum_upd(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+		$sql_opc = "{call alum_upd(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 		$params_opc= array( $_POST['alum_codi'],
 							$alum_fech_naci,
 							$_POST['alum_apel'],
@@ -333,7 +344,8 @@ switch($opc){
 							$_POST['alum_hijo_ex_cadete'],
 							$_POST['alum_hno_ex_cadete'],
 							$_POST['alum_etnia'],
-							$_POST['alum_prov']);
+							$_POST['alum_prov'],
+							$alum_tiene_seguro);
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if($stmt_opc === false)
 		{   echo "¡Error! No se pudo hacer el ingreso";
@@ -344,34 +356,7 @@ switch($opc){
 		{   $alum_view_opc = $_POST['alum_codi'];
 		}
 		if( !empty( $alum_view_opc ) )
-		{   //Para auditoría
-			$detalle="Código: ".$alum_view_opc;
-			$detalle.=" Nombres: ".$_POST['alum_apel'].' '.$_POST['alum_nomb'];
-			$detalle.=" Fecha ncto: ".$alum_fech_naci;
-			$detalle.=" Género: ".($_POST['alum_genero']?'Hombre':'Mujer');
-			$detalle.=" Cédula: ".$_POST['alum_cedu'];
-			$detalle.=" e-Mail: ".$_POST['alum_mail'];
-			$detalle.=" Celular: ".$_POST['alum_celu'];
-			$detalle.=" Teléfono: ".$_POST['alum_telf'];
-			$detalle.=" Domicilio: ".$_POST['alum_domi'];
-			$detalle.=" Ciudad: ".$_POST['alum_ciud'];
-			$detalle.=" Religión: ".$_POST['alum_reli'];
-			$detalle.=" País: ".$_POST['alum_pais'];
-			$detalle.=" Estado civil padres: ".$_POST['alum_estado_civil_padres'];
-			$detalle.=" Teléfono emergencia: ".$_POST['alum_telf_emerg'];
-			$detalle.=" Plantel anterior: ".$_POST['alum_ex_plantel'];
-			$detalle.=" Usuario: ".$_POST['alum_usua'];
-			$detalle.=" Forma Pago: ".$_POST['alum_resp_form_pago'];
-			$detalle.=" Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj'];
-			$detalle.=" # Cta. Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
-			$detalle.=" Tipo Cuenta: ".($_POST['alum_resp_form_banc_tipo']=='C'?'Corriente':'Ahorro');
-			$detalle.=" Responsable económico: ".$_POST['alum_resp_form_cedu'].' '.$_POST['alum_resp_form_nomb'];
-			//$detalle.=" Descuento tipo: ".$_POST['alum_desc_tipo'];
-			//$detalle.=" Descuento %: ".$_POST['alum_desc_porcentaje'];
-			$detalle.=" Grupo económico: ".$_POST['alum_grup_econ'];
-			$detalle.=" Grupo estado: ".$_POST['alum_estado'];
-			registrar_auditoria (3, $detalle);
-		
+		{   		
 			//Para auditoría
 			$detalle ="Código: ".$_POST['alum_codi'];
 			$detalle.=" Nombres: ".$_POST['alum_apel'].' '.$_POST['alum_nomb'];
@@ -390,7 +375,15 @@ switch($opc){
 			$detalle.=" Usuario: ".$_POST['alum_usua'];
 			$detalle.=" Forma Pago: ".$_POST['alum_resp_form_pago'];
 			$detalle.=" Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj'];
-			$detalle.=" # Cta. Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			// iNFO NUMERO CUENTA
+			if(strpos($alum_resp_form_banc_tarj_nume, 'X') ===true)
+				$detalle.=" # Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			else{ 
+				if (is_numeric($_POST['alum_resp_form_banc_tarj_nume']))
+					$detalle.=" # Banco/Tarjeta: ".$alum_resp_form_banc_tarj_nume_encrypt;
+				else
+					$detalle.=" # Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			}
 			$detalle.=" Tipo Cuenta: ".($_POST['alum_resp_form_banc_tipo']=='C'?'Corriente':'Ahorro');
 			$detalle.=" Responsable económico: ".$_POST['alum_resp_form_cedu'].' '.$_POST['alum_resp_form_nomb'];
 			//$detalle.=" Descuento tipo: ".$_POST['alum_desc_tipo'];
@@ -523,6 +516,22 @@ switch($opc){
 		
 	break;
 	
+	case 'alum_curs_para_obse_upd'://Retiro de alumno
+		$params = array($_POST['alum_curs_para_codi'],$_POST['obse']);
+		$sql = "{call alum_curs_para_obse_upd(?,?)}";
+		$stmt = sqlsrv_query( $conn, $sql, $params);
+		if( $stmt_opc === false ){
+			$result= json_encode(array ('state'=>'error',
+						'result'=>'Error al guardar la observación al alumno.',
+						'console'=> sqlsrv_errors() ));
+		}else{
+			$result= json_encode(array ('state'=>'success',
+					'result'=>'Observación guardada con éxito.' ));
+		}
+		echo $result;
+		
+	break;
+
 	case 'camb_curs_para'://Cambio de paralelo del alumno
 		$params = array($_POST['alum_curs_para_codi'], $_POST['curs_para_codi']);
 		$sql = "{call alum_curs_para_cambio(?,?)}";

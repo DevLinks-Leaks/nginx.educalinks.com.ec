@@ -49,24 +49,28 @@ class valida_cheques extends DBAbstractModel{
         $this->sp = "str_consultaChequeaprobar";
         $this->executeSPAccion();
         if($this->filasAfectadas>0)
-		{   $this->mensaje="Cheques aprobado";
+		{   $this->mensaje="¡Exito! Cheque aprobado";
         }else
-		{   $this->mensaje="No se ha podido actualizar el cheque";
+		{   $this->mensaje="¡Error! No se ha podido completar el proceso";
         }
     }
 	public function protestar( $data = array() )
 	{   foreach ( $data as $campo => $valor )
 		{   $$campo = $valor;
         }
-        $this->parametros = array( $cheq_codigo, $cheq_observacion, $alerta, $_SESSION['usua_codi'] );
+		$this->parametros = array( $cheq_codigo, $cheq_observacion, $alerta, $_SESSION['usua_codi'] );
         $this->sp = "str_consultaChequeprotestar";
-        $this->executeSPAccion();
-        if($this->filasAfectadas>0)
-		{   $this->mensaje="Cheques protestado";
+        $this->executeSPConsulta();
+        if (count($this->rows)>0)
+		{   if ( $this->rows[0]['Estado'] == 'OK' )
+				$this->mensaje="¡Exito! Cheque protestado";
+			else
+				$this->mensaje="¡Error! No se ha podido completar el proceso";
         }
 		else
-		{   $this->mensaje="No se ha podido protestar el cheque";
+		{   $this->mensaje="¡Error! No se pudo completar el proceso.";
         }
+		return $this;
     }
     /*
      * Permite ingresar un nuevo usuario.

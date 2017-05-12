@@ -9,21 +9,21 @@
 	$curs_peri_view = sqlsrv_query($conn, $sql, $params);  
 	$cc = 0;
 ?>
- <table class=" table_striped ">
- <thead>
-    <tr>
-        <th width="17">#</th>
-        <th width="54">Cod. Permiso</th>
-        <th width="60">Unidad</th>
-        <th width="58">Fecha Inicio</th>
-        <th width="99">Fecha Terminacion</th>
-        <th width="46">Estado</th>
-        <th width="75">Fecha de Ingreso</th>
-        <th width="73">Usuario Asigno</th>
-        <th width="129">Opciones</th>
-	</tr>
-</thead>
-<tbody>
+<table id='tbl_<?php echo $_POST['curs_para_mate_prof_codi'];?>' class="table table-striped">
+	<thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
+		<tr>
+			<th width="17" style='text-align:center;'>#</th>
+			<th width="54" style='text-align:center;'>Cod. Permiso</th>
+			<th width="60" style='text-align:center;'>Unidad</th>
+			<th width="58" style='text-align:center;'>Fecha Inicio</th>
+			<th width="99" style='text-align:center;'>Fecha Terminacion</th>
+			<th width="46" style='text-align:center;'>Estado</th>
+			<th width="75" style='text-align:center;'>Fecha de Ingreso</th>
+			<th width="73" style='text-align:center;'>Usuario Asigno</th>
+			<th width="129" style='text-align:center;'>Opciones</th>
+		</tr>
+	</thead>
+	<tbody>
 <?php  
 	while ($row_curs_peri_view = sqlsrv_fetch_array($curs_peri_view)) 
 	{ 
@@ -40,36 +40,28 @@
 			."&curs_para_mate_prof_codi=".$row_curs_peri_view['curs_para_mate_prof_codi'];
 		}
 ?>
-    <tr>
-      	<td><?= $cc?></td>
-      	<td align="center"><?= $row_curs_peri_view['nota_perm_codi']?></td>
-    	<td><?= $row_curs_peri_view['peri_dist_padr'].'-'.$row_curs_peri_view['peri_dist_deta']?></td>
-        <td><?=  date_format($row_curs_peri_view['nota_peri_fec_ini'], 'd/M/Y' ); ?></td>
-        <td><?= date_format($row_curs_peri_view['nota_peri_fec_fin'], 'd/M/Y' ); ?></td>
-        <td><?= $row_curs_peri_view['resu']?></td>
-        <td><?= date_format($row_curs_peri_view['nota_peri_fec_in'], 'd/M/Y' ); ?></td>
-        <td><?= $row_curs_peri_view['usua_codi']?></td>
-        <td> 
-        <div class="menu_options">
-          <ul>
-			<?if ($row_curs_peri_view['nota_peri_esta_resu']=='A') {?>
-            <li>
-              <a onclick="form_notas_send(<?=$row_curs_peri_view['curs_para_mate_prof_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>,<?=$row_curs_peri_view['nota_perm_codi']?>,'in')" class="option"> 
-                  <span class="icon-add icon"> </span>Ingresar Notas</a>
-            </li>
-			<?}?>
-            <li>
-            	<a onclick="form_notas_send(<?=$row_curs_peri_view['curs_para_mate_prof_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>,<?=$row_curs_peri_view['nota_perm_codi']?>,'out')" class="option"> 
-                  <span class="icon-print icon"> </span>Imprimir  Notas
-             	</a>
-            </li>
-            <li>
-              <a href="JavaScript:imprimirActa(<?=$row_curs_peri_view['curs_para_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>);" class="option"><span class="icon-print icon"> </span>Imprimir  Acta</a>
-            </li>
-          </ul>
-        </div>           
-     </td>
-  </tr>
+		<tr>
+			<td style='text-align:center;'><?= $cc?></td>
+			<td style='text-align:center;'><?= $row_curs_peri_view['nota_perm_codi']?></td>
+			<td style='text-align:center;'><?= $row_curs_peri_view['peri_dist_padr'].'-'.$row_curs_peri_view['peri_dist_deta']?></td>
+			<td style='text-align:center;'><?=  date_format($row_curs_peri_view['nota_peri_fec_ini'], 'd/M/Y' ); ?></td>
+			<td style='text-align:center;'><?= date_format($row_curs_peri_view['nota_peri_fec_fin'], 'd/M/Y' ); ?></td>
+			<td style='text-align:center;'><?= $row_curs_peri_view['resu']?></td>
+			<td style='text-align:center;'><?= date_format($row_curs_peri_view['nota_peri_fec_in'], 'd/M/Y' ); ?></td>
+			<td style='text-align:center;'><?= $row_curs_peri_view['usua_codi']?></td>
+			<td style='text-align:center;'>
+				<div class="btn-group-vertical">
+					<?if ($row_curs_peri_view['nota_peri_esta_resu']=='A') {?>
+					  <a onclick="form_notas_send(<?=$row_curs_peri_view['curs_para_mate_prof_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>,<?=$row_curs_peri_view['nota_perm_codi']?>,'in')" class="btn btn-success"> 
+						  <span class="fa fa-plus"> </span> Ingresar Notas</a>
+					<?}?>
+						<a onclick="form_notas_send(<?=$row_curs_peri_view['curs_para_mate_prof_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>,<?=$row_curs_peri_view['nota_perm_codi']?>,'out')" class="btn btn-default"> 
+						  <span class="fa fa-print"> </span> Imprimir  Notas
+						</a>
+					  <a href="JavaScript:imprimirActa(<?=$row_curs_peri_view['curs_para_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>);" class="btn btn-default"><span class="fa fa-print"> </span> Imprimir Acta</a>          
+				</div>
+			</td>
+		</tr>
  <?php  }   ?>
- </tbody>
+	</tbody>
 </table>

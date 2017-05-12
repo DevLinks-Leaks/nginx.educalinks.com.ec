@@ -30,8 +30,8 @@ class DebitosAutomaticos extends DBAbstractModel
             unset($debito);
         }
     }
-    public function setpagodebito ($codigo, $valor, $usuario, $nombredoc, $fecha_debito )
-	{	$this->parametros = array($codigo, $valor, $usuario, $nombredoc, $fecha_debito, $_SESSION['puntVent_codigo'], $_SESSION['caja_codi'] );
+    public function setpagodebito ($codigo, $valor, $usuario, $nombredoc, $fecha_debito, $id_formaPago )
+	{	$this->parametros = array($codigo, $valor, $usuario, $nombredoc, $fecha_debito, $_SESSION['puntVent_codigo'], $_SESSION['caja_codi'], $id_formaPago );
         $this->sp = "str_ingresaPagodebito";
         $this->executeSPConsulta();
         if (count($this->rows)>=1)

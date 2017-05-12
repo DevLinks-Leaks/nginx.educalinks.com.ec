@@ -77,5 +77,7 @@
 	<script type="text/javascript" src="js/funciones_alumnos_blacklist.js?<?= $rand?>"></script> 
 	<script type="text/javascript" src="js/funciones_alum.js?<?= $rand?>"></script>
 	<script type="text/javascript" src="js/funciones_repre.js?<?= $rand?>"></script>
+  <script type="text/javascript" src="js/general.js?<?= $rand?>"></script>
 	<script type="text/javascript" src="../includes/common/shortcut.js"></script>
 	<script type="text/javascript" src="js/shotcuts_admin.js?<?= $rand?>"></script>
+  <script type="text/javascript" src="../includes/common/slick/slick.min.js"></script>

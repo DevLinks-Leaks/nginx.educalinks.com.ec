@@ -150,7 +150,7 @@ function handler()
 			else
 				$peri_codi = $user_data['peri_codi'];
 			
-			$reportes->get_all_deudores($user_data['curs_codi'],	$user_data['nivelEcon_codi'],	$user_data['peri_codi']);
+			$reportes->get_all_deudores($user_data['curs_codi'],	$user_data['nivelEcon_codi'],	$user_data['peri_codi'],	$user_data['quienes']);
 			$pensiones->get_header_mediacion( );
 			$test=$pensiones->rows;
 			$tranx = $reportes->rows;
@@ -189,7 +189,7 @@ function handler()
 					if ( ( $col2 > 1 && $col2 < 54 ) || ( $col2 == count( $test ) ) ) //Si está dentro del rango principal o si es NUM. Deuda (penúltima columna)
 					{	if ( $col2 == 62 )
 						{   /*descencriptar numero tarjeta*/
-							if( !is_numeric ( $valor ) )
+							if( !is_numeric ( $valor ) && strlen( $valor ) > 0 )
 							{   $alum_resp_form_banc_tarj_nume_dec=base64_decode($valor);
 								$iv = base64_decode($_SESSION['clie_iv']);
 								$alum_resp_form_banc_tarj_nume=mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $_SESSION['clie_key'], $alum_resp_form_banc_tarj_nume_dec, MCRYPT_MODE_CBC, $iv );

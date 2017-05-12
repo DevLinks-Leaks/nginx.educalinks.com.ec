@@ -27,7 +27,7 @@ class MYPDF extends TCPDF
 	{	$logo_cole = '../../../'.$_SESSION['ruta_foto_logo_libreta'];
 		$this->Image($logo_cole, 5, 3, 35, 12, 'PNG', '', 'C', false, 300, '', false, false, 0, false, false, false);
 		$this->SetFont('helvetica', '', 8);
-		$this->MultiCell(70, 5, 'Código: R8E-03 / Versión: 3 / Nov. 2015', 0, 'L', 0, 1, 145, 5, true);
+		// $this->MultiCell(70, 5, 'Código: R8E-03 / Versión: 3 / Nov. 2015', 0, 'L', 0, 1, 145, 5, true);
 	}
 	public function Footer()
 	{	

@@ -6,14 +6,14 @@
 	<div class="row">
 		<div class="col-sm-6">
 			<table class="table table-striped" id="auditoria_table">
-				<thead>
+				<thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
 					<th>Auditor&iacute;a de:</th>
 				</thead>
 				<tbody>
 					<tr>
 						<td>
 							<div class="auditoriaTipo"> 
-								<a class="all" href="javascript:seleccionar_todos_acciones()"><label>TODOS</label></a>
+								<a class="all" href="javascript:seleccionar_todos_acciones()"><label>TODOS</label></a> - 
 								<a class="none" href="javascript:deseleccionar_todos_acciones()"><label>NINGUNO</label></a>
 								<table class="table table-striped">		
 									<?
@@ -34,14 +34,14 @@
 		<div class="col-sm-6">
 			<div class="zone-last">
 				<table class="table table-striped" id="auditoria_table">
-					<thead>
+					<thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
 						<th width="45%">De los siguientes usuarios:</th>
 					</thead>
 					<tbody>
 						<tr>
 							<td width="45%">
 								<div class="auditoriaTipo"> 
-									<a class="all" href="javascript:seleccionar_todos_usuarios()"><label>TODOS</label></a>
+									<a class="all" href="javascript:seleccionar_todos_usuarios()"><label>TODOS</label></a> - 
 									<a class="none" href="javascript:deseleccionar_todos_usuarios()"><label>NINGUNO</label></a>
 									<table class="table table-striped">
 										 <?

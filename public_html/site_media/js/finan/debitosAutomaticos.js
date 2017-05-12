@@ -367,6 +367,7 @@ function procesar_Archivo( div, url )
     data.append( 'estado',  document.getElementById( 'estado' ).options[document.getElementById( 'estado' ).selectedIndex].text );
     data.append( 'valor',   document.getElementById( 'valor' ).options[document.getElementById( 'valor' ).selectedIndex].text );
     data.append( 'fecha_debito', document.getElementById( 'fecha_debito' ).value );
+	data.append( 'id_formaPago', document.getElementById( 'cmb_formaPago' ).value );
     document.getElementById( div ).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Cargando pagos al sistema. Por favor, espere... Esta tarea puede tardar unos minutos.</div>';
     var xhrafe = new XMLHttpRequest();
     xhrafe.open('POST', url , true);

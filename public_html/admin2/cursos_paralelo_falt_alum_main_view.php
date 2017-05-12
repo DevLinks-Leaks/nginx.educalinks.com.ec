@@ -44,15 +44,15 @@
 ?>
 
 <input  type="hidden" value="<?= $curs_para_codi; ?>" id="curs_para_codi"/>
-<table  class="table_striped">
+<table  class="table table-striped">
         <thead>
             <tr>
-              <th width="290"  align="left">Alumnos</th>
-              <th width="2%"   align="center" valign="middle">FI</th>
-              <th width="2%"   align="center" valign="middle">FJ</th>
-              <th width="2%"   align="center" valign="middle">AI</th>
+              <th width="290" style='text-align:center'>Alumnos</th>
+              <th width="2%"  align="center" valign="middle">FI</th>
+              <th width="2%"  align="center" valign="middle">FJ</th>
+              <th width="2%"  align="center" valign="middle">AI</th>
               <th width="2%"  align="center" valign="middle">AJ</th>
-              <th width="25%">Opciones</th>
+              <th width="30%" style='text-align:center'>Opciones</th>
             </tr>
         </thead>
         <tbody>
@@ -98,27 +98,11 @@
               <td align="center" valign="middle"><span class="left">
                 <?= $row_alum_curs_para_view["cc_aj"]; ?>
               </span></td>
-
-              <td align="left">
-
-                    <div class="menu_options">
-                          <ul>
-                           <li>
-
-                              <a  class="option"   onclick="falt_set(<?= $row_alum_curs_para_view["alum_codi"]; ?>,'<?= $row_alum_curs_para_view["alum_apel"]; ?> <?= $row_alum_curs_para_view["alum_alum"]; ?>',<?= $row_alum_curs_para_view["alum_curs_para_codi"]; ?>)" data-toggle="modal" data-target="#ModalFalta" title="">
-                                  <span class="icon-add icon"> </span> Agregar
-                              </a>
-
-                            </li>
-                            <li>
-
-                              <a href="cursos_paralelo_falt_alum_main_deta.php?alum_curs_para_codi=<?= $row_alum_curs_para_view["alum_curs_para_codi"]; ?>"  class="option" >
-                                  <span class="icon-checkbox-checked"> </span> Ver Faltas
-                              </a>
-
-                            </li>
-                          </ul>
-                        </div>
+              <td  style='text-align:center'>
+				<a  class="btn btn-primary"  
+					onclick="falt_set(<?= $row_alum_curs_para_view["alum_codi"]; ?>,'<?= $row_alum_curs_para_view["alum_apel"]; ?> <?= $row_alum_curs_para_view["alum_alum"]; ?>',<?= $row_alum_curs_para_view["alum_curs_para_codi"]; ?>)" data-toggle="modal" data-target="#ModalFalta" title=""><span class="fa fa-plus"> </span> Agregar</a>
+				<a href="cursos_paralelo_falt_alum_main_deta.php?alum_curs_para_codi=<?= $row_alum_curs_para_view["alum_curs_para_codi"]; ?>&curs_para_codi=<?= $curs_para_codi; ?>"  class="btn btn-default" >
+					<span class="fa fa-check-square-o"> </span> Ver Faltas</a>
                 </td>
               </tr>
             <?php }?>
@@ -173,7 +157,7 @@
 				$sql="{call peri_dist_peri_nive_view_NEW(?,?)}";
 				$peri_dist_peri_nive_view = sqlsrv_query($conn, $sql, $params);
 			?>
-              <select name="f_peri_dist_codi" id="f_peri_dist_codi" style="width: 75%; margin-top: 10px;">
+              <select class='form-control input-sm' name="f_peri_dist_codi" id="f_peri_dist_codi" style="width: 75%; margin-top: 10px;">
                <?php  while ($row_peri_dist_peri_nive_view = sqlsrv_fetch_array($peri_dist_peri_nive_view)) { ?>
                 <option value="<?= $row_peri_dist_peri_nive_view['peri_dist_codi']; ?>"><?= $row_peri_dist_peri_nive_view['peri_dist_deta']; ?> (<?= $row_peri_dist_peri_nive_view['peri_dist_padr_deta']; ?>)</option>
                 <? } ?>
@@ -188,7 +172,7 @@
 				$falt_tipo_view = sqlsrv_query($conn, $sql, $params);
 
 			?>
-              <select name="f_falt_tipo_codi" id="f_falt_tipo_codi" style="width: 75%; margin-top: 10px;">
+              <select class='form-control input-sm' name="f_falt_tipo_codi" id="f_falt_tipo_codi" style="width: 75%; margin-top: 10px;">
                 <?php  while ($row_falt_tipo_view = sqlsrv_fetch_array($falt_tipo_view)) { ?>
                 <option value="<?= $row_falt_tipo_view['falt_tipo_codi']; ?>">
                   <?= $row_falt_tipo_view['falt_tipo_deta']; ?>
@@ -198,7 +182,8 @@
           </tr>
           <tr>
             <td>Fecha:</td>
-            <td align="left" valign="middle" ><input id="f_falt_fech" name="f_falt_fech" type="text" value="<?= date('d/m/Y');?>" style="width: 25%; margin-top: 10px;"></td>
+            <td align="left" valign="middle" >
+				<input class='form-control input-sm' id="f_falt_fech" name="f_falt_fech" type="text" value="<?= date('d/m/Y');?>" style="width: 25%; margin-top: 10px;"></td>
           </tr>
        </table>
 
@@ -210,7 +195,7 @@
      <div class="form_element">&nbsp;</div>
      </div>
      <div class="modal-footer">
-       <button type="button" class="btn btn-primary" onclick="alum_curs_para_falt_add()" data-dismiss="modal" >Aceptar</button> &nbsp;&nbsp;&nbsp;
+       <button type="button" class="btn btn-success" onclick="alum_curs_para_falt_add()" data-dismiss="modal" ><span class='fa fa-floppy-o'></span>&nbsp;Guardar Cambios</button>
        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
      </div>
    </div>

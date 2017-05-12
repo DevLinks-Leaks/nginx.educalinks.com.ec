@@ -65,6 +65,16 @@
 						</div>
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-md-2 col-sm-3 control-label" for="rdb_quienes" style='text-align: right;'>Mostrar:</label>
+					<div class="col-md-4 col-sm-5">
+						<div id="resultadoCursos" class='checkbox'>							
+							<input type="radio" id="rdb_quienes" name="rdb_quienes" value="1" checked='checked'> Sólo personas con información de bancos/tarjetas<br>
+							<input type="radio" id="rdb_quienes" name="rdb_quienes" value="2" > Sólo personas sin información de bancos/tarjetas<br>
+							<input type="radio" id="rdb_quienes" name="rdb_quienes" value="3" > Todos
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -93,7 +93,7 @@
 	RewriteRule ^medic/paciente_consulta/$ /modulos/medic/paciente_consulta/controller.php
 	RewriteRule ^medic/ficha_nuevo/$ /modulos/medic/ficha_nuevo/controller.php
 	RewriteRule ^medic/ficha_visitas/$ /modulos/medic/ficha_visitas/controller.php
-	RewriteRule ^medic/medi_medicinas/$ /medi_medicinas/medi_medicinas_template.php
+	RewriteRule ^medic/medi_medicinas/$ /medic/medi_medicinas/medi_medicinas_template.php
 	RewriteRule ^medic/medi_presentaciones/$ /medic/medi_presentaciones/medi_presentaciones_template.php
 	RewriteRule ^medic/rep_inventarios/$ /medic/rep_inventarios/rep_inventarios_template.php
 	RewriteRule ^medic/rep_inventarios_pdf/$ /medic/rep_inventarios/rep_inventarios_pdf.php

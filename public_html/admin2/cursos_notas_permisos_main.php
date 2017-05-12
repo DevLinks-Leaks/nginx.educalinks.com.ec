@@ -4,7 +4,7 @@
     <body class="hold-transition skin-blue sidebar-mini">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=206;include("template/menu.php");?>
+			<?php $Menu=202;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<h1>Notas Permisos</h1>
@@ -20,11 +20,11 @@
 								<h3 class="box-title">
 									<?php if (permiso_activo(64)){?>
 									  <a class="btn btn-default"  id="bt_curs_add" onclick="document.getElementById('curs_deta').value='';" data-toggle="modal" data-target="#nuev_perm_indi" title="">
-										<span class="fa fa-plus"></span>Individual
+										<span style='color:#3c8dbc' class="fa fa-plus"></span> Individual
 									  </a>
 									<?php }if (permiso_activo(65)){?>
-									  <a class="btn btn-default"  id="bt_curs_add" o  data-toggle="modal" data-target="#nuev_perm_group" title="">
-										<span class="fa fa-plus"></span>General
+									  <a class="btn btn-primary"  id="bt_curs_add" o  data-toggle="modal" data-target="#nuev_perm_group" title="">
+										<span class="fa fa-plus"></span> General
 									  </a>
 									<?php }?>
 								</h3>
@@ -50,43 +50,66 @@
 												window.location='cursos_notas_permisos_main_view_repo_print.php?peri_dist_codi=' + document.getElementById('repo_peri_dist_codi').value + '&peri_dist_cab_codi=' + document.getElementById('sl_repo_peri_dist_cab').value;
 											}
 											</script>
-											
-											<div style="text-align: right;">
-											<div class="options">
-												Periodo distribución:
-													<?
-														$params = array($PERI_CODI);
-														$sql="{call peri_dist_cab_view(?)}";
-														$peri_dist_cab_view = sqlsrv_query($conn, $sql, $params);
-													?>
-													<select
-														id="sl_repo_peri_dist_cab"
-														style="width:250px; margin-top:10px;"
-														onChange="CargarUnidadesReporte(this.value, 2, 'div_peri_dist_repo')">
-															<option value="0">Elija</option>
-													   <?php  while ($row_peri_dist_cab_view = sqlsrv_fetch_array($peri_dist_cab_view)) { ?>
-															<option value="<?= $row_peri_dist_cab_view['peri_dist_cab_codi']; ?>">
-																<?= $row_peri_dist_cab_view['peri_dist_cab_deta']; ?>
-															</option>
-														<? } ?>
-													</select>
-														Unidad:
-													<div id="div_peri_dist_repo" style="display: inline;">
-														<select 
-															id="repo_peri_dist_codi" 
-															disabled="disabled"
-															style="width: 250px; margin-top:10px">
-															<option value="-1">Seleccione</option>
-														</select>
+										
+											<div class="panel panel-info">
+												<div class="panel-heading">
+													<h3 class="panel-title">
+														<a href="#/" id="boton_busqueda" name="boton_busqueda" style="text-decoration:none;">
+															<div width="100%">
+																<span class="fa fa-search"></span>&nbsp;Búsqueda
+															</div>
+														</a>
+													</h3>
+												</div>
+												<div class="panel-body" id="desplegable_busqueda" name="desplegable_busqueda">
+													<div class="form-horizontal" role="form">
+														<div class="form-group">
+															<label class="col-md-2 col-sm-3 control-label" style="text-align: right;">Período distribución:</label>
+															<div class="col-md-4 col-sm-5">
+																<?
+																	$params = array($PERI_CODI);
+																	$sql="{call peri_dist_cab_view(?)}";
+																	$peri_dist_cab_view = sqlsrv_query($conn, $sql, $params);
+																?>
+																<select class='form-control input-sm' 
+																	id="sl_repo_peri_dist_cab"
+																	style="width:250px; margin-top:10px;"
+																	onChange="CargarUnidadesReporte(this.value, 2, 'div_peri_dist_repo')">
+																		<option value="0">Elija</option>
+																   <?php  while ($row_peri_dist_cab_view = sqlsrv_fetch_array($peri_dist_cab_view)) { ?>
+																		<option value="<?= $row_peri_dist_cab_view['peri_dist_cab_codi']; ?>">
+																			<?= $row_peri_dist_cab_view['peri_dist_cab_deta']; ?>
+																		</option>
+																	<? } ?>
+																</select>
+															</div>
+														</div>
+														<div class="form-group">
+															<label class="col-md-2 col-sm-3 control-label" style="text-align: right;">Unidad:</label>
+															<div class="col-md-4 col-sm-5">
+																<div id="div_peri_dist_repo" style="display: inline;">
+																	<select class='form-control input-sm' 
+																		id="repo_peri_dist_codi" 
+																		disabled="disabled"
+																		style="width: 250px; margin-top:10px">
+																		<option value="-1">Seleccione</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+														<div class="form-group">
+															<div class="col-md-2 col-sm-3 control-label" style="text-align: right;">
+																<button type="button" class="btn btn-primary btn" onClick="print_view();">
+																	<span class="fa fa-print"></span> Imprimir
+																</button>
+															</div>
+														</div>
 													</div>
-													<button type="button" class="btn btn-default btn" onClick="print_view();">
-													<span class="icon-print"></span>  Imprimir
-												</button>
+												</div>
+											</div>						
+											<div id="curs_para_main_repo_deta">
+												<?php include ('cursos_notas_permisos_main_view_repo.php'); ?>
 											</div>
-										</div>							
-										<div id="curs_para_main_repo_deta">
-											<?php include ('cursos_notas_permisos_main_view_repo.php'); ?>
-										</div>
 										</div>
 									</div>
 								</div>

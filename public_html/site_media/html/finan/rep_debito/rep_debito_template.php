@@ -136,10 +136,11 @@
 	<script src="{ruta_includes_common}/maskmoney/src/jquery.maskMoney.js" type="text/javascript"></script>
 	<script src="{ruta_includes_common}/bootstrap-validator-master/js/validator.js" type="text/javascript"></script>
     <script src="{ruta_includes_common}/plugins/jQuery/numeric.js"></script>
+	<script src="{ruta_includes_common}/shortcut.js"></script>
 
 	<script src="{ruta_js_finan}/general.js"></script>
 	<script src="{ruta_js_common}/general.js"></script>
-	<script src="{ruta_js_finan}/rep_debito.js"></script>
+	<script src="{ruta_js_finan}/rep_debito.js?v=1"></script>
 	<script src="{ruta_js_common}/mensajeria.js"></script>
 </body>
 </html>

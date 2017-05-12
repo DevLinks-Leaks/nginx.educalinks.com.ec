@@ -11,7 +11,6 @@ switch($opc){
 	$alum_busq = sqlsrv_query($conn, $sql, $params); 
 
 	$row = sqlsrv_fetch_array($alum_busq);
-	
 	if($row['repr_cedula']){
 		$url = $_SESSION['web_service_url'].'/api/crearbl?api_token='.$_SESSION['api_token'];
 		$data = array('data' => array(	'bl_codi'=>'',
@@ -31,7 +30,6 @@ switch($opc){
 				'header'=>  "Content-Type: application/json"
 				)
 			);
-
 		$context  = stream_context_create( $options );
 		$result = file_get_contents( $url, false, $context );
 

@@ -13,7 +13,7 @@
         <link href="../theme/css/print.css" media="print" rel="stylesheet" type="text/css" />
         <link href="../theme/jquery1_11/external/jquery/jquery_growl/stylesheets/jquery.growl.css" rel="stylesheet" type="text/css" />
       	<script src="../framework/funciones.js"></script>
-        <script src="js/notas.js"></script>
+        <script src="js/notasv2.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js" type="text/javascript"></script>
     	<script src="../theme/jquery1_11/external/jquery/jquery_growl/javascripts/jquery.growl.js" type="text/javascript"></script>
 		<style>

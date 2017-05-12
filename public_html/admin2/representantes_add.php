@@ -4,7 +4,7 @@
     <body class="hold-transition skin-blue sidebar-mini">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=000;include("template/menu.php");?>
+			<?php $Menu=102;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<?php
@@ -21,7 +21,10 @@
 				</section>
 				<section class="content" id="mainPanel">
 					<div id="information">
+						<!-- <script type="text/javascript" src="js/funciones_repre.js?<?= $rand?>"></script> -->
+						<div id="div_repr_list">
 						<?php	include ('representantes_add_script.php');  ?>
+						</div>
 		            </div>
 				</section>
 				<?php include("template/menu_sidebar.php");?>
@@ -35,5 +38,21 @@
 		<input name="mens_de"  		type="hidden" id="mens_de" 		value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
 		<input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 		<?php include("template/scripts.php");?>
+		<!-- Modal Representante Edición -->
+		<div class="modal fade" id="modal_representante_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div id="modal_representante_edit_content" class="modal-content">
+					
+				</div>
+			</div>
+		</div>
+		<!-- FIN MODAL -->
+		<script type="text/javascript" charset="utf-8">
+		  shortcut.add("Shift+E+G", function() {
+		      $('#btn_guardar').trigger("click");
+		  },{'disable_in_input':true});
+		  inicializar_radioBtn();
+		  
+		</script>
 	</body>
 </html>

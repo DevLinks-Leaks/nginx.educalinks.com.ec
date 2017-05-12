@@ -31,7 +31,7 @@
 <table class="table table-striped">
 <?php  while ($row_curs_peri_view = sqlsrv_fetch_array($curs_peri_view)) { $cc +=1; ?> 
 
-		<thead>
+		<thead style='background-color:rgba(1, 126, 186, 0.1) !important;'>
         <tr>
           <th colspan="4"><strong><?= $row_curs_peri_view["curs_deta"]; ?></strong> - <?= $row_curs_peri_view["para_deta"]; ?>  
           </th>
