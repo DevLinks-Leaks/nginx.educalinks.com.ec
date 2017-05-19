@@ -21,17 +21,13 @@
 				</section>
 				<section class="content" id="mainPanel">
 					<div id="information">
-						<div class="titleBar">
-                            <script type="text/javascript" src="js/select_actas.js"></script>
-                            <div class="title" style="width:100%; float:left;">
-                                <h3><span class="icon-print icon"></span>ACTAS DE CALIFICACIONES</h3>
-                            </div>
-                            <div style="width:100%; float:left;">
-                                <div class="options" style="width:75%; float:none;">
-                                    <ul>
-                                        <li>
-                                            <a class="button_text">
-                                                <select onchange="CargarPeriodosDistribucion(this.value);CargarCursosParalelos(this.value);CargarCursosParalelosMaterias(0);"
+                            <script type="text/javascript" src="js/select_actas.js?<?=$rand?>"></script>
+                            <div class="box box-default">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">
+                                        <div class="row">
+                                            <div class="form-group col-md-3">
+                                                <select class="form-control" onchange="CargarPeriodosDistribucion(this.value);CargarCursosParalelos(this.value);CargarCursosParalelosMaterias(0);"
                                                         style="width: 200px">
                                                         <?
                                                             $peri_codi=$_SESSION['peri_codi'];
@@ -51,68 +47,57 @@
                                                         }
                                                     ?>
                                                 </select>
-                                            </a>
-										</li>
-                                        <li>
-                                            <a class="button_text">
-                                                <div id="div_sl_periodo_dist">
-                                                    <select
+                                            </div>
+				                            <div class="form-group col-md-3" id="div_sl_periodo_dist">
+                                                <select class="form-control"
                                                         id="sl_periodo_dist"
                                                         disabled="disabled"
 														style="width: 200px">
                                                         <option value="0">Parcial/Quimestre</option>
-                                                    </select>
-												</div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="button_text">
-                                                <div id="div_sl_paralelos">
-                                                    <select
-                                                        disabled="disabled"
-                                                        style="width: 200px"
-														id="sl_paralelos">
-														<option value="0">Curso/Paralelo</option>
-                                                    </select>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="button_text">
-                                                <div id="div_sl_asignatura">
-                                                    <select
-                                                        id="sl_asignatura"
-                                                        name="sl_asignatura"
-                                                        disabled="disabled"
-                                                        style="width: 200px">
-                                                        <option value="0"> Asignatura</option>
-                                                    </select>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                                </select>
+											</div>
+                                            <div class="form-group col-md-3" id="div_sl_paralelos">
+                                                <select class="form-control"
+                                                    disabled="disabled"
+                                                    style="width: 200px"
+													id="sl_paralelos">
+													<option value="0">Curso/Paralelo</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-3" id="div_sl_asignatura">
+                                                <select class="form-control"
+                                                    id="sl_asignatura"
+                                                    name="sl_asignatura"
+                                                    disabled="disabled"
+                                                    style="width: 200px">
+                                                    <option value="0"> Asignatura</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row alumnos_main_lista" >
+                                    <div class="col-md-12">
+                                        <table class="table table-striped" id="alum_table">
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%">&nbsp;</th>
+                                                    <th width="65%" class="sort"><span class="icon-sort icon"></span>Reporte</th>
+                                                    <th width="30%" class="sort"><span class="icon-cog icon"></span>Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr><td><div id='acta_001_qm'></div></td><td><div id='acta_001_titulo'></div></td><td align='center'><div id='acta_001_opc'></div></td></tr>
+                                                <tr><td><div id='acta_002_pm'></div></td><td><div id='acta_002_titulo'></div></td><td align='center'><div id='acta_002_opc'></div></td></tr>
+                                                <tr><td><div id='acta_003_cq'></div></td><td><div id='acta_003_titulo'></div></td><td align='center'><div id='acta_003_opc'></div></td></tr>
+                                                <tr><td><div id='acta_004_cf'></div></td><td><div id='acta_004_titulo'></div></td><td align='center'><div id='acta_004_opc'></div></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
-                        <!-- InstanceEndEditable -->
-						</div>
-                        <!-- InstanceBeginEditable name="information" -->
-                        <div class="alumnos_main_lista" style="float:none; width:100%;">
-                            <table class="table table-striped" id="alum_table">
-                                <thead>
-                                    <tr>
-                                        <th width="5%">&nbsp;</th>
-                                        <th width="65%" class="sort"><span class="icon-sort icon"></span>Reporte</th>
-                                        <th width="30%" class="sort"><span class="icon-cog icon"></span>Opciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-									<tr><td><div id='acta_001_qm'></div></td><td><div id='acta_001_titulo'></div></td><td align='center'><div id='acta_001_opc'></div></td></tr>
-									<tr><td><div id='acta_002_pm'></div></td><td><div id='acta_002_titulo'></div></td><td align='center'><div id='acta_002_opc'></div></td></tr>
-									<tr><td><div id='acta_003_cq'></div></td><td><div id='acta_003_titulo'></div></td><td align='center'><div id='acta_003_opc'></div></td></tr>
-									<tr><td><div id='acta_004_cf'></div></td><td><div id='acta_004_titulo'></div></td><td align='center'><div id='acta_004_opc'></div></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
 		            </div>
 				</section>
 				<?php include("template/menu_sidebar.php");?>

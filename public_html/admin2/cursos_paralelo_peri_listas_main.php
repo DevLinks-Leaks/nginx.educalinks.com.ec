@@ -25,9 +25,11 @@
 				</section>
 				<section class="content" id="mainPanel">
 					<div id="information">
-						<div id="curs_main">
-							<?php include ('cursos_paralelo_peri_listas_main_view.php'); ?>
-                        </div>
+						<div class="box box-default">
+							<div id="curs_main">
+								<?php include ('cursos_paralelo_peri_listas_main_view.php'); ?>
+	                        </div>
+	                    </div>
 		            </div>
 				</section>
 				<?php include("template/menu_sidebar.php");?>

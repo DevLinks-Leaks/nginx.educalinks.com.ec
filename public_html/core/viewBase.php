@@ -137,6 +137,10 @@ function get_navbar(){
 	$navbar = str_replace('{fotoUsuario}', $print_foto, $navbar);
 	$navbar = str_replace('{navbar_logo_educalinks}', '../..'.$_SESSION['dir_logo_educalinks_long'] , $navbar);
 	$navbar = str_replace('{navbar_logo_educalinks_small}', '../..'.$diccionario['rutas_head'].$_SESSION['dir_logo_educalinks_long_small'] , $navbar);
+	$navbar = str_replace('{navbar_logo_educalinks}', '../..'.$_SESSION['dir_logo_educalinks_long'] , $navbar);
+	$navbar = str_replace('{navbar_logo_educalinks_small}', '../..'.$diccionario['rutas_head'].$_SESSION['dir_logo_educalinks_long_small'] , $navbar);
+	$navbar = str_replace('{cmb_sidebar_periodo}', $_SESSION['cmb_sidebar_periodo'], $navbar );
+	$navbar = str_replace('{peri_deta}', $_SESSION['peri_deta'], $navbar );
 	return $navbar;
 }
 function get_navbar_alumnos()
@@ -148,16 +152,17 @@ function get_navbar_alumnos()
 	$file_exi = '../../'.$_SESSION['ruta_foto_usuario'].$_SESSION['usua_codi'].'.jpg';
 	
 	if ( file_exists( $file_exi ) )
-	{   $print_foto = '../'.$_SESSION["ruta_foto_usuario"].$_SESSION["usua_codi"].'.jpg';
+	{   $print_foto = '../../'.$_SESSION["ruta_foto_usuario"].$_SESSION["usua_codi"].'.jpg';
 	}
 	else
-	{	$print_foto = '../'.$_SESSION["ruta_foto_usuario"].'admin.jpg';
+	{	$print_foto = '../../'.$_SESSION["ruta_foto_usuario"].'admin.jpg';
 	}
-	
-	$navbar = str_replace('{select_alumno}', $_SESSION['cmb_alum_sel'], $navbar);
+	$combo = str_replace('../fotos', '../../fotos', $_SESSION['cmb_alum_sel'] );
+	$navbar = str_replace('{select_alumno}', $combo, $navbar);
 	$navbar = str_replace('{ruta_foto_header}', $_SESSION['ruta_foto_header'], $navbar);
 	$navbar = str_replace('{navbar_logo_educalinks}', '../..'.$_SESSION['dir_logo_educalinks_long'] , $navbar);
 	$navbar = str_replace('{navbar_logo_educalinks_small}', '../..'.$diccionario['rutas_head'].$_SESSION['dir_logo_educalinks_long_small'] , $navbar);
+	$navbar = str_replace('{peri_deta}', $_SESSION['peri_deta'], $navbar );
 	return $navbar;
 }
 function get_menu_sidebar(){
@@ -174,7 +179,6 @@ function get_menu_sidebar(){
 					</p>
 				</div>';
 	$sidebar = str_replace('{cmb_sidebar_periodo}', $cmb, $sidebar );
-
 	$acad = '	<li>
 					<a href="../../../admin/index.php" title="Ir al módulo académico">
 						<i class="menu-icon fa fa-graduation-cap bg-yellow"></i>
@@ -234,17 +238,32 @@ function get_menu_sidebar(){
 	$sidebar = str_replace('{sidebar_modulo_acad}', $acad, $sidebar );
 	$sidebar = str_replace('{sidebar_modulo_admisiones}', $admisiones, $sidebar );
 	if($_SESSION['rol_finan']==1)
+	{
 		$sidebar = str_replace('{sidebar_modulo_finan}', $finan, $sidebar );
+	}
+		
 	else
+	{
 		$sidebar = str_replace('{sidebar_modulo_finan}', "", $sidebar );
+	}
+	
 	if($_SESSION['rol_biblio']==1)
+	{
 		$sidebar = str_replace('{sidebar_modulo_biblio}', $biblio, $sidebar );
+	}	
 	else
+	{
 		$sidebar = str_replace('{sidebar_modulo_biblio}', "", $sidebar );
+	}
+	
 	if($_SESSION['rol_medico']==1)
+	{
 		$sidebar = str_replace('{sidebar_modulo_medico}', $medico, $sidebar );
+	}
 	else
+	{
 		$sidebar = str_replace('{sidebar_modulo_medico}', "", $sidebar );
+	}
 	
 	if ($_SESSION['rol_pagoweb']==1)
 		$sidebar = str_replace('{bdp}', $boton_de_pago, $sidebar );

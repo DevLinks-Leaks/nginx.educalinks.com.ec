@@ -20,6 +20,7 @@
 				<?php if($_SESSION['peri_codi_dest']!=null){ ?>
 				<li class="<? if ($Menu==2) echo 'active'; ?>"><a href="preinscripcion.php"><i class="fa fa-pencil-square-o"></i> <span>Preinscripción</span></a></li>
 				<? } ?>
+				<? if ($_SESSION['directorio']=='moderna'){?><li class="<? if ($Menu==10) echo 'active'; ?>"><a href="actualizacion_datos.php"><i class="fa fa-clipboard"></i> <span>Datos</span></a></li><?}?>
 				<li class="<? if ($Menu==2) echo 'active'; ?>"><a href="agenda.php"><i class="fa fa-calendar"></i> <span>Agenda</span></a></li>
 				<li class="<? if ($Menu==3) echo 'active'; ?>"><a href="clases.php"><i class="glyphicon glyphicon-book"></i> <span>Materiales</span></a></li>
 				<li class="<? if ($Menu==700) echo 'active'; ?>"><a href="notas.php"><i class="fa fa-book"></i> <span>Calificaciones</span></a></li>
@@ -28,8 +29,9 @@
 				if( $_SESSION['certus_medic'] == '1' )
 				{	?><li class="<? if ($Menu==700) echo 'active'; ?>"><a href="visitas_medicas.php"><i class="fa fa-medkit"></i> <span>Visitas Médicas</span></a></li><?php
 				}
+				$_SESSION['cita_medica'] = para_sist(402);
 				if($_SESSION['USUA_TIPO']=='R')
-				{   if (para_sist(402))
+				{   if ( $_SESSION['cita_medica'] )
 					{	?><li class="<? if ($Menu==5) echo 'active'; ?>"><a href="citas.php"><i class="fa fa-clock-o"></i> <span>Citas</span></a></li><?php 
 					}
 				}

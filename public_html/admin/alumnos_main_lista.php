@@ -203,7 +203,7 @@ include ('../framework/funciones.php');
 							<span class='icon-lock icon' style='margin-right:3px;'></span>&nbsp;Bloquear</a>
 					</div>";
 				}
-				if (permiso_activo(22)){
+				if (permiso_activo(535)){
 					if ($row_alum_busq["alum_curs_para_codi"]!="")
 					{	$opciones[]="
 						<div class='rTableCell'>

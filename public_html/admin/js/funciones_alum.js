@@ -270,7 +270,8 @@ function load_ajax_retiro(div,url,check,alum_codi,alum_curs_para_codi){
                 
                 // $('#ModalMatri').modal('hide');
             }
-            load_ajax_noload(div,'modal_estado_retiro_view.php','alum_codi='+alum_codi);
+            // load_ajax_noload(div,'modal_estado_retiro_view.php','alum_codi='+alum_codi);
+            load_ajax_noload('modal_estado_content','modal_estado_view.php','alum_codi='+alum_codi);
             BuscarAlumnos(document.getElementById('alum_codi_in').value,document.getElementById('alum_apel_in').value,document.getElementById('curs_para_codi_in').value);
         }
     };
@@ -485,8 +486,8 @@ function load_ajax_add_alum(div,url,elem)
         data.append('alum_celu', document.getElementById('alum_celu').value);
         data.append('alum_domi', document.getElementById('alum_domi').value.trim());
         data.append('alum_telf', document.getElementById('alum_telf').value);
-        data.append('alum_ciud', $('#alum_ciud option:selected').text());
-        data.append('alum_parroquia', $('#alum_parroquia option:selected').text());
+        data.append('alum_ciud', ($('#alum_ciud').val()=='' ? '' : $('#alum_ciud option:selected').text()));
+        data.append('alum_parroquia', ($('#alum_parroquia').val()=='' ? '' : $('#alum_parroquia option:selected').text()));
         data.append('alum_telf_emerg', document.getElementById('alum_telf_emerg').value);
         data.append('alum_ex_plantel', document.getElementById('alum_ex_plantel').value.trim());
         data.append('alum_usua', document.getElementById('alum_usua').value);
@@ -521,16 +522,16 @@ function load_ajax_add_alum(div,url,elem)
         data.append('alum_tipo_sangre', document.getElementById('alum_tipo_sangre').value);
         data.append('alum_resp_form_tipo_iden', document.getElementById('alum_resp_form_tipo_iden').options[document.getElementById('alum_resp_form_tipo_iden').selectedIndex].value);
         data.append('alum_pais',$('#alum_pais option:selected').text());
-        data.append('alum_prov_naci', $('#alum_prov_naci option:selected').text());
-        data.append('alum_ciud_naci', $('#alum_ciud_naci option:selected').text());
-        data.append('alum_parr_naci', $('#alum_parr_naci option:selected').text());
+        data.append('alum_prov_naci', ($('#alum_prov_naci').val()=='' ? '' : $('#alum_prov_naci option:selected').text()));
+        data.append('alum_ciud_naci', ($('#alum_ciud_naci').val()=='' ? '' : $('#alum_ciud_naci option:selected').text()));
+        data.append('alum_parr_naci', ($('#alum_parr_naci').val()=='' ? '' : $('#alum_parr_naci option:selected').text()));
         data.append('alum_sect_naci', $('#alum_sect_naci option:selected').text());
         data.append('alum_ex_plantel_dire', $('#alum_ex_plantel_dire').val());
         data.append('alum_etnia', document.getElementById('alum_etnia').value );
         data.append('alum_ingreso_familiar', document.getElementById('alum_ingreso_familiar').value );
         data.append('alum_hijo_ex_cadete', document.getElementById('alum_hijo_ex_cadete') === null ? '0' : document.getElementById('alum_hijo_ex_cadete').checked );
         data.append('alum_hno_ex_cadete', document.getElementById('alum_hno_ex_cadete') === null ? '0' : document.getElementById('alum_hno_ex_cadete').checked );
-        data.append('alum_prov', $('#alum_prov option:selected').text());
+        data.append('alum_prov', ($('#alum_prov').val()=='' ? '' : $('#alum_prov option:selected').text()));
         data.append('alum_tiene_seguro', document.getElementById('alum_tiene_seguro').checked);
 
         xmlhttp.onreadystatechange=function()
@@ -577,8 +578,8 @@ function load_ajax_edit_alum( div, url, alum_codi )
         data.append('alum_celu', document.getElementById('alum_celu').value);
         data.append('alum_domi', document.getElementById('alum_domi').value.trim());
         data.append('alum_telf', document.getElementById('alum_telf').value);
-        data.append('alum_ciud', $('#alum_ciud option:selected').text());
-        data.append('alum_parroquia', $('#alum_parroquia option:selected').text());
+        data.append('alum_ciud', ($('#alum_ciud').val()=='' ? '' : $('#alum_ciud option:selected').text()));
+        data.append('alum_parroquia', ($('#alum_parroquia').val()=='' ? '' : $('#alum_parroquia option:selected').text()));
         data.append('alum_telf_emerg', document.getElementById('alum_telf_emerg').value);
         data.append('alum_ex_plantel', document.getElementById('alum_ex_plantel').value.trim());
         data.append('alum_usua', document.getElementById('alum_usua').value);
@@ -613,16 +614,16 @@ function load_ajax_edit_alum( div, url, alum_codi )
         data.append('alum_tipo_sangre', document.getElementById('alum_tipo_sangre').value);
         data.append('alum_resp_form_tipo_iden', document.getElementById('alum_resp_form_tipo_iden').options[document.getElementById('alum_resp_form_tipo_iden').selectedIndex].value);
         data.append('alum_pais',$('#alum_pais option:selected').text());
-        data.append('alum_prov_naci', $('#alum_prov_naci option:selected').text());
-        data.append('alum_ciud_naci', $('#alum_ciud_naci option:selected').text());
-        data.append('alum_parr_naci', $('#alum_parr_naci option:selected').text());
+        data.append('alum_prov_naci', ($('#alum_prov_naci').val()=='' ? '' : $('#alum_prov_naci option:selected').text()));
+        data.append('alum_ciud_naci', ($('#alum_ciud_naci').val()=='' ? '' : $('#alum_ciud_naci option:selected').text()));
+        data.append('alum_parr_naci', ($('#alum_parr_naci').val()=='' ? '' : $('#alum_parr_naci option:selected').text()));
         data.append('alum_sect_naci', $('#alum_sect_naci option:selected').text());
         data.append('alum_ex_plantel_dire', $('#alum_ex_plantel_dire').val());
         data.append('alum_etnia', document.getElementById('alum_etnia').value );
         data.append('alum_ingreso_familiar', document.getElementById('alum_ingreso_familiar').value );
         data.append('alum_hijo_ex_cadete', document.getElementById('alum_hijo_ex_cadete') === null ? '0' : document.getElementById('alum_hijo_ex_cadete').checked );
         data.append('alum_hno_ex_cadete', document.getElementById('alum_hno_ex_cadete') === null ? '0' : document.getElementById('alum_hno_ex_cadete').checked );
-        data.append('alum_prov', $('#alum_prov option:selected').text());
+        data.append('alum_prov', ($('#alum_prov').val()=='' ? '' : $('#alum_prov option:selected').text()));
         data.append('alum_tiene_seguro', document.getElementById('alum_tiene_seguro').checked);
 
         xmlhttp.onreadystatechange=function()

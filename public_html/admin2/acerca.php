@@ -3,8 +3,13 @@
     <?php include("template/head.php");?>
     <body class="hold-transition skin-blue sidebar-mini">
 		<div class="wrapper">
-			<?php include ('template/header.php');?>
-			<?php $Menu=800;include("template/menu.php");?>
+			<?php include ('template/header.php');
+				$Menu=800;
+				if( $_SESSION['modulo']=='acad' )
+					include("template/menu.php");
+				else if( $_SESSION['modulo']=='finan' )
+					include("template/menu_finan.php");
+				?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<h1>Acerca de

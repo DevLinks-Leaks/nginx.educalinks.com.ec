@@ -51,7 +51,10 @@ include ('../framework/funciones.php');
 			<td>
 				<div class="btn-group" role="group">
 					<?php if (permiso_activo(25)){?>
-						<a class="btn btn-default" target="_blank" title="Editar" onmouseover="$(this).tooltip('show')" href="representantes_add.php?repr_codi=<?= $row_repr_busq["repr_codi"]?>" ><span class="fa fa-pencil btn_opc_lista_editar"></span></a>
+						<!-- <a class="btn btn-default" target="_blank" title="Editar" onmouseover="$(this).tooltip('show')" href="representantes_add.php?repr_codi=<?= $row_repr_busq["repr_codi"]?>" ><span class="fa fa-pencil btn_opc_lista_editar"></span></a> -->
+						<a class="btn btn-default" data-toggle="modal" onmouseover="$(this).tooltip('show')" title="Editar" data-target="#modal_representante_edit" onclick="load_modal_repre_view('modal_representante_edit_content','representantes_add_modal.php','repr_codi=<?= $row_repr_busq["repr_codi"]?>&flag=1');"  >
+                                    <span class="fa fa-pencil btn_opc_lista_editar"></span>
+                        </a>
 					<?php }
 					if (permiso_activo(26)){?>
 					<a class="btn btn-default" title="Eliminar" onmouseover="$(this).tooltip('show')" onclick="load_ajax_del_repr('repr_main','script_repr.php','opc=repr_del&repr_codi=<?= $row_repr_busq["repr_codi"]?>')" ><span class="fa fa-trash btn_opc_lista_eliminar"></span></a>

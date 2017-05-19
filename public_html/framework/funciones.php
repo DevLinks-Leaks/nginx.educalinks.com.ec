@@ -46,7 +46,7 @@
 	
 		}
 	}
-	
+
 	if (!function_exists('permiso_activo')) {
 		function permiso_activo($perm_codi){
 			session_start();
@@ -139,13 +139,24 @@
 				break;
 				
 				case 3:
+					
 					if(isset($_SESSION['ISBIEN_ALUM']))
 					{	if ($_SESSION['ISBIEN_ALUM'] <> 'YESIN') 
 						{	if ($_SESSION['ISBIEN_ALUM']=='NOTIN')
 								header("Location: ../index.php");
-							else
+							else{
+								
 								header("Location: preinscripcion.php");
+							}
 						}
+						// else{
+						// 	if($_SESSION['repr_upd']){
+						// 		header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/index.php' );
+						// 	}
+						// 	else{
+						// 		header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/actualizacion_datos.php' );
+						// 	}
+						// }
 					} 
 					else
 					{	header("Location: ../index.php");		
@@ -176,6 +187,18 @@
 			$peri_acti_etap = sqlsrv_query($conn, $sql, $params3);  
 			$row_peri_acti_etap = sqlsrv_fetch_array($peri_acti_etap);
 			$_SESSION['peri_codi_dest']=$row_peri_acti_etap['peri_codi_dest'];		
+		}
+	}
+	if (!function_exists('EncuestaActiva')) {
+		function EncuestaActiva($peri_codi){
+			include ('dbconf.php');
+			$params3 = array($peri_codi);
+			
+			$sql="{call encu_view(?)}";
+			$encu_view = sqlsrv_query($conn, $sql, $params3);  
+			$row_encu_view = sqlsrv_fetch_array($encu_view);
+			$_SESSION['encu_deta']=$row_encu_view['encu_deta'];
+			$_SESSION['encu_codi']=$row_encu_view['peri_acti_codi'];	
 		}
 	}
 	if (!function_exists('creditCardMask')) {
@@ -961,8 +984,7 @@
 			}
 		}
 	}
-	
-	if (!function_exists('licencia_activa')) {
+    if (!function_exists('licencia_activa')) {
         function licencia_activa(){
             $current_file_name = basename($_SERVER['PHP_SELF']);
             /*echo "=======>".$current_file_name;
@@ -976,6 +998,20 @@
                             header("Location: activar_licencia.php");
                     }
                 }
+            }
+        }
+    }
+    if (!function_exists('actualizacion_activa')) {
+        function actualizacion_activa(){
+            $current_file_name = basename($_SERVER['PHP_SELF']);
+            /*echo "=======>".$current_file_name;
+            echo "=======>".$_SESSION['alum_curs_para_codi'];
+            echo "=======>".$_SESSION['pin'];
+            echo "=======>".para_sist(407);*/
+            
+            if (!$_SESSION['repr_upd'] || !$_SESSION['alum_upd']){
+                if ($current_file_name != "actualizacion_datos.php")
+                    header("Location: actualizacion_datos.php");
             }
         }
     }

@@ -21,142 +21,144 @@
 	$page_div 	= 10;	/* Numero por pagina */
   
 	$html_bandeja='
-
-<div class="lista">
-	<table id="mensajes_table" class="table_striped">
-        <thead>
-            <tr>';
-                switch($op)
-				{   case 1: $html_bandeja='
-                        <th width="20%" >Título</th>
-                        <th width="25%" class="sort"><span class="icon-sort icon"></span>Enviado por</th>
-                        <th width="15%" class="center"></span>Fecha Recibido</th>
-                        <th width="7%" >Opciones</th>';
-						break;
-                    case 2: $html_bandeja='
-                        <th width="20%" >Título</th>
-                        <th width="25%" class="sort"><span class="icon-sort icon"></span>Enviado por</th>
-                        <th width="15%" class="center"></span>Fecha Recibido</th>
-                        <th width="7%" >Opciones</th>';
-						break;
-                    case 3: $html_bandeja='
-                        <th width="20%" >Título</th>
-                        <th width="25%" class="sort"><span class="icon-sort icon"></span>Enviado a</th>
-                        <th width="15%" class="center"></span>Fecha Enviado</th>
-                        <th width="15%" class="center">Fecha Lectura</th>
-                        <th width="7%" >Opciones</th>';
-						break;
-                    case 4: $html_bandeja='
-                        <th width="20%" >Título</th>
-                        <th width="20%" >Detalle</th>
-                        <th width="15%" class="center"></span>Enviado a</th>
-                        <th width="15%" class="center">Enviado por</th>
-                        <th width="5%" >Opciones</th>';
-						break;
-                }
-	$html_bandeja='				
-            </tr>
-        </thead>
-        <tbody>';
-    while ($row_mens_view_op = sqlsrv_fetch_array($mens_view_op)) 
-    { 
-		$cc +=1;
+<div class="row">
+	<div class="col-sm-12">
+		<div class="lista">
+			<table id="mensajes_table" name="mensajes_table" class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th width="5%">
+							<div style="font-size:x-small;text-align:center;" >
+								<input style="display:none;" type="checkbox" id="ckb_codigoDocumento_head" name="ckb_codigoDocumento_head" onClick="js_gestionFactura_select_all(this)"></input>
+							</div>
+						</th>';
+						switch($op)
+						{   case 1: $html_bandeja.='
+								<th width="20%" style="text-align: center;">Título</th>
+								<th width="25%" style="text-align: center;" class="sort"><span class="icon-sort icon"></span>Enviado por</th>
+								<th width="15%" style="text-align: center;" class="center"></span>Fecha Recibido</th>
+								<th width="7%" style="text-align: center;" >Eliminar</th>';
+								break;
+							case 2: $html_bandeja.='
+								<th width="20%" style="text-align: center;">Título</th>
+								<th width="25%" style="text-align: center;" class="sort"><span class="icon-sort icon"></span>Enviado por</th>
+								<th width="15%" style="text-align: center;" class="center"></span>Fecha Recibido</th>
+								<th width="7%" style="text-align: center;">Eliminar</th>';
+								break;
+							case 3: $html_bandeja.='
+								<th width="20%" style="text-align: center;">Título</th>
+								<th width="25%" style="text-align: center;" class="sort"><span class="icon-sort icon"></span>Enviado a</th>
+								<th width="15%" style="text-align: center;" class="center"></span>Fecha Enviado</th>
+								<th width="15%" style="text-align: center;" class="center">Fecha Lectura</th>
+								<th width="7%" style="text-align: center;">Eliminar</th>';
+								break;
+							case 4: $html_bandeja.='
+								<th width="20%" style="text-align: center;">Título</th>
+								<th width="20%" style="text-align: center;">Detalle</th>
+								<th width="15%" style="text-align: center;" class="center"></span>Enviado a</th>
+								<th width="15%" style="text-align: center;" class="center">Enviado por</th>
+								<th width="5%" style="text-align: center;">Eliminar</th>';
+								break;
+						}
+			$html_bandeja.='				
+					</tr>
+				</thead>
+				<tbody>';
+			$c=0;
+			while ($row_mens_view_op = sqlsrv_fetch_array($mens_view_op)) 
+			{	$cc +=1;
+				$html_bandeja.='
+				<tr id="tr_row_'.$row_mens_view_op["mens_codi"].'" name="tr_row_'.$row_mens_view_op["mens_codi"].'" style="font-size: small; vertical-align: middle; ">
+					<td id="td_select_'.$c.'" name="td_select_'.$c.'" align="center"><div style="font-size:x-small;">'.
+						'<input type="checkbox" id="ckb_codigoDocumento" name="ckb_codigoDocumento[]" value="'.$row_mens_view_op["mens_codi"].'"
+							onclick="js_mensajes_select_check_ind (this, '.$c.')"></input>'.
+						'</div>
+					</td>
+					<td class="titulares">
+					  '. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '<b>' : '').'
+							<a style="cursor:pointer;"
+							  class="option" 
+							  data-toggle="modal" 
+							  data-target="#modal_leer_ext"
+							  onclick="load_ajax_mens_responder(\'modal_main_ext\',\'mensajes_info.php\','.$row_mens_view_op["mens_codi"].');mens_alert_upda();">
+								<span class="fa '. ( $row_mens_view_op["mens_fech_lect"] == NULL ? 'fa-envelope' : 'fa-envelope-open-o').'"></span>&nbsp;'.$row_mens_view_op["mens_titu"].'
+							</a>
+					  '. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '</b>' : '').'
+					</td>';
+					if($op==4)
+					{	$html_bandeja.='
+					  <td align="center">'. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '<b>' : '').'
+							'.substr($row_mens_view_op["mens_deta"],0,40).'....'. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '</b>' : '').'
+					  </td>';
+					}else
+					{	$html_bandeja.='
+					  <td align="center">'. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '<b>' : '').'
+							'.$row_mens_view_op["mens_nomb"].''. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '</b>' : '').'
+					  </td>';
+					}
+					if($op==4)
+					{	$html_bandeja.='
+					  <td align="center">'. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '<b>' : '').'
+							'.$row_mens_view_op["mens_de_nomb"].''. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '</b>' : '').'
+					  </td>
+					  <td align="center">'. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '<b>' : '').'
+							'.$row_mens_view_op["mens_para_nomb"].''. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '</b>' : '').'
+					  </td>';
+					}
+					else
+					{	$html_bandeja.='
+					  <td align="center">'. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '<b>' : '').'
+					   '.date_format( $row_mens_view_op["mens_fech_envi"], 'd/M/Y  h:m:s' ).'
+						'. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '</b>' : '').'
+					  </td>';
+						if($op==1 or $op==2)
+						{	//do nothing
+						}
+						else
+						{	$html_bandeja.='
+						<td align="center">'. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '<b>' : '').'
+							'.date_format( $row_mens_view_op["mens_fech_lect"], 'd/M/Y  h:m:s' ).''. ( $row_mens_view_op["mens_fech_lect"] == NULL ? '</b>' : '').'
+						</td>';
+						}
+					}
+				$html_bandeja.='
+				
+				<td style="text-align: center;">';
+					if($op==1 or $op==2 or $op==3)
+					{	$html_bandeja.='<a 
+								class="btn btn-danger" 
+								onclick="elimina_mensaje('.$row_mens_view_op["mens_codi"].','.$op.');" >
+								<span class="fa fa-trash-o"></span>
+							  </a>';
+					}
+					$html_bandeja.='
+					</td>
+				</tr>';
+				$c++;
+			}
 		$html_bandeja.='
-        <tr style="font-size:small;">
-            <td class="titulares">
-              <strong>
-				    <a 
-					  class="option" 
-					  data-toggle="modal" 
-					  data-target="#modal_leer_ext"
-					  onclick="load_ajax(\'modal_main_ext\',\'mensajes_info.php\',\'mens_codi='.$row_mens_view_op["mens_codi"].'&op='.$op.'\');mens_alert_upda();">
-						<span class="fa fa-envelope"></span>&nbsp;Leer
-						'.$row_mens_view_op["mens_titu"].'
-				    </a>
-              </strong>
-            </td>';
-            if($op==4)
-			{	$html_bandeja.='
-              <td align="left">
-					'.substr($row_mens_view_op["mens_deta"],0,40).'....
-              </td>';
-            }else
-			{	$html_bandeja.='
-              <td align="left">
-					'.$row_mens_view_op["mens_nomb"].'
-              </td>';
-            }
-            if($op==4)
-			{	$html_bandeja.='
-              <td align="left">
-					'.$row_mens_view_op["mens_de_nomb"].'
-              </td>
-              <td align="left">
-					'.$row_mens_view_op["mens_para_nomb"].'
-              </td>';
-			}
-			else
-			{	$html_bandeja.='
-              <td align="center">
-               '.date_format( $row_mens_view_op["mens_fech_envi"], 'd/M/Y  h:m:s' ).'
-                
-              </td>';
-				if($op==1 or $op==2)
-				{	//do nothing
-				}
-				else
-				{	$html_bandeja.='
-                <td align="center">
-					'.date_format( $row_mens_view_op["mens_fech_lect"], 'd/M/Y  h:m:s' ).'
-                </td>';
-				}
-			}
-		$html_bandeja.='
-		
-		<td align="left" >
-			<div class="menu_options" style="text-align:left;">
-			  ';
-			if($op==1 or $op==2 or $op==3)
-			{	$html_bandeja.='<a 
-						class="option" style="font-color:red;"
-						onclick="elimina_mensaje('.$row_mens_view_op["mens_codi"].','.$op.');" >
-						<span class="fa fa-trash-o"></span>
-					  </a>';
-			}
-			$html_bandeja.='
-                </div>
-            </td>
-        </tr>';
-    }
-	if( $cc == 0)
-		$html_bandeja.='&nbsp;&nbsp;No se encontraron mensajes en esta bandeja.';
-  
-$html_bandeja.='
-		</tbody>
-	</table>
-</div>
-
-<script type="text/javascript" charset="utf-8">
- 
-      $(\'#mensajes_table\').datatable({
-        pageSize: 8,
-        sort: [false,true, false],
-        filters: [true,true, false],
-        filterText: \'Buscar... \'
-      }) ;
-</script>';
-$recibidos = $eliminados = $enviados = $in_active = $trash_active = $sent_active = "";
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>';
+if( $cc == 0)
+	$html_bandeja='<br>&nbsp;&nbsp;No se encontraron mensajes en esta bandeja.<br><br>';
+$recibidos = $eliminados = $enviados = $in_active = $trash_active = $sent_active = $bandeja_nombre = "";
 if($op==1 or $op==2)
 {	$recibidos = $cc;
 	$in_active = ' class="active" ';
+	$bandeja_nombre = ' Bandeja de entrada';
 }
 else if($op==4)
 {	$eliminados =  $cc;
 	$trash_active = ' class="active" ';
+	$bandeja_nombre = ' Mensajes eliminados';
 }
 else
 {	$enviados =  $cc;
 	$sent_active = ' class="active" ';
+	$bandeja_nombre = ' Mensajes enviados';
 }
 ?>
 
@@ -178,13 +180,14 @@ else
 											<li <?php echo $sent_active; ?>><a href="#" onclick="load_ajax_mensajes('mens_main_view','mensajes_view.php','OP=3',5);"><i class="fa fa-envelope-o"></i> Enviados <span class="label label-primary pull-right"><?php echo $enviados;?></a></li>
 											<li <?php echo $trash_active; ?>><a href="#" onclick="load_ajax_mensajes('mens_main_view','mensajes_view.php','OP=4',5);"><i class="fa fa-trash-o"></i> Eliminados <span class="label label-primary pull-right"><?php echo $eliminados;?></a></li>
 										</ul>
+										<input type='hidden' id='hd_op' name='hd_op' value='<?php echo $op; ?>'></input>
 									</div><!-- /.box-body -->
 								</div><!-- /. box -->
 							</div><!-- /.col -->
 							<div class="col-md-9">
 								<div class="box box-primary">
 									<div class="box-header with-border">
-										<h3 class="box-title">Mensajes</h3>
+										<h3 class="box-title"><?php echo $bandeja_nombre; ?></h3>
 										<div class="box-tools pull-right">
 											<div class="has-feedback">
 												<!--<input type="text" class="form-control input-sm" placeholder="Search Mail">
@@ -192,23 +195,19 @@ else
 											</div>
 										</div><!-- /.box-tools -->
 									</div><!-- /.box-header -->
-									<div class="box-body no-padding">
+									<div class="box-body">
 										<!--<div class="mailbox-controls">
 											 Check all button 
 											<button class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i></button>
 											<div class="btn-group">
 												<button class="btn btn-default btn-sm" onclick='delete_checked("tbl_mailbox");'><i class="fa fa-trash-o"></i></button>
-												<button class="btn btn-default btn-sm" onclick='reply_checked("tbl_mailbox");'><i class="fa fa-reply"></i></button>
+												<button class="btn bftn-default btn-sm" onclick='reply_checked("tbl_mailbox");'><i class="fa fa-reply"></i></button>
 												<button class="btn btn-default btn-sm" onclick='share_checked("tbl_mailbox");'><i class="fa fa-share"></i></button>
 											</div>
 											<button class="btn btn-default btn-sm"  onclick='refresh_mailbox("tbl_mailbox");'><i class="fa fa-refresh"></i></button>
 										</div>-->
-										<div class="table-responsive mailbox-messages">
-											<table id='tbl_mailbox' name='tbl_mailbox' class="table table-hover table-striped">
-												<tbody>
-													<?php echo $html_bandeja; ?>
-												</tbody>
-											</table><!-- /.table -->
+										<div class="form-horizontal">
+											<?php echo $html_bandeja; ?>
 										</div><!-- /.mail-box-messages -->
 									</div><!-- /.box-body -->
 									<!--<div class="box-footer no-padding">

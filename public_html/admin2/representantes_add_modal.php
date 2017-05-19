@@ -1,383 +1,85 @@
 <?php
-	include("../framework/dbconf.php");
-	include("../framework/funciones.php");
+include("../framework/dbconf.php");
+include("../framework/funciones.php");
 
-	if(isset($_POST['repr_codi'])){$repr_codi=$_POST['repr_codi'];}else{$repr_codi=0;}
+if(isset($_POST['repr_codi'])){$repr_codi=$_POST['repr_codi'];}else{$repr_codi=0;}
+if(isset($_POST['flag'])){$flag=$_POST['flag'];} //Para saber en que pantalla se usa
+$sql_opc = "{call repr_info(?)}";
+$params_opc= array($_POST['repr_codi']);
+$repr_info = sqlsrv_query( $conn, $sql_opc,$params_opc);
 
-	$sql_opc = "{call repr_info(?)}";
-	$params_opc= array($_POST['repr_codi']);
-	$repr_info = sqlsrv_query( $conn, $sql_opc,$params_opc);
+$row_repr_info = sqlsrv_fetch_array($repr_info);
 
-	$row_repr_info = sqlsrv_fetch_array($repr_info);
-
-	if($repr_codi>0){
+if($repr_codi>0){
+	$label='Editar';
 	$f="repre_exist_edit('alert_repr','script_repr.php');";
-	}else{
-	$f="load_ajax_blacklist_warning_repr('div_blacklist_warning_repr','script_alumnos_blacklist.php','warning_blacklist' );
-		";
-	}
+	$disabled='';
+}else{
+	$label='Nuevo';
+	$disabled='disabled';
+	$f="";
+}
 ?>
 <input id="hd_repr_cedula" name="hd_repr_cedula" type="hidden" value="<?=$row_repr_info['repr_cedula'];?>">
+<input id="hd_repr_codi" name="hd_repr_codi" type="hidden" value="<?=$repr_codi;?>">
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="title_repr">Editar Representante: <?=$row_repr_info['repr_apel'].' '.$row_repr_info['repr_nomb']?></h4>
+	<h4 class="modal-title" id="title_repr"><?=$label;?> Representante: <?=$row_repr_info['repr_apel'].' '.$row_repr_info['repr_nomb']?></h4>
 </div>
 <div id="modal_repr" class="modal-body" >
 	<div class="row">
 		<div id="div_blacklist_warning_repr" class="col-md-12"></div>
-		<div class="form-group col-md-6">
-				<label for="repr_cedula">Número de identificación<span style="color:red;">*</span>:</label>
-				<input class="form-control input-sm" id="repr_cedula" name="repr_cedula" type="text" placeholder="Ingresar el número de identificación" value="<?=$row_repr_info['repr_cedula'];?>" onchange="<?=$f;?>" onkeyup="">
+		<div class="form-group <?= ($repr_codi>0) ? 'col-md-6' : 'col-md-5'?>">
+			<label for="repr_cedula">Número de identificación<span style="color:red;">*</span>:</label>
+			<input class="form-control input-sm" id="repr_cedula" name="repr_cedula" type="text" placeholder="Ingresar el número de identificación" value="<?=$row_repr_info['repr_cedula'];?>" onchange="<?=$f;?>" onkeyup="">
 		</div>
-		<div class="form-group col-md-6">
+		<div class="form-group <?= ($repr_codi>0) ? 'col-md-6' : 'col-md-5'?>">
 			<label for="repr_tipo_iden">Tipo de identificación<span style="color:red;">*</span>:</label>
-	        <?php 
-            include ('../framework/dbconf.php');        
-            $sql="select tipo_iden_codi, tipo_iden_deta from Tipo_Identificacion where tipo_iden_estado='A' and tipo_iden_show_acad ='Y'";
-            $stmt = sqlsrv_query($conn, $sql);
-    
-            if( $stmt === false )
-            {
-                echo "Error in executing statement .\n";
-                die( print_r( sqlsrv_errors(), true));
-            }
-            echo "<select id='repr_tipo_iden' class='form-control input-sm' name='repr_tipo_iden' >";
-            while($tipo_iden_result= sqlsrv_fetch_array($stmt))
-            {
-                $seleccionado="";
-                if ($tipo_iden_result["tipo_iden_codi"]==trim($repr_view['REPR_TIPOIDFACTURA']," "))
-                            $seleccionado="selected";
-                echo '<option value="'.$tipo_iden_result["tipo_iden_codi"].'" '.$seleccionado.'>'.$tipo_iden_result["tipo_iden_deta"].'</option>';
-            }
-            echo '</select>';
-	        ?> 
+			<?php 
+			include ('../framework/dbconf.php');        
+			$sql="select tipo_iden_codi, tipo_iden_deta from Tipo_Identificacion where tipo_iden_estado='A' and tipo_iden_show_acad ='Y'";
+			$stmt = sqlsrv_query($conn, $sql);
+
+			if( $stmt === false )
+			{
+				echo "Error in executing statement .\n";
+				die( print_r( sqlsrv_errors(), true));
+			}
+			echo "<select id='repr_tipo_iden' class='form-control input-sm' name='repr_tipo_iden' >";
+			while($tipo_iden_result= sqlsrv_fetch_array($stmt))
+			{
+				$seleccionado="";
+				if ($tipo_iden_result["tipo_iden_codi"]==trim($repr_view['REPR_TIPOIDFACTURA']," "))
+					$seleccionado="selected";
+				echo '<option value="'.$tipo_iden_result["tipo_iden_codi"].'" '.$seleccionado.'>'.$tipo_iden_result["tipo_iden_deta"].'</option>';
+			}
+			echo '</select>';
+			?> 
 		</div>
-		<p id="alert_repr" class="text-red col-md-12">
-		</p>
+		<? if ($repr_codi<=0){?>
+		<div class="col-md-1 form-group">
+			<label></label>
+			<button id="btn_buscar_repr" type='button' class='btn btn-success form-control' data-loading="Buscando..." onclick="valida_repre($('#repr_cedula').val(),'repr-tab-content','script_repr.php');"><span class="fa fa-search fa-lg"></span></button>
+		</div>
+		<div class="col-md-1 form-group">
+			<label></label>
+			<button id="btn_buscar_repr" type='button' class='btn btn-info form-control' data-loading="Buscando..." onclick="reset();"><span class="fa fa-refresh fa-lg"></span></button>
+		</div>
+		<?}?>
+		<div id="alert_repr">
+			
+		</div>
 	</div>
 	<div class="row">
 		<div id="tabs" name="tabs" class="col-md-12 nav-tabs-custom">
 			<ul class="nav nav-tabs">    
 				<li class="active"><a href="#tab1" data-toggle="tab" onClick=""><span class="fa fa-clipboard"></span> Datos Personales</a></li>
-				<li><a href="#tab2" data-toggle="tab" onClick=""><span class="fa fa-phone"></span> Datos Contacto</a></li>
+				<li><a href="#tab2" data-toggle="tab" onClick="" ><span class="fa fa-phone"></span> Datos Contacto</a></li>
 				<li><a href="#tab3" data-toggle="tab" onClick=""><span class="fa fa-graduation-cap"></span> Trabajo y Estudio</a></li>
 				<li><a href="#tab4" data-toggle="tab" onClick=""><span class="fa fa-archive"></span> Otros Datos</a></li>
 			</ul>
-			<div class="tab-content">
-				<div class="row tab-pane active" id="tab1" name="tab1">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_nomb">Nombres<span style="color:red;">*</span>:</label>
-							<input class="form-control input-sm" id="repr_nomb" name="repr_nomb" type="text" placeholder="Ingresar nombres" value="<?=$row_repr_info['repr_nomb'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_apel">Apellidos<span style="color:red;">*</span>:</label>
-							<input class="form-control input-sm" id="repr_apel" name="repr_apel" type="text" placeholder="Ingresar apellidos" value="<?=$row_repr_info['repr_apel'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Estado civil:</label>
-							<?php 
-							include ('../framework/dbconf.php');		
-							$params = array(1);
-							$sql="{call cata_hijo_view(?)}";
-							$stmt = sqlsrv_query($conn, $sql, $params);
-							
-							if( $stmt === false )
-							{
-								echo "Error in executing statement .\n";
-								die( print_r( sqlsrv_errors(), true));
-							}
-							echo '<select class="form-control input-sm" id="idestadocivil" name="idestadocivil">';
-							while($esta_civil_padr_view= sqlsrv_fetch_array($stmt))
-							{
-								$seleccionado="";
-								if ($esta_civil_padr_view["codigo"]==$row_repr_info["idestadocivil"])
-									$seleccionado="selected";
-								echo '<option value="'.$esta_civil_padr_view["codigo"].'" '.$seleccionado.'>'.$esta_civil_padr_view["descripcion"].'</option>';
-							}
-							echo '</select>';
-							?> 
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_fech_naci">Fecha de Nacimiento:</label>
-							<input class="form-control input-sm" id="repr_fech_naci" name="repr_fech_naci" type="text" placeholder="Ingrese la fecha de nacimiento..." value="<?=date_format($row_repr_info['repr_fech_naci'],"d/m/Y");?>">
-						</div>
-					</div>
-					<div class="form-group col-md-6">
-						<label>País de Nacimiento:</label>
-						<select class="form-control input-sm" onchange="CargarProvincias('repr_prov_naci',this.value);"  id="repr_pais_naci" name="repr_pais_naci">
-						<?php 
-						$params = array();
-						$sql="{call cata_pais_cons()}";
-						$stmt2 = sqlsrv_query($conn, $sql, $params);
-						echo '<option value="">Seleccione</option>';
-						while($pais_view= sqlsrv_fetch_array($stmt2))
-						{
-							$seleccionado="";
-							if($row_repr_info['repr_pais_naci']==''){
-								if ($pais_view["descripcion"]=='Ecuador')
-									$seleccionado="selected";
-							}else{
-								if ($pais_view["descripcion"]==$row_repr_info["repr_pais_naci"])
-									$seleccionado="selected";
-							}
-							echo '<option value="'.$pais_view["codigo"].'" '.$seleccionado.'>'.$pais_view["descripcion"].'</option>';
-						}
-						echo '</select>';
-						?>
-					</div>
-					<div class="form-group col-md-6">
-						<label>Provincia de Nacimiento:</label>
-						<select class="form-control input-sm" onchange="CargarCiudades('repr_ciud_naci',this.value);" id='repr_prov_naci' name='repr_prov_naci'>
-						<?php 
-						$params = array(null,($row_repr_info["repr_prov_naci"]==''?'Ecuador':$row_repr_info["repr_pais_naci"]));
-						$sql="{call cata_provincia_cons(?,?)}";
-						$stmt3 = sqlsrv_query($conn, $sql, $params);
-						echo '<option value="">Seleccione</option>';
-						while($ciudad_view= sqlsrv_fetch_array($stmt3))
-						{
-							$seleccionado="";
-							if ($ciudad_view["descripcion"]==$row_repr_info["repr_prov_naci"])
-								$seleccionado="selected";
-							echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
-						}
-						echo '</select>';
-						?>
-					</div>
-					<div class="form-group col-md-6">
-						<label>Ciudad de Nacimiento:</label>
-						<select class='form-control input-sm' id='repr_ciud_naci' name='repr_ciud_naci'>
-						<?php 
-						$params = array(null,$row_repr_info["repr_prov_naci"]);
-						$sql="{call cata_ciudad_cons(?,?)}";
-						$stmt = sqlsrv_query($conn, $sql, $params);
-						echo '<option value="">Seleccione</option>';
-						while($ciudad_view= sqlsrv_fetch_array($stmt))
-						{
-							$seleccionado="";
-							if ($ciudad_view["descripcion"]==$row_repr_info["repr_ciud_naci"])
-								$seleccionado="selected";
-							echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
-						}
-						echo '</select>';
-						?>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_nacionalidad">Nacionalidad:</label>
-							<input class="form-control input-sm" id="repr_nacionalidad" name="repr_nacionalidad" type="text" placeholder="Ingresar nacionalidad" value="<?=$row_repr_info['repr_nacionalidad'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label>Religión:</label>
-							<?php 
-							include ('../framework/dbconf.php');		
-							$params = array(328);
-							$sql="{call cata_hijo_view(?)}";
-							$stmt = sqlsrv_query($conn, $sql, $params);
-							
-							if( $stmt === false )
-							{
-								echo "Error in executing statement .\n";
-								die( print_r( sqlsrv_errors(), true));
-							}
-							echo '<select class="form-control input-sm" id="idreligion" name="idreligion">';
-							while($religion_view= sqlsrv_fetch_array($stmt))
-							{
-								$seleccionado="";
-								if ($religion_view["codigo"]==$row_repr_info["idreligion"])
-									$seleccionado="selected";
-								echo '<option value="'.$religion_view["codigo"].'" '.$seleccionado.'>'.$religion_view["descripcion"].'</option>';
-							}
-							echo '</select>';
-							?>
-						</div>
-					</div>
-				</div>
-				<div class="row tab-pane" id="tab2" name="tab2">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_email">Correo<span style="color:red;">*</span>:</label>
-							<input class="form-control input-sm" id="repr_email" name="repr_email" type="text" placeholder="Ingresar correo" value="<?=$row_repr_info['repr_email'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_telf">Núm. Teléfono:</label>
-							<input class="form-control input-sm" id="repr_telf" name="repr_telf" type="text" placeholder="Ingresar número convencional" value="<?=$row_repr_info['repr_telf'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_celular">Núm. Celular:</label>
-							<input class="form-control input-sm" id="repr_celular" name="repr_celular" type="text" placeholder="Ingresar número celular" value="<?=$row_repr_info['repr_celular'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_domi">Dirección:</label>
-							<input class="form-control input-sm" id="repr_domi" name="repr_domi" type="text" placeholder="Ingresar dirección" value="<?=$row_repr_info['repr_domi'];?>">
-						</div>
-					</div>
-				</div>
-				<div class="row tab-pane" id="tab3" name="tab3">
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_profesion">Profesión o Título Académico:</label>
-							<input class="form-control input-sm" id="repr_profesion" name="repr_profesion" type="text" placeholder="Ingresar profesión" value="<?=$row_repr_info['repr_profesion'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_lugar_trabajo">Nombre de empresa o lugar de trabajo:</label>
-							<input class="form-control input-sm" id="repr_lugar_trabajo" name="repr_lugar_trabajo" type="text" placeholder="Ingresar lugar de trabajo" value="<?=$row_repr_info['repr_lugar_trabajo'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_direc_trabajo">Dirección de trabajo:</label>
-							<input class="form-control input-sm" id="repr_direc_trabajo" name="repr_direc_trabajo" type="text" placeholder="Ingresar dirección de trabajo" value="<?=$row_repr_info['repr_direc_trabajo'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-					    	<label for="repr_telf_trab">Teléfono de Trabajo:</label>
-					    	<input id="repr_telf_trab" class="form-control input-sm" name="repr_telf_trab" type="text" placeholder="Teléfono de Trabajo:" value="<?=$row_repr_info['repr_telf_trab'];?>">
-				    	</div>
-				    </div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_cargo">Cargo que desempeña:</label>
-							<input class="form-control input-sm" id="repr_cargo" name="repr_cargo" type="text" placeholder="Ingresar cargo" value="<?=$row_repr_info['repr_cargo'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_estudios">Nivel de estudios:</label>
-							<input class="form-control input-sm" id="repr_estudios" name="repr_estudios" type="text" placeholder="Ingresar nivel de estudios" value="<?=$row_repr_info['repr_estudios'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_institucion">Institución:</label>
-							<input class="form-control input-sm" id="repr_institucion" name="repr_institucion" type="text" placeholder="Ingresar institución" value="<?=$row_repr_info['repr_institucion'];?>">
-						</div>
-					</div>
-				</div>
-				<div class="tab-pane" id="tab4" name="tab4">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-					    	<label for="repr_fech_promoc">Año de promoción exalumno:</label>
-					    	<input id="repr_fech_promoc" class="form-control input-sm" name="repr_fech_promoc" type="text" placeholder="Ingrese la fecha de promoción de exalumno" value="<?=date_format($row_repr_info['repr_fech_promoc'],"d/m/Y");?>"/>
-				    	</div>
-			    	</div>
-			    	<div class="col-md-6">
-				    	<div class="form-group">
-				    		</br>
-					    	<label for="repr_ex_alum">¿Es exalumno de la institución?</label>
-					    	</br>
-					    	<input id="repr_ex_alum" name="repr_ex_alum" type="checkbox" <?= ($row_repr_info['repr_ex_alum']==1 ? 'checked':'');?>/>
-				    	</div>
-				    </div>
-					<div class="col-md-6">
-						<div class="form-group">
-							<label for="repr_motivo_representa">Razón por la cual representa (en caso de no ser padre o madre):</label>
-							<input class="form-control input-sm" id="repr_motivo_representa" name="repr_motivo_representa" type="text" placeholder="Ingresar razón de representar" value="<?=$row_repr_info['repr_motivo_representa'];?>">
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-								
-								<label for="repr_escolaborador">¿Es o fue colaborador de la institución?</label></br>
-								<input id="repr_escolaborador" name="repr_escolaborador" type="checkbox" <?= ($row_repr_info['repr_escolaborador']==1 ? 'checked':'');?>/>
-						</div>
-					</div>
-					</div>
-					<div class="row" style="<?= (para_sist(408)==0?'display: none':'')?>">
-				        <div class="form-group col-md-6">
-				        <label>Nivel 1: </label>
-				        <?php
-				        include ('../framework/dbconf.php');
-				        $params = array();
-				        $sql="{call identificaciones_niv1_view()}";
-				        $stmt = sqlsrv_query($conn, $sql, $params);
-				        if( $stmt === false )
-				        {   echo "Error in executing statement .\n";
-				            die( print_r( sqlsrv_errors(), true));
-				        }
-				        echo '<select id="identificacion_niv_1" class="form-control input-sm" name="identificacion_niv_1" onchange="CargarIdentNiv2(this.value)">';
-				        echo '<option value="-1">Seleccione</option>';
-				        while($row = sqlsrv_fetch_array($stmt))
-				        {   $seleccionado="";
-				            if ($row["id"] == $row_repr_info["ident_niv_1"])
-				                $seleccionado = "selected";
-				            echo '<option value="'.$row["id"].'" '.$seleccionado.'>'.$row["nombre"].'</option>';
-				        }
-				        echo '</select>';
-				        ?>
-				        </div>
-
-				        <div class="form-group col-md-6">
-				            <label>Nivel 2: </label>
-				            <select id="identificacion_niv_2" class="form-control input-sm" name="identificacion_niv_2" onchange="CargarIdentNiv3(this.value)">
-				                <?
-				                if ($row_repr_info['repr_nomb'] != ""){
-				                    $sql = "{call identificaciones_niv2_view(?)}";
-				                    $params = array($row_repr_info["ident_niv_1"]);
-				                    $stmt = sqlsrv_query( $conn, $sql,$params);
-				                    if( $stmt === false ){
-				                        echo "Error in executing statement .\n";
-				                        die( print_r( sqlsrv_errors(), true));
-				                    }
-				                    else{
-				                        echo '<option value="-1">Seleccione</option>';
-				                        while ($row = sqlsrv_fetch_array($stmt)){
-				                            $seleccionado = "";
-				                            if ($row["id"] == $row_repr_info["ident_niv_2"])
-				                                $seleccionado="selected";
-				                            echo "<option value='".$row['id']."' ".$seleccionado.">".$row["nombre"]."</option>";
-				                        }
-				                    }
-				                }
-				                ?>
-				            </select>
-				        </div>
-
-				        <div class="form-group col-md-6">
-				            <label>Nivel 3:</label>
-				            <select id="identificacion_niv_3" class="form-control input-sm" name="identificacion_niv_3">
-				                <?
-				                if ($row_repr_info['repr_nomb'] != ""){
-				                    $sql = "{call identificaciones_niv3_view(?)}";
-				                    $params = array($row_repr_info["ident_niv_2"]);
-				                    $stmt = sqlsrv_query( $conn, $sql,$params);
-				                    if( $stmt === false ){
-				                        echo "Error in executing statement .\n";
-				                        die( print_r( sqlsrv_errors(), true));
-				                    }
-				                    else{
-				                        echo '<option value="-1">Seleccione</option>';
-				                        while ($row = sqlsrv_fetch_array($stmt)){
-				                            $seleccionado = "";
-				                            if ($row["id"] == $row_repr_info["ident_niv_3"])
-				                                $seleccionado="selected";
-				                            echo "<option value='".$row['id']."' ".$seleccionado.">".$row["nombre"]."</option>";
-				                        }
-				                    }
-				                }
-				                ?>
-				            </select>
-				        </div>
-				    </div>
-				</div>
+			<div id="repr-tab-content" class="tab-content">
+				<?include("representantes_add_modal_content.php");?>
 			</div>
 		</div>
 
@@ -385,6 +87,6 @@
 	
 </div>
 <div id='repr_footer' class="modal-footer">
-	<button id="btn_guardar_repr" type='button' class='btn btn-success' data-loading="Guardando..." data-dismiss='modal' onclick="load_ajax_upd_repr('script_repr.php',<?= $_POST['repr_codi'];?>);">Guardar</button>
+	<button id="btn_guardar_repr" type='button' class='btn btn-success' data-loading="Guardando..."  onclick="load_ajax_upd_repr('script_repr.php',<?=$flag?>);" <?=$disabled?> >Guardar</button>
 	<button type='button' class='btn btn-default' data-dismiss='modal' >Cerrar</button>
 </div>

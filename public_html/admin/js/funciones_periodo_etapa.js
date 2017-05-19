@@ -7,17 +7,26 @@ function peri_dist_peri_libt_view(peri_codi,peri_etap_codi_unid){
 		if (peri_etap_unid=='A'){
 			$('.dynamic_1').show();
 			$('.dynamic_2').hide();
+			$('.dynamic_3').hide();
 			//document.getElementById('n_peri_dist_codi').style.display="block";
 			document.getElementById('pg_peri_dist_codi').disabled="";
 			document.getElementById('sl_peri_dist_cab').disabled="";
 
 		}else if(peri_etap_unid=='P'){
 			$('.dynamic_2').show();
+			$('.dynamic_3').hide();
 			$('.dynamic_1').hide();
 			document.getElementById('pg_peri_dist_codi').disabled="disabled";
 			document.getElementById('sl_peri_dist_cab').disabled="disabled";
-		}else{
+		}else if(peri_etap_unid=='E'){
+			$('.dynamic_3').show();
+			$('.dynamic_2').hide();
 			$('.dynamic_1').hide();
+			document.getElementById('pg_peri_dist_codi').disabled="disabled";
+			document.getElementById('sl_peri_dist_cab').disabled="disabled";
+		} else{
+			$('.dynamic_1').hide();
+			$('.dynamic_3').hide();
 			$('.dynamic_2').hide();
 			document.getElementById('pg_peri_dist_codi').disabled="disabled";
 			document.getElementById('sl_peri_dist_cab').disabled="disabled";
@@ -33,13 +42,20 @@ function peri_acti_add(peri_codi){
 	
 	if (peri_etap_unid=='A'){			
 		 peri_dist_codi=document.getElementById('pg_peri_dist_codi').value;
-		 peri_codi_dest= '';		 
+		 peri_codi_dest= '';
+		 encu_deta=''; 
 	}else  if(peri_etap_unid=='P'){
 		  peri_codi_dest= $('#sl_peri_codi_dest').val();
-		 peri_dist_codi=-1
-	}else{
-		peri_dist_codi=-1
+		 peri_dist_codi=-1;
+		 encu_deta='';
+	}else if(peri_etap_unid=='E'){
+		encu_deta= $('#txt_encuesta').val();
+		peri_dist_codi=-1;
 		peri_codi_dest= '';
+	}else{
+		peri_dist_codi=-1;
+		peri_codi_dest= '';
+		encu_deta='';
 	}
  	peri_fech_ini = parseInt(document.getElementById('n_peri_fech_ini').value.replace(/-/g,''));
 	peri_fech_fin = parseInt(document.getElementById('n_peri_fech_fin').value.replace(/-/g,''));
@@ -55,6 +71,7 @@ function peri_acti_add(peri_codi){
 	data.append('peri_dist_codi', peri_dist_codi);
 	data.append('usua_codi', usua_codi);
 	data.append('peri_codi_dest', peri_codi_dest);
+	data.append('encu_deta', encu_deta);
 	data.append('peri_acti_add', 'Y');
 		
 	if (window.XMLHttpRequest)

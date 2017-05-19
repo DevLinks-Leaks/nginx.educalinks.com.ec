@@ -168,19 +168,23 @@ function handler() {
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_ecobab;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_ecobab_bg;
 					$_SESSION['id_commerce_pagos_web'] = '6924';
+					$_SESSION['id_commerce_diners_pay'] = '';
+					$_SESSION['local_id_diners_pay'] = 'GN01';
 					break;
-				case  "desarrollo.educalinks.com.ec":
+				case  "dev.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavedesarrollo;
 					$_SESSION['passllaveactiva']=$clavellavedesarrollo;
 					$_SESSION['rutallave']=$rutallavedesarrollo;
 					$_SESSION['ambiente']=1;
 					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
-					$_SESSION['visor']='desarrollo.educalinks.com.ec/finan/visor';
+					$_SESSION['visor']='dev.educalinks.com.ec/finan/visor';
 					$_SESSION['dir_logo_cliente']=$ruta_logo_desarrollo;
 					$_SESSION['dir_logo_cliente_bg']=$ruta_logo_desarrollo_bg;
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_liceopanamericano;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_liceopanamericano_bg;
 					$_SESSION['id_commerce_pagos_web'] = '7822';
+					$_SESSION['id_commerce_diners_pay'] = '0992336919001';
+					$_SESSION['local_id_diners_pay'] = 'GN01';
 					break;
 				case  "ecobabvesp.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavebabahoyo;
@@ -194,6 +198,8 @@ function handler() {
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_ecobabvesp;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_ecobabvesp_bg;
 					$_SESSION['id_commerce_pagos_web'] = '7058';
+					$_SESSION['id_commerce_diners_pay'] = '';
+					$_SESSION['local_id_diners_pay'] = 'GN02';
 					break;
 				case  "liceopanamericano.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llaveliceopanamericano;
@@ -207,6 +213,8 @@ function handler() {
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_liceopanamericano;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_liceopanamericano_bg;
 					$_SESSION['id_commerce_pagos_web'] = '6921';
+					$_SESSION['id_commerce_diners_pay'] = '0991505318001';
+					$_SESSION['local_id_diners_pay'] = 'GN01';
 					break;
 				case  "liceopanamericanosur.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llaveliceopanamericano;
@@ -220,6 +228,8 @@ function handler() {
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_liceopanamericanosur;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_liceopanamericanosur_bg;
 					$_SESSION['id_commerce_pagos_web'] = '7056';
+					$_SESSION['id_commerce_diners_pay'] = '0991505318001';
+					$_SESSION['local_id_diners_pay'] = 'GN02';
 					break;
 				case  "delfos.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavedelfos;
@@ -233,6 +243,8 @@ function handler() {
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_delfos;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_delfos_bg;
 					$_SESSION['id_commerce_pagos_web'] = '6923';
+					$_SESSION['id_commerce_diners_pay'] = '0992336919001';
+					$_SESSION['local_id_diners_pay'] = 'GN01';
 					break;
 				case  "delfosvesp.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavedelfos;
@@ -246,6 +258,8 @@ function handler() {
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_delfosvesp;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_delfosvesp_bg;
 					$_SESSION['id_commerce_pagos_web'] = '7057';
+					$_SESSION['id_commerce_diners_pay'] = '0992336919001';
+					$_SESSION['local_id_diners_pay'] = 'GN02';
 					break;
 				case  "moderna.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavemoderna;
@@ -259,6 +273,8 @@ function handler() {
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_moderna;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_moderna_bg;
 					$_SESSION['id_commerce_pagos_web'] = '6922';
+					$_SESSION['id_commerce_diners_pay'] = '0990606900001';
+					$_SESSION['local_id_diners_pay'] = 'GN01';
 					break;
 				case  "americano.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llavecolegioamericanoguayaquil;
@@ -503,6 +519,112 @@ function handler() {
 			
 			VPOSSend($array_send,$array_get,$llaveVPOSCryptoPub,$llaveComercioFirmaPriv,$vector);
 			//$privres = openssl_pkey_get_private(array($privatekey,null));
+			
+			/*
+			/ -----------------------------------------------/
+			/ DINERS PAY                                     /
+			/ -----------------------------------------------/
+			*/
+			
+			include_once("../../../includes/common/PlugInClient/PlugInClientSend.php");
+			include_once("../../../includes/common/PlugInClient/RSAEncryption.php");
+			$plugin = new PlugInClientSend(); 
+			$AdquirerID = $_SESSION['id_commerce_diners_pay'];
+			$MerchantID = $_SESSION['id_commerce_diners_pay'];
+			$LocalID = $_SESSION['local_id_diners_pay']; 
+			
+			$moneda = "840";
+			$URL_Tecnico = $_SESSION['domain']."/alumnos/pagos/";
+			
+			$vector_diners = "mV6VoYVJ54A=";
+			$simetrica_diners = "g0yoaxPT4GQmvKIf7wcCV3Uv1SDgp9n0";
+			
+            //Llave Publica Crypto de Alignet. Nota olvidar ingresar los saltos de linea detallados con el valor \n
+			//Publica de ellos
+			//Privada de ellos nunca usamos
+			
+            $llaveVPOSCryptoPub_diners = "-----BEGIN PUBLIC KEY-----\n".
+			"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCMEHg0R08b6SynYlich36KEnxe\n".
+			"JRjRGG9thQpQOjy5j8qOVowx2NuD+Ew7ZC/dRtnpdh5rZGI3WMAymLd/zDa+mawA\n".
+			"8Wg/8fa14ePumKhGhsfVXWPfBTAjo0gizKIIpinsF4LiDh+5zgv+2CtaaZloPqRC\n".
+			"bO9en7FG4Xa7hnCoHQIDAQAB\n".
+			"-----END PUBLIC KEY-----";
+			
+            //Llave Firma Privada del Comercio. Nota olvidar ingresar los saltos de linea detallados con el valor \n
+			//Privada nuestra
+            $llaveComercioFirmaPriv_diners = "-----BEGIN RSA PRIVATE KEY-----\n".
+			"MIICXQIBAAKBgQC6otIGv2UaX6HSxS6OX/c8iMtsKKC4YSn9oLgk8/yNgrlqbDGV\n".
+			"Fq16EXmcpWXQL91pCz57Gtkf/ATL2QIpG1t7KXPr8PuCur3j6AtExNHq88m2DLJ6\n".
+			"1fbaj3+iEKpCrfx+c3e9/ZHejvM3wWLZZP7BRKSlt6PNLGn1j5iXNVDvVwIDAQAB\n".
+			"AoGBAKINDd/d/6NOteuUWkA1Ay8Ed9yJykNN2m/mRP2Q/BDDGMtW9hZFgosi8T0a\n".
+			"P7TsWosCwFWTkkM7R87XthCLOHnUgTxLduoLzs+U30dT8OCuCIxc6+0sW4U1c7Ik\n".
+			"fSee3aDm0gXI2IeEZEr3pf4uKuJ+gWreIm8w5bev6FA8yWoBAkEA3NDla14L03zE\n".
+			"ZNSbuikKk2KxcukwebYkyyYUL2yPYkpXpVM33MM94/nL8nCtP2vXosprUdoqPIwt\n".
+			"CLgUX9LO4QJBANhfuEHwSiesZTWfjbXdgnt/aKEpvETR4286ddZgBErFxHWX0Qwe\n".
+			"xtTi0m91guaoZVxx/l4ZCx1DojUtvvN3HTcCQHCd2WO4wy9JIqCKDiITbGFepEGG\n".
+			"zEJGst0ovoKxSy9F2w1mM8dTi+0JKQqsjK8bwQ41TiagrYnTs+QOfdWhHgECQBOE\n".
+			"zwJjwszBaH/l3MrDKLorTCz9rtYmePXXuDmWf8ye+pIBGAKX5CfgLkuPtjdIiZxF\n".
+			"TEUAzVfeeguCDO+5lxECQQCCKyKRGRS+oKPDkEs2u4lTLeljXL5mNeuGNZ5ZQ6He\n".
+			"DSDSeovwi9WQKg1fvqbpbb3ycY8f12EZWu4gug8m8vI2\n".
+			"-----END RSA PRIVATE KEY-----";
+			
+            //Monto incluido con impuestos
+            
+			$e = $plugin->setLocalID( $LocalID );
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setTransacctionID( $row['pon_code'] );
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setTransacctionValue( $deud_totalPendiente*100 );
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setTaxValue1(000);
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setTaxValue2(000);
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setTipValue(000);
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setCurrencyID($moneda);
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setReferencia1("");
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setReferencia2("");
+			if($e != "")
+				echo "Error: $e";
+			$e = $plugin->setReferencia3("");
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setReferencia4("");
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setReferencia5("");
+			if($e!= "")
+				echo "Error: $e";
+			$e = $plugin->setIV( $vector_diners );
+			if($e!= "")
+				echo "Error: $e";
+			try
+			{
+				$plugin->setSignPrivateKey( $llaveComercioFirmaPriv_diners );
+				$plugin->setCipherPublicKey( $llaveVPOSCryptoPub_diners );
+				$xmlGenerateKeyI = $plugin->CreateXMLGENERATEKEY();
+				$plugin->XMLProcess($URL_Tecnico);
+				$xmlRequest = $plugin->getXMLREQUEST();
+				$xmlFirma 	= $plugin->getXMLDIGITALSIGN(); 
+			}
+			catch (Exception $e)
+			{
+				echo "Error: $e";
+			}
+
+			/* FIN DINERS CLUB */
+			
 			
 			$data['frm_pago_sbmt'] = '
 				<!--<form name="frmVPOS" method="POST" action="https://integracion.alignetsac.com/VPOS/MM/transactionStart20.do">-->

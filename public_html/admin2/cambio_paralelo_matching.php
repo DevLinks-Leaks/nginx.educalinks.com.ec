@@ -34,7 +34,7 @@
 	<th width="35%">
     Materia origen
     </th>
-    <th>
+    <th width="65%">
     Materia Destino
     </th>
 </thead>
@@ -48,14 +48,14 @@
   <tr>
     <td width="35%">
 		<?php 
-        echo $row_mate_view['mate_deta'];
+        echo '<b>'.$row_mate_view['mate_codi'].'</b> '.substr($row_mate_view['mate_deta'],0,30);
         ?>
         <input 
         	type="hidden" 
             id="txt_materias_orig_<?= $cc?>" 
             data-curs_para_mate_codi="<?= $row_mate_view['curs_para_mate_codi']?>" />
     </td>
-    <td>
+    <td width="65%">
 		<select
         	style="text-align:left;"
             id="sl_materias_dest_<?= $cc?>">
@@ -71,7 +71,7 @@
             	data-curs_para_mate_codi="<?= $row_mate_dest_view["curs_para_mate_codi"]?>"
                 data-curs_para_mate_prof_codi="<?= $row_mate_dest_view["curs_para_mate_prof_codi"]?>"
 				<?= ($row_mate_dest_view["mate_codi"]== $row_mate_view['mate_codi']?'selected':'')?>>
-				<?= $row_mate_dest_view["mate_deta"].' ('.$row_mate_dest_view["prof_apel"].' '.$row_mate_dest_view["prof_nomb"].')' ?>
+				<?= '<b>'.$row_mate_dest_view['mate_codi'].'</b> '.substr($row_mate_dest_view["mate_deta"],0,30).' ('.$row_mate_dest_view["prof_apel"].' '.$row_mate_dest_view["prof_nomb"].')' ?>
             </option>
         <?
 		}

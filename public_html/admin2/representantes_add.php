@@ -38,15 +38,7 @@
 		<input name="mens_de"  		type="hidden" id="mens_de" 		value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
 		<input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 		<?php include("template/scripts.php");?>
-		<!-- Modal Representante Edición -->
-		<div class="modal fade" id="modal_representante_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div id="modal_representante_edit_content" class="modal-content">
-					
-				</div>
-			</div>
-		</div>
-		<!-- FIN MODAL -->
+		
 		<script type="text/javascript" charset="utf-8">
 		  shortcut.add("Shift+E+G", function() {
 		      $('#btn_guardar').trigger("click");

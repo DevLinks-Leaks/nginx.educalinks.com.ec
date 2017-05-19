@@ -80,6 +80,7 @@
 	RewriteRule ^alumnos/actualizacion_datos/$ /modulos/alumnos/actualizacion_datos/controller.php
 	RewriteRule ^alumnos/pagos/$ /modulos/alumnos/pagos/controller.php
 	RewriteRule ^alumnos/pagos_respuesta/$ /modulos/alumnos/pagos/controller.php?event=get_debt_ans
+	RewriteRule ^alumnos/pagos_respuesta_diners/$ /modulos/alumnos/pagos/controller.php?event=get_debt_ans_diners
 	RewriteRule ^alumnos/general/$ /modulos/alumnos/general/controller.php
 	RewriteRule ^admisiones/general/$ /modulos/admisiones/general/controller.php
 	RewriteRule ^admisiones/verSolicitud/$ /modulos/admisiones/verSolicitud/controller.php

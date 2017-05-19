@@ -432,11 +432,38 @@
     </div>
 
 	<script>
-        $("#pi_nota_peri_fec_ini").datepicker({ dateFormat: 'yy-mm-dd' });
-        $("#pi_nota_peri_fec_fin").datepicker({ dateFormat: 'yy-mm-dd' });
-
-        $("#pg_nota_peri_fec_ini").datepicker({ dateFormat: 'yy-mm-dd' });
-        $("#pg_nota_peri_fec_fin").datepicker({ dateFormat: 'yy-mm-dd' });
+        $("#pi_nota_peri_fec_ini").datepicker({ format: 'yyyy-mm-dd' });
+        $("#pi_nota_peri_fec_ini").inputmask({
+			mask: "y-1-2", 
+			placeholder: "yyyy-mm-dd", 
+			leapday: "-02-29", 
+			separator: "-", 
+			alias: "yyyy/mm/dd"
+		});
+		$("#pi_nota_peri_fec_fin").datepicker({ format: 'yyyy-mm-dd' });
+        $("#pi_nota_peri_fec_fin").inputmask({
+			mask: "y-1-2", 
+			placeholder: "yyyy-mm-dd", 
+			leapday: "-02-29", 
+			separator: "-", 
+			alias: "yyyy/mm/dd"
+		});
+		$("#pg_nota_peri_fec_ini").datepicker({ format: 'yyyy-mm-dd' });
+        $("#pg_nota_peri_fec_ini").inputmask({
+			mask: "y-1-2", 
+			placeholder: "yyyy-mm-dd", 
+			leapday: "-02-29", 
+			separator: "-", 
+			alias: "yyyy/mm/dd"
+		});
+		$("#pg_nota_peri_fec_fin").datepicker({ format: 'yyyy-mm-dd' });
+        $("#pg_nota_peri_fec_fin").inputmask({
+			mask: "y-1-2", 
+			placeholder: "yyyy-mm-dd", 
+			leapday: "-02-29", 
+			separator: "-", 
+			alias: "yyyy/mm/dd"
+		});
 
         curs_peri_mate_view(selectvalue(document.getElementById('pi_curs_para_codi')),'pi_mate_prof','pi')
         curs_peri_mate_view(selectvalue(document.getElementById('pg_curs_para_codi')),'pg_mate_prof','pg')

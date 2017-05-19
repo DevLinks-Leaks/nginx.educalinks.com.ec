@@ -75,6 +75,7 @@
 													<option value="4">OYENTE</option>
 													<option value="5">RETIRADO</option>
 													<option value="6">ADMITIDO</option>
+													<option value="7">GRADUADO</option>
 												</select>
 											</div>
 										</div>
@@ -162,6 +163,7 @@
 			<div class="modal-body">
 				<div id="div_documentos">
 					<div class="form_element">
+						<input type="hidden" value="" id="cb_alum_curs_para_codi" name="cb_alum_curs_para_codi" />
 						<table width="100%" cellspacing="0" cellpadding="0" border="0">
 							<tr>
 								<td width="25%" style="padding-top: 15px">
@@ -207,7 +209,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button id='btn_curs_para_change' type='button' class='btn btn-success' onclick="alum_change_course(document.getElementById('cmb_curs_para').value,document.getElementById('alum_curs_para_codi').value)">Cambiar</button>
+				<button id='btn_curs_para_change' type='button' class='btn btn-success' onclick="alum_change_course(document.getElementById('cmb_curs_para').value,document.getElementById('cb_alum_curs_para_codi').value)">Cambiar</button>
 				<button type='button' class='btn btn-default' data-dismiss='modal'>Cerrar</button>
 			</div>
 		</div>

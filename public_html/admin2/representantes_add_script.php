@@ -18,6 +18,12 @@
         if (sqlsrv_has_rows($stmt))
             while($row_parentescos[]= sqlsrv_fetch_array($stmt));
         array_pop($row_parentescos);
+
+    $sql = "{call repr_alum_info(?)}";
+    $params= array($alum_codi);
+    $repr_alum_info = sqlsrv_query( $conn, $sql,$params);
+    $row_repr_alum_info = sqlsrv_fetch_array($repr_alum_info);
+
     $sql_opc = "{call repr_alum_info(?)}";
     $params_opc= array($alum_codi);
     $stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
@@ -28,10 +34,10 @@
     <div class="box-header with-border">
         <h3 class="box-title">
             <button id="btn_regresar" name="btn_regresar" class='btn btn-warning' type="button" onclick="window.history.back();"><span class='fa fa-arrow-left'></span> Volver</button>
-            
+             Alumno: <?=$row_repr_alum_info['alum_apel']?> <?=$row_repr_alum_info['alum_nomb']?>
         </h3>
         <div class="pull-right">
-            <a id="bt_curs_add" class="btn btn-primary" data-toggle="modal" data-target="#modal_representante_edit" onclick="load_modal_repre_view('modal_representante_edit_content','representantes_add_modal.php','repr_codi=0');">
+            <a id="bt_curs_add" class="btn btn-primary" data-toggle="modal" data-target="#modal_representante_edit" onclick="load_modal_repre_view('modal_representante_edit_content','representantes_add_modal.php','repr_codi=-1&flag=0');">
                 <span class="fa fa-plus"></span> Representante
             </a>
         </div>
@@ -78,7 +84,7 @@
                         </td>
                         <td>
                             <div class="btn-group btn-group-sm" role="group">
-                                <a class="btn btn-default" data-toggle="modal" onmouseover="$(this).tooltip('show')" title="Editar Representante" data-target="#modal_representante_edit" onclick="load_modal_repre_view('modal_representante_edit_content','representantes_add_modal.php','repr_codi=<?=$row_repr_view['repr_codi']?>');"  >
+                                <a class="btn btn-default" data-toggle="modal" onmouseover="$(this).tooltip('show')" title="Editar Representante" data-target="#modal_representante_edit" onclick="load_modal_repre_view('modal_representante_edit_content','representantes_add_modal.php','repr_codi=<?=$row_repr_view['repr_codi']?>&flag=0');"  >
                                     <span class="fa fa-pencil btn_opc_lista_editar"></span>
                                 </a>
                                 <a class="btn btn-danger" onmouseover="$(this).tooltip('show')" title="Eliminar Representante" href="javascript:quitar_representado('script_repr.php','<?=$alum_codi?>','<?=$row_repr_view['repr_codi']?>');" >

@@ -75,6 +75,7 @@
 													<option value="4">OYENTE</option>
 													<option value="5">RETIRADO</option>
 													<option value="6">ADMITIDO</option>
+													<option value="7">GRADUADO</option>
 												</select>
 											</div>
 										</div>

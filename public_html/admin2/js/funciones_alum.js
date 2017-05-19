@@ -158,7 +158,7 @@ function js_alumnos_repr_main_search( repr_id, repr_apel )
     xhr.onreadystatechange=function(){
         if ( xhr.readyState === 4 && xhr.status === 200 )
         {   document.getElementById('repr_main').innerHTML = xhr.responseText;
-			console.log(xhr.responseText);
+			// console.log(xhr.responseText);
 			document.getElementById( 'btn_buscar_representantes' ).disabled = false;
 			var table = $('#repre_table').DataTable({
 				language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'}
@@ -414,7 +414,8 @@ function load_ajax_alum_curso_cupo( div, url, data, curso )
             var c = cupo.getAttribute('data-cupo');
             var deuda = (document.getElementById('total_deuda')==null ? 0 : document.getElementById('total_deuda').value);
             var bloqueo_hard = document.getElementById('bloqueo_hard').value;
-            if ( curso === 0 || c === 0 || deuda > 0 || bloqueo_hard > 0 )
+            var bloqueo_aprobar_ano = document.getElementById('alum_curs_para_aprob').value;
+            if ( curso === 0 || c === 0 || deuda > 0 || bloqueo_hard > 0 || bloqueo_aprobar_ano!='AP')
                 $('#btn_aplicar').prop('disabled', true);
             else
                 $('#btn_aplicar').prop('disabled', false);
@@ -899,12 +900,31 @@ function alumno_bloqueado( alum_cedu, alum_apel, alum_nomb )
     xhr.send(data);
 }
 
-function curs_para_cambiar_load (alum_curs_para_codi, alum_codi)
+function curs_para_cambiar_load (div,url,data,alum_curs_para_codi, alum_codi)
 {
-    document.getElementById("alum_curs_para_codi").value=alum_curs_para_codi;
-    document.getElementById("alum_codi").value=alum_codi;
-    document.getElementById("sl_curs_para_codi_1").value=-1;
-    document.getElementById("div_matching").innerHTML="";
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            document.getElementById(div).innerHTML=xmlhttp.responseText;
+            document.getElementById("alum_curs_para_codi").value=alum_curs_para_codi;
+            document.getElementById("alum_codi").value=alum_codi;
+            document.getElementById("sl_curs_para_codi_1").value=-1;
+            document.getElementById("div_matching").innerHTML="";
+        }
+    };
+        xmlhttp.open("POST",url,true);
+        xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        xmlhttp.send(data);
+    
 }
 
 function curs_para_cambiar(alum_curs_para_codi, curs_para_codi)

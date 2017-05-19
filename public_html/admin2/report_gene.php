@@ -7,12 +7,6 @@
 			<?php $Menu=606;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
-					<?php
-						$params = array($_SESSION['curs_para_codi']);
-						$sql="{call curs_para_info(?)}";
-						$curs_para_info = sqlsrv_query($conn, $sql, $params);  
-						$row_curs_para_info = sqlsrv_fetch_array($curs_para_info);
-				  	?>
 					<h1>Reportes Generales</h1>
 					<ol class="breadcrumb">
 						<li><a href="#"><i class="fa fa-bookmark"></i></a></li>
@@ -81,104 +75,104 @@
 									<table class="table table-striped" id="alum_table">
 										<thead>
 											<tr>
-												<th width="90%" class="sort"><span class="icon-sort icon"></span>Reporte </th>
-												<th width="10%" class="sort"><span class="icon-cog icon"></span>Opciones</th>
+												<th width="80%" class="sort"><span class="icon-sort icon"></span>Reporte </th>
+												<th width="20%" class="sort"><span class="icon-cog icon"></span>Opciones</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td><h3>Certificado de Matr&iacute;cula</h3></td>
+												<td><h4>Certificado de Matr&iacute;cula</h4></td>
 												<td>
-													<h1>
-													   <a href="JavaScript:getURLCertMatriculaPDF();" >
-														   <span class="fa fa-file-pdf-o"></span>
+													<h2>
+													   <a title="Descargar" onmouseover="$(this).tooltip('show');" href="JavaScript:getURLCertMatriculaPDF();" >
+														   <span class="fa fa-file-pdf-o" style='font-color:red'></span>
 													   </a>
-												   </h1>
+												   </h2>
 											   </td>
 											</tr>
 											<tr>
-												<td><h3>Certificado de Conducta</h3></td>
+												<td><h4>Certificado de Conducta</h4></td>
 												<td>
-													<h1>
-														<a href="JavaScript:getURLCertComportamientoPDF();"> 
-														<span class="fa fa-file-pdf-o"></span>
+													<h2>
+														<a title="Descargar" onmouseover="$(this).tooltip('show');"  href="JavaScript:getURLCertComportamientoPDF();"> 
+														<span class="fa fa-file-pdf-o" style='font-color:red'></span>
 														</a>
-													</h1>
+													</h2>
 												</td>
 											</tr>
 											<tr>
-												<td><h3>Certificado de Asistencia</h3></td>
+												<td><h4>Certificado de Asistencia</h4></td>
 												<td>
-													<h1>
-													   <a href="JavaScript:getURLCertAsistenciaPDF();" >
-														   <span class="fa fa-file-pdf-o"></span>
+													<h2>
+													   <a title="Descargar" onmouseover="$(this).tooltip('show');"  href="JavaScript:getURLCertAsistenciaPDF();" >
+														   <span class="fa fa-file-pdf-o" style='font-color:red'></span>
 													   </a>
-													</h1>
+													</h2>
 												</td>
 											</tr>
 											<tr>
-												<td><h3>Certificado de Promoci&oacute;n</h3></td>
+												<td><h4>Certificado de Promoci&oacute;n</h4></td>
 												<td>
-													<h1>
-														<a href="JavaScript:getURLCertPromocionPDF('<?= $_SESSION['directorio']; ?>','<?= $_SESSION['peri_codi']; ?>');">
-															<span class="fa fa-file-pdf-o"></span>
+													<h2>
+														<a title="Descargar" onmouseover="$(this).tooltip('show');"  href="JavaScript:getURLCertPromocionPDF('<?= $_SESSION['directorio']; ?>','<?= $_SESSION['peri_codi']; ?>');">
+															<span class="fa fa-file-pdf-o" style='font-color:red'></span>
 														</a>
-												   <h1>
+												   <h2>
 												</td>
 											</tr>
 											<tr>
-												<td><h3>Listado de alumnos con notas pendientes de ingreso</h3></td>
+												<td><h4>Listado de alumnos con notas pendientes de ingreso</h4></td>
 												<td>
-													<h1>
-														<a href="JavaScript:getURLNotasPendientesIngresoPDF();">
-															<span class="fa fa-file-pdf-o"></span>
+													<h2>
+														<a title="Descargar" onmouseover="$(this).tooltip('show');"  href="JavaScript:getURLNotasPendientesIngresoPDF();">
+															<span class="fa fa-file-pdf-o" style='font-color:red'></span>
 														</a>
-													<h1>
+													<h2>
 												</td>
 											</tr>
 										<?php 
 										if($_SESSION['directorio']=='delfos' or $_SESSION['directorio']=='delfosvesp'){
 										  ?>
 											<tr>
-												<td><h3>Informe Cualitativo Final de Educación Inicial</h3></td>
+												<td><h4>Informe Cualitativo Final de Educación Inicial</h4></td>
 												<td>
-													<h1>
-														<a href="JavaScript:getURLInformeCualitativoFinal();">
-														  <span class="fa fa-file-pdf-o"></span>
+													<h2>
+														<a title="Descargar" onmouseover="$(this).tooltip('show');"  href="JavaScript:getURLInformeCualitativoFinal();">
+														  <span class="fa fa-file-pdf-o" style='font-color:red'></span>
 														</a>
-													<h1>
+													<h2>
 												</td>
 											</tr>
 										<?php 
 										} ?>
 											<tr>
-												<td><h3>Ficha de Matricula</h3></td>
+												<td><h4>Ficha de Matricula</h4></td>
 												<td>
-													<h1>
-														<a href="JavaScript:getURLFichaMatricula('<?=$_SESSION['directorio'];?>');">
-															<span class="fa fa-file-pdf-o"></span>
+													<h2>
+														<a title="Descargar" onmouseover="$(this).tooltip('show');"  href="JavaScript:getURLFichaMatricula('<?=$_SESSION['directorio'];?>');">
+															<span class="fa fa-file-pdf-o" style='font-color:red'></span>
 														</a>
-													<h1>
+													<h2>
 												</td>
 											</tr>
 											<tr>
-												<td><h3>Libro de Calificaciones</h3></td>
+												<td><h4>Libro de Calificaciones</h4></td>
 												<td>
-													<h1>
-														<a href="JavaScript:getURLLibroCalificacionesPDF();">
-															<span class="fa fa-file-pdf-o"></span>
+													<h2>
+														<a title="Descargar" onmouseover="$(this).tooltip('show');"  href="JavaScript:getURLLibroCalificacionesPDF();">
+															<span class="fa fa-file-pdf-o" style='font-color:red'></span>
 														</a>
-													<h1>
+													<h2>
 												</td>
 											</tr>
 											<tr>
-												<td><h3>Reporte de Asistencia</h3></td>
+												<td><h4>Reporte de Asistencia</h4></td>
 												<td>
-													<h1>
-														<a href="JavaScript:getURLReporteAsistenciaPDF();">
-													   <span class="fa fa-file-pdf-o"></span>
+													<h2>
+														<a title="Descargar" onmouseover="$(this).tooltip('show');"  href="JavaScript:getURLReporteAsistenciaPDF();">
+													   <span class="fa fa-file-pdf-o" style='font-color:red'></span>
 														</a>
-													<h1>
+													<h2>
 												</td>
 											</tr>
 										</tbody>

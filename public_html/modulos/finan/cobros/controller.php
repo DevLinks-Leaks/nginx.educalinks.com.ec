@@ -254,7 +254,7 @@ function handler()
         case VIEW_GET_PAYMENT_WAY:
             # Presenta el modal de Busqueda del cliente
             global $diccionario;
-            $pago->get_formaPagoSelectFormat();
+            $pago->get_formaPagoSelectFormat_caja();
             $data = array('{combo_formaPago}' => array("elemento"  => "combo",
                                                        "datos"     => $pago->rows,
                                                        "options"   => array("name" => "formaPago_asign",

@@ -337,11 +337,12 @@ switch($opc){
 		</div>
 		<div class="form_element">
 			<label>País de Nacimiento:</label>
-			<select onchange="CargarProvincias('repr_prov_naci',this.value);"  id="repr_pais_naci" name="repr_pais_naci">
+			<select onchange="CargarProvincias('repr_prov_naci',this.value);CargarCiudades('repr_ciud_naci',this.value);"  id="repr_pais_naci" name="repr_pais_naci">
 			<?php 
 			$params = array();
 			$sql="{call cata_pais_cons()}";
 			$stmt2 = sqlsrv_query($conn, $sql, $params);
+			echo '<option value="">Seleccione</option>';
 			while($pais_view= sqlsrv_fetch_array($stmt2))
 			{
 				$seleccionado="";
@@ -364,7 +365,7 @@ switch($opc){
 			$params = array(null,($row_repr_view["repr_prov_naci"]==''?'Ecuador':$row_repr_view["repr_pais_naci"]));
 			$sql="{call cata_provincia_cons(?,?)}";
 			$stmt3 = sqlsrv_query($conn, $sql, $params);
-	
+			echo '<option value="">Seleccione</option>';
 			while($ciudad_view= sqlsrv_fetch_array($stmt3))
 			{
 				$seleccionado="";
@@ -382,6 +383,7 @@ switch($opc){
 			$params = array(null,$row_repr_view["repr_prov_naci"]);
 			$sql="{call cata_ciudad_cons(?,?)}";
 			$stmt = sqlsrv_query($conn, $sql, $params);
+			echo '<option value="">Seleccione</option>';
 			while($ciudad_view= sqlsrv_fetch_array($stmt))
 			{
 				$seleccionado="";

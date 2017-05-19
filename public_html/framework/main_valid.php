@@ -26,14 +26,9 @@
 					/* 	1 alumnos  //  2 repre  //  3 docente  // 4 admin  */
 					////////   ALUMNOS ////////////////////
 					if  ($_POST['tipo'] == '1') 
-					{	
-						
-						
-						//Carga periodo activos para el perfil 
+					{	//Carga periodo activos para el perfil
 						PeriodoActivo(tipo_por_etapa($_POST['tipo']));
-					 	
-						
-						
+
 						$params2 = array($_POST["usua"],$_POST["pass"],$_SESSION['peri_codi']);
 						$sql2="{call alum_info_usua(?,?,?)}";
 						$resu_alum_info = sqlsrv_query($conn, $sql2, $params2);  
@@ -61,8 +56,8 @@
 						$_SESSION['repr_codi']=$row_resu_alum_info['repr_codi'];
 						$_SESSION['peri_dist_cab_tipo']=$row_resu_alum_info['peri_dist_cab_tipo'];
 						
-						$_SESSION['alum_curs_para_codi']=$row_resu_alum_info['alum_curs_para_codi'];
-						$_SESSION['pin'] = $row_resu_alum_info['pin'];
+						$_SESSION['alum_curs_para_codi'] = $row_resu_alum_info['alum_curs_para_codi'];
+                        $_SESSION['pin'] = $row_resu_alum_info['pin'];
 						
 						$_SESSION['ISBIEN_ALUM'] = 'YESIN';
 						$_SESSION['ISBIEN_ADMIN'] = 'NOTIN';
@@ -79,24 +74,21 @@
 						$parametro_pop_up = get_para_gene(2);
 						$_SESSION['pop_up_repr_img'] = $parametro_pop_up['para_img'];
 						$_SESSION['pop_up_repr_flag'] = $parametro_pop_up['para_val'];
+
 					}
 					
 					
 					////////   REPRESENTANTES ////////////////////
 					if  ($_POST['tipo'] == '2')  {
-						
 						header('Location: ../index_mante.php');
-						
 						//Carga periodo activos para el perfil 
 						PeriodoActivo(tipo_por_etapa($_POST['tipo']));
-						
-						 
+
 						$params2 = array($_POST["usua"]);
 						$sql2="{call repr_info_usua(?)}";
 						$repr_info_usua = sqlsrv_query($conn, $sql2, $params2);  
 						$row_repr_info_usua = sqlsrv_fetch_array($repr_info_usua);
 						
-								
 						$_SESSION['repr_codi']=$row_repr_info_usua['repr_codi'];
 						$_SESSION['repr_nomb']=$row_repr_info_usua['repr_nomb'];
 						$_SESSION['repr_apel']=$row_repr_info_usua['repr_apel'];
@@ -110,7 +102,6 @@
 						$_SESSION['repr_estado_civil']=$row_repr_info_usua['repr_estado_civil'];
 						$_SESSION['repr_parentesco']=$row_repr_info_usua['repr_parentesco'];
 						$_SESSION['repr_upd']=$row_repr_info_usua['repr_upd'];
-						
 
 						//seccion de datos del representado mayor
 						$params2 = array($_SESSION['repr_codi'],$_SESSION['peri_codi']);
@@ -141,7 +132,7 @@
 						$_SESSION['alum_upd']=$row_resu_alum_info['alum_upd'];
 						
 						$_SESSION['alum_curs_para_codi']=$row_resu_alum_info['alum_curs_para_codi'];
-						$_SESSION['pin'] = $row_resu_alum_info['pin'];
+                        $_SESSION['pin'] = $row_resu_alum_info['pin'];
 
 						//datos de usuario representante
 						$_SESSION['ISBIEN_ADMIN'] = 'NOTIN';
@@ -155,7 +146,7 @@
 						PreinscripcionActivo($_SESSION['peri_codi']);
 
 						$params = array($_SESSION['alum_codi'],$_SESSION['peri_codi_dest']);
-						$sql="{call preins_curs_para(?,?)}";
+						$sql = "{call preins_curs_para(?,?)}";
 						$preins_curs_para = sqlsrv_query($conn, $sql, $params);  
 						$row_preins_curs_para = sqlsrv_fetch_array($preins_curs_para);
 						$_SESSION['alum_curs_para_codi_res']=$row_preins_curs_para['alum_curs_para_codi_res'];
@@ -165,15 +156,20 @@
 							header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/preinscripcion.php' );
 						}else{
 							// if ($_SESSION['alum_upd'] && $_SESSION['repr_upd'])
-							// {	
+							// {
 								$_SESSION['ISBIEN_ALUM'] = 'YESIN';
-								header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/index.php' );
+								// if($_SESSION['repr_upd'])
+									header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/index.php' );
+								// else
+								// 	header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/actualizacion_datos.php' );
 							// }
 							// else
 							// {	$_SESSION['ISBIEN_ALUM'] = 'INNOT';
 							// 	header( 'Location: '.$_SESSION['protocol'].$_SERVER['HTTP_HOST'].'/alumnos/actualizacion_datos.php');
 							// }
 						}
+
+						EncuestaActiva($_SESSION['peri_codi']);
 
 						// Esto es para pop up informativo de repr
 						$_SESSION['repr_app']=$row_repr_info_usua['repr_app'];
@@ -348,6 +344,9 @@
 	$_SESSION['ruta_foto_logo_subse']="../imagenes/clientes/".$_SESSION['directorio']."/logo_subse.png";
 	$_SESSION['ruta_foto_usuario']="";
 	$_SESSION['foto_default']="../fotos/".$_SESSION['directorio']."/default.jpg";
+	$_SESSION['foto_carnet']="../imagenes/default.jpg";
+	$_SESSION['foto_carnet_hombre']="../imagenes/guia_hombre.png";
+	$_SESSION['foto_carnet_mujer']="../imagenes/guia_mujer.png";
 	$_SESSION['ruta_materiales_carga']="../files/".$_SESSION['directorio'].'/'.$_SESSION['peri_codi']."/";
 	switch($_POST['tipo']){
 		case '1':
@@ -366,6 +365,4 @@
 			$_SESSION['ruta_foto_usuario']="../fotos/".$_SESSION['directorio']."/admin/";
 		break;
 	}
-	
-	?> 
- 
+?>

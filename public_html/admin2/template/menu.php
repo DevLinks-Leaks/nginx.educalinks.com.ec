@@ -8,9 +8,7 @@
 				</div>
 				<div class="pull-left info" style='font-size:x-small;'>
 					<p>Unidad Educativa<br>
-					<?php if ( !isset( $_SESSION['menu_institucion'] ) ) $_SESSION['menu_institucion'] = para_sist(3); 
-						echo $_SESSION['menu_institucion'];
-					?></p>
+					<?php echo $_SESSION['menu_institucion']; ?></p>
 				</div>
 			</div>
 			<!-- sidebar menu: : style can be found in sidebar.less -->
@@ -21,7 +19,7 @@
 				<li class="<? if (substr($Menu,0,1)==1) echo 'active'; ?> treeview"><!-- AQUI SERIA EL OPEN --><!--  -->
 					<a href="#"><i class="fa fa-user"></i> <span>Alumnos</span> <i class="fa fa-angle-left pull-right"></i></a>
 					<ul class="treeview-menu">
-						<?php if(permiso_activo( 7))?> <li <? if($Menu==101) echo 'class="active"'; ?>><a href="alumnos_add.php"><span class='fa fa-clipboard'></span> Inscripcion </a></li>
+						<?php if(permiso_activo( 7))?> <li <? if($Menu==101) echo 'class="active"'; ?>><a href="alumnos_add.php"><span class='fa fa-clipboard'></span> Inscripción </a></li>
 						<?php if(permiso_activo( 8))?> <li <? if($Menu==102) echo 'class="active"'; ?>><a href="alumnos_main.php"><span class='fa fa-graduation-cap'></span> Bandeja de Alumnos</a></li>
 						<?php if(permiso_activo( 9))?> <li <? if($Menu==103) echo 'class="active"'; ?>><a href="alumnos_repre_main.php"><span class='fa fa-heart-o'></span> Bandeja de Representantes</a></li>
 						<?php if(permiso_activo(83))?> <li <? if($Menu==105) echo 'class="active"'; ?>><a href="alum_matri_deuda_main.php"><span class='fa fa-ban'></span> Bloqueo Libreta</a> </li>

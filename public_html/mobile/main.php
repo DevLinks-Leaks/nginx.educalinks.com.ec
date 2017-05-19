@@ -214,7 +214,12 @@
 		$tipo_observacion = $_POST["tipo_observacion"];
 	else
 		$tipo_observacion = "";      
-                
+           
+        if (isset($_POST["proveniencia"]))
+		$proveniencia = $_POST["proveniencia"];
+	else
+		$proveniencia = "";      
+                     
                 
                 
 	$clientes = new Clientes();
@@ -612,7 +617,7 @@
 
 
                 case "boton_pagos_deudas":			
-                        $noSale = $BotonPagoDeuda->getBotonPagoDeuda($alumnocodi,$reprcodi,$deudaCodigo);                        
+                        $noSale = $BotonPagoDeuda->getBotonPagoDeuda($alumnocodi,$reprcodi,$deudaCodigo,1);                        
                         $json_pagosDeudas = array();
 			foreach($noSale->rows as $ListaPagosDeudas){
 				$json_pagosDeudas[] = array("deud_codigo"=>$ListaPagosDeudas['deud_codigo'],

@@ -257,13 +257,13 @@ function divOpciones(div, validar, html, acta)
 	if(validar==true)
 	{
 		document.getElementById(div_1).innerHTML="<img src='../imagenes/repo_icon.png' style='width:60px;'>";
-		document.getElementById(div_2).innerHTML="<h3>" + TITULO + "</h3>";
+		document.getElementById(div_2).innerHTML="<h4>" + TITULO + "</h4>";
 		document.getElementById(div_3).innerHTML=EXCEL_OPC + " " + HTML_OPC;
 	}
 	else
 	{
 		document.getElementById(div_1).innerHTML="<img src='../imagenes/repo_icon.png' style='width:60px;'>";
-		document.getElementById(div_2).innerHTML="<h3>" + TITULO + "</h3>";
+		document.getElementById(div_2).innerHTML="<h4>" + TITULO + "</h4>";
 		document.getElementById(div_3).innerHTML="N/A";
 	}
 }

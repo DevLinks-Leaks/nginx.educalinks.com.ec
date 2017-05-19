@@ -110,7 +110,7 @@
                   <td><h3>Certificado de Matr&iacute;cula</h3></td>
                   <td>
                     <h1>
-                       <a href="JavaScript:getURLCertMatriculaPDF();" >
+                       <a href="JavaScript:getURLCertMatriculaPDF('<?=$_SESSION['directorio'];?>');" >
                            <span class="icon-file-pdf icon"></span>
                        </a>
                    </h1>

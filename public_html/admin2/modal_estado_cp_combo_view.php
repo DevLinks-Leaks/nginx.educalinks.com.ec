@@ -10,7 +10,7 @@
 <td width='120px'>Curso:</td>
 <td><select id="curs_para_codi" 
 		name="curs_para_codi" 
-		class="select"
+		class="form-control"
 		onchange="load_ajax_alum_curso_cupo('div_cupo','modal_estado_cp_cupo_view.php','curs_para_codi='+ this.value,this.value);"
 		onkeyup="load_ajax_alum_curso_cupo('div_cupo','modal_estado_cp_cupo_view.php','curs_para_codi='+ this.value, this.value);">
 		<option value="0">Seleccione...</option>

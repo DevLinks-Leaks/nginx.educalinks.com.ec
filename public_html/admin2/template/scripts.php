@@ -17,6 +17,10 @@
   <!-- DataTables -->
   <script src="../../includes/common/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="../../includes/common/plugins/datatables/dataTables.bootstrap.min.js"></script>
+  <!-- InputMask -->
+  <script src="../../includes/common/plugins/input-mask/jquery.inputmask.js"></script>
+  <script src="../../includes/common/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+  <script src="../../includes/common/plugins/input-mask/jquery.inputmask.extensions.js"></script>
   <!-- Buttons -->
   <script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
   <script src="//cdn.datatables.net/buttons/1.1.2/js/buttons.flash.min.js"></script>
@@ -49,7 +53,7 @@
     <!-- FastClick -->
     <script src="../../includes/common/plugins/fastclick/fastclick.min.js"></script>
     <!-- AdminLTE App -->
-    <script src="../../includes/common/dist/js/app.min.js"></script>
+    <script src="../../includes/common/dist/js/app.js"></script>
     <!-- iCheck -->
     <script src="../../includes/common/plugins/iCheck/icheck.min.js"></script>
     <!-- AdminLTE for demo purposes -->
@@ -77,6 +81,7 @@
 	<script type="text/javascript" src="js/funciones_alumnos_blacklist.js?<?= $rand?>"></script> 
 	<script type="text/javascript" src="js/funciones_alum.js?<?= $rand?>"></script>
 	<script type="text/javascript" src="js/funciones_repre.js?<?= $rand?>"></script>
+  <script type="text/javascript" src="js/funciones_curs.js?<?= $rand?>"></script>
   <script type="text/javascript" src="js/general.js?<?= $rand?>"></script>
 	<script type="text/javascript" src="../includes/common/shortcut.js"></script>
 	<script type="text/javascript" src="js/shotcuts_admin.js?<?= $rand?>"></script>

@@ -1,32 +1,30 @@
 <!-- Modal SELECCION DE PERIODO -->
-<div class="modal fade" id="ModalPeriodoActivo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalPeriodoActivo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-				<h4 class="modal-title" id="myModalLabel">Seleccione un período</h4>
+				<h4 class="modal-title" id="myModalLabel"><span class='fa fa-calendar'></span>&nbsp;Seleccione un período</h4>
 			</div>
-			<div class="modal-body">
-				<table>
+			<div class="modal-body" style='text-align:center;'>
+				<div class="btn-group-vertical" style='text-align:center;'>
                     <? 	
 						$i=0;
 						//$color = "bg-orange,bg-olive,bg-purple,bg-navy,bg-maroon";
-						$color = "btn-warning,btn-danger,btn-info,btn-olive,btn-primary,btn-default,btn-success";
-						$colors = explode(",", $color);
+						//$color = "btn-warning,btn-danger,btn-info,btn-olive,btn-primary,btn-default,btn-success";
+						//$colors = explode(",", $color);
 						
 						$params = array();
 						$sql="{call peri_view()}";
 						$peri_view = sqlsrv_query($conn, $sql, $params);  
-                    ?>
-					<? 	while($row_peri_view = sqlsrv_fetch_array($peri_view))
-						{ ?><tr><td>
-							<button type="button" class="btn <?= $colors[$i]; ?>" style="width:100%;" onClick="periodo_cambio(<?= $row_peri_view["peri_codi"]; ?>);">ACTIVAR PERIODO LECTIVO <?= $row_peri_view["peri_deta"]; ?></button>
-							<br>
-							<br>
-							</td></tr><?php  
+                    
+						while($row_peri_view = sqlsrv_fetch_array($peri_view))
+						{ ?>
+							<button type="button" class="btn <?php echo ( $row_peri_view["peri_codi"] == $_SESSION['peri_codi'] ? 'btn btn-primary': 'btn btn-default'); ?>" style="width:100%;" onClick="periodo_cambio(<?= $row_peri_view["peri_codi"]; ?>);">ACTIVAR PERIODO LECTIVO <?= $row_peri_view["peri_deta"]; ?></button>
+							<?php
 							$i++;
 						} ?>
-                </table>
+				</div>
 			</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -98,8 +96,11 @@
 						</ul>
 					</li>
 					<?php include ('script_mens_view.php');?>
-					<li title="Expandir">
-						<a href="#" onclick="toggleFullScreen();"><i class="fa fa-television"></i>&nbsp;</a>
+					<!--<li title="Expandir">
+						<a href="#" onclick="toggleFullScreen();"><i class="fa fa-television"></i>&nbsp;</a>-
+					</li>-->
+					<li title='Ver módulos del sistema' >
+						<a onmouseover='$(this).tooltip("show");' href="#" data-toggle="control-sidebar"><i class="fa fa-briefcase"></i>&nbsp;</a>
 					</li>
 				</ul>
 			</div>

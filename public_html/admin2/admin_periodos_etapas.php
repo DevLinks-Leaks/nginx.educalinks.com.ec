@@ -57,172 +57,190 @@
 		<input name="mens_de"  		type="hidden" id="mens_de" 		value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
 		<input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 		<?php include("template/scripts.php");?>
+        <!-- Modal -->
+        <div 
+            class="modal fade" 
+            id="peri_nuev" 
+            tabindex="-1" 
+            role="dialog" 
+            aria-labelledby="myModalLabel" 
+            aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button 
+                    type="button" 
+                    class="close" 
+                    data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Nueva Etapa</h4>
+              </div>
+              <div class="modal-body">
+               <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="25%">Etapas: </td>
+                        <td>
+                            <?php  
+                                $params = array();
+                                $sql="{call peri_etap_view()}";
+                                $peri_etap_view = sqlsrv_query($conn, $sql, $params);  
+                            ?> 
+                            <select 
+                                name="n_peri_etap_codi"   
+                                id="n_peri_etap_codi" 
+                                onchange="peri_dist_peri_libt_view(<?= $peri_codi; ?>,this.value)"
+                                style="width: 100%; margin-top: 5px;">
+                                <?php  
+                                while ($row_peri_etap_view = sqlsrv_fetch_array($peri_etap_view)) 
+                                { 
+                                ?>     
+                                <option 
+                                    value="<?= $row_peri_etap_view['peri_etap_codi']; ?>/<?= $row_peri_etap_view['peri_etap_unid']; ?>">
+                                    <?= $row_peri_etap_view['peri_etap_deta']; ?>    
+                                </option>
+                                <?php 
+                                }  
+                                ?>    
+                            </select>
+                        </td> 
+                    </tr>
+                    <tr class="dynamic_2" style="display: none;">
+                        <td width="25%">
+                            Periodo a preinscribir:
+                        </td>
+                        <td width="75%">
+                        <?
+                            $params = array();
+                            $sql="{call peri_view()}";
+                            $peri_view = sqlsrv_query($conn, $sql, $params);
+                        ?>
+                        <select
+                            name="sl_peri_codi_dest"
+                            id="sl_peri_codi_dest"
+                            style="width:75%; margin-top:10px;" >
+                                <option value="0">Elija</option>
+                           <?php  while ($row_peri_view = sqlsrv_fetch_array($peri_view)) { 
+                                    if($row_peri_view['peri_codi']!=$peri_codi){
+                            ?>
+                                <option value="<?= $row_peri_view['peri_codi']; ?>">
+                                    <?= $row_peri_view['peri_deta']; ?> - Año :<?= $row_peri_view['peri_ano']; ?>  
+                                </option>
+                            <?} } ?>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr class="dynamic_3" style="display: none;">
+                          <td width="25%">
+                              Código HTML encuesta:
+                          </td>
+                          <td width="75%">
+                            <textarea id="txt_encuesta" style="width:100%; margin-top:10px;"  rows="3" ></textarea>
+                          </td>
+                    </tr>
+                    <tr class="dynamic_1" style="display: none;">
+                        <td width="25%">
+                            Tipo periodo:
+                        </td>
+                        <td width="75%">
+                        <?
+                            $params = array($peri_codi);
+                            $sql="{call peri_dist_cab_view(?)}";
+                            $peri_dist_cab_view = sqlsrv_query($conn, $sql, $params);
+                        ?>
+                        <select
+                            name="sl_peri_dist_cab"
+                            id="sl_peri_dist_cab"
+                            style="width:75%; margin-top:10px;"
+                            
+                            onChange="CargarUnidades(this.value, 1);">
+                                <option value="0">Elija</option>
+                           <?php  while ($row_peri_dist_cab_view = sqlsrv_fetch_array($peri_dist_cab_view)) { ?>
+                                <option value="<?= $row_peri_dist_cab_view['peri_dist_cab_codi']; ?>">
+                                    <?= $row_peri_dist_cab_view['peri_dist_cab_deta']; ?>
+                                </option>
+                            <? } ?>
+                        </select>
+                        </td>
+                    </tr>
+                    <tr class="dynamic_1"  style="display: none;">
+                        <td>
+                            Unidad: 
+                               </td>
+                        <td> 
+                        <div id="div_unidad">
+                            <select 
+                                name="pg_peri_dist_codi"   
+                                id="pg_peri_dist_codi" 
+                                style="width: 75%; margin-top: 5px;"
+                                > 
+                            </select> 
+                        </div>  
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Desde:</td>                                
+                        <td>
+                            <input 
+                                id="n_peri_fech_ini"   
+                                type="text" 
+                                value="<?= date('Y-m-d');?>"
+                                style="width: 25%; margin-top: 5px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Hasta: </td>                             
+                        <td>
+                            <input 
+                                id="n_peri_fech_fin"   
+                                type="text" 
+                                value="<?= date('Y-m-d');?>"
+                                style="width: 25%; margin-top: 5px;">
+                        </td>
+                    </tr>
+                    
+                </table>
+                <div class="form_element">&nbsp;</div> 
+              </div>
+              <div class="modal-footer">
+                <button 
+                    id="btn_etapa_add"
+                    type="button" 
+                    class="btn btn-primary"  
+                    data-dismiss="modal" 
+                    onClick="peri_acti_add(<?= $peri_codi;?>)">
+                    Aceptar
+                </button>
+                 <button 
+                    type="button" 
+                    class="btn btn-default" 
+                    data-dismiss="modal">
+                    Cerrar
+                </button>           
+              </div>
+            </div>
+          </div>
+        </div>
 		<script>
-			$("#n_peri_fech_ini").datepicker({ dateFormat: 'yy-mm-dd' });
-			$("#n_peri_fech_fin").datepicker({ dateFormat: 'yy-mm-dd' });
+			$(document).ready(function(){
+				$("#n_peri_fech_ini").datepicker({ format: 'yyyy-mm-dd' });
+				$("#n_peri_fech_ini").inputmask({
+					mask: "y-1-2", 
+					placeholder: "yyyy-mm-dd", 
+					leapday: "-02-29", 
+					separator: "-", 
+					alias: "yyyy/mm/dd"
+				});
+				$("#n_peri_fech_fin").datepicker({ format: 'yyyy-mm-dd' });
+				$("#n_peri_fech_fin").inputmask({
+					mask: "y-1-2", 
+					placeholder: "yyyy-mm-dd", 
+					leapday: "-02-29", 
+					separator: "-", 
+					alias: "yyyy/mm/dd"
+				});
+			});
 		</script>
 	</body>
 </html>
-<!-- Modal -->
-<div 
-	class="modal fade" 
-    id="peri_nuev" 
-    tabindex="-1" 
-    role="dialog" 
-    aria-labelledby="myModalLabel" 
-    aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button 
-            type="button" 
-            class="close" 
-            data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Nueva Etapa</h4>
-      </div>
-      <div class="modal-body">
-       <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td width="25%">Etapas: </td>
-            <td>
-				<?php  
-					$params = array();
-					$sql="{call peri_etap_view()}";
-					$peri_etap_view = sqlsrv_query($conn, $sql, $params);  
-				?> 
-                <select 
-                	name="n_peri_etap_codi"
-                    id="n_peri_etap_codi"
-					class='form-control input-sm'
-                    onchange="peri_dist_peri_libt_view(<?= $peri_codi; ?>,this.value)"
-                    style="width: 100%; margin-top: 5px;">
-                 	<?php  
-				 	while ($row_peri_etap_view = sqlsrv_fetch_array($peri_etap_view)) 
-					{ 
-					?>     
-                    <option 
-                    	value="<?= $row_peri_etap_view['peri_etap_codi']; ?>/<?= $row_peri_etap_view['peri_etap_unid']; ?>">
-                        <?= $row_peri_etap_view['peri_etap_deta']; ?>    
-                    </option>
-                	<?php 
-					}  
-					?>	  
-                </select>
-            </td> 
-		</tr>
-        <tr class="dynamic_2" style="display: none;">
-            <td width="25%">
-                Periodo a preinscribir:
-            </td>
-            <td width="75%">
-            <?
-                $params = array();
-                $sql="{call peri_view()}";
-                $peri_view = sqlsrv_query($conn, $sql, $params);
-            ?>
-            <select
-                name="sl_peri_codi_dest"
-                id="sl_peri_codi_dest"
-                style="width:75%; margin-top:10px;" >
-                    <option value="0">Elija</option>
-               <?php  while ($row_peri_view = sqlsrv_fetch_array($peri_view)) { 
-                        if($row_peri_view['peri_codi']!=$peri_codi){
-                ?>
-                    <option value="<?= $row_peri_view['peri_codi']; ?>">
-                        <?= $row_peri_view['peri_deta']; ?> - Año :<?= $row_peri_view['peri_ano']; ?>  
-                    </option>
-                <?} } ?>
-            </select>
-            </td>
-      </tr>
-        <tr class="dynamic_1" style="display: none;">
-            <td width="25%">
-                Tipo periodo:
-            </td>
-            <td width="75%">
-            <?
-                $params = array($peri_codi);
-                $sql="{call peri_dist_cab_view(?)}";
-                $peri_dist_cab_view = sqlsrv_query($conn, $sql, $params);
-            ?>
-            <select
-                name="sl_peri_dist_cab"
-                id="sl_peri_dist_cab"
-				class='form-control input-sm'
-                style="width:75%; margin-top:10px;"
-                
-                onChange="CargarUnidades(this.value, 1);">
-                    <option value="0">Elija</option>
-               <?php  while ($row_peri_dist_cab_view = sqlsrv_fetch_array($peri_dist_cab_view)) { ?>
-                    <option value="<?= $row_peri_dist_cab_view['peri_dist_cab_codi']; ?>">
-                        <?= $row_peri_dist_cab_view['peri_dist_cab_deta']; ?>
-                    </option>
-                <? } ?>
-            </select>
-            </td>
-          </tr>
-			<?php	
-				$params = array($peri_codi);
-				$sql="{call peri_dist_peri_libt_view(?)}";
-				$peri_dist_peri_libt_view = sqlsrv_query($conn, $sql, $params);              
-            ?>  
-        <tr class="dynamic_1"  style="display: none;">
-            <td>
-            	Unidad: 
-			       </td>
-            <td> 
-            <div id="div_unidad">
-                <select 
-                	name="pg_peri_dist_codi"   
-                    id="pg_peri_dist_codi" 
-                    style="width: 75%; margin-top: 5px;"
-                    > 
-                </select> 
-            </div>  
-            </td>
-        </tr>
-        <tr>
-            <td>Desde:</td>                                
-            <td>
-            	<input 
-                    id="n_peri_fech_ini"   
-                    type="text" class='form-control input-sm'
-                    value="<?= date('Y-m-d');?>"
-                    style="width: 25%; margin-top: 5px;">
-			</td>
-        </tr>
-        <tr>
-            <td>Hasta: </td>                             
-            <td>
-            	<input 
-                	id="n_peri_fech_fin"   
-                    type="text" class='form-control input-sm'
-                    value="<?= date('Y-m-d');?>"
-                    style="width: 25%; margin-top: 5px;">
-			</td>
-        </tr>
-        </table>
-        <div class="form_element">&nbsp;</div> 
-      </div>
-      <div class="modal-footer">
-        <button 
-            id="btn_etapa_add"
-            type="button" 
-            class="btn btn-success"
-            data-dismiss="modal" 
-            onClick="peri_acti_add(<?= $peri_codi;?>)">
-            <span class=' fa fa-floppy-o'></span> Guardar Cambios
-        </button>
-         <button 
-         	type="button" 
-            class="btn btn-default" 
-            data-dismiss="modal">
-			Cerrar
-		</button>           
-      </div>
-    </div>
-  </div>
-</div>

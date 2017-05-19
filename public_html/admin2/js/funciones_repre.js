@@ -37,13 +37,19 @@ function repre_exist_edit(div,url){
 				if (xmlhttp.responseText=="OK"){
 					//La identificación ya se encuentra registrada
 					$('#btn_guardar_repr').attr('disabled',true);
-					document.getElementById(div).innerHTML='<span class="fa fa-exclamation-triangle"></span> El <b>número de identificación</b> ingresado ya se encuentra registrado.<br/>Para agregar representantes ya registrados realizarlo desde la opción "<span class="fa fa-plus"></span> Representante".';
+					
+					document.getElementById(div).innerHTML=
+					'<div class="alert alert-warning alert-dismissible col-md-10 col-md-offset-1"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-warning"></i> Alerta!</h4><p id="alert_repr_content">El <b>número de identificación</b> ingresado ya se encuentra registrado.<br/>Para agregar representantes ya registrados realizarlo desde la opción "<span class="fa fa-plus"></span> Representante".</p></div>';
+					// document.getElementById(div).innerHTML='<span class="fa fa-exclamation-triangle"></span> El <b>número de identificación</b> ingresado ya se encuentra registrado.<br/>Para agregar representantes ya registrados realizarlo desde la opción "<span class="fa fa-plus"></span> Representante".';
 				}else{
 					$('#btn_guardar_repr').attr('disabled',false);
 					if(xmlhttp.responseText=="Cédula Correcta" || xmlhttp.responseText=="RUC Correcto" || xmlhttp.responseText=="Pasaporte"){
 						//La identificación no se encuentra registrada pero es correcto el formato
-
+						$('#btn_guardar_repr').attr('disabled',false);
 					}else{
+						$('#btn_guardar_repr').attr('disabled',true);
+						document.getElementById(div).innerHTML=
+					'<div class="alert alert-danger alert-dismissible col-md-10 col-md-offset-1"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-ban"></i> Alerta!</h4><p id="alert_repr_content">El <b>número de identificación</b> ingresado es incorrecto.</p></div>';
 						//La identificación no se encuentra registrada y es incorrecto el formato
 					}
 				}
@@ -69,6 +75,7 @@ function load_modal_repre_view(div,url,data){
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200){
 			document.getElementById(div).innerHTML=xmlhttp.responseText;
+			document.getElementById('repr_cedula').focus();
 			$("#repr_fech_promoc").datepicker();
 			$("#repr_fech_naci").datepicker();
 		}
@@ -77,9 +84,8 @@ function load_modal_repre_view(div,url,data){
 	xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 	xmlhttp.send(data);	
 }
-function valida_repre(repr_cedu,div,url){
-	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
-	document.getElementById(div).innerHTML='';
+function load_modal_content(div,url,repr_codi){
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
 	if (window.XMLHttpRequest)
 	{// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp=new XMLHttpRequest();
@@ -88,32 +94,72 @@ function valida_repre(repr_cedu,div,url){
 	{// code for IE6, IE5
 		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 	}
-	var tipo_iden = document.getElementById('repr_tipo_iden');
 	xmlhttp.onreadystatechange=function()
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200){
-			if (xmlhttp.responseText=="OK"){
-				$("#repr_cedula").css("border","solid 1px #eeeeee");
-				$("#lbl_repr_cedula").css("color","#017eba");
-				$("#repr_cedula").css("color","rgba(0, 0, 0, 0.7)");
-				document.getElementById(div).innerHTML="<div class='form_element'><p>Para precargar la información del representante, haz clic <a style='cursor:pointer;'  onclick=carga_data_repre(document.getElementById('repr_cedula').value,document.getElementById('repr_tipo_iden').options[document.getElementById('repr_tipo_iden').selectedIndex].value,'script_repr.php','repre_data'); >aquí.</a></p></div><div class='form_element'></div><div id='repre_data'>&nbsp;</div>";
-			}else{
-				if(xmlhttp.responseText=="Cédula Correcta" || xmlhttp.responseText=="RUC Correcto" || xmlhttp.responseText=="Pasaporte"){
-					document.getElementById(div).innerHTML="<div id='repre_data'>&nbsp;</div>";
-					$("#repr_cedula").css("border","solid 1px #eeeeee");
-					$("#lbl_repr_cedula").css("color","#017eba");
-					$("#repr_cedula").css("color","rgba(0, 0, 0, 0.7)");
-					carga_data_repre(document.getElementById('repr_cedula').value,tipo_iden.options[tipo_iden.selectedIndex].value,'script_repr.php','repre_data');
-				}else{
-					$("#repr_cedula").css("border","solid 1px red");
-					$("#lbl_repr_cedula").css("color","red");
-					$("#repr_cedula").css("color","red");
-					document.getElementById(div).innerHTML="<div class='form_element'><p> <font color='red'> <b>Educalinks informa:</b> "+xmlhttp.responseText+". Por favor ingrese el número de identificación de acuerdo al tipo correctamente.</font> </p></div><div class='form_element'></div>";
+
+			document.getElementById(div).innerHTML=xmlhttp.responseText;
+			document.getElementById('hd_repr_codi').value=repr_codi;
+			$("#repr_fech_promoc").datepicker();
+			$("#repr_fech_naci").datepicker();
+		}
+	}
+	var data="repr_codi="+repr_codi;
+	xmlhttp.open("POST",url,true);
+	xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	xmlhttp.send(data);	
+}
+function reset(){
+	$('#repr_cedula').attr('disabled',false);
+	$('#repr_tipo_iden').attr('disabled',false);
+	$('#repr_cedula').val('');
+	$('#repr_tipo_iden').val($('#repr_tipo_iden option:first').val());
+	document.getElementById('alert_repr').innerHTML='';
+	load_modal_content('repr-tab-content','representantes_add_modal_content.php',-1);
+}
+function valida_repre(repr_cedu,div,url){
+	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
+	// document.getElementById(div).innerHTML='';
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			var resp = JSON.parse(xmlhttp.responseText);
+			if (resp.state=="OK"){
+				$('#repr_cedula').closest('.form-group').removeClass('has-error');
+				load_modal_content(div,'representantes_add_modal_content.php',resp.result);
+				document.getElementById('alert_repr').innerHTML=
+					'<div class="alert alert-info alert-dismissible col-md-10 col-md-offset-1"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-info"></i> Información</h4><p id="alert_repr_content">Se han cargado los datos del representante de acuerdo a número de identificación.</p></div>';
+				$('#btn_guardar_repr').attr('disabled',false);
+				$('#repr_cedula').attr('disabled',true);
+				$('#repr_tipo_iden').attr('disabled',true);
+				load_ajax_blacklist_warning_repr('div_blacklist_warning_repr','script_alumnos_blacklist.php','warning_blacklist' );
+			}else if (resp.state=="NO"){
+				var response = validarNI(repr_cedu,$('#repr_tipo_iden').val());
+		        if(response=="Cédula Correcta" || response=="RUC Correcto" || response=="Pasaporte" ){
+		            $('#repr_cedula').closest('.form-group').removeClass('has-error');
+		            load_modal_content(div,'representantes_add_modal_content.php',0);
+		            document.getElementById('alert_repr').innerHTML='';
+		            $('#btn_guardar_repr').attr('disabled',false);
+		            load_ajax_blacklist_warning_repr('div_blacklist_warning_repr','script_alumnos_blacklist.php','warning_blacklist' );
+		        }else{
+		        	$('#repr_cedula').closest('.form-group').addClass('has-error');
+					load_modal_content(div,'representantes_add_modal_content.php',-1);
+					document.getElementById('alert_repr').innerHTML=
+					'<div class="alert alert-danger alert-dismissible col-md-10 col-md-offset-1"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-ban"></i> Alerta!</h4><p id="alert_repr_content">El <b>número de identificación</b> ingresado es incorrecto.</p></div>';
+					$('#btn_guardar_repr').attr('disabled',true);
 				}
 			}
 		}
 	}
-	var data="opc=vali_repr&repr_cedu="+repr_cedu+"&tipo_iden="+tipo_iden.options[tipo_iden.selectedIndex].value;		
+	var data="opc=repr_search&repr_cedu="+repr_cedu+"&tipo_iden="+$('#repr_tipo_iden').val();	
 	xmlhttp.open("POST",url,true);
 	xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
 	xmlhttp.send(data);	
@@ -278,7 +324,7 @@ function load_ajax_add_repr(div,url){
 		data.append('repr_celular', document.getElementById('repr_celular').value);
 		data.append('repr_profesion', document.getElementById('repr_profesion').value);
 		data.append('repr_nacionalidad', document.getElementById('repr_nacionalidad').value);
-		data.append('repr_lugar_trabajo', document.getElementById('repr_lugar_trabajo').value);
+		data.append('repr_lugar_trabajo', document.getElement4183ById('repr_lugar_trabajo').value);
 		data.append('repr_direc_trabajo', document.getElementById('repr_direc_trabajo').value);
 		data.append('repr_telf_trab', document.getElementById('repr_telf_trab').value);
 		data.append('repr_cargo', document.getElementById('repr_cargo').value);
@@ -334,14 +380,15 @@ function load_ajax_del_repr(div,url,data){
 				if (xmlhttp.responseText > 0) {
 					$.growl.notice({title: "Listo!", message: "Se eliminó correctamente los datos del representante."});
 					var data_new = "opc=repr_list_gen";
-					load_list_repr(div, 'alumnos_repre_main_lista.php', data_new);
+					js_alumnos_repr_main_search(document.getElementById('alum_codi_in').value,document.getElementById('alum_apel_in').value);
+					// load_list_repr(div, 'alumnos_repre_main_lista.php', data_new);
 				} else {
 					$.growl.error({
 						title: "Atención!",
 						message: "Ocurrió un error al eliminar los datos del representante."
 					});
 					var data_new = "opc=repr_list&alum_codi=" + document.getElementById('alum_codi').value;
-					load_list_repr(div, url, data_new);
+					// load_list_repr(div, url, data_new);
 				}
 			}
 		}
@@ -351,7 +398,7 @@ function load_ajax_del_repr(div,url,data){
 		xmlhttp.send(data);
 	}
 }
-function load_ajax_upd_repr(url,repr_codi){	
+function load_ajax_upd_repr(url,flag){	
 	if (ValidarRepresentante())
 	{	//document.getElementById(div).innerHTML='<div align="center" style="height:100%;"><img src="../imagenes/ajax-loader.gif"/></div>';
 		$('#btn_guardar_repr').button('loading');
@@ -364,7 +411,9 @@ function load_ajax_upd_repr(url,repr_codi){
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 		}
 		var data = new FormData();
-		data.append('opc', 'repr_upd');
+		var repr_codi =document.getElementById('hd_repr_codi').value;
+		
+		data.append('opc', 'repr_add');
 		data.append('repr_codi', repr_codi);
 		data.append('repr_nomb', document.getElementById('repr_nomb').value);
 		data.append('repr_apel', document.getElementById('repr_apel').value);
@@ -393,7 +442,7 @@ function load_ajax_upd_repr(url,repr_codi){
 		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
 		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
 		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
-		data.append('hd_alum_codi', document.getElementById('hd_alum_codi').value);
+		data.append('alum_codi', (document.getElementById('hd_alum_codi')==null ? '' : document.getElementById('hd_alum_codi').value));
 		data.append('identificacion_niv_1', ($('#identificacion_niv_1').val() > 0 ? $('#identificacion_niv_1').val() : ''));
         data.append('identificacion_niv_2', ($('#identificacion_niv_2').val() > 0 ? $('#identificacion_niv_2').val() : ''));
         data.append('identificacion_niv_3', ($('#identificacion_niv_3').val() > 0 ? $('#identificacion_niv_3').val() : ''));
@@ -405,6 +454,10 @@ function load_ajax_upd_repr(url,repr_codi){
 					$.growl.notice({ title: "Listo!",message: "Se actualizaron correctamente los datos del representante." });	
 					$('#btn_guardar_repr').button('reset');
 					$('#modal_representante_edit').modal('hide');
+					if(flag==0)
+						load_list_repr('div_repr_list','representantes_add_script.php','alum_codi='+document.getElementById('hd_alum_codi').value);
+					else
+						js_alumnos_repr_main_search(document.getElementById('alum_codi_in').value,document.getElementById('alum_apel_in').value);
 				}else{
 					$.growl.error({ title: "Atención!",message: "Ocurrió un error al actualizar los datos del representante." });	
 					$('#btn_guardar_repr').button('reset');
@@ -439,7 +492,26 @@ function load_list_repr(div,url,data){
 	xmlhttp.send(data);
 }
 function ValidarRepresentante ()
-{	if (document.getElementById('repr_nomb').value.trim()=='')
+{	if (document.getElementById('repr_cedula').value.trim() == ''){
+        $('#repr_cedula').closest('.form-group').addClass('has-error');
+        $.growl.error({ title: 'Educalinks informa', message: 'Por favor ingrese la cédula del alumno.' });
+        document.getElementById('repr_cedula').focus();
+        return false;
+    }
+    else if (document.getElementById('repr_cedula').value.trim() != '')
+    {
+        response = validarNI(document.getElementById('repr_cedula').value,document.getElementById('repr_tipo_iden').options[document.getElementById('repr_tipo_iden').selectedIndex].value);
+        if(response=="Cédula Correcta" || response=="RUC Correcto" || response=="Pasaporte" )
+        {   $('#repr_cedula').closest('.form-group').removeClass('has-error');
+        }
+        else
+        {   $.growl.error({ title: "Educalinks informa",message: response+". Por favor ingrese el número de identificación de acuerdo al tipo correctamente." });
+            $('#repr_cedula').closest('.form-group').addClass('has-error');
+            document.getElementById('repr_cedula').focus();
+            return false;
+        }
+    }
+	if (document.getElementById('repr_nomb').value.trim()=='')
 	{	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese los nombres del representante" });	
 		$('#repr_nomb').closest('.form-group').addClass('has-error');
 		$('#repr_nomb').focus();
@@ -463,7 +535,7 @@ function ValidarRepresentante ()
 	{	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese el correo electrónico del representante" });	
 		$('#repr_email').closest('.form-group').addClass('has-error');
 		$('#repr_email').focus();
-        $('#tabs a[href="#tab1"]').tab('show');
+        $('#tabs a[href="#tab2"]').tab('show');
 		return false;
 	}
 	else

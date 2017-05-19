@@ -213,9 +213,9 @@ function load_ajax_add_repr(div,url){
 		data.append('repr_fech_promoc', document.getElementById('repr_fech_promoc').value);
 		data.append('repr_ex_alum',$('#repr_ex_alum').prop('checked') );
 		data.append('repr_fech_naci', $('#repr_fech_naci').val());
-		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
-		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
-		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
+		data.append('repr_pais_naci', ($('#repr_pais_naci').val()=='' ? '' : $('#repr_pais_naci option:selected').text()));
+		data.append('repr_prov_naci', ($('#repr_prov_naci').val()=='' ? '' : $('#repr_prov_naci option:selected').text()));
+		data.append('repr_ciud_naci', ($('#repr_ciud_naci').val()=='' ? '' : $('#repr_ciud_naci option:selected').text()));
 		data.append('identificacion_niv_1', ($('#identificacion_niv_1').val() > 0 ? $('#identificacion_niv_1').val() : ''));
         data.append('identificacion_niv_2', ($('#identificacion_niv_2').val() > 0 ? $('#identificacion_niv_2').val() : '') );
         data.append('identificacion_niv_3', ($('#identificacion_niv_3').val() > 0 ? $('#identificacion_niv_3').val() : '') );
@@ -311,9 +311,9 @@ function load_ajax_upd_repr(div,url,repr_codi){
 		data.append('repr_fech_promoc', document.getElementById('repr_fech_promoc').value);
 		data.append('repr_ex_alum',$('#repr_ex_alum').prop('checked') );
 		data.append('repr_fech_naci', $('#repr_fech_naci').val());
-		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
-		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
-		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
+		data.append('repr_pais_naci', ($('#repr_pais_naci').val()=='' ? '' : $('#repr_pais_naci option:selected').text()));
+		data.append('repr_prov_naci', ($('#repr_prov_naci').val()=='' ? '' : $('#repr_prov_naci option:selected').text()));
+		data.append('repr_ciud_naci', ($('#repr_ciud_naci').val()=='' ? '' : $('#repr_ciud_naci option:selected').text()));
 		data.append('alum_codi', document.getElementById('alum_codi').value);
 		data.append('identificacion_niv_1', ($('#identificacion_niv_1').val() > 0 ? $('#identificacion_niv_1').val() : ''));
         data.append('identificacion_niv_2', ($('#identificacion_niv_2').val() > 0 ? $('#identificacion_niv_2').val() : ''));

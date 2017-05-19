@@ -23,7 +23,7 @@ $cc=0;
 
 			?>
 
-			<table class="table table-striped" id="alum_table">
+			<table class="table table-striped" id="blacklist_table">
 				<thead>
 					<tr>
 						<th width="50%">Alumno</th>

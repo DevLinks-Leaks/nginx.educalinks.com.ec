@@ -119,7 +119,7 @@
 					<? 
 						if ($row_alum_curs_para_view["alum_curs_para_estado"]=="A")
 						{?>
-						onclick="curs_para_cambiar_load(<?= $row_alum_curs_para_view["alum_curs_para_codi"]?>, <?= $row_alum_curs_para_view["alum_codi"]?>)" 
+						onclick="curs_para_cambiar_load('cambiar_paralelo_content','modal_cambio_paralelo_view.php','curs_para_codi=<?= $_GET["curs_para_codi"]?>',<?= $row_alum_curs_para_view["alum_curs_para_codi"]?>, <?= $row_alum_curs_para_view["alum_codi"]?>);"
 						data-toggle="modal" 
 						data-target="#ModalCambioParalelo"
 					<?	}

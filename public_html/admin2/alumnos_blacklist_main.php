@@ -21,7 +21,9 @@
 				</section>
 				<section class="content" id="mainPanel">
 					<div id="information">
-						<?php include ('alumnos_blacklist_main_lista.php');  ?>
+						<div id="blacklist_main">
+							<?php include ('alumnos_blacklist_main_lista.php');  ?>
+						</div>
 		            </div>
 				</section>
 				<?php include("template/menu_sidebar.php");?>
@@ -37,7 +39,7 @@
 		<?php include("template/scripts.php");?>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#alum_table').DataTable() ;
+				$('#blacklist_table').DataTable() ;
 			} );
 		</script>
 	</body>

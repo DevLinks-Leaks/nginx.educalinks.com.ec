@@ -89,7 +89,7 @@
 								<?php if($alum_curs_para_codi!=0){ ?>
 								<tr>
 									<td>
-										<div id="div_estado_retiro" class="alert-danger">
+										<div id="div_estado_retiro" class="text-danger">
 											<? include('modal_estado_retiro_view.php'); ?>
 										</div>
 									</td>

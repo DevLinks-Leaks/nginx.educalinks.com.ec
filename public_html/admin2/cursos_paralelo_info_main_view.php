@@ -231,78 +231,7 @@ function alum_mate_view(curs_para_codi, alum_curs_para_codi, alum_codi) {
 </div>
 <!--Fin modal modificar cupo-->
 
-<!--Inicio modal cambiar de paralelo-->
-<div class="modal fade" id="ModalCambioParalelo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Cambio de paralelo</h4>
-      </div>
-      <div id="modal_main" class="modal-body">
-        <div id="div_cupo_edi"> 
-            <div class="form_element">
-            <table border="0" cellpadding="0" cellspacing="0" width="100%;" class="table">
-                <tr>
-                    <td width="25%" style="padding-top: 15px;">
-                        <label for="curs_para">Paralelo: </label>
-                    </td>
-                    <td style="padding-top: 15px;">
-                    	<input type="hidden" id="alum_curs_para_codi" value="" />
-                        <input type="hidden" id="alum_codi" value="" />
-                        <select id="sl_curs_para_codi_1" 
-                        		style="width: 50%;" 
-                                onchange="load_ajax('div_matching','cambio_paralelo_matching.php','curs_para_codi_orig=<?= $_GET['curs_para_codi'];?>&alum_curs_para_codi='+document.getElementById('alum_curs_para_codi').value+'&curs_para_codi_dest='+document.getElementById('sl_curs_para_codi_1').value+'&alum_codi='+document.getElementById('alum_codi').value);">
-						<option value="-1">Elija</option>
-                         <?
-							$params=array($_GET["curs_para_codi"]);
-							$sql="{call curs_para_paralelos (?)}";
-							$stmt=sqlsrv_query($conn, $sql, $params);
-							while ($row = sqlsrv_fetch_array($stmt))
-							{
-                   		 ?>
-                        	<option value="<?= $row["curs_para_codi"]?>">
-								<?= $row["curs_deta"]." - Paralelo: ".$row["para_deta"];?>
-                            </option>
-                         <?
-							}
-						 ?>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="padding-top: 15px;">
-                    	<div id="div_cupo_disp"></div>
-                    </td>
-                </tr>
-                 <tr>
-                    <td colspan="2" style="padding-top: 15px;">
-                        <div id="div_matching"></div>
-                    </td>
-                </tr> 
-            </table>  
-            </div>
-            <div class="form_element">&nbsp;</div>                
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button 
-        	type="button" 
-            class="btn btn-success" 
-            onClick="CambiarParalelo()" >
-        	Aceptar
-        </button>
-        <button 
-        	type="button" 
-            class="btn btn-default" 
-            data-dismiss="modal" >
-        	Cerrar
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<!--Fin modal cambiar de paralelo-->
+
 
 
 <!--Inicio modal copiar materias a curso paralelo-->

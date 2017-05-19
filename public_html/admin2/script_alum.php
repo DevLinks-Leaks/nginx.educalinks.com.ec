@@ -131,7 +131,15 @@ switch($opc){
 			$detalle.=" Usuario: ".$_POST['alum_usua'];
 			$detalle.=" Forma Pago: ".$_POST['alum_resp_form_pago'];
 			$detalle.=" Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj'];
-			$detalle.=" # Cta. Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			// iNFO NUMERO CUENTA
+			if(strpos($alum_resp_form_banc_tarj_nume, 'X') ===true)
+				$detalle.=" # Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			else{ 
+				if (is_numeric($_POST['alum_resp_form_banc_tarj_nume']))
+					$detalle.=" # Banco/Tarjeta: ".$alum_resp_form_banc_tarj_nume_encrypt;
+				else
+					$detalle.=" # Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			}
 			$detalle.=" Tipo Cuenta: ".($_POST['alum_resp_form_banc_tipo']=='C'?'Corriente':'Ahorro');
 			$detalle.=" Responsable económico: ".$_POST['alum_resp_form_cedu'].' '.$_POST['alum_resp_form_nomb'];
 			//$detalle.=" Descuento tipo: ".$_POST['alum_desc_tipo'];
@@ -366,7 +374,15 @@ switch($opc){
 			$detalle.=" Usuario: ".$_POST['alum_usua'];
 			$detalle.=" Forma Pago: ".$_POST['alum_resp_form_pago'];
 			$detalle.=" Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj'];
-			$detalle.=" # Cta. Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			// iNFO NUMERO CUENTA
+			if(strpos($alum_resp_form_banc_tarj_nume, 'X') ===true)
+				$detalle.=" # Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			else{ 
+				if (is_numeric($_POST['alum_resp_form_banc_tarj_nume']))
+					$detalle.=" # Banco/Tarjeta: ".$alum_resp_form_banc_tarj_nume_encrypt;
+				else
+					$detalle.=" # Banco/Tarjeta: ".$_POST['alum_resp_form_banc_tarj_nume'];
+			}
 			$detalle.=" Tipo Cuenta: ".($_POST['alum_resp_form_banc_tipo']=='C'?'Corriente':'Ahorro');
 			$detalle.=" Responsable económico: ".$_POST['alum_resp_form_cedu'].' '.$_POST['alum_resp_form_nomb'];
 			//$detalle.=" Descuento tipo: ".$_POST['alum_desc_tipo'];

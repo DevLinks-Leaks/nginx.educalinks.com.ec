@@ -207,11 +207,12 @@ if($alum_view['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($alum_view[
 			</div>
 			<div class="form_element">
 				<label for="alum_pais">País de nacimiento:</label>
-				<select onchange="CargarProvincias('alum_prov_naci',this.value);" id="alum_pais" name="alum_pais">
+				<select onchange="CargarProvincias('alum_prov_naci',this.value);CargarCiudades('alum_ciud_naci',this.value);CargarParroquias('alum_parr_naci',this.value);" id="alum_pais" name="alum_pais">
 				<?php 
 				$params = array();
 				$sql="{call cata_pais_cons()}";
 				$stmt = sqlsrv_query($conn, $sql, $params);
+				echo '<option value="">Seleccione</option>';
 				while($pais_view= sqlsrv_fetch_array($stmt))
 				{
 					$seleccionado="";
@@ -229,13 +230,13 @@ if($alum_view['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($alum_view[
 			</div>
 			<div class="form_element">
 				<label for="alum_prov_naci">Provincia de nacimiento:</label>
-				<select onchange="CargarCiudades('alum_ciud_naci',this.value);" id='alum_prov_naci' name='alum_prov_naci'>
+				<select onchange="CargarCiudades('alum_ciud_naci',this.value);CargarParroquias('alum_parr_naci',this.value);" id='alum_prov_naci' name='alum_prov_naci'>
 				<?php 
 
 				$params = array(null,($alum_view["alum_pais"]==''?'Ecuador':$alum_view["alum_pais"]));
 				$sql="{call cata_provincia_cons(?,?)}";
 				$stmt = sqlsrv_query($conn, $sql, $params);
-		
+				echo '<option value="">Seleccione</option>';
 				while($ciudad_view= sqlsrv_fetch_array($stmt))
 				{
 					$seleccionado="";
@@ -253,6 +254,7 @@ if($alum_view['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($alum_view[
 				$params = array(null,$alum_view["alum_prov_naci"]);
 				$sql="{call cata_ciudad_cons(?,?)}";
 				$stmt = sqlsrv_query($conn, $sql, $params);
+				echo '<option value="">Seleccione</option>';
 				while($ciudad_view= sqlsrv_fetch_array($stmt))
 				{
 					$seleccionado="";
@@ -270,7 +272,7 @@ if($alum_view['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($alum_view[
 				$params = array(null,$alum_view["alum_ciud_naci"]);
 				$sql="{call cata_parroquia_cons(?,?)}";
 				$stmt = sqlsrv_query($conn, $sql, $params);
-
+				echo '<option value="">Seleccione</option>';
 				while($parroquia_view= sqlsrv_fetch_array($stmt))
 				{
 					$seleccionado="";
@@ -321,13 +323,13 @@ if($alum_view['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($alum_view[
 			</div>
 			<div class="form_element">
 				<label for="alum_prov">(*)Provincia domicilio:</label>
-				<select onchange="CargarCiudades('alum_ciud',this.value);" id='alum_prov' name='alum_prov'>
+				<select onchange="CargarCiudades('alum_ciud',this.value);CargarParroquias('alum_parroquia',this.value);" id='alum_prov' name='alum_prov'>
 				<?php 
 
 				$params = array('ECU',null);
 				$sql="{call cata_provincia_cons(?,?)}";
 				$stmt = sqlsrv_query($conn, $sql, $params);
-		
+				echo '<option value="">Seleccione</option>';
 				while($ciudad_view= sqlsrv_fetch_array($stmt))
 				{
 					$seleccionado="";
@@ -352,6 +354,7 @@ if($alum_view['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($alum_view[
 				$params = array(null,($alum_view["alum_prov"]==''?'Guayas':$alum_view["alum_prov"]));
 				$sql="{call cata_ciudad_cons(?,?)}";
 				$stmt = sqlsrv_query($conn, $sql, $params);
+				echo '<option value="">Seleccione</option>';
 				while($ciudad_view= sqlsrv_fetch_array($stmt))
 				{
 					$seleccionado="";
@@ -369,7 +372,7 @@ if($alum_view['alum_resp_form_banc_tarj_nume']!=null and !is_numeric($alum_view[
 				$params = array(null,$alum_view["alum_ciud"]);
 				$sql="{call cata_parroquia_cons(?,?)}";
 				$stmt = sqlsrv_query($conn, $sql, $params);
-
+				echo '<option value="">Seleccione</option>';
 				while($parroquia_view= sqlsrv_fetch_array($stmt))
 				{
 					$seleccionado="";

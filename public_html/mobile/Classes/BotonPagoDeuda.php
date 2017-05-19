@@ -70,9 +70,9 @@ class BotonPagoDeuda extends DB_Abstract_mobile
 		return $this->repr_domi;
 	}
 	
-	public function getBotonPagoDeuda($alumnocodi,$reprcodi,$deudaCodigo)
+	public function getBotonPagoDeuda($alumnocodi,$reprcodi,$deudaCodigo,$proveniencia)
 	{
-        $this->parametros = array($alumnocodi,$reprcodi,$deudaCodigo);
+        $this->parametros = array($alumnocodi,$reprcodi,$deudaCodigo,$proveniencia);
         $this->sp = "str_consulta_botonPago_deuda";
         $this->executeSPConsulta();
         if ($this->filasDevueltas=0){

@@ -31,6 +31,32 @@ class Pagos extends DBAbstractModel{
         }
         return $this->rows;
     }
+	public function get_formaPagoSelectFormat_caja($busq='')
+	{   $this->parametros = array($busq);
+        $this->sp = "str_consultaFormaPago_busq";
+        $this->executeSPConsulta();
+        if (count($this->rows)<=0)
+		{   $this->mensaje="No existen formas depago en la BD.";
+            array_pop($bypass);
+            array_push($bypass, array(0 => '', 
+                                   1 => '- Seleccione forma de pago -',
+                                   3 => ''));
+            $this->rows = $bypass;
+            unset($bypass);
+        }
+		else
+		{   $bypass = array();
+            array_pop($bypass);
+            array_push($bypass, array(0 => '', 
+                                   1 => '- Seleccione forma de pago -',
+                                   3 => ''));
+            foreach($this->rows as $formasPago)
+			{   array_push($bypass, array_values($formasPago));
+            }
+            $this->rows = $bypass;
+            unset($bypass);
+        }
+    }
 	public function get_formaPagoSelectFormat($busq='')
 	{   $this->parametros = array($busq);
         $this->sp = "str_consultaFormaPago_busq";

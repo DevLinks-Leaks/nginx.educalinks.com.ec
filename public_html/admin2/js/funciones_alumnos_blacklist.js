@@ -54,7 +54,7 @@ function load_ajax_add_alum_bl(div,url,data){
             	if(flag){
             		var text="";
             		$('#ModalBlacklistAdd').modal('hide'); 
-            		load_ajax_lista('blacklist_main','alumnos_blacklist_main_lista.php','texto=','main_list','alum_table');
+            		load_blacklist_table('blacklist_main','alumnos_blacklist_main_lista.php','texto=');
             	}else
             		$('#BlacklistEdit').modal('hide');
             }
@@ -85,7 +85,7 @@ function load_ajax_add_alum_bl(div,url,data){
 					$.growl.error({ title: "Atención!",message: json.result });	
 				}
 				var text="";
-				load_ajax_lista('blacklist_main','alumnos_blacklist_main_lista.php','texto=','main_list','alum_table');
+				load_ajax_lista('blacklist_main','alumnos_blacklist_main_lista.php','texto=');
 			}
 		}
 		xmlhttp.open("POST",url,true);
@@ -178,4 +178,26 @@ if (window.XMLHttpRequest)
 };
 xmlhttp_bl_repr.open("POST",url,true);
 xmlhttp_bl_repr.send(data_bl_repr);	
+}
+
+function load_blacklist_table(div,url,data){
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			document.getElementById(div).innerHTML=xmlhttp.responseText;	
+			$('#blacklist_table').DataTable();
+		}
+	}
+	xmlhttp.open("POST",url,true);
+	xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	xmlhttp.send(data);	
 }

@@ -8,33 +8,6 @@
     </div>
     
     <script type="text/javascript">
-	function MostrarCitas (fecha)
-	{
-		var xmlhttp;
-
-		if (window.XMLHttpRequest)
-		{
-			xmlhttp = new XMLHttpRequest ();
-		}
-		else
-		{
-			xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
-		}
-
-		xmlhttp.onreadystatechange = function ()
-		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				document.getElementById('div_citas').innerHTML=xmlhttp.responseText;
-			}
-		}
-
-		xmlhttp.open("GET", "hora_aten_repr_listas_main_view.php?fecha="+fecha, true);
-		xmlhttp.send();
-	}
+	
 	</script>
-    
-    <div id="div_citas">
-    	<? include ('hora_aten_repr_listas_main_view.php'); ?>
-    </div>
 </div>

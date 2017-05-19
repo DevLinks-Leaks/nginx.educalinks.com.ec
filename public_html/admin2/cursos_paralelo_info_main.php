@@ -83,7 +83,6 @@
 							</div><!-- /.box-header -->
 							<div class="box-body">
 								<script type="text/javascript" src="../framework/funciones.js"></script>
-								<script type="text/javascript" src="js/funciones_curs.js"></script>
 								<script type="text/javascript" src="js/funciones_alum.js"></script>
 								<script type="text/javascript" src="js/funciones_notas.js"></script>
 								<div id="curs_main" >
