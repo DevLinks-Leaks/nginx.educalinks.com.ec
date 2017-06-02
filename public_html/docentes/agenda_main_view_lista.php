@@ -18,7 +18,23 @@
 		{
 			$curs_para_mate_prof_codi=0;
 		}
-	} 					 
+	} 
+
+	if (isset($_POST['curs_para_mate_codi']))
+	{
+		$curs_para_mate_codi=$_POST['curs_para_mate_codi'];
+	}
+	else
+	{
+		if(isset($_GET['curs_para_mate_codi']))  
+		{
+			$curs_para_mate_codi=$_GET['curs_para_mate_codi'];
+		}
+		else
+		{
+			$curs_para_mate_codi=0;
+		}
+	} 			 
 	
 	$params_lista = array( $curs_para_mate_prof_codi, $tipo);
 	$sql_lista="{call agen_curs_para_mate_view(?,?)}";
@@ -49,7 +65,7 @@
         <h5><?= $row_agen_curs_para_mate_view["agen_deta"] ?> ...</h5>    
     </td>
       <td style='text-align:center'>
-		<a class="btn btn-default" onclick="agen_del(<?= $row_agen_curs_para_mate_view["agen_codi"]; ?>)"
+		<a class="btn btn-default" onclick="agen_del('para_main','script_agen.php',<?= $curs_para_mate_prof_codi;?>,<?= $curs_para_mate_codi;?>,<?= $row_agen_curs_para_mate_view["agen_codi"]; ?>)"
 			title='Eliminar' onmouseover='$(this).tooltip("show")'>
 			<span class="fa fa-trash btn_opc_lista_eliminar"></span> </a></td>
   </tr>

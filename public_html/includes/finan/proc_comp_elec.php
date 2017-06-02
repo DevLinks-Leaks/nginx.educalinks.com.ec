@@ -333,7 +333,7 @@ class ProcesarComprobanteElectronico extends SoapClient {
                                     'procesarComprobanteClaveContingenciaResponse' => 'procesarComprobanteClaveContingenciaResponse',
                                    );
 
-  public function ProcesarComprobanteElectronico($wsdl = "http://64.150.188.79:8080/MasterOffline_prod/ProcesarComprobanteElectronico?wsdl", $options = array()) 
+  public function ProcesarComprobanteElectronico($wsdl = "http://64.150.188.79:8080/MasterOffline_1stjune2017/ProcesarComprobanteElectronico?wsdl", $options = array()) 
   {
     foreach(self::$classmap as $key => $value) {
       if(!isset($options['classmap'][$key])) {

@@ -75,8 +75,8 @@
 			{
 				$fecha= date('Ymd');
 			}
-			$params = array($fecha, $_SESSION['prof_codi']);
-			$sql="{call hora_aten_repr_view_prof(?,?)}";
+			$params = array($fecha, $_SESSION['prof_codi'],$_SESSION['peri_codi']);
+			$sql="{call hora_aten_repr_view_prof(?,?,?)}";
 			$hora_aten_repr_view = sqlsrv_query($conn, $sql, $params); 
 			$bandera=false;
 			$cont=0;

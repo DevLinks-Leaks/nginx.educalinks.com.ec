@@ -110,7 +110,7 @@
 										<?= date_format($row_mater_view['mater_fech_regi'],'d/m/Y');?>
 									</td>
 									<td style='text-align:center;vertical-align:middle;'>
-										<a  class="btn btn-default" target='_blank'
+										<a  class="btn btn-default" target="_blank"
 											href="<?= $_SESSION['ruta_materiales_carga'].$row_mater_view['mater_file'];?>">
 											<span class="fa fa-download"></span> Descargar
 										</a>

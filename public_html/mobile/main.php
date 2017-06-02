@@ -456,7 +456,7 @@
 			echo json_encode($array_agenda);
 		break;
                 case "mostrar_notificaciones":	
-			$notificaciones->getNotificaciones($username,$tipo_usua);		
+			$notificaciones->getNotificaciones($reprcodi,$tipo_usua);		
 			$json_noti = array();
 			foreach($notificaciones->rows as $notiall){
 				$json_noti[] = array("noticodi"=>$notiall['noti_codi'],"notiDetaEsta"=>$notiall['noti_deta_esta'],"fechaRegistro"=>$notiall['noti_deta_fech_regi'],"fechaLectura"=>$notiall['noti_deta_fech_lect']);
@@ -465,11 +465,11 @@
 			echo json_encode($array_noti);
 		break;
                 case "notificaciones_update":	
-			$notiUpdate->updateNoti($username,$tipo_usua);			
+			$notiUpdate->updateNoti($reprcodi,$tipo_usua);			
 			echo json_encode($notiUpdate->resultado);
 		break;
                 case "notificaciones_all":	
-			$notiAll->getNotificacionesAll($username,$tipo_usua);		
+			$notiAll->getNotificacionesAll($reprcodi,$tipo_usua);		
 			$json_notiall = array();
 			foreach($notiAll->rows as $notiallAL){
 				$json_notiall[] = array("noti_deta_fech_regi"=>$notiallAL['noti_deta_fech_regi'],"noti_deta_esta"=>$notiallAL['noti_deta_esta'],"noti_tipo_deta"=>$notiallAL['noti_tipo_deta'],"noti_deta"=>$notiallAL['noti_deta'],"noti_deta_codi"=>$notiallAL['noti_deta_codi']);

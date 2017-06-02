@@ -24,6 +24,7 @@
 			#logo{
 				display: block;
 				margin: 0px;
+				margin-top: 10px;
 				float: left;
 				width: 97%;
 				height: 30%;
@@ -40,7 +41,7 @@
 			}
 
 			#datosEmpresa{
-				height: 70%;
+				height: 66%;
 				float: left;
 				vertical-align: bottom;
 				width: 97%;
@@ -184,7 +185,7 @@
 		<div><font color='red'>ESTE ES UN DOCUMENTO NO AUTORIZADO, USAR S&Oacute;LO POR REFERENCIA.</font></div>
 		<section id="cabeceraIzquierda">
 			<figure id="logo">
-				<img src="{ruta_logoEmpresa}" alt="" style="width: 50%; height: 50%"/>
+				<img src="{ruta_logoEmpresa}" alt="" style="width: 90%; height: 90%"/>
 			</figure>
 			<div id="datosEmpresa">
 				<table border="0">
@@ -300,7 +301,7 @@
 				<table border='1'>
 					<tbody>
 						<tr>
-							<td class="nombreCampo">SUBTOTAL 14%</td>
+							<td class="nombreCampo">SUBTOTAL 12%</td>
 							<td class="valorDecimal">{subtotal_12}</td>
 						</tr>
 						<tr>
@@ -328,7 +329,7 @@
 							<td class="valorDecimal">{total_ice}</td>
 						</tr>
 						<tr>
-							<td class="nombreCampo">IVA 14%</td>
+							<td class="nombreCampo">IVA 12%</td>
 							<td class="valorDecimal">{total_iva}</td>
 						</tr>
 						<tr>

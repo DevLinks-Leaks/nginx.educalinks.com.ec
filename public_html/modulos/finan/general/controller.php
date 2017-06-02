@@ -272,7 +272,7 @@ function handler() {
 					$_SESSION['contribuyente_especial']='';
 					$_SESSION['correofacturas']='malvear@redlinks.com.ec';
 					$_SESSION['visor']='novus.educalinks.com.ec/finan/visor';
-					$_SESSION['dir_logo_cliente']=$ruta_logo_moderna;
+					$_SESSION['dir_logo_cliente']=$ruta_logo_novus;
 					$_SESSION['print_dir_logo_cliente']=$print_ruta_logo_novus;
 					$_SESSION['print_dir_logo_cliente_bg']=$print_ruta_logo_novus_bg;
 					break;

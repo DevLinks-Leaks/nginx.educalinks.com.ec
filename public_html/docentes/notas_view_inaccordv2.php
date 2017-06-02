@@ -55,7 +55,7 @@
 					  <a onclick="form_notas_send(<?=$row_curs_peri_view['curs_para_mate_prof_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>,<?=$row_curs_peri_view['nota_perm_codi']?>,'in')" class="btn btn-success"> 
 						  <span class="fa fa-plus"> </span> Ingresar Notas</a>
 					<?}?>
-						<a onclick="form_notas_send(<?=$row_curs_peri_view['curs_para_mate_prof_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>,<?=$row_curs_peri_view['nota_perm_codi']?>,'out')" class="btn btn-default"> 
+						<a href="actas/notas_ingresadas_pdf.php?peri_dist_codi=<?=$row_curs_peri_view['peri_dist_codi'];?>&curs_para_mate_codi=<?=$row_curs_peri_view['curs_para_mate_codi'];?>&curs_para_mate_prof_codi=<?=$row_curs_peri_view['curs_para_mate_prof_codi'];?>" target="_blank" class="btn btn-default"> 
 						  <span class="fa fa-print"> </span> Imprimir  Notas
 						</a>
 					  <a href="JavaScript:imprimirActa(<?=$row_curs_peri_view['curs_para_codi'];?>,<?=$row_curs_peri_view['curs_para_mate_codi'];?>,<?=$row_curs_peri_view['peri_dist_codi'];?>);" class="btn btn-default"><span class="fa fa-print"> </span> Imprimir Acta</a>          

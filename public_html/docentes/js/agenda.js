@@ -61,7 +61,7 @@ function agen_view(div,url,curs_para_mate_prof_codi,curs_para_mate_codi,tipo)
 	
 }
  
-function agen_del(agen_codi)
+function agen_del(div,url,curs_para_mate_prof_codi,curs_para_mate_codi,agen_codi)
 {
 	if (confirm("Esta seguro que desea Eliminar")) {
 		
@@ -75,6 +75,7 @@ function agen_del(agen_codi)
 		xhr.onreadystatechange=function(){
 			if (xhr.readyState==4 && xhr.status==200){
 				$.growl.notice({ title: "Informacion: ",message: "¡Se Elimino registro correctamente!" });
+				agen_view(div,url,curs_para_mate_prof_codi,curs_para_mate_codi,'T');
 			} 
 		}
 		xhr.send(data);

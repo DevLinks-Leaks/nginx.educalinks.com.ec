@@ -59,7 +59,7 @@
 										<div class="icon">
 											<i class="fa fa-calendar"></i>
 										</div>
-										<a href="citas.php" class="small-box-footer">Ir a citas <i class="fa fa-arrow-circle-right"></i></a>
+										<a href="hora_aten_repr_listas_main.php" class="small-box-footer">Ir a citas <i class="fa fa-arrow-circle-right"></i></a>
 									</div>
 								</div>
 								<div class="col-lg-3 col-xs-6">

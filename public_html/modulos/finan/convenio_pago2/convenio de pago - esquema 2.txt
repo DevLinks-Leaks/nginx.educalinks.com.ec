@@ -1,0 +1,13 @@
+Esta bandeja es la primera versión de la bandeja de convenio de pago.
+A la fecha (24 feb 2017) no se va a usar para el desarrollo de convenio, pero su funcionalidad está completa.
+Lo que hace es pagar deudas y mandarlas al gestión de facturas.
+El valor no lo muestra, sólo cancela el valor que es.
+La forma de pago es Convenio de pago y es configurable desde la línea 255 del procedimiento en la base de datos
+con la variable @codigoFormaPago.
+
+El código secuencial lo toma del usuario activo. Sólo puede enviarlo un usuario asignado a un punto de venta
+activo.
+
+Dejo la bandeja intacta en caso de que alguna vez se necesite una bandeja con una funcionalidad similar.
+EL convenio_pago que se terminó implementando lo que hace es lo mismo que gestión facturas.
+Pero sólo trae las facturas de convenio de pago, y que hayan pasado la fecha de vencimiento.

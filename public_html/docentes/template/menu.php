@@ -21,8 +21,9 @@
 				<li class="<? if ($Menu==2) echo 'active'; ?>"><a href="agenda.php"><i class="fa fa-book"> </i> <span>Agenda</span></li></a>
 				<li class="<? if ($Menu==3) echo 'active'; ?>"><a href="clases.php"><i class="fa fa-upload"> </i> <span>Clases</span></li></a>
 				<li class="<? if ($Menu==4) echo 'active'; ?>"><a href="notas.php"><i class="fa fa-clipboard"> </i> <span>Notas</span></li></a>
+				<?php if ($_SESSION['es_tutor']){?>
 				<li class="<? if ($Menu==7) echo 'active'; ?>"><a href="tutor.php"><i class="fa fa-briefcase"> </i> <span>Tutor</span></li></a>
-				
+				<?	} ?>
 				<li class="<? if ($Menu==5) echo 'active'; ?>"><a href="hora_aten_repr_listas_main.php"><i class="fa fa-calendar"> </i> <span>Citas</span>
 				<?php
 					$params = array($_SESSION['prof_codi']);

@@ -17,7 +17,7 @@
                     <div class="box box-default">
                         <div class="box-header with-border">
                             <h3 class="box-title">
-                                <div class="col-lg-12 col-sm-12 input-group input-group-sm">
+                                <div class="col-lg-6 col-sm-6 input-group input-group-sm">
                                     <span id="span_balance_reason" name="span_balance_reason" class="input-group-addon">Ver</span>
                                     <select id="cmb_mostrarMat" name="cmb_mostrarMat" class="form-control" onChange="js_clases_get_clases_main();">
                                         <option value="">- Seleccione una materia -</option>

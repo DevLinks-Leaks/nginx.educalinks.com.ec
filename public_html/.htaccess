@@ -8,6 +8,7 @@
 	RewriteRule ^finan/debitosAutomaticos/$ /modulos/finan/debitosAutomaticos/controller.php
 	RewriteRule ^finan/cierre_caja/$ /modulos/finan/cierre_caja/controller.php
 	RewriteRule ^finan/convenio_pago/$ /modulos/finan/convenio_pago/controller.php
+	RewriteRule ^finan/convenio_pago2/$ /modulos/finan/convenio_pago2/controller.php
 	RewriteRule ^finan/liquidez/$ /modulos/finan/liquidez/controller.php
 	RewriteRule ^finan/salir/$ /finan/salir.php
 	RewriteRule ^finan/salir$ /finan/salir.php

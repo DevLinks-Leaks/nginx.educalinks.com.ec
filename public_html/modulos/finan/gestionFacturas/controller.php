@@ -822,7 +822,7 @@ function enviar_factura_al_SRI($codigo, $cuantas,$ruta_documentosAutorizados, $e
 	if($baseImponibleConIVA > 0)
 	{	$totalIVA12 = new totalImpuesto();
 		$totalIVA12->codigo = "2"; // [2, IVA][3,ICE][5, IRBPNR]
-		$totalIVA12->codigoPorcentaje = "3"; // IVA -> [0, 0%][2, 12%][6, No objeto de impuesto][7, Exento de IVA] ICE->[Tabla 19]
+		$totalIVA12->codigoPorcentaje = "2"; // IVA -> [0, 0%][2, 12%][3, 14%][6, No objeto de impuesto][7, Exento de IVA] ICE->[Tabla 19]
 		$totalIVA12->baseImponible = number_format($baseImponibleConIVA, 2, '.', ''); // Suma de los impuesto del mismo cod y % (0.00)
 		$totalIVA12->valor = number_format($cabeceraFactura['totalIVA'], 2, '.', ''); // Suma de los impuesto del mismo cod y % aplicado el % (0.00)
 		$impuestosCabecera[] = $totalIVA12;

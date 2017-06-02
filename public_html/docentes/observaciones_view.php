@@ -74,7 +74,7 @@
 											  <button
 												  class="btn btn-default"
 												  onClick="window.location='observaciones_main.php?alum_curs_para_codi=<?= $row_alum_curs_para_view["alum_curs_para_codi"]?>'">
-												  <span style='color:#3c8dbc' class='fa fa-plus'></span> Agregar
+												  <span style='color:#3c8dbc' class='fa fa-pencil-square-o'></span> Detalle
 											  </button>
 									  </td>
 									</tr>

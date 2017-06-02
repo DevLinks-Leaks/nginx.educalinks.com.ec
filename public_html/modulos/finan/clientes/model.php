@@ -283,7 +283,7 @@ class Cliente extends DBAbstractModel{
         }
     }
 
-    public function setGrupoEconomico( $codigoEstudiante = "", $codigoGrupoEconomico = "", $ingresoFamiliar = "" )
+    public function setGrupoEconomico( $codigoEstudiante = "", $codigoGrupoEconomico = "", $ingresoFamiliar = "-1" )
 	{   if($codigoEstudiante!="" && $codigoGrupoEconomico!="" && $ingresoFamiliar != "" )
 		{   $this->parametros = array($codigoEstudiante, $codigoGrupoEconomico, $ingresoFamiliar );
             $this->sp = "str_consultaCliente_addGrupoEconomico";

@@ -295,7 +295,7 @@ class Cliente_xtn extends DBAbstractModel{
     }
     public function deleteDeuda($codigoDeuda="") {
         if($codigoDeuda!=""){
-            $this->parametros = array($codigoDeuda);
+            $this->parametros = array($codigoDeuda, $_SESSION['usua_codigo'], $_SESSION['USUA_TIPO_CODI'] );
             $this->sp = "str_consultaDeuda_del";
             $this->executeSPAccion();
         }

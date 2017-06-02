@@ -223,7 +223,7 @@
 		$objPHPExcel->setActiveSheetIndex($sheet)->getStyle('E4')->applyFromArray($negrita);
 		
 		$objPHPExcel->setActiveSheetIndex($sheet)
-					->setCellValueByColumnAndRow(0, 5, $row_curs_peri_info['curs_deta'].' '
+					->setCellValueByColumnAndRow(0, 5, utf8_decode(utf8_encode($row_curs_peri_info['curs_deta'])).' '
 												.$row_curs_peri_info['nive_deta'].' PARALELO: '
 												.$row_curs_peri_info['para_deta']);
 		
@@ -256,7 +256,7 @@
 		$objPHPExcel->setActiveSheetIndex($sheet)->getStyle('F7')->applyFromArray($negrita);
 		
 		//Añadiendo título a cada hoja
-		$objPHPExcel->setActiveSheetIndex($sheet)->setTitle(substr($row_curs_peri_info['curs_deta'],0,15).' '.substr($row_curs_peri_info['para_deta'],0,5));
+		$objPHPExcel->setActiveSheetIndex($sheet)->setTitle(substr(quitarCaracteresEspeciales($row_curs_peri_info['curs_deta']),0,15).' '.substr($row_curs_peri_info['para_deta'],0,5));
 		
 		//Comienzo en 6, porque la cabecera me ocupa 6 filas
 		$cc = 6; 
@@ -474,6 +474,7 @@
 		return $merge;
 	}
 	
+
 	// Se modifican los encabezados del HTTP para indicar que se envia un archivo de Excel.
 	header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 	header('Content-Disposition: attachment;filename="Nomina_Distrito_General.xlsx"');
