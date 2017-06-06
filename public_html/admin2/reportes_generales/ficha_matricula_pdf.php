@@ -23,26 +23,12 @@
 	$dominio = $_SERVER['HTTP_HOST'];
 
 	class MYPDF extends TCPDF 
-	{	private $url_colegio;
-		public function Header() 
-		{	if ($this->url_colegio == "liceonaval.educalinks.com.ec" || $this->url_colegio == "liceonavalvesp.educalinks.com.ec"){
-				$logo_web = '../'.$_SESSION['ruta_foto_logo_web'];
-				$this->Image($logo_web, 15, 10, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-				
-				$logo_distr = '../'.$_SESSION['ruta_foto_logo_distr'];
-				$this->Image($logo_distr, 175, 13, 30, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-			}
-			
-			if ($this->url_colegio != "liceonaval.educalinks.com.ec" && $this->url_colegio != "liceonavalvesp.educalinks.com.ec"){
-				$this->SetFont('helvetica', 'N', 10);
-				$this->Cell(12, 10, date('d.m.Y'), 0, 0, 'C', false, 1, 0, false, 'T', 'M');
-			}
+	{	public function Header() 
+		{	$this->SetFont('helvetica', 'N', 10);
+			$this->Cell(20, 10, date('d.m.Y'), 0, 0, 'C', false, 1, 0, false, 'T', 'M');
 		}
 		public function Footer() 
 		{	
-		}
-		public function setURLColegio($value){
-			$this->url_colegio = $value;
 		}
 	}
 	 
@@ -53,9 +39,8 @@
 	$pdf->SetTitle($cliente);
 	$pdf->SetSubject($cliente);
 	$pdf->SetMargins(PDF_MARGIN_LEFT, 5, PDF_MARGIN_RIGHT);
-	$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+	$pdf->SetAutoPageBreak(TRUE, 8);
 	$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);	 
-	$pdf->setURLColegio($dominio);
 	
 	$sql="{call ficha_matricula_cons(?,?)}";
 	$params = array($_GET['curso_paralelo'],$alum_curs_para_codi);
@@ -86,7 +71,12 @@
 		$params=array($alum_codi,"R");
 		$stmt3 = sqlsrv_query($conn, $sql, $params);
 		$row_representante = sqlsrv_fetch_array($stmt3);
-
+		if ($_SESSION['directorio']=='americano' or $_SESSION['directorio']=='novus')
+		{	$nombre  = $nombre_colegio;
+		}
+		else
+		{	$nombre = $nombre_legal;
+		}
 		if ($_SESSION['directorio']=='delfos' or $_SESSION['directorio']=='delfosvesp')
 		{	$jornada_lbl  = "<h1>Jornada ".$jornada."</h1>";
 		}
@@ -143,18 +133,13 @@
 		{
 			$curso_nive_para ='<p><h4>En el curso '.$row_alum["curs_deta"].' '.$row_alum["para_deta"].'</h4></p>';
 		}
-		$size_h1 = "14px";
-		if ($dominio != "liceonaval.educalinks.com.ec" && $dominio != "liceonaval.educalinks.com.ec"){
-			$nombre_legal = '"'.$nombre_legal.'"';
-			$size_h1 = "16px";
-		}
 
 		/*Fin*/
 	
 $html=<<<EOD
 	<style>
 	h1
-	{	font-size: {$size_h1};
+	{	font-size: 16px;
 		line-height: 100%;
 		padding-bottom: 0px;
 		text-align: center;
@@ -202,10 +187,9 @@ $html=<<<EOD
 		text-align: center;
 	}
 	</style>
-	<br>
 	<p>
 	<h1>{$antes_del_nombre}</h1>
-	<h1>{$nombre_legal}</h1>
+	<h1>"{$nombre}"</h1>
 	{$jornada_lbl}
 	<h1>{$_SESSION['peri_deta']}</h1>
 	</p>
@@ -213,7 +197,7 @@ $html=<<<EOD
 	<table width="100%">
 	<tr>
 	<td class="negrita" width="80%"><h3>Acta de matrícula N° {$row_alum["alum_curs_para_folio"]}</h3></td>
-	<td class="negrita"><h3>Cód. : {$row_alum["alum_codi"]}</h3></td>
+	<td class="negrita"><h3>Cod.: {$row_alum["alum_codi"]}</h3></td>
 	</tr>
 	<tr>
 	<td class="negrita" width="50%"><h3>Folio y tomo N° {$row_alum["alum_curs_para_folio"]}</h3></td>
@@ -236,7 +220,7 @@ $html=<<<EOD
 		</tr>
 		<tr>
 			<td width="25%" class="negrita">Domicilio:</td>
-			<td>{$row_alum["alum_domi"]}</td>
+			<td width="75%">{$row_alum["alum_domi"]}</td>
 		</tr>
 		<tr>
 			<td width="25%" class="negrita">Teléfono y celular:</td>
@@ -264,7 +248,7 @@ $html=<<<EOD
 			<td width="20%" class="negrita">Lugar de trabajo:</td>
 			<td width="40%">{$row_padre["lugar_trabajo"]}</td>
 			<td width="10%" class="negrita">Telf. Tbj: </td>
-			<td width="30%"></td>
+			<td width="30%">{$row_padre["telefono_trabajo"]}</td>
 		</tr>
 		<tr>
 			<td width="20%" class="negrita">Profesión:</td>
@@ -288,7 +272,7 @@ $html=<<<EOD
 			<td width="20%" class="negrita">Lugar de trabajo:</td>
 			<td width="40%">{$row_madre["lugar_trabajo"]}</td>
 			<td width="10%" class="negrita">Telf. Tbj: </td>
-			<td width="30%"></td>
+			<td width="30%">{$row_madre["telefono_trabajo"]}</td>
 		</tr>
 		<tr>
 			<td width="20%" class="negrita">Profesión:</td>
@@ -312,7 +296,7 @@ $html=<<<EOD
 			<td width="20%" class="negrita">Lugar de trabajo:</td>
 			<td width="40%">{$row_representante["lugar_trabajo"]}</td>
 			<td width="10%" class="negrita">Telf. Tbj: </td>
-			<td width="30%"></td>
+			<td width="30%">{$row_representante["telefono_trabajo"]}</td>
 		</tr>
 		<tr>
 			<td width="20%" class="negrita">Profesión:</td>
@@ -348,14 +332,14 @@ $html=<<<EOD
 	</p>
 EOD;
 		$pdf->writeHTML($html, true, false, false, false, '');
-		if ($_SERVER['HTTP_HOST']=="moderna.educalinks.com.ec" || $_SERVER['HTTP_HOST']=="liceonaval.educalinks.com.ec" || $_SERVER['HTTP_HOST']=="liceonavalvesp.educalinks.com.ec"){
+		if ($_SERVER['HTTP_HOST']=="moderna.educalinks.com.ec"){
 			$file_exi='../'.$_SESSION['ruta_foto_alumno'].$alum_codi.'.jpg';
 			if (file_exists($file_exi)){
 			    $img_alum=$file_exi;
 			}else{
 			    $img_alum='../../fotos/'.$_SESSION['directorio'].'/alumnos/0.jpg';
 			}
-			$pdf->Image($img_alum, 165, 30, 20, 25, 'JPG', '', 'C', false, 300, '', false, false, 0, false, false, false);
+			$pdf->Image($img_alum, 170, 25, 25, 30, 'JPG', '', 'C', false, 300, '', false, false, 0, false, false, false);
 		}else{
 			$pdf->SetFont('helvetica', 'I', 7);
 			$pdf->MultiCell(25,

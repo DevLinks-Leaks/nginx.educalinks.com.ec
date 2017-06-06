@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=101;include("template/menu.php");?>
+			<?php $Menu=124;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<?php
@@ -25,12 +25,12 @@
 						<div class="box box-default">
 							<div class="box-header with-border">
 								<h3 class="box-title">
-									<a class="btn btn-warning" href='alumnos_main.php'
-										title=""><span class="fa fa-arrow-left"></span> Ir a bandeja de alumnos</a>
 									<?php if (permiso_activo(516)){?>
 										<a class="btn btn-primary" data-toggle="modal" data-target="#ModalMotiAdd" 
 											title=""><span class="fa fa-plus"></span> Agregar Motivo</a>
 									<?php }?>
+									<a class="btn btn-info" href='alumnos_main.php'
+										title=""><span class="fa fa-graduation-cap"></span> Ir a bandeja de alumnos</a>
 								</h3>
 							</div><!-- /.box-header -->
 							<div class="box-body">

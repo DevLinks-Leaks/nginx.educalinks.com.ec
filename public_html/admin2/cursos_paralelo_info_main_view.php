@@ -361,7 +361,7 @@ function alum_mate_view(curs_para_codi, alum_curs_para_codi, alum_codi) {
         <button 
         	type="button" 
             class="btn btn-success" 
-            onClick="alum_curs_para_mate_mode_upd(document.getElementById('curs_para_mate_codi').value,document.getElementById('sl_modelos').value, <? echo $curs_para_codi; ?>);" >
+            onClick="alum_curs_para_mate_mode_upd(document.getElementById('curs_para_mate_codi').value,document.getElementById('sl_modelos').value, <? echo $curs_para_codi; ?>);" data-dismiss="modal">
         	Aceptar
         </button>
         <button 

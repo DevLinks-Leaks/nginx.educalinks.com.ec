@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
 			<?php $Menu=102;include("template/menu.php");?>
@@ -32,80 +31,245 @@
 								</h3>
 							</div>
 							<div class="panel-body" id="desplegable_busqueda" name="desplegable_busqueda">
-								<div id="tbl_search" class="form-horizontal" role="form">
-									<div class='col-md-11 col-sm-12'>
+								<form id="file_form" action="" enctype="multipart/form-data" method="post" target="_blank">
+									<div id="tbl_search" class="form-horizontal" role="form">
 										<div class='form-group'>
-											<label class="col-md-2 col-sm-4 control-label" style='text-align: right;' for='alum_codi_in'>Cod. del alumno:</label>
-											<div class="col-md-4 col-sm-8">
-												<input type="text" class="form-control input-sm" name="alum_codi_in" id="alum_codi_in" >
+											<div class='col-md-6 col-sm-12'>
+												<div class='form-group'>
+													<label class="col-md-4 col-sm-3 control-label" style='text-align: right;' for='alum_codi_in'>Cod. del alumno:</label>
+													<div class='col-md-8 col-sm-8'>
+														<input type="text" class="form-control input-sm" name="alum_codi_in" id="alum_codi_in" >
+													</div>	
+												</div>
+												<div class='form-group'>
+													<label class="col-md-4 col-sm-3 control-label" style='text-align: right;' for='alum_apel_in'>Apellido del alumno:</label>
+													<div class="col-md-8 col-sm-8"
+															data-placement="bottom"
+															title='Apellidos del alumno'
+															onmouseover='$(this).tooltip("show")'>
+														<input type="text" class="form-control input-sm" name="alum_apel_in" id="alum_apel_in" >
+													</div>
+												</div>
 											</div>
-											<label class="col-md-2 col-sm-4 control-label" style='text-align: right;' for='alum_apel_in'>Apellido del alumno:</label>
-											<div class="col-md-4 col-sm-8"
-													data-placement="bottom"
-													title='Apellidos del alumno'
-													onmouseover='$(this).tooltip("show")'>
-												<input type="text" class="form-control input-sm" name="alum_apel_in" id="alum_apel_in" >
+											<div class='col-md-6 col-sm-12' style='text-align:right;'>
+												<div class='form-group'>
+													<div class="checkbox checkbox-info col-md-4 col-sm-4  col-md-offset-0 col-sm-offset-4" style='text-align:right'>
+														<label for='ckb_gestionFactura_opc_adv'>
+															<input type="checkbox" id='ckb_opc_adv' name='ckb_opc_adv' onclick='check_opc_avanzadas();'>
+																<span style="text-align:left;font-size:small;font-weight:bold;">B&uacute;squeda avanzada</span>
+														</label>
+													</div>
+													<div class='col-md-6 col-sm-4' style='text-align:left'>
+														<button type='button' id='btn_buscar_alumnos' name='btn_buscar_alumnos' class="btn btn-primary"
+																title="Presione [Enter] para buscar alumno(s)"
+																onclick="BuscarAlumnos_complete(1);">
+																<span class="fa fa-search"></span></button>
+														<div class="btn-group">
+															<button type="button" 
+																	title="Exportar búsqueda" onmouseover="$(this).tooltip('show');"
+																	class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+																<span style='color:green;' class='fa fa-file-excel-o'>&nbsp;</span><span class="caret"></span>
+															</button>
+															<ul class="dropdown-menu" role="menu">
+																<li><a href="#" onclick="js_alumnos_lista_general();">Rep. Lista General</a></li>
+															</ul>
+														</div>
+														<div id='EducaLinksHelperCliente' style='display:inline;font-size:x-small;text-align:left;vertical-align:text-bottom;'>
+															<a href='#' onmouseover='$(this).tooltip("show")' 
+															title="Los filtros de búsqueda funcionan también para todos los reportes en Excel." data-placement='right'><span class='glyphicon glyphicon-info-sign'></span></a>
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
-										<div class='form-group'>
-											<label class="col-md-2 col-sm-4 control-label" style='text-align: right;' for='alum_apel_in'>Curso:</label>
-											<div class="col-md-4 col-sm-8" >
-												<select class="form-control"  id="curs_para_codi_in" />
-													<option value="0">- Todos -</option>
-													<?
-													$sql	= "{call curs_para_view (?)}";
-													$params	= array($_SESSION["peri_codi"]);
-													$stmt	= sqlsrv_query($conn,$sql,$params);
-													while ($row = sqlsrv_fetch_array($stmt))
-													{
-														?>
-														<option value="<?= $row["curs_para_codi"]?>"><?= $row["curs_deta"]." (".$row["para_deta"].")"?></option>
-														<?
-													}
-													?>
-												</select>
+										<div id='div_opc_adv' name='div_opc_adv' class='collapse'>
+											<div class='row'>
+												<div class='col-md-6 col-sm-12'>
+													<div class='form-group'>
+														<label class="col-md-4 col-sm-3 control-label" style='text-align: right;' for='txt_alum_id'>No. id. alumno:</label>
+														<div class="col-md-8 col-sm-8"
+																data-placement="bottom"
+																title='Número de identificación del alumno'
+																onmouseover='$(this).tooltip("show")'>
+															<input type="text" class="form-control input-sm" name="txt_alum_id" id="txt_alum_id" >
+														</div>
+													</div>
+												</div>
+												<div class='col-md-6 col-sm-12'>
+													<div class='form-group'>
+														<label class="col-md-4 col-sm-3 control-label" style='text-align: right;' for='txt_fecha_nac_ini'>F. nacimiento:</label>
+														<div class="col-md-8 col-sm-8">
+															<div class="input-group" id="div_fini" name="div_fini" data-placement="bottom"
+																 title='Fecha de nacimiento, desde, hasta.'
+																 onmouseover='$(this).tooltip("show")'>
+																<span class="input-group-addon">
+																	<input type="checkbox" id='chk_fecha_nac' name='chk_fecha_nac' onclick='js_alumnos_main_check_fechanac();'>
+																</span>		
+																<span class="input-group-addon">
+																	<small>Inicio</small></span>
+																<input type="text" class="form-control input-sm" name="txt_fecha_nac_ini" id="txt_fecha_nac_ini" 
+																			value="" placeholder="yyyy-mm-dd" disabled='disabled'>
+															
+																<span class="input-group-addon">
+																	<small>Fin</small></span>
+																<input type="text" class="form-control input-sm" name="txt_fecha_nac_fin" id="txt_fecha_nac_fin" 
+																			value="" placeholder="yyyy-mm-dd" disabled='disabled'>
+															</div>
+														</div>
+													</div>
+												</div>
 											</div>
-											<label class="col-md-2 col-sm-4 control-label" style='text-align: right;' for='alum_apel_in'>Estado:</label>
-											<div class="col-md-4 col-sm-8">
-												<select class="form-control" id="cmb_alum_estado" name="cmb_alum_estado" />
-													<option value="-1">- Todos -</option>
-													<option value="1">RESERVADO</option>
-													<option value="2">MATRICULADO POR PAGAR</option>
-													<option value="3">MATRICULADO</option>
-													<option value="4">OYENTE</option>
-													<option value="5">RETIRADO</option>
-													<option value="6">ADMITIDO</option>
-													<option value="7">GRADUADO</option>
-												</select>
+											<div class='row'>
+												<div class='col-md-6 col-sm-12'>
+													<div class='form-group'>
+														<label class="col-md-4 col-sm-3 control-label" style='text-align: right;' for='cmb_grupo_economico'>Grupo Económico:</label>
+														<div class="col-md-8 col-sm-8">
+															<?php 	include ('../framework/dbconf.php');        
+																	$params = array();
+																	$sql="{call grup_econ_view()}";
+																	$stmt = sqlsrv_query($conn, $sql, $params);
+												
+																	if( $stmt === false )
+																	{   echo "Error in executing statement .\n";
+																		die( print_r( sqlsrv_errors(), true));
+																	}
+																	
+																	echo '<select class="form-control input-sm" id="cmb_grupo_economico" name="cmb_grupo_economico">
+																				<option value="-1">- Todos -</option>';
+																	while($grup_econ_view= sqlsrv_fetch_array($stmt))
+																	{	if($grup_econ_view["codigo"]==$alum_view['grupEcon_codigo'])
+																			$select='selected="selected"';
+																		else
+																			$select="";
+																		echo '<option value="'.$grup_econ_view["codigo"].'"'.$select.">".$grup_econ_view["descripcion"].'</option>';
+																	}
+																	echo '</select>';
+															?>
+														</div>
+													</div>
+												</div>
+												<div class='col-md-6 col-sm-12'>
+													<div class='form-group'>
+														<label class="col-md-4 col-sm-3 control-label" style='text-align: right;' for='txt_fecha_matri_ini'>F. matriculaci&oacute;n:</label>
+														<div class="col-md-8 col-sm-8">
+															<div class="input-group" id="div_fini" name="div_fini" data-placement="bottom"
+																 title='Fecha de matriculación, desde, hasta.'
+																 onmouseover='$(this).tooltip("show")'>
+																<span class="input-group-addon">
+																	<input type="checkbox" id='chk_fecha_matri' name='chk_fecha_matri' onclick='js_alumnos_main_check_fechamatr();'>
+																</span>		
+																<span class="input-group-addon">
+																	<small>Inicio</small></span>
+																<input type="text" class="form-control input-sm" name="txt_fecha_matri_ini" id="txt_fecha_matri_ini" 
+																			value="" placeholder="yyyy-mm-dd" disabled='disabled'>
+															
+																<span class="input-group-addon">
+																	<small>Fin</small></span>
+																<input type="text" class="form-control input-sm" name="txt_fecha_matri_fin" id="txt_fecha_matri_fin" 
+																			value="" placeholder="yyyy-mm-dd" disabled='disabled'>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class='row'>
+												<div class='col-md-6 col-sm-12'>
+													<div class='form-group'>
+														<label class="col-md-4 col-sm-3 control-label" style='text-align: right;' for='cmb_nivel'>Nivel:</label>
+														<div class="col-md-8 col-sm-8" >
+															<? 	
+																$params = array();
+																$sql="{call nive_view()}";
+																$nive_view = sqlsrv_query($conn, $sql, $params);  
+															?>
+															<select class="form-control input-sm" id="cmb_nivel" name="cmb_nivel"
+																onchange=' alum_get_curso_by_nivel( this.value, "div_cmb_curso" ); '>
+																<option value="-1">- Todos -</option>
+																<? while($row_nive_view = sqlsrv_fetch_array($nive_view)){ ?>
+																  <option value="<?= $row_nive_view['nive_codi'];?>" <? if ($row_nive_view['nive_codi']==$row_curs_view["nive_codi"] ) echo 'selected="selected"';?> >
+																	<?= $row_nive_view['nive_deta'];?></option>
+																<? } ?>
+															</select>  
+														</div>
+													</div>
+												</div>
+												<div class='col-md-6 col-sm-12'>
+													<div class='form-group'>
+														<label class="col-md-4 col-sm-3 control-label" style='text-align: right;' for='cmb_alum_estado'>Estado:</label>
+														<div class="col-md-8 col-sm-8">
+															<select class="form-control input-sm" id="cmb_alum_estado" name="cmb_alum_estado" />
+																<option value="-1">- Todos -</option>
+																<option value="1">RESERVADO</option>
+																<option value="2">MATRICULADO POR PAGAR</option>
+																<option value="3">MATRICULADO</option>
+																<option value="4">OYENTE</option>
+																<option value="5">RETIRADO</option>
+																<option value="6">ADMITIDO</option>
+																<option value="7">GRADUADO</option>
+															</select>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class='row'>
+												<div class='col-md-6 col-sm-12'>
+													<div class='form-group'>
+														<label class="col-md-4 col-sm-3 control-label" style='text-align: right;' for='alum_apel_in'>Curso:</label>
+														<div id='div_cmb_curso' class="col-md-8 col-sm-8" >
+															<select class="form-control input-sm"  id="curs_para_codi_in" name="curs_para_codi_in">
+																<option value="-1">- Todos -</option>
+																<?
+																$sql	= "{call curs_para_view (?)}";
+																$params	= array($_SESSION["peri_codi"]);
+																$stmt	= sqlsrv_query($conn,$sql,$params);
+																while ($row = sqlsrv_fetch_array($stmt))
+																{
+																	?>
+																	<option value="<?= $row["curs_para_codi"]?>"><?= $row["curs_deta"]." (".$row["para_deta"].")"?></option>
+																	<?
+																}
+																?>
+															</select>
+														</div>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
-									<div class='col-md-1 col-sm-12'>
-										<button id='btn_buscar_alumnos' name='btn_buscar_alumnos' class="btn btn-primary"
-												title="Presione [Enter] para buscar alumno(s)"
-												onclick="BuscarAlumnos(document.getElementById('alum_codi_in').value,document.getElementById('alum_apel_in').value,document.getElementById('curs_para_codi_in').value);">
-													<span class="fa fa-search"></span></button></td>
-									</div>
-								</div>
+								</form>
 							</div>
 						</div>
 						<div class="box box-default">
 							<div class="box-header with-border">
-								<h3 class="box-title">
-									<div class="pull-right">
-										<a href="motivo_bloqueo_main.php" class="btn btn-default">
-											<span style='color:red;' class="fa fa-ban"></span> Administrar Motivos Bloqueos
-										</a>
+								<h3 class="box-title">Bandeja de alumnos</h3>
+								 <div class="box-tools pull-right">
+									<div class="btn-group">
+										<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown" aria-expanded="false" 
+											title='Opciones de mantenimiento'>
+										<i class="fa fa-cog"></i></button>
+										<ul class="dropdown-menu" role="menu">
+										<li><a href="motivo_bloqueo_main.php"><i class='fa fa-ban'></i> Agregar motivos de bloqueos</a></li>
+										<li><a href="documentos_main.php"><i class='fa fa-briefcase'></i> Documentos entregados</a></li>
+										</ul>
 									</div>
-								</h3>
+									<div class="btn-group hidden-sm hidden-xs">
+										<button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
+											title='Opciones de vista'>
+										<i class="fa fa-ellipsis-v"></i></button>
+										<ul class="dropdown-menu" role="menu">
+										<li><a href="#" onclick="BuscarAlumnos_complete(1);"><i class='fa fa-list-ul'></i> Mostrar en diseño nuevo</a></li>
+										<li><a href="#" onclick="BuscarAlumnos_complete(2);"><i class='fa fa-list-alt'></i> Mostrar en cuadrícula</a></li>
+										<li><a href="#" onclick="js_alum_matri_search_complete();"><i class='fa fa-print'></i> Mostrar cuadrícula para impresión</a></li>
+										</ul>
+									</div>
+								</div>
 							</div><!-- /.box-header -->
 							<div class="box-body">
 								<div id="alum_main">
+									<span style='font-size:small;'>Haga clic en buscar para realizar una consulta.</span>
 								</div>
 							</div>
 						</div>
-				
-				
 		            </div>
 				</section>
 				<?php include("template/menu_sidebar.php");?>
@@ -121,15 +285,92 @@
 		<?php include("template/scripts.php");?>
 		<script>
 			$(document).ready(function(){
+				
 				$("#boton_busqueda").click(function(){
 					$("#desplegable_busqueda").slideToggle(200);
 				});
 				$("#desplegable_busqueda").show();
 				$('#alum_codi_in').focus();
+				$('[data-toggle="popover"]').popover({html:true});
+				$("#txt_fecha_nac_ini").datepicker({ format: 'yyyy-mm-dd' });
+				$("#txt_fecha_nac_fin").datepicker({ format: 'yyyy-mm-dd' });
+				$("#txt_fecha_matri_ini").datepicker({ format: 'yyyy-mm-dd' });
+				$("#txt_fecha_matri_fin").datepicker({ format: 'yyyy-mm-dd' });
+				$("#txt_fecha_nac_ini").inputmask({
+					mask: "y-1-2", 
+					placeholder: "yyyy-mm-dd", 
+					leapday: "-02-29", 
+					separator: "-", 
+					alias: "yyyy/mm/dd"
+				});
+				$("#txt_fecha_nac_fin").inputmask({
+					mask: "y-1-2", 
+					placeholder: "yyyy-mm-dd", 
+					leapday: "-02-29", 
+					separator: "-", 
+					alias: "yyyy/mm/dd"
+				});
+				$("#txt_fecha_matri_ini").inputmask({
+					mask: "y-1-2", 
+					placeholder: "yyyy-mm-dd", 
+					leapday: "-02-29", 
+					separator: "-", 
+					alias: "yyyy/mm/dd"
+				});
+				$("#txt_fecha_matri_fin").inputmask({
+					mask: "y-1-2", 
+					placeholder: "yyyy-mm-dd", 
+					leapday: "-02-29", 
+					separator: "-", 
+					alias: "yyyy/mm/dd"
+				});
 			});
 			shortcut.add("Enter", function() {
 				$('#btn_buscar_alumnos').trigger("click");
 			},{'target':document.getElementById('tbl_search')});
+			
+			function js_alumnos_show_options( div )
+			{   $('#' + div).collapse(200).collapse('toggle');
+			}
+			function check_opc_avanzadas()
+			{   var ckb_opc_adv = document.getElementById("ckb_opc_adv").checked;
+				if(ckb_opc_adv)
+				{   $("#div_opc_adv").collapse(200).collapse('show');
+				}
+				else
+				{   $("#div_opc_adv").collapse(200).collapse('hide');
+				}
+			}
+			function js_alumnos_main_check_fechanac()
+			{    var chk_tneto = document.getElementById("chk_fecha_nac").checked;
+				if(chk_tneto)
+				{   document.getElementById("txt_fecha_nac_ini").disabled = false;
+					document.getElementById("txt_fecha_nac_fin").disabled = false;
+				}
+				else
+				{   document.getElementById("txt_fecha_nac_ini").disabled = true;
+					document.getElementById("txt_fecha_nac_fin").disabled = true;
+					document.getElementById("txt_fecha_nac_ini").value = "";
+					document.getElementById("txt_fecha_nac_fin").value = "";
+				}
+			}
+			function js_alumnos_main_check_fechamatr()
+			{    var chk_tneto = document.getElementById("chk_fecha_matri").checked;
+				if(chk_tneto)
+				{   document.getElementById("txt_fecha_matri_ini").disabled = false;
+					document.getElementById("txt_fecha_matri_fin").disabled = false;
+				}
+				else
+				{   document.getElementById("txt_fecha_matri_ini").disabled = true;
+					document.getElementById("txt_fecha_matri_fin").disabled = true;
+					document.getElementById("txt_fecha_matri_ini").value = "";
+					document.getElementById("txt_fecha_matri_fin").value = "";
+				}
+			}
+			function js_alumnos_lista_general()
+			{	document.getElementById( 'file_form' ).action = 'listado_all_xls.php';
+				document.getElementById( 'file_form' ).submit();
+			}
 		</script>
 	</body>
 </html>
@@ -269,7 +510,10 @@
 					<table width="100%" style="margin-bottom:20px">
 						<tr>
 							<td width="30%">
-								Motivo
+								<label class='control-label'>Motivo</label>
+								<div id='EducaLinksHelperCliente' style='display:inline;font-size:small;text-align:left;vertical-align:middle;'>
+									<a tabindex="0" data-toggle="popover" title="<a href='motivo_bloqueo_main.php' target='_blank'>Motivo de bloqueo</a>" data-content="<div style='font-size:x-small'>Si desea alimentar esta opción con más opciones para mostrar, por favor, haga clic <a href='motivo_bloqueo_main.php' target='_blank'>aquí</a>.<br><br>Luego de agregar opciones, vuelva a cargar esta página para poder verlas.</div>" data-placement='bottom'><span class='fa fa-question-circle'></span></a>
+								</div>
 							</td>
 							<td style="margin-top:5px">
 								<select class='form-control input-sm' id="cmb_motivos" style="width: 75%">
@@ -289,7 +533,7 @@
 						</tr>
 						<tr>
 							<td width="30%">
-								Opción a bloquear
+								<label class='control-label'>Opción a bloquear</label>
 							</td>
 							<td style="padding-top:5px">
 								<select class='form-control input-sm'  id="cmb_opciones" style="width: 75%">
@@ -343,6 +587,34 @@
 	<div class="modal-dialog">
 		<div id="modal_main_blacklist" class="modal-content">
 			
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" 
+	 id="modal_load_list_resize" 
+	 tabindex="-1" 
+	 role="dialog" 
+	 aria-labelledby="myModalLabel" 
+	 aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Educalinks informa</h4>
+			</div>
+			<div class="modal-body">
+				Educalinks ha detectado un cambio en el tamaño de la ventana.
+				Es posible que la bandeja de alumnos pueda
+				presentarse de una mejor manera.<br>
+				<br>
+				¿Desea volver a cargar la bandeja para que se acomode al nuevo tamaño de la ventana?
+				
+			</div>
+			<div class="modal-footer">
+				<button class='btn btn-success' type='button' onclick=\"load_ajax_del_alum_followed('"+data+"')\"><span class='fa fa-refresh'></span>&nbsp;Volver a cargar</button>
+				<button class="btn btn-default" data-dismiss="modal"><li style="color:red;" class="fa fa-times"></li>&nbsp;No hacer nada</button>
+			</div>
 		</div>
 	</div>
 </div>

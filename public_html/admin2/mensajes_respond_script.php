@@ -20,7 +20,7 @@
 <div class="modal-body">
   <script type="text/javascript" src="../framework/funciones.js"> </script>
   <div  id="usua_mens" style="border:thin; width:100%; height:40px;margin-bottom:5px;float:left;"    >
-    <input id="mens_titu" name="mens_titu" type="text" placeholder="Ingrese el Titulo..." value="" style="width:100%;"> 
+    <input id="mens_titu" name="mens_titu" type="text" placeholder="Ingrese el Titulo..." value="RP:<?= $row_mens_info['mens_titu']; ?>" style="width:100%;"> 
   </div>
   
   <div   style=" float:left; width:100%; margin-bottom:20px;  "  >
@@ -30,14 +30,7 @@
 
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" id="responder_mensaje" data-loading-text="Enviando..."  onClick="envio_mensaje_resp('<?= $row_mens_info['mens_de'] ?>','<?= $row_mens_info['mens_de_tipo'] ?>');">
-    Enviar
-  </button>
-
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-  <button type="button" class="btn btn-default" data-dismiss="modal">
-    Cerrar
-  </button>
-
-
+  <button type="button" class="btn btn-default" id="responder_mensaje" data-loading-text="Enviando..."  onClick="envio_mensaje_resp('<?= $row_mens_info['mens_de'] ?>','<?= $row_mens_info['mens_de_tipo'] ?>');">
+    <i class='fa fa-send'></i> Enviar </button>
+  <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 </div>

@@ -65,7 +65,8 @@
 				<ul class="nav navbar-nav">
 					<!-- Messages: style can be found in dropdown.less-->
 					<li title="Seleccionar período activo">
-						<a href="#" data-toggle="modal" data-target="#ModalPeriodoActivo"><i class="fa fa-calendar"></i>&nbsp;Período: <?= $_SESSION['peri_deta']; ?></a>
+						<a href="#" data-toggle="modal" data-target="#ModalPeriodoActivo"><i class="fa fa-calendar"></i>
+							</i><span class='hidden-xs'>&nbsp;Período: <?= $_SESSION['peri_deta']; ?></span></a>
 					</li>
 					<li class="dropdown user user-menu">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -95,24 +96,59 @@
 							</li>
 						</ul>
 					</li>
+					<li id='li_navbar_sms' class="dropdown messages-menu">
 					<?php include ('script_mens_view.php');?>
+					</li>
 					<!--<li title="Expandir">
 						<a href="#" onclick="toggleFullScreen();"><i class="fa fa-television"></i>&nbsp;</a>-
 					</li>-->
 					<li title='Ver módulos del sistema' >
-						<a onmouseover='$(this).tooltip("show");' href="#" data-toggle="control-sidebar"><i class="fa fa-briefcase"></i>&nbsp;</a>
+						<a onmouseover='$(this).tooltip("show");' href="#" data-toggle="modal" data-target='#ModalEducalinksMoludos'><i class="fa fa-briefcase"></i>&nbsp;</a>
 					</li>
 				</ul>
 			</div>
         </nav>
     </header>
 </form>
+<!-- Modal Vista mensaje-->
 <div class="modal fade bd-example-modal-lg" id="modal_leer_ext" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div id="modal_main_ext" width="100%" class="modal-content">
             
         </div>
     </div>
+</div>
+<!-- Modal Responder-->
+<div class="modal fade bs-example-modal-lg" id="mens_responder" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div id="div_mens_resp" class="modal-content">
+		  
+		</div>
+	</div>
+</div>
+<!-- Modal eliminar-->
+<div class="modal fade bs-example-modal-sm" id="modal_del_sms" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">Educalinks</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12">
+						¿Eliminar mensaje? Pasará a la bandeja de mensajes eliminados.
+					</div>
+				</div>
+				<input type='hidden' id='hd_del_mes_codi' name='hd_del_mes_codi' value=''></input>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-danger" type="button" onclick="elimina_mensaje_followed( )">
+					<span class="fa fa-trash"></span>&nbsp;Eliminar</button>
+				<button class="btn btn-default" data-dismiss="modal"><li style="color:red;" class="fa fa-ban"></li>&nbsp;No Eliminar</button>
+			</div>
+		</div>
+	</div>
 </div>
 <script>
 	function envio_mensaje_nuevo()

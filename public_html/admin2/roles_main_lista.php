@@ -24,6 +24,8 @@
 				<input type="hidden" id="rol_codi_edi_<?= $row_rol_busq["rol_codi"]?>" name="rol_codi_edi_<?= $row_rol_busq["rol_codi"]?>" value="<?= $row_rol_busq["rol_codi"]?>">
 				<input type="hidden" id="rol_deta_edi_<?= $row_rol_busq["rol_codi"]?>" name="rol_deta_edi_<?= $row_rol_busq["rol_codi"]?>" value="<?= $row_rol_busq["rol_deta"]?>">
 				<input type="hidden" id="rol_finan_edi_<?= $row_rol_busq["rol_codi"]?>" name="rol_finan_edi_<?= $row_rol_busq["rol_codi"]?>" value="<?= $row_rol_busq["rol_finan"]?>">
+				<input type="hidden" id="rol_medic_edi_<?= $row_rol_busq["rol_codi"]?>" name="rol_medic_edi_<?= $row_rol_busq["rol_codi"]?>" value="<?= $row_rol_busq["rol_medico"]?>">
+				<input type="hidden" id="rol_biblio_edi_<?= $row_rol_busq["rol_codi"]?>" name="rol_biblio_edi_<?= $row_rol_busq["rol_codi"]?>" value="<?= $row_rol_busq["rol_biblio"]?>">
 			</td>
 			<td style='text-align:center'>
 				<?php if (permiso_activo(47)){?>

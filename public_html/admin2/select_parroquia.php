@@ -5,11 +5,6 @@
 	$sql="{call cata_parroquia_cons(?,?)}";
 	$stmt = sqlsrv_query($conn, $sql, $params);
 
-	if( $stmt === false )
-	{
-		echo "Error in executing statement .\n";
-		die( print_r( sqlsrv_errors(), true));
-	}
 	echo '<select class="form-control" id="alum_parr_naci" name="alum_parr_naci">';
 	echo '<option value="">Seleccione</option>';
 	while($parroquia_view= sqlsrv_fetch_array($stmt))

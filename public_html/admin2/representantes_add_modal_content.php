@@ -67,7 +67,7 @@ include("../framework/funciones.php");
 	</div>
 	<div class="form-group col-md-6">
 		<label>País de Nacimiento:</label>
-		<select class="form-control input-sm" onchange="CargarProvincias('repr_prov_naci',this.value);"  id="repr_pais_naci" name="repr_pais_naci" <?=$disabled?> >
+		<select class="form-control input-sm" onchange="CargarProvincias('repr_prov_naci',this.value);CargarCiudades('repr_ciud_naci',this.value);"  id="repr_pais_naci" name="repr_pais_naci" <?=$disabled?> >
 		<?php 
 		$params = array();
 		$sql="{call cata_pais_cons()}";
@@ -228,34 +228,34 @@ include("../framework/funciones.php");
 	</div>
 </div>
 <div class="tab-pane" id="tab4" name="tab4">
-<div class="row">
-	<div class="col-md-6">
-		<div class="form-group">
-	    	<label for="repr_fech_promoc">Año de promoción exalumno:</label>
-	    	<input id="repr_fech_promoc" class="form-control input-sm" name="repr_fech_promoc" type="text" placeholder="Ingrese la fecha de promoción de exalumno" value="<?=date_format($row_repr_info['repr_fech_promoc'],"d/m/Y");?>"<?=$disabled?> />
-    	</div>
-	</div>
-	<div class="col-md-6">
-    	<div class="form-group">
-    		</br>
-	    	<label for="repr_ex_alum">¿Es exalumno de la institución?</label>
-	    	</br>
-	    	<input id="repr_ex_alum" name="repr_ex_alum" type="checkbox" <?= ($row_repr_info['repr_ex_alum']==1 ? 'checked':'');?> <?=$disabled?>/>
-    	</div>
-    </div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<label for="repr_motivo_representa">Razón por la cual representa (en caso de no ser padre o madre):</label>
-			<input class="form-control input-sm" id="repr_motivo_representa" name="repr_motivo_representa" type="text" placeholder="Ingresar razón de representar" value="<?=$row_repr_info['repr_motivo_representa'];?>" <?=$disabled?>>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+		    	<label for="repr_fech_promoc">Año de promoción exalumno:</label>
+		    	<input id="repr_fech_promoc" class="form-control input-sm" name="repr_fech_promoc" type="text" placeholder="Ingrese la fecha de promoción de exalumno" value="<?=date_format($row_repr_info['repr_fech_promoc'],"d/m/Y");?>"<?=$disabled?> />
+	    	</div>
 		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-				
-				<label for="repr_escolaborador">¿Es o fue colaborador de la institución?</label></br>
-				<input id="repr_escolaborador" name="repr_escolaborador" type="checkbox" <?= ($row_repr_info['repr_escolaborador']==1 ? 'checked':'');?> <?=$disabled?>/>
+		<div class="col-md-6">
+	    	<div class="form-group">
+	    		</br>
+		    	<label for="repr_ex_alum">¿Es exalumno de la institución?</label>
+		    	</br>
+		    	<input id="repr_ex_alum" name="repr_ex_alum" type="checkbox" <?= ($row_repr_info['repr_ex_alum']==1 ? 'checked':'');?> <?=$disabled?>/>
+	    	</div>
+	    </div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="repr_motivo_representa">Razón por la cual representa (en caso de no ser padre o madre):</label>
+				<input class="form-control input-sm" id="repr_motivo_representa" name="repr_motivo_representa" type="text" placeholder="Ingresar razón de representar" value="<?=$row_repr_info['repr_motivo_representa'];?>" <?=$disabled?>>
+			</div>
 		</div>
-	</div>
+		<div class="col-md-6">
+			<div class="form-group">
+					
+					<label for="repr_escolaborador">¿Es o fue colaborador de la institución?</label></br>
+					<input id="repr_escolaborador" name="repr_escolaborador" type="checkbox" <?= ($row_repr_info['repr_escolaborador']==1 ? 'checked':'');?> <?=$disabled?>/>
+			</div>
+		</div>
 	</div>
 	<div class="row" style="<?= (para_sist(408)==0?'display: none':'')?>">
         <div class="form-group col-md-6">

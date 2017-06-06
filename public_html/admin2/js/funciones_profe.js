@@ -51,7 +51,8 @@ function load_ajax_add_prof(div,url,data){
 		{
 			if (xmlhttp.readyState==4 && xmlhttp.status==200){
 				if (xmlhttp.responseText>0){				
-					$.growl.notice({ title: "Listo!",message: "Se guardaron correctamente los datos del profesor." });				
+					$.growl.notice({ title: "Listo!",message: "Se guardaron correctamente los datos del profesor." });
+					$('#ModalUsuaAdd').modal('hide');				
 				}else{
 					$.growl.error({ title: "Atención!",message: "Ocurrió un error al grabar los datos del profesor." });	
 				}

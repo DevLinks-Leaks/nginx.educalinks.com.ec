@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=207;include("template/menu.php");?>
+			<?php $Menu=901;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<h1>Profesores</h1>
 					<ol class="breadcrumb">
-						<li><a href="#"><i class="fa fa-circle-o"></i></a></li>
+						<li><a href="#"><i class="fa fa-users"></i></a></li>
 						<li class="active">Profesores</li>
 					</ol>
 				</section>
@@ -22,10 +22,14 @@
 									<a  class="btn btn-primary" onclick="document.getElementById('usua_nombre').focus();" data-toggle="modal" data-target="#ModalUsuaAdd" >
 										<span class="fa fa-plus"></span> Agregar Nuevo Profesor
 									</a><?php }?>
+									<?php if (permiso_activo(11)){?>
+									<a  class="btn btn-info" href="cursos_notas_permisos_main.php" title='Ver y agregar permisos de ingresos de notas a docentes.'>
+										<span class='fa fa-list-alt'></span> Permisos ingreso notas</a> 
+									</a><?php }?>
 								</h3>
 							</div><!-- /.box-header -->
 							<div class="box-body">
-								<script type="text/javascript" src="js/funciones_profe.js"></script> 
+								
 								<div id="usua_main" >
 									 <?php include ('profesores_main_lista.php'); ?>
 								</div>
@@ -44,9 +48,13 @@
 		<input name="mens_de"  		type="hidden" id="mens_de" 		value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
 		<input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 		<?php include("template/scripts.php");?>
+		<script type="text/javascript" src="js/funciones_profe.js?<?=$rand;?>"></script> 
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#usua_table').DataTable() ;
+				$('#usua_table').DataTable({
+					language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+				}) ;
 			} );
 		</script>
 	</body>

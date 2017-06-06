@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');
 				$Menu=800;
@@ -60,6 +60,7 @@
 						</div>
 					</div>
 				</section>
+				<?php include("template/menu_sidebar.php");?>
 			</div>
 			<form id="frm_actu" name="frm_actu" method="post" action="" enctype="multipart/form-data">
 				<?php include("template/rutas.php");?>

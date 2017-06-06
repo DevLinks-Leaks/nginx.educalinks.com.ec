@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=208;include("template/menu.php");?>
+			<?php $Menu=218;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<h1>Áreas</h1>
 					<ol class="breadcrumb">
-						<li><a href="#"><i class="fa fa-circle-o"></i></a></li>
+						<li><a href="#"><i class="fa fa-list-alt"></i></a></li>
 						<li class="active">Áreas</li>
 					</ol>
 				</section>

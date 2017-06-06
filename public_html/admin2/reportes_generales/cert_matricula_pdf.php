@@ -70,6 +70,7 @@
 	date_default_timezone_set('America/Guayaquil');
 	setlocale(LC_TIME, 'spanish');
 	$fecha_hoy=strftime("$ciudad, %d de %B de %Y");
+	$fecha_hoy2=ucwords(strftime("%B, ")).strftime("%d de %Y");
 	if ($_SESSION['directorio']=="ecobab" or $_SESSION['directorio']=="ecobabvesp" or $_SESSION['directorio']=="delfos" or $_SESSION['directorio']=="delfosvesp"){
 		$titulo_jornada='<tr>
 							<td colspan="2"><br/></td>
@@ -103,13 +104,13 @@
 						</tr>';
 	}else{
 		$encabezado = '	<tr>
-							<td colspan="2" class="titulo"><br/><br/><br/>CERTIFICADO DE MATRÍCULA</td>
+							<td colspan="2" class="titulo"><br/><br/><br/><u>CERTIFICADO DE MATRÍCULA</u></td>
 						</tr>
 						<tr>
 							<td colspan="2" class="titulo"><br/></td>
 						</tr>
 						<tr>
-							<td colspan="2" class="titulo"><br/>'.$antes_del_nombre.'<br/> "'.$nombre_colegio.'"</td>
+							<td colspan="2" class="titulo"><br/>'.$antes_del_nombre.'<br/> '.$nombre_colegio.'</td>
 						</tr>
 						'.$titulo_jornada.'
 						<tr>
@@ -121,6 +122,14 @@
 		
 	}
 
+	if($_SESSION['directorio']=="liceonaval" or $_SESSION['directorio']=="liceonavalvesp"){
+		$texto='<p>LOS SUSCRITOS, '.$etiqueta_rector.' '.$rector.' Y SEÑORA '.$secretario.', EN CALIDAD DE RECTOR Y SECRETARIA GENERAL RESPECTIVAMENTE, CERTIFICAN QUE EL(A) ESTUDIANTE:</p>';
+		$linea_fecha='';
+		$linea_fecha2=$fecha_hoy2;
+	}else{
+		$linea_fecha2='';
+		$texto='<p>Los suscritos, '.$etiqueta_rector_min.' y '.$etiqueta_secretario_min.', certifican que el(a) estudiante:</p>';
+	}
 	while ($alumno=sqlsrv_fetch_array($stmt))
 	{
 		// Añadir página
@@ -185,7 +194,7 @@
 		}
 		.texto_info
 		{
-			font-size: 16px;
+			font-size: 14px;
 			text-align:left;
 			line-height: 160%;
 			font-family: sans-serif;
@@ -226,25 +235,25 @@
 			</tr>
 			<tr>
 				<td colspan="2" class="texto">
-					<p>Los suscritos, {$etiqueta_rector_min} y {$etiqueta_secretario_min}, certifican que el(a) estudiante:</p>
+					{$texto}
 					<p align="center"><b>{$alumno["apellidos"]} {$alumno["nombres"]}</b></p>
 					<p>Previo al cumplimiento de los requisitos legales, se matriculó en el curso indicado 
 					según consta en los registros de matrículas que reposan en esta institución.</p>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2"><br/><br/><br/><br/><br/></td>
+				<td colspan="2" align="right"><br/><br/>{$linea_fecha2}<br/><br/><br/><br/></td>
 			</tr>
 			<tr>
 				<td align="center" class="firma">
 					__________________________________<br/>
 					{$rector}<br/>
-					{$etiqueta_rector}
+					<b>{$etiqueta_rector}</b>
 				</td>
 				<td align="center" class="firma">
 					__________________________________<br/>
 					{$secretario}<br/>
-					{$etiqueta_secretario}
+					<b>{$etiqueta_secretario}</b>
 				</td>
 			</tr>
 		</table>

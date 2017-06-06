@@ -35,7 +35,7 @@ class MYPDF extends TCPDF
 		$this->MultiCell(0, 5, 'AÑO LECTIVO '.$_SESSION['peri_deta'], 0, 'L', 0, 1, '', '', true);
 		$this->MultiCell(0, 5, mb_strtoupper($this->curso,'utf8'), 0, 'L', 0, 1, '', '', true);
 		$this->SetFont('helvetica', '', 8);
-		$this->MultiCell(70, 5, 'Código: R8E-03 / Versión: 3 / Nov. 2015', 0, 'L', 0, 1, 230, 5, true);
+		// $this->MultiCell(70, 5, 'Código: R8E-03 / Versión: 3 / Nov. 2015', 0, 'L', 0, 1, 230, 5, true);
 		$this->MultiCell(0, 0, mb_strtoupper(substr($this->apellido.' '.$this->nombre,0,45),'utf8'), 0, 'L', 0, 1, 230, 17, true);
 		$this->MultiCell(0, 0, 'CÓDIGO: '.$this->codigo, 0, 'L', 0, 1, 230, 22, true);
 	}

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
 			<?php $Menu=606;include("template/menu.php");?>
@@ -84,7 +84,7 @@
 												<td><h4>Certificado de Matr&iacute;cula</h4></td>
 												<td>
 													<h2>
-													   <a title="Descargar" onmouseover="$(this).tooltip('show');" href="JavaScript:getURLCertMatriculaPDF();" >
+													   <a title="Descargar" onmouseover="$(this).tooltip('show');" href="JavaScript:getURLCertMatriculaPDF('<?=$_SESSION['directorio'];?>');" >
 														   <span class="fa fa-file-pdf-o" style='font-color:red'></span>
 													   </a>
 												   </h2>

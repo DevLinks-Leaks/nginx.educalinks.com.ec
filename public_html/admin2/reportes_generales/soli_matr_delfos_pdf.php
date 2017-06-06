@@ -253,8 +253,8 @@ $html=<<<EOD
 		text-align: justify;
 	}
 	</style>
-	<br>
-	<h1>INFORMACIÓN PERSONAL PARA MATRÍCULA</h1>
+	<br/>
+	<h1>Jornada {$jornada}<br/>INFORMACIÓN PERSONAL PARA MATRÍCULA</h1>
 	<p class="letras_normales">Educación inicial _______ Educación Básica _______ Bachillerato _______</p>
 	<h3>DATOS DEL (LA) ASPIRANTE</h3>
 	<table width="100%" border="1">

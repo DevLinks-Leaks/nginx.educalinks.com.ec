@@ -6,20 +6,22 @@
 			float: left;
 		}
 	</style>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<?php include ('template/header.php');?>
 		<?php $Menu=700;
 			if($_SESSION['modulo'] == 'acad')
 				include("template/menu.php");
 			if($_SESSION['modulo'] == 'finan')
 				include("template/menu_finan.php");
+			if($_SESSION['modulo'] == 'medic')
+				include("../medic/template/menu.php");
 		?>
 		<div class="content-wrapper">
-			<div style="padding: 20px 30px; background: rgb(243, 156, 18); z-index: 999999; font-size: 16px; font-weight: 600;"><a class="pull-right" href="#" data-toggle="tooltip" data-placement="left" 
+			<!--<div style="padding: 20px 30px; background: rgb(243, 156, 18); z-index: 999999; font-size: 16px; font-weight: 600;"><a class="pull-right" href="#" data-toggle="tooltip" data-placement="left" 
 			title="No mostrarme este mensaje de nuevo!"
 			style="color: rgb(255, 255, 255); font-size: 20px;">×</a><a href="../../admin/periodos_main.php" style="color: rgba(255, 255, 255, 0.901961); display: inline-block; margin-right: 10px; text-decoration: none;">
 			Tienes etapas de distribucion por terminar</a><a class="btn btn-default btn-sm" href="../../admin/admin_periodos_etapas.php?peri_codi=<?=$_SESSION['peri_codi']?>" style="margin-top: -5px; border: 0px; box-shadow: none; color: rgb(243, 156, 18); font-weight: 600; background: rgb(255, 255, 255);">
-			Ver etapas por terminar!</a></div>
+			Ver etapas por terminar!</a></div>-->
 			<section class="content-header">
 				<h1>Bandeja de mensajes 
 					<small></small>
@@ -80,8 +82,7 @@
 				});
 			});
 			function js_mensajes_delete_all_sms()
-			{   //document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
-				checkboxes = document.getElementsByName('ckb_codigoDocumento[]');
+			{   checkboxes = document.getElementsByName('ckb_codigoDocumento[]');
 				var mensaje=[];
 				var bandera = 0;
 				for(var i = 0, n = checkboxes.length; i < n; i++ )
@@ -90,27 +91,32 @@
 						bandera++;
 					}
 				}
+				document.getElementById('hd_del_sms_many').value = JSON.stringify( mensaje );
+				$('#modal_del_sms_many').modal("show");
 				
-				var data = new FormData();
+			}
+			function js_mensajes_delete_all_sms_followed()
+			{   var data = new FormData();
 				data.append('opc', 'delete_all' );
 				data.append('op', document.getElementById('hd_op').value );
-				data.append('mensajes', JSON.stringify( mensaje ) );
+				data.append('mensajes', document.getElementById('hd_del_sms_many').value );
 			
 				var xhr_mensaje = new XMLHttpRequest();
 				xhr_mensaje.open('POST', 'script_mensajes_funciones.php' , true);
 				xhr_mensaje.onload = function ()
-				{   console.log(this.responseText);
+				{   
 				};
 				xhr_mensaje.onreadystatechange=function()
 				{   if (xhr_mensaje.readyState==4 && xhr_mensaje.status==200)
 					{   var n = xhr_mensaje.responseText.length;
+						$('#modal_del_sms_many').modal("hide");
 						if (n > 0)
 						{	valida_tipo_growl(xhr_mensaje.responseText);
 						}
 						else
-						{   $.growl.warning({ title: "Educalinks informa:",message: "Proceso realizado sin confirmación del sistema." });
+						{   $.growl.warning({ title: "Educalinks informa",message: "Proceso realizado sin confirmación del sistema." });
 						}
-						load_ajax_mensajes( 'mens_main_view', 'mensajes_view.php', document.getElementById('hd_op').value, 4 );              
+						load_ajax_mensajes( 'mens_main_view', 'mensajes_view.php', 'OP=' + document.getElementById('hd_op').value, 4 );              
 					}
 				};
 				xhr_mensaje.send(data);
@@ -186,6 +192,7 @@
 				{   if ( document.getElementById('hd_op').value !== 4 )
 						document.getElementById('btn_delete_all_sms').style.display = 'inline';
 				}
+				console.log( document.getElementById('hd_op').value );
 			}
 		</script>
 		<!-- Modal -->
@@ -214,11 +221,27 @@
 				</div>
 			</div>
 		</div>
-		<!-- Modal Responder-->
-		<div class="modal fade bs-example-modal-lg" id="mens_responder" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
-			<div class="modal-dialog modal-lg">
-				<div id="div_mens_resp" class="modal-content">
-				  
+		<!-- Modal eliminar-->
+		<div class="modal fade bs-example-modal-sm" id="modal_del_sms_many" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title">Educalinks</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								¿Eliminar mensajes? Pasarán a la bandeja de mensajes eliminados.
+							</div>
+						</div>
+						<input type='hidden' id='hd_del_sms_many' name='hd_del_sms_many' value=''></input>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-danger" type="button" onclick="js_mensajes_delete_all_sms_followed( )">
+							<span class="fa fa-trash"></span>&nbsp;Eliminar</button>
+						<button class="btn btn-default" data-dismiss="modal"><li style="color:red;" class="fa fa-ban"></li>&nbsp;No Eliminar</button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -36,7 +36,7 @@ function mate_peri_upd(){
 
 				if(xhr.responseText=='OK'){
 					$.growl.notice({ title: "Informacion: ",message: "Se actualizo Materia" });	
-				
+					$('#mate_edit').modal('hide');
 					mate_view(div,'cursos_materias_main_lista.php');
 
 					
@@ -71,7 +71,7 @@ function mate_edit(mate_codi,mate_deta,mate_abre,mate_prom,mate_padr,mate_tipo,a
 	
 	document.getElementById('m_mate_padr').value=mate_padr;
 	
-	selectvalue_set(document.getElementById('m_mate_tipo'),mate_tipo)
+	// selectvalue_set(document.getElementById('m_mate_tipo'),mate_tipo)
 	//document.getElementById('m_mate_tipo').values=mate_tipo;
 	
 /*	if (mate_tipo=='C'){
@@ -172,12 +172,10 @@ function mate_view(div,url){
 	xhr.onreadystatechange=function(){
 		if (xhr.readyState==4 && xhr.status==200){
 			document.getElementById(div).innerHTML=xhr.responseText;
-			$('#mate_table').datatable({
-				pageSize: 20,
-				sort: [false, false,false, false,false,false],
-				filters: [true,'select','select','select','select',false],
-				filterText: 'Escriba para buscar... '
-			}) ;
+			$('#mate_table').DataTable({
+				language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+			});
 		} 
 	}
 	xhr.send(data);

@@ -28,35 +28,43 @@
 ?>
 	<div class="row">
 		<div class="col-md-6">
-			<table width='100%' align='center'>
-				<tr>
-					<td colspan='2' height='40px' valign='bottom'><b>Datos del Período anterior</b></td>
-				</tr>
-				<tr>
-					<td width='120px' height='1px' colspan='2'><div style='font-size:1px'><hr style='height:1px; margin-top: 0.5em;' /></div></td>
-				</tr>
-				<tr>	
-					<td width='120px' align='left'><b>Período: </b>
-					</td>
-					<td align='left'> <?php echo $prev_peri_deta; ?>
+			<div class='row'>
+				<div class="col-sm-12">
+					<b>Datos del Período anterior</b>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-sm-12">
+					<div style='font-size:1px'><hr style='height:1px; margin-top: 0.5em;' /></div>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-sm-6">
+					<b>Período: </b>
+				</div>
+				<div class="col-sm-6">
+					<?php echo $prev_peri_deta; ?>
 						<input type='hidden' id='prev_peri_codi' name='prev_peri_codi' value='<?php echo $prev_peri_codi; ?>'>
-					</td>
-				</tr>
-				<tr>	
-					<td width='120px' align='left'><b>Estado final: </b>
-					</td>
-					<td align='left'> <?php echo $prev_estado; ?>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-sm-6">
+					<b>Estado final: </b>
+				</div>
+				<div class="col-sm-6">
+					<?php echo $prev_estado; ?>
 						<input type='hidden' id='prev_alum_est' name='prev_alum_est' value='<?php echo $prev_estado; ?>'>
-					</td>
-				</tr>
-				<tr>	
-					<td width='120px' align='left'><b>Paralelo: </b>
-					</td>
-					<td align='left'> <?php echo $prev_curso_paralelo; ?>
+				</div>
+			</div>
+			<div class='row'>
+				<div class="col-sm-6">
+					<b>Paralelo: </b>
+				</div>
+				<div class="col-sm-6">
+					<?php echo $prev_curso_paralelo; ?>
 						<input type='hidden' id='prev_curs_para_codi' name='prev_curs_para_codi' value='<?php echo $prev_curs_para_codi; ?>'>
-					</td>
-				</tr>
-			</table>
+				</div>
+			</div>
 		</div>
 		<? if ($alum_curs_para_aprob=='RP'){?>
 			<div class="col-md-6"><br/><br/><br/></div>
@@ -71,21 +79,24 @@
 	}
 	else
 	{?>
-		<table width='100%' align='center'>
-			<tr>
-				<td height='40px' valign='bottom' colspan='2'><b>Datos del Período anterior</b></td>
-			</tr>
-			<tr>
-				<td height='1px' colspan='2'>
-					<div style='font-size:1px'><hr style='height:1px; margin-top: 0.5em;' />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td colspan='2' width='120px'><small><i>--Sin registros en el per&iacute;odo anterior--</i></small></td>
-			</tr>
-		</table>
+		<div class='row' width='100%' align='center' height='40px' valign='bottom'>
+			<div class="col-sm-6">
+				<b>Datos del Período anterior</b>
+			</div>
+		</div>
+		<div class='row' height='1px' >
+			<div class="col-sm-6">
+				<div style='font-size:1px'><hr style='height:1px; margin-top: 0.5em;' /></div>
+			</div>
+		</div>
+		<div class='row' width='120px'>
+			<div class="col-sm-6">
+				<small><i>--Sin registros en el per&iacute;odo anterior--</i></small>
+			</div>
+		</div>
 	<?php 
 	}
 	?>
-	<input type="hidden" id="alum_curs_para_aprob" name="alum_curs_para_aprob" value="<?=$alum_curs_para_aprob;?>" />
+		<input type="hidden" id="alum_curs_para_aprob" name="alum_curs_para_aprob" value="<?=$alum_curs_para_aprob;?>" />
+		<div class="col-sm-12"><br/></div>
+	</div>

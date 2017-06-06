@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=202;include("template/menu.php");?>
+			<?php $Menu=412;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<h1>Notas Permisos</h1>
 					<ol class="breadcrumb">
-						<li><a href="#"><i class="fa fa-circle-o"></i></a></li>
+						<li><a href="#"><i class="fa fa-list-alt"></i></a></li>
 						<li class="active">Notas Permisos</li>
 					</ol>
 				</section>
@@ -253,7 +253,8 @@
                      <button
                      	type="button"
                         class="btn btn-primary"
-                        onClick="nota_perm_add(1);">
+                        onClick="nota_perm_add(1);"
+                        data-dismiss="modal">
                         Aceptar
                     </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button
@@ -268,7 +269,7 @@
             </div>
 
 <!-- Modal -->
-<form >
+
     <input type="hidden" name="peri_codi" id="peri_codi" value="<?= $_SESSION['peri_codi']; ?>">
    <!-- Modal GRUPO -->
     <div
@@ -278,157 +279,136 @@
         role="dialog"
         aria-labelledby="myModalLabel"
         aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button
-            	type="button"
-                class="close"
-                data-dismiss="modal">
-                	<span aria-hidden="true">
-                    	&times;</span><span class="sr-only">Close</span>
-			</button>
-            <h4 class="modal-title" id="myModalLabel">Nuevo Permiso General</h4>
-          </div>
-          <div class="modal-body">
-          <div>
-           <table width="100%" cellspacing="0" cellpadding="0">
-           <tr>
-            <td width="25%">
-                Periodo Distribución:
-            </td>
-            <td width="75%">
-            <?
-                $params = array($PERI_CODI);
-                $sql="{call peri_dist_cab_view(?)}";
-                $peri_dist_cab_view = sqlsrv_query($conn, $sql, $params);
-            ?>
-			<select
-              	name="sl_peri_dist_cab"
-                id="sl_peri_dist_cab"
-                style="width:75%; margin-top:10px;"
-                onChange="CargarUnidadesGeneral(this.value, 2, 'div_unidad_gen');CargarCursosGeneral(this.value, 'div_curso_gen');CargarProfesoresGeneral(this.value, 'div_profesor_gen');">
-                	<option value="0">Elija</option>
-               <?php  while ($row_peri_dist_cab_view = sqlsrv_fetch_array($peri_dist_cab_view)) { ?>
-                	<option value="<?= $row_peri_dist_cab_view['peri_dist_cab_codi']; ?>">
-						<?= $row_peri_dist_cab_view['peri_dist_cab_deta']; ?>
-                    </option>
-                <? } ?>
-			</select>
-			</td>
-          </tr>
-           <tr>
-            <td width="25%">
-                Unidad:
-            </td>
-            <td width="75%">
-            	<div id="div_unidad_gen">
-                	<select
-                    	id="pg_peri_dist_codi"
-                        style="width:75%; margin-top:10px;"
-                        disabled="disabled">
-                    </select>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button
+                    	type="button"
+                        class="close"
+                        data-dismiss="modal">
+                        	<span aria-hidden="true">
+                            	&times;</span><span class="sr-only">Close</span>
+        			</button>
+                    <h4 class="modal-title" id="myModalLabel">Nuevo Permiso General</h4>
                 </div>
-			</td>
-          </tr>
-         <tr>
-            <td colspan="2">
-            	<hr width="100%">
-			</td>
-		</tr>
-      	<tr>
-        	<td>
-            	Periodo:
-			</td>
-        	<td>
-        	<input
-            	type="radio"
-                name="radio_op"
-                id="radio_op2"
-                value="<?= $_SESSION['peri_codi']; ?>"
-                style="margin-left: 15px; margin-right:10px; margin-top:10px;">
-					<?= $_SESSION['peri_deta']; ?>
-			</td>
-      </tr>
-      <tr>
-        <td>
-        	Curso Paralelo:
-		</td>
-        <td>
-            <div id="div_curso_gen">
-                <input
-                    type="radio"
-                    name="radio_op"
-                    id="radio_op3"
-                    value="3"
-                    style="margin-left: 15px; margin-right:10px; margin-top:10px;">
-				<select
-                	id="pg_curs_para_codi"
-                	style="width:75%; margin-top:10px;"
-                    disabled="disabled">
-                </select>
+                <form class="form-horizontal">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="sl_peri_dist_cab" class="col-md-4 control-label">Periodo Distribución: </label>
+                            <?
+                            $params = array($PERI_CODI);
+                            $sql="{call peri_dist_cab_view(?)}";
+                            $peri_dist_cab_view = sqlsrv_query($conn, $sql, $params);
+                            ?>
+                            <div class="col-md-8">
+                                <select class="form-control"
+                                    name="sl_peri_dist_cab"
+                                    id="sl_peri_dist_cab"
+                                    onChange="CargarUnidadesGeneral(this.value, 2, 'div_unidad_gen');CargarCursosGeneral(this.value, 'div_curso_gen');CargarProfesoresGeneral(this.value, 'div_profesor_gen');">
+                                        <option value="0">Elija</option>
+                                   <?php  while ($row_peri_dist_cab_view = sqlsrv_fetch_array($peri_dist_cab_view)) { ?>
+                                        <option value="<?= $row_peri_dist_cab_view['peri_dist_cab_codi']; ?>">
+                                            <?= $row_peri_dist_cab_view['peri_dist_cab_deta']; ?>
+                                        </option>
+                                    <? } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pg_peri_dist_codi" class="col-md-4 control-label">Unidad: </label>
+                            <div id="div_unidad_gen" class="col-md-8">
+                                <select
+                                    id="pg_peri_dist_codi"
+                                    class="form-control"
+                                    disabled="disabled">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="radio_op" class="col-md-4 control-label">Periodo: </label>
+                            <div class="col-md-8">
+                                <input
+                                    type="radio"
+                                    name="radio_op"
+                                    id="radio_op2"
+                                    value="<?= $_SESSION['peri_codi']; ?>"
+                                    style="margin-left: 15px; margin-right:10px; margin-top:10px;">
+                                        <?= $_SESSION['peri_deta']; ?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pg_curs_para_codi" class="col-md-4 control-label">Curso Paralelo: </label>
+                            <div id="div_curso_gen">
+                                <div class="col-md-1">
+                                    <input
+                                        type="radio"
+                                        name="radio_op"
+                                        id="radio_op3"
+                                        value="3"
+                                        style="margin-left: 15px; margin-right:10px; margin-top:10px;">
+                                </div>
+                                <div class="col-md-7">
+                                    <select
+                                        id="pg_curs_para_codi"
+                                        class="form-control"
+                                        disabled="disabled">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pg_prof_codi" class="col-md-4 control-label">Profesor: </label>
+                            <div id="div_profesor_gen">
+                                <div class="col-md-1">
+                                    <input
+                                        type="radio"
+                                        name="radio_op"
+                                        id="radio_op4"
+                                        value="4"
+                                        style="margin-left: 15px; margin-right:10px; margin-top:10px;">
+                                </div>
+                                <div class="col-md-7">
+                                    <select
+                                        id="pg_prof_codi"
+                                        class="form-control"
+                                        disabled="disabled">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pg_nota_peri_fec_ini" class="col-md-4 control-label">Desde: </label>
+                            <div id="div_profesor_gen" class="col-md-8">
+                                <input class="form-control"
+                                    id="pg_nota_peri_fec_ini"
+                                    type="text"
+                                    value="<?= date('Y-m-d');?>"
+                                    >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pg_nota_peri_fec_fin" class="col-md-4 control-label">Hasta: </label>
+                            <div id="div_profesor_gen" class="col-md-8">
+                                <input class="form-control"
+                                    id="pg_nota_peri_fec_fin"
+                                    type="text"
+                                    value="<?= date('Y-m-d');?>"
+                                    >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                         <button type="button" class="btn btn-primary"
+                            onClick="nota_perm_add(radio_opcion());"  data-dismiss="modal">
+                            Aceptar
+                        </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-default" data-dismiss="modal"  >
+                            Cerrar
+                        </button>
+                    </div>
+                </form>
             </div>
-        </td>
-      </tr>
-        <tr>
-        	<td>
-            	Profesor:
-			</td>
-        	<td height="40">
-				<div id="div_profesor_gen">
-                	<input
-                        type="radio"
-                        name="radio_op"
-                        id="radio_op4"
-                        value="4"
-                        style="margin-left: 15px; margin-right:10px; margin-top:10px;">
-                    <select
-                    	id="pg_prof_codi"
-                        style="width:75%; margin-top:10px;"
-                        disabled="disabled">
-                    </select>
-                </div>
-        	</td>
-        </tr>
-        <tr>
-            <td>
-            	Desde:
-			</td>
-            <td>
-            	<input
-                	id="pg_nota_peri_fec_ini"
-                    type="text"
-                    value="<?= date('Y-m-d');?>"
-                    style="margin-left: 40px; margin-top:10px;">
-			</td>
-      	</tr>
-        <tr>
-            <td>
-            	Hasta:
-			</td>
-            <td>
-            	<input
-                	id="pg_nota_peri_fec_fin"
-                    type="text"
-                    value="<?= date('Y-m-d');?>"
-                    style="margin-left: 40px; margin-top:10px;">
-			</td>
-      </tr>
-    </table>
-          </div>
-          <div class="form_element">&nbsp;</div>
-          </div>
-          <div class="modal-footer">
-                 <button type="button" class="btn btn-primary"
-                    onClick="nota_perm_add(radio_opcion());"  >
-                    Aceptar
-                </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" class="btn btn-default" data-dismiss="modal"  >
-                    Cerrar
-                </button>
-          </div>
         </div>
-      </div>
     </div>
 
 	<script>

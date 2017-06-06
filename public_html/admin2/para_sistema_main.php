@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=410;include("template/menu.php");?>
+			<?php $Menu=403;include("template/menu.php");?>
 			<div class="content-wrapper">
+				<?php if ($_SERVER['REQUEST_METHOD'] == 'POST') include ('para_sistema_main_submit_save.php'); ?>
 				<section class="content-header">
 					<?php
 						$params = array($_SESSION['curs_para_codi']);
@@ -13,17 +14,17 @@
 						$curs_para_info = sqlsrv_query($conn, $sql, $params);  
 						$row_curs_para_info = sqlsrv_fetch_array($curs_para_info);
 				  	?>
-					<h1>Parámetros del sistema</h1>
+					<h1><i class='fa fa-cog fa-spin'></i>&nbsp;Parámetros del sistema</h1>
 					<ol class="breadcrumb">
-						<li><a href="#"><i class="fa fa-circle-o"></i></a></li>
+						<li><a href="#"><i class="fa fa-cogs fa-spin"></i></a></li>
 						<li class="active">Parámetros del sistema</li>
 					</ol>
 				</section>
 				<section class="content" id="mainPanel">
 					<div id="information">
 						<div class="box box-default">
-							<div class="box-header with-border">
-								<h3 class="box-title"></h3>
+							<div class="box-header with-border" style='text-align:center;'>
+								<div style='font-size:small'>Los valores configurados en esta pestaña afectan todo el sistema. </div>
 							</div><!-- /.box-header -->
 							<div class="box-body">
 								<script type="text/javascript" src="js/funciones_para_sistema.js"></script> 
@@ -47,8 +48,99 @@
 		<?php include("template/scripts.php");?>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#para_sist_table').DataTable() ;
+				$('[data-toggle="popover"]').popover({html:true});
+				$('#para_sist_table').DataTable({
+					language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+				}) ;
 			} );
+			var b = false;
+			function toggle_notas_decimales( opc )
+			{
+				if ( opc === 1 )
+					$('#notas_decimales').prop('checked', true).change()
+				if ( opc === 2 )
+					$('#notas_decimales').prop('checked', false).change()
+			}
+			function toggle_modo_genera_alum_codi( opc )
+			{
+				if ( opc === 1 )
+					$('#modo_genera_alum_codi').prop('checked', true).change()
+				if ( opc === 2 )
+					$('#modo_genera_alum_codi').prop('checked', false).change()
+			}
+			function js_param_list_navbar( object )
+			{   $( '.button_param_menu' ).removeClass('btn btn-primary btn-block');
+				$( '.button_param_menu' ).addClass('btn btn-default btn-block');
+				$( '.button_param_menu' ).css('color', 'black');
+				$( object ).addClass('btn btn-primary btn-block');
+				$( object ).css('color', 'white');
+			}
+			function js_param_list_navbar_sm ( object )
+			{   $( '.button_param_menu' ).removeClass('btn btn-primary');
+				$( '.button_param_menu' ).addClass('btn btn-default');
+				$( '.button_param_menu' ).css('color', 'black');
+				$( object ).addClass('btn btn-primary');
+				$( object ).css('color', 'white');
+			}
+			function js_param_list_save ()
+			{	document.getElementById('frm_parametros_sistema').submit();
+			}
+			function dismiss_process_ans() {
+				var e = document.getElementById('save_ans');
+				if(!b) e.style.display = 'none';
+				b=false;
+			}
+			function js_general_config_bdp()
+			{   $('#modal_configBoton').modal('show');
+				document.getElementById( 'modal_configBoton_body' ).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
+				var data = new FormData();
+				data.append('event', 'config_pagoweb');
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', '../../modulos/finan/general/controller.php' , true);
+				xhr.onreadystatechange=function()
+				{   if (xhr.readyState === 4 && xhr.status === 200)
+					{   document.getElementById( 'modal_configBoton_body' ).innerHTML = xhr.responseText;
+						$('[data-toggle="popover"]').popover({html:true});
+						$("#pto_prefijo_add").numeric({ decimal : false,  negative : false, precision: 3 });
+						$("#pto_secuencia_add").numeric({ decimal : false,  negative : false, precision: 14 });
+					}
+				};
+				xhr.send(data);
+				
+			}
+			function js_general_config_bdp_change()
+			{	var data = new FormData();
+				data.append('event', 'set_pagoweb');
+				if(document.getElementById('rdb_bdp_activo_act').checked)
+				{	data.append('active_web', 'S' );
+				}
+				else if(document.getElementById('rdb_bdp_activo_ina').checked)
+				{	data.append('active_web', 'N' );
+				}
+				
+				data.append('puntVent_prefijo', document.getElementById('pto_prefijo_web').value);
+				data.append('puntVent_codigoSucursal', document.getElementById('pto_sucursal_web').value);
+				data.append('puntVent_secuencia', document.getElementById('pto_secuencia_web').value);
+				document.getElementById( 'modal_configBoton_body' ).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i><br>Procesando solicitud...</div>';
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', '../../modulos/finan/general/controller.php' , true);
+				xhr.onreadystatechange=function()
+				{   if (xhr.readyState === 4 && xhr.status === 200)
+					{   $('#modal_configBoton').modal('hide');
+						document.getElementById( 'modal_configBoton_body' ).innerHTML='';
+						//Limpia contenido del modal, en caso de que los nombres de los controles entren en conflicto con otro control cargado en la página.
+						var n = xhr.responseText.length;
+						if (n > 0)
+						{   js_funciones_valida_tipo_growl(xhr.responseText);
+						}
+						else
+						{   $.growl.warning({ title: "Educalinks informa:",message: "Proceso realizado." + xhr.responseText });
+						}
+					}
+				};
+				xhr.send(data);
+			}
 		</script>
 	</body>
 </html>

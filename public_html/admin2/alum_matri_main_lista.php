@@ -21,9 +21,51 @@ include ('../framework/funciones.php');
 	{	$curs_para_codi = $_POST["curs_para_codi"];
 	}
 	else
-	{	$curs_para_codi = "0";
+	{	$curs_para_codi = "-1";
 	}
 	
+	if (isset($_POST["grupo_economico"]))
+	{	$grupo_economico = $_POST["grupo_economico"];
+	}
+	else
+	{	$grupo_economico = "-1";
+	}
+	if (isset($_POST["nivel"]))
+	{	$nivel = $_POST["nivel"];
+	}
+	else
+	{	$nivel = "-1";
+	}
+	if (isset($_POST["alum_id"]))
+	{	$alum_id = $_POST["alum_id"];
+	}
+	else
+	{	$alum_id = "";
+	}
+	if (isset($_POST["fechanac_ini"]))
+	{	$fechanac_ini = $_POST["fechanac_ini"];
+	}
+	else
+	{	$fechanac_ini = "";
+	}
+	if (isset($_POST["fechanac_fin"]))
+	{	$fechanac_fin = $_POST["fechanac_fin"];
+	}
+	else
+	{	$fechanac_fin = "";
+	}
+	if (isset($_POST["fechamatri_ini"]))
+	{	$fechamatri_ini = $_POST["fechamatri_ini"];
+	}
+	else
+	{	$fechamatri_ini = "";
+	}
+	if (isset($_POST["fechamatri_fin"]))
+	{	$fechamatri_fin = $_POST["fechamatri_fin"];
+	}
+	else
+	{	$fechamatri_fin = "";
+	}
 	if (isset($_POST["alum_estado"]))
 	{	$alum_estado = $_POST["alum_estado"];
 	}
@@ -31,8 +73,12 @@ include ('../framework/funciones.php');
 	{	$alum_estado = "-1";
 	}
   
-	$params = array($alum_codi,$alum_apel,$curs_para_codi,$alum_estado,$_SESSION['peri_codi']);
-	$sql="{call alumnos_main_lista2(?,?,?,?,?)}";
+	$params = array(
+		$alum_codi,			$alum_apel,			$_SESSION['peri_codi'],
+		$alum_id,			$grupo_economico,	$nivel,
+		$fechanac_ini,		$fechanac_fin,		$fechamatri_ini,
+		$fechamatri_fin,	$curs_para_codi,	$alum_estado);
+	$sql="{call alumnos_main_lista2(?,?,?,?,?,?,?,?,?,?,?,?)}";
 	$alum_busq = sqlsrv_query($conn, $sql, $params);  
 	$cc = 0; 
 ?>

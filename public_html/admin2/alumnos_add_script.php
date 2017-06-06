@@ -108,7 +108,7 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 										data-toggle='modal' 
 										data-target='#ModalEstado' 
 										onclick="load_ajax('modal_estado_content','modal_estado_view.php','alum_codi=<?=$alum_view['alum_codi'];?>');" >
-										<span class='fa fa-clipboard' style='margin-right:3px;'></span>&nbsp;Matricuación/Estado</a></li>
+										<span class='fa fa-clipboard' style='margin-right:3px;'></span>&nbsp;Matriculación/Estado</a></li>
 								<li><a  
 										data-toggle='modal' 
 										data-target='#ModalDocumentos'
@@ -185,11 +185,12 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 								<ul class="nav nav-tabs">    
 									<li class="active"><a href="#tab1" data-toggle="tab" onClick=""><span class="fa fa-clipboard"></span> Datos personales</a></li>
 									<li><a href="#tab2" data-toggle="tab" onClick=""><span class="fa fa-graduation-cap"></span> Datos académicos</a></li>
-									<li><a href="#tab3" data-toggle="tab" onClick=""><span class="fa fa-money"></span> Débito Bancario</a></li>
+									
 									<li><a href="#tab4" data-toggle="tab" onClick=""><span class="fa fa-phone"></span> Emergencia</a></li>
 									<?php if ( para_sist( 408 ) == '1' )
 									{	echo '<li><a href="#tab5" data-toggle="tab" onClick=""><span class="fa fa-star-o"></span> Militar</a></li>';
 									}?>
+									<li><a href="#tab3" data-toggle="tab" onClick=""><span class="fa fa-money"></span> Débito Bancario</a></li>
 								</ul> 	
 								<div class="tab-content">
 									<div class="tab-pane active" id="tab1" name="tab1">
@@ -278,7 +279,7 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 											</div>
 											<div class="form-group col-md-6">
 												<label for="alum_pais">País de nacimiento:</label>
-												<select class='form-control input-sm' onchange="CargarProvincias('alum_prov_naci',this.value);" id="alum_pais" name="alum_pais">
+												<select class='form-control input-sm' onchange="CargarProvincias('alum_prov_naci',this.value);CargarCiudades('alum_ciud_naci',this.value);CargarParroquias('alum_parr_naci',this.value);" id="alum_pais" name="alum_pais">
 												<?php 
 												$params = array();
 												$sql="{call cata_pais_cons()}";
@@ -300,7 +301,7 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 											</div>
 											<div class="form-group col-md-6">
 												<label for="alum_prov_naci">Provincia de nacimiento:</label>
-												<select class='form-control input-sm' onchange="CargarCiudades('alum_ciud_naci',this.value);" id='alum_prov_naci' name='alum_prov_naci'>
+												<select class='form-control input-sm' onchange="CargarCiudades('alum_ciud_naci',this.value);CargarParroquias('alum_parr_naci',this.value);" id='alum_prov_naci' name='alum_prov_naci'>
 												<?php 
 
 												$params = array(null,($alum_view["alum_pais"]==''?'Ecuador':$alum_view["alum_pais"]));
@@ -392,7 +393,7 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 											</div>
 											<div class="form-group col-md-6">
 												<label for="alum_prov">Provincia domicilio<span style="color:red;">*</span>:</label>
-												<select class='form-control input-sm' onchange="CargarCiudades('alum_ciud',this.value);" id='alum_prov' name='alum_prov'>
+												<select class='form-control input-sm' onchange="CargarCiudades('alum_ciud',this.value);CargarParroquias('alum_parroquia',this.value);" id='alum_prov' name='alum_prov'>
 												<?php 
 
 												$params = array('ECU',null);
@@ -647,8 +648,8 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 											<div class="form-group col-md-6">
 												<label for="alum_condicionado">&nbsp;<br/>
 												<input id="alum_condicionado" name="alum_condicionado" type="checkbox" <?= ($alum_view['alum_condicionado']==1 ? 'checked':'');?> />
-													<label for="alum_condicionado">Condicionado:</label>
-													<br/><br/>
+													<label for="alum_condicionado">Condicionado</label>
+													<br/>
 												</label>
 											</div>
 											<div class="form-group col-md-6">
@@ -674,194 +675,64 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 										</div>
 									</div>
 									<div class="tab-pane" id="tab3" name="tab3">
-										<div id="opcion82"  <?php if (permiso_activo(82)) echo 'style="display:block;"'; else  echo 'style="display:none;"';?>  >
-											<div class="row">
-												<div class="form-group col-md-6">
-													<label for="alum_form_pago">Forma de Pago:</label>
-													<?php 
-														include ('../framework/dbconf.php');		
-														$params = array(21);
-														$sql="{call cata_hijo_view(?)}";
-														$stmt = sqlsrv_query($conn, $sql, $params);
-												
-														if( $stmt === false )
-														{
-															echo "Error in executing statement .\n";
-															die( print_r( sqlsrv_errors(), true));
+										<div class="row" id="opcion101"  <?php if (permiso_activo(101)) echo 'style="display:block; padding-bottom: 0;"'; else  echo 'style="display:none;"';?>  >	
+											<div class="form-group col-md-6">
+												<label for="alum_ingreso_familiar">Ingreso económico familiar:</label>
+												<input class="form-control" id="alum_ingreso_familiar" name="alum_ingreso_familiar" type="text" class="form-control input-sm" placeholder="0.00"
+													value="<?=( $alum_view['alum_ingreso_familiar'] == NULL ? '0.00' : (string)$alum_view['alum_ingreso_familiar'] );?>">
+											</div>
+											<div class="form-group col-md-6">
+												<label for="alum_grup_econ">Grupo económico<span style="color:red;">*</span>:</label>
+												<?php 
+													include ('../framework/dbconf.php');        
+													$params = array();
+													$sql="{call grup_econ_view()}";
+													$stmt = sqlsrv_query($conn, $sql, $params);
+											
+													if( $stmt === false )
+													{
+														echo "Error in executing statement .\n";
+														die( print_r( sqlsrv_errors(), true));
+													} 
+																	
+													echo '<select class="form-control input-sm" id="sl_alum_grup_econ" name="sl_alum_grup_econ" 
+														'.(para_sist(511) == 'S' ? 'title="La selección de grupo económico está bloqueada porque han activado la opción de '.
+															'\'Asignar el grupo económico automáticamente, dependiendo del ingreso familiar\'. Esta opción se asignará automáticamente después de guardar, dependiendo del ingreso familiar registrado en esta ventana, en la sección de Datos personales." disabled="disabled" style="background-color:#d1d1d1;"' : '').' >';
+													while($grup_econ_view= sqlsrv_fetch_array($stmt))
+													{
+														if($grup_econ_view["codigo"]==$alum_view['grupEcon_codigo']){
+															$select='selected="selected"';
+														}else{
+															$select="";
 														}
-														echo '<select class="form-control input-sm" id="sl_form_pago" name="sl_form_pago" onchange="CargarBancosTarjetas(this.value);" >';
-														echo '<option value="">SELECCIONE</option>';
-														
-														while($form_pago_view= sqlsrv_fetch_array($stmt))
-														{
-															$seleccionado="";
-															if ($form_pago_view["codigo"]==$alum_view["alum_resp_form_pago"])
-																$seleccionado="selected";
-															echo '<option value="'.$form_pago_view["codigo"].'" '.$seleccionado.'>'.$form_pago_view["descripcion"].'</option>';
-														}
-														echo '</select>';
-													?> 
-												</div>
-												<div class="form-group col-md-6">
-													<label for="lbl_banco_tarjeta" id="lbl_banco_tarjeta">Banco/Tarjeta:</label>
-														<?php 
-														include ('../framework/dbconf.php');        
-														$params = array($alum_view['alum_resp_form_pago']);
-														$sql="{call cata_hijo_view(?)}";
-														$stmt = sqlsrv_query($conn, $sql, $params);
-												
-														if( $stmt === false )
-														{
-															echo "Error in executing statement .\n";
-															die( print_r( sqlsrv_errors(), true));
-														}
-														$seleccionado="";
-														$deshabilitado="";
-														if (!isset($alum_view['alum_resp_form_banc_tarj']))
-															$deshabilitado="disabled";
-														echo '<select class="form-control input-sm" id="sl_banco_tarjeta" name="sl_banco_tarjeta" '.$deshabilitado.'>';
-														echo '<option value="">SELECCIONE</option>';
-														while($banc_tarj_view= sqlsrv_fetch_array($stmt))
-														{
-															if($banc_tarj_view["codigo"]==$alum_view['alum_resp_form_banc_tarj'])
-															{
-																$seleccionado="selected";
-															}
-															else
-															{
-																$seleccionado="";
-															}
-															echo '<option '.$seleccionado.' value="'.$banc_tarj_view['codigo'].'">'.$banc_tarj_view["descripcion"].'</option>';
-														}
-														echo '</select>';
-													?> 
-													
-												</div>
-												<div class="form-group col-md-6">
-													<label for="alum_banc_emisor">Banco emisor: (en caso de tarj. de crédito)</label>
-													<?php 
-														include ('../framework/dbconf.php');        
-														$params = array(22);
-														$sql="{call cata_hijo_view(?)}";
-														$stmt = sqlsrv_query($conn, $sql, $params);
-														if( $stmt === false )
-														{	echo "Error in executing statement .\n";
-															die( print_r( sqlsrv_errors(), true));
-														}
-														$seleccionado="";
-														echo '<select class="form-control input-sm" id="sl_banco_emisor" name="sl_banco_emisor">';
-														echo '<option value="">SELECCIONE</option>';
-														while($row= sqlsrv_fetch_array($stmt))
-														{	if($row["codigo"]==$alum_view['alum_resp_tarj_banco_emisor'])
-															{	$seleccionado="selected";
-															}
-															else
-															{	$seleccionado="";
-															}
-															echo '<option '.$seleccionado.' value="'.$row['codigo'].'">'.$row["descripcion"].'</option>';
-														}
-														echo '</select>';
-													?> 
-												</div>
-												<div class="form-group col-md-6">
-													<label for="alum_resp_form_fech_vcto">Fecha de Vencimiento de Tarjeta:</label>
-													<input id="alum_resp_form_fech_vcto" name="alum_resp_form_fech_vcto" type="text" class="form-control input-sm" placeholder="Ingrese la fecha de vencimiento de la tarjeta..." value="<?=date_format($alum_view['alum_resp_form_fech_vcto'],"d/m/Y");?>">
-												</div>
-												<?php if( permiso_activo( 534 ) and $alum_codi!=''){?>
-												<div class="form-group col-md-6">
-													<label><br/>
-													<input id="chk_visualizar" name="check" type="checkbox" data-alumcodi="<?=$alum_codi?>" />
-													<label for="check">Check para ver número de cuenta/tarjeta sin máscara</label><br/>
-													</label>
-												</div>
-												<?}?>
-												<div class="form-group col-md-6">
-													<label for="alum_resp_form_banc_tarj_nume">Número Cuenta o Tarjeta<?=(para_sist(404)=='1'?'<span style="color:red;">*</span>':'')?>:</label>
-													<input id="alum_resp_form_banc_tarj_nume" class="form-control input-sm <?=(para_sist(404)=='1'?'required':'')?>" name="alum_resp_form_banc_tarj_nume" type="text" placeholder="Ingrese numero de Cuenta o Tarjeta..." value="<?=$alum_resp_form_banc_tarj_nume;?>">
-												</div>
-												
-												<div class="form-group col-md-6">
-													<label for="lbl_tipo">Tipo de Cuenta:<br/><br/>
-														<label>
-														<input id="cta_corriente" type="radio" name="tipo_cuenta" value="CORRIENTE" <?=($alum_view['alum_resp_form_banc_tipo']=="C"?"checked":"")?> />CUENTA CORRIENTE
-														</label>
-														<label>
-														<input id="cta_ahorro" type="radio" name="tipo_cuenta" value="AHORROS" <?=($alum_view['alum_resp_form_banc_tipo']=="A"?"checked":"")?> />CUENTA DE AHORROS
-														</label>
-													</label>
-												</div>
-												<div class="form-group col-md-6">
-													<label for="alum_resp_form_cedu">Número de Idetificación del Propietario de la  Cuenta:</label>
-													<input id="alum_resp_form_cedu" name="alum_resp_form_cedu" type="text" class="form-control input-sm" placeholder="Ingrese cédula..." value="<?=$alum_view['alum_resp_form_cedu'];?>">
-												</div>
-												<div class="form-group col-md-6">
-													<label for="alum_resp_form_tipo_iden">Tipo de Identificación del Propietario de la Cuenta:</label>
-													<?php 
-														include ('../framework/dbconf.php');        
-														$sql="select tipo_iden_codi, tipo_iden_deta from Tipo_Identificacion where tipo_iden_estado='A' and tipo_iden_show_acad ='Y'";
-														$stmt = sqlsrv_query($conn, $sql);
-												
-														if( $stmt === false )
-														{
-															echo "Error in executing statement .\n";
-															die( print_r( sqlsrv_errors(), true));
-														}
-														echo "<select class='form-control input-sm' id='alum_resp_form_tipo_iden' name='alum_resp_form_tipo_iden' >";
-														while($tipo_iden_result= sqlsrv_fetch_array($stmt))
-														{
-															$seleccionado="";
-															if ($tipo_iden_result["tipo_iden_codi"]==$alum_view['alum_resp_form_tipo_iden'])
-																		$seleccionado="selected";
-															echo '<option value="'.$tipo_iden_result["tipo_iden_codi"].'" '.$seleccionado.'>'.$tipo_iden_result["tipo_iden_deta"].'</option>';
-														}
-														echo '</select>';
-													?> 
-												</div>
-												<div class="form-group col-md-6">
-													<label for="alum_resp_form_nomb">Nombres del Propietario de la  Cuenta:</label>
-													<input id="alum_resp_form_nomb" name="alum_resp_form_nomb" type="text" class="form-control input-sm" placeholder="Ingrese nombres y apellidos ..." value="<?=$alum_view['alum_resp_form_nomb'];?>">
-												</div>
-												<br/>
+														echo '<option value="'.$grup_econ_view["codigo"].'"'.$select.">".$grup_econ_view["descripcion"].'</option>';
+													}
+													echo '</select>';
+												?> 
 											</div>
 										</div>
-											<div class="row" id="opcion101"  <?php if (permiso_activo(101)) echo 'style="display:block; padding-bottom: 0;"'; else  echo 'style="display:none;"';?>  >
-												
-												<div class="form-group col-md-6">
-													<label for="alum_ingreso_familiar">Ingreso económico familiar:</label>
-													<input class="form-control" id="alum_ingreso_familiar" name="alum_ingreso_familiar" type="text" class="form-control input-sm" placeholder="0.00"
-														value="<?=( $alum_view['alum_ingreso_familiar'] == NULL ? '0.00' : (string)$alum_view['alum_ingreso_familiar'] );?>">
-												</div>
-												<div class="form-group col-md-6">
-													<label for="alum_grup_econ">Grupo económico<span style="color:red;">*</span>:</label>
-													<?php 
-														include ('../framework/dbconf.php');        
-														$params = array();
-														$sql="{call grup_econ_view()}";
-														$stmt = sqlsrv_query($conn, $sql, $params);
-												
-														if( $stmt === false )
-														{
-															echo "Error in executing statement .\n";
-															die( print_r( sqlsrv_errors(), true));
-														} 
-																		
-														echo '<select class="form-control input-sm" id="sl_alum_grup_econ" name="sl_alum_grup_econ" 
-															'.(para_sist(511) == 'S' ? 'title="La selección de grupo económico está bloqueada porque han activado la opción de '.
-																'\'Asignar el grupo económico automáticamente, dependiendo del ingreso familiar\'. Esta opción se asignará automáticamente después de guardar, dependiendo del ingreso familiar registrado en esta ventana, en la sección de Datos personales." disabled="disabled" style="background-color:#d1d1d1;"' : '').' >';
-														while($grup_econ_view= sqlsrv_fetch_array($stmt))
-														{
-															if($grup_econ_view["codigo"]==$alum_view['grupEcon_codigo']){
-																$select='selected="selected"';
-															}else{
-																$select="";
-															}
-															echo '<option value="'.$grup_econ_view["codigo"].'"'.$select.">".$grup_econ_view["descripcion"].'</option>';
-														}
-														echo '</select>';
-													?> 
-												</div>
-												
+
+										<div class="row">
+											<div class="col-md-12">
+												<h6 class="page-header">Métodos de Pago
+													<?php if ($alum_codi<>0){?>
+													<div class="pull-right">
+														<a class="btn btn-success" data-toggle="modal" onmouseover="$(this).tooltip('show')" title="Añadir Método de Pago" data-target="#modal_metodo_pago" onclick="load_modal_cuentas('modal_body_metodo_pago','alumnos_add_cuentas_modal.php','alum_cuen_codi=0&alum_codi=<?=$alum_codi?>');"><span class="fa fa-plus"></span> Añadir</a>
+													</div>
+													<?}?>
+												</h6>
 											</div>
+										</div>
+										<?php if ($alum_codi<>0){?>
+											<div id="opcion82" class="row"  <?php if (permiso_activo(82)) echo 'style="display:block;"'; else  echo 'style="display:none;"';?>  >
+												<?php include('alumnos_add_cuentas.php');?>
+											</div>
+										<?}else{?>
+											<div class="alert alert-info">
+								                <h4><i class="icon fa fa-info"></i> Aviso</h4>
+								                <div class="lead">Para acceder a la agregación de métodos de pago es necesario <b>inscribir</b> al estudiante.</div>
+							              	</div>
+										<?}?>
 									</div>
 									<div class="tab-pane" id="tab4" name="tab4">
 										<div class="row">
@@ -908,7 +779,7 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 												<label >&nbsp;<br/>
 												<input id="alum_hijo_ex_cadete" name="alum_hijo_ex_cadete" type="checkbox"
 													<?= ($alum_view['alum_hijo_ex_cadete']==1 ? 'checked':'');?> />
-												<label for="alum_hijo_ex_cadete">Es hijo de ex-cadete:</label>
+												<label for="alum_hijo_ex_cadete"> Es hijo de ex-cadete</label>
 												<br/><br/>
 												</label>
 											</div>
@@ -916,7 +787,7 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 												<label >&nbsp;<br/>
 												<input id="alum_hno_ex_cadete" name="alum_hno_ex_cadete" type="checkbox"
 													<?= ($alum_view['alum_hno_ex_cadete']==1 ? 'checked':'');?> />
-												<label for="alum_hno_ex_cadete">Es hermano de ex-cadete:</label>
+												<label for="alum_hno_ex_cadete"> Es hermano de ex-cadete</label>
 												<br/><br/>
 												</label>
 											</div>
@@ -934,47 +805,6 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 			</div>
 		</form>
 	</div>
-
-<script>
-	$( document ).ready(function() {
-		if(document.getElementById('hd_edit_finan').value == 'no' )
-		{	
-			$("#tab3 :input").attr("disabled", true);
-		}
-		if(document.getElementById('hd_edit_acad').value == 'no' )
-		{
-			$("#tab1 :input").attr("disabled", true);
-			$("#tab2 :input").attr("disabled", true);
-			$("#tab4 :input").attr("disabled", true);
-			if( $("#tab5") )
-				$("#tab5 :input").attr("disabled", true);
-		}
-	});
-	function CargarBancosTarjetas (codigo)
-	{	var xmlhttp;
-		if (window.XMLHttpRequest)
-		{	xmlhttp = new XMLHttpRequest ();
-		}
-		else
-		{	xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
-		}
-		xmlhttp.onreadystatechange = function ()
-		{	if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{	
-				if(xmlhttp.responseText==''){
-					$('#sl_banco_tarjeta').attr('disabled','disabled');
-					document.getElementById('sl_banco_tarjeta').innerHTML='<option value="0">SELECCIONE</option>';
-				}
-				else{
-					$('#sl_banco_tarjeta').attr('disabled',false);
-					document.getElementById('sl_banco_tarjeta').innerHTML=xmlhttp.responseText;
-				}
-			}
-		}
-		xmlhttp.open("GET", "select_banco_tarjeta.php?idpadre="+codigo, true);
-		xmlhttp.send();
-	}
-</script>
 
 <!-- Modal Revertir deuda y borrar pago-->
 <div class="modal fade" id="modal_alum_main_ask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -1185,6 +1015,14 @@ $alum_curs_para_codi = ($alum_esta_info['alum_curs_para_codi']==null) ? 0 : $alu
 		aria-hidden="true">
 	<div class="modal-dialog">
 		<div id="modal_main_blacklist" class="modal-content">
+			
+		</div>
+	</div>
+</div>
+<!-- Modal metodo pago-->
+<div class="modal fade" id="modal_metodo_pago" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content" id="modal_body_metodo_pago">
 			
 		</div>
 	</div>

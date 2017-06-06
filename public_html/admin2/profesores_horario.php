@@ -25,10 +25,10 @@
     </style>
 	<link href="../theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="../theme/BootstrapFormHelpers/dist/css/bootstrap-formhelpers.min.css" media="screen" rel="stylesheet">
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=207;include("template/menu.php");?>
+			<?php $Menu=901;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<?php 

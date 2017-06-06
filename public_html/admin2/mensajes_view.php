@@ -19,6 +19,8 @@
 	$cc_page	= 0;  	/* Contador division */
 	$cc			= 0;  	/* Contador General */
 	$page_div 	= 10;	/* Numero por pagina */
+	
+	$leido 		= 0;	/* Numero de mensajes no leidos en inbox */
   
 	$html_bandeja='
 <div class="row">
@@ -67,6 +69,10 @@
 			$c=0;
 			while ($row_mens_view_op = sqlsrv_fetch_array($mens_view_op)) 
 			{	$cc +=1;
+				
+				if ( $row_mens_view_op["mens_fech_lect"] == NULL )
+					$leido++;
+				
 				$html_bandeja.='
 				<tr id="tr_row_'.$row_mens_view_op["mens_codi"].'" name="tr_row_'.$row_mens_view_op["mens_codi"].'" style="font-size: small; vertical-align: middle; ">
 					<td id="td_select_'.$c.'" name="td_select_'.$c.'" align="center"><div style="font-size:x-small;">'.
@@ -176,9 +182,9 @@ else
 									</div>
 									<div class="box-body no-padding">
 										<ul class="nav nav-pills nav-stacked">
-											<li <?php echo $in_active; ?>><a href="#" onclick="load_ajax_mensajes('mens_main_view','mensajes_view.php','OP=2',4);"><i class="fa fa-inbox"></i> Inbox <span class="label label-primary pull-right"><?php echo $recibidos; /*variable traida de mensajes_view.php*/?></span></a></li>
-											<li <?php echo $sent_active; ?>><a href="#" onclick="load_ajax_mensajes('mens_main_view','mensajes_view.php','OP=3',5);"><i class="fa fa-envelope-o"></i> Enviados <span class="label label-primary pull-right"><?php echo $enviados;?></a></li>
-											<li <?php echo $trash_active; ?>><a href="#" onclick="load_ajax_mensajes('mens_main_view','mensajes_view.php','OP=4',5);"><i class="fa fa-trash-o"></i> Eliminados <span class="label label-primary pull-right"><?php echo $eliminados;?></a></li>
+											<li <?php echo $in_active; ?>><a href="#" onclick="load_ajax_mensajes('mens_main_view','mensajes_view.php','OP=2',4);"><i class="fa fa-inbox"></i> Bandeja de Entrada <?php if( $op == 2 ) echo  ( $leido == 0 ? '' : '<span class="label label-primary pull-right">'.$leido).'</span>'; ?></a></li>
+											<li <?php echo $sent_active; ?>><a href="#" onclick="load_ajax_mensajes('mens_main_view','mensajes_view.php','OP=3',5);"><i class="fa fa-envelope-o"></i> Enviados <span class="label label-primary pull-right"><?php //echo $enviados;?></a></li>
+											<li <?php echo $trash_active; ?>><a href="#" onclick="load_ajax_mensajes('mens_main_view','mensajes_view.php','OP=4',5);"><i class="fa fa-trash-o"></i> Eliminados <span class="label label-primary pull-right"><?php //echo $eliminados;?></a></li>
 										</ul>
 										<input type='hidden' id='hd_op' name='hd_op' value='<?php echo $op; ?>'></input>
 									</div><!-- /.box-body -->

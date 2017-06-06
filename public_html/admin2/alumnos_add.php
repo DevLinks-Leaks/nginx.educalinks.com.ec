@@ -2,7 +2,7 @@
 <html lang="es">
     <?php include("template/head.php");?>
 	</head> 
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<?php  
 			 $titulo_pagina = "";
 			if(isset($_POST['alum_codi']))
@@ -10,7 +10,7 @@
 			else if(isset($_GET['alum_codi']))
 				$titulo_pagina = "Edición de Alumno ";
 			else
-				$titulo_pagina = "Inscripcion";
+				$titulo_pagina = "Inscripción";
 		?>
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
@@ -70,14 +70,42 @@
 		    checkboxClass: 'icheckbox_flat-blue',
 		    radioClass: 'iradio_flat-blue'
 		  });
-		  $(document).ready(function() {
-                $('#repr_table').datatable({
-                    pageSize: 20,
-                    sort: [false, false,false],
-                    filters: [true,'select',false],
-                    filterText: 'Escriba para buscar... '
-                }) ;
-        	} );
+	   	//   $('#alum_resp_form_banc_tarj_nume').inputmask({"mask":["9","X"], repeat: 20 "greedy":false, definitions: {
+			  //   "X": {
+			  //     validator: "[xX]",
+			  //     cardinality: 1,
+			  //     casing:W "upper"
+			  //   }
+			  // }});
+			$.extend(
+			    $.fn.dataTable.RowReorder.defaults,
+			    { selector: '.roworder' }
+			);  
+		    $('#tbl_metodo_pago').DataTable({
+		        language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+			 	"bSort": false ,
+			 	rowReorder: true,
+			 	"info": false,
+               	// "ordering": false,
+               	"searching":false,
+               	"lengthChange":false,
+               	"paging":false
+		    });
+			$( document ).ready(function() {
+				if(document.getElementById('hd_edit_finan').value == 'no' )
+				{	
+					$("#tab3 :input").attr("disabled", true);
+				}
+				if(document.getElementById('hd_edit_acad').value == 'no' )
+				{
+					$("#tab1 :input").attr("disabled", true);
+					$("#tab2 :input").attr("disabled", true);
+					$("#tab4 :input").attr("disabled", true);
+					if( $("#tab5") )
+						$("#tab5 :input").attr("disabled", true);
+				}
+			});
+			
 		</script>
 	</body>
 </html>

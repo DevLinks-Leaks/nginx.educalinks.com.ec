@@ -41,7 +41,7 @@
 
     if (sqlsrv_has_rows($stmt))
     {
-      echo "<select  class=\"form-control\" id='sl_periodo_dist' style='width: 200px' onchange=\"var sl_periodo_dist = document.getElementById('sl_periodo_dist'); 
+      echo "<select  class=\"form-control\" id='sl_periodo_dist' onchange=\"var sl_periodo_dist = document.getElementById('sl_periodo_dist'); 
 						       var sl_periodo_distText = sl_periodo_dist.options[sl_periodo_dist.selectedIndex].innerHTML;
 							   ValidarOpciones(sl_periodo_distText);\">";
       while ($row = sqlsrv_fetch_array($stmt))
@@ -51,7 +51,7 @@
     }
     else
     {
-      echo "<select  class=\"form-control\" id='sl_periodo_dist' style='width: 200px' disabled='disabled'
+      echo "<select  class=\"form-control\" id='sl_periodo_dist' disabled='disabled'
 				onchange=\"var sl_periodo_dist = document.getElementById('sl_periodo_dist'); 
 						  var sl_periodo_distText = sl_periodo_dist.options[sl_periodo_dist.selectedIndex].innerHTML;
 					ValidarOpciones(sl_periodo_distText);\">";

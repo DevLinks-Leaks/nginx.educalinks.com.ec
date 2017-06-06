@@ -11,12 +11,14 @@
 ?>
 <table width='100%'>
 	<tr>
-		<td width='120px' height='40px' valign='bottom' colspan='2'><b>Estados de estudiante matriculado</b></td>
+		<td width='120px' height='40px' valign='top' colspan='2'><b>Estados de estudiante matriculado</b>
+		<div style='font-size:1px'><hr style='height:1px; margin-top: 0.5em;' />
+			</div>
+			</td>
 	</tr>
 	<tr>
 		<td width='90%' height='1px' >
-			<div style='font-size:1px'><hr style='height:1px; margin-top: 0.5em;' />
-			</div>
+			
 		</td>
 	</tr>
 	<tr>

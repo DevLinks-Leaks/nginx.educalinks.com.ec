@@ -73,7 +73,7 @@ class MYPDF extends TCPDF
 		$this->MultiCell(0, 0, 'REPORTE DE INFORMACIÓN DEL DESARROLLO INTEGRAL DEL NIÑO(A)', 0, 'L', 0, 1, 5, 17, true);
 		$this->MultiCell(0, 0, mb_strtoupper($this->curso,'utf8'), 0, 'L', 0, 1, 5, 27, true);
 		$this->SetFont('helvetica', '', 8);
-		$this->MultiCell(70, 5, 'Código: R8E-03 / Versión: 3 / Nov. 2015', 0, 'L', 0, 1, 145, 5, true);
+		// $this->MultiCell(70, 5, 'Código: R8E-03 / Versión: 3 / Nov. 2015', 0, 'L', 0, 1, 145, 5, true);
 		$this->MultiCell(0, 0, mb_strtoupper(substr($this->apellido.' '.$this->nombre,0,35),'utf8'), 0, 'L', 0, 1, 145, 17, true);
 		$this->MultiCell(0, 0, 'CÓDIGO: '.$this->codigo, 0, 'L', 0, 1, 145, 22, true);
 	}

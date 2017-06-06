@@ -13,10 +13,10 @@
 	$etiqueta_rector=para_sist(33);
 	$etiqueta_secretario=para_sist(34);
 	$ciudad = para_sist (31);
-	$nombre_colegio = para_sist(3);
-	$antes_del_nombre = para_sist(36);
+	$nombre_colegio = mb_strtoupper(para_sist(3),'UTF-8');
+	$antes_del_nombre = mb_strtoupper(para_sist(36),'UTF-8');
 	$nombre_financiero = para_sist(37);
-	$nombre_legal = para_sist(53);
+	$nombre_legal = mb_strtoupper(para_sist(53),'UTF-8');
 	
 	$sql="{call alum_info_contrato(?)}";
 	$params = array($_GET['alum_curs_para_codi']);
@@ -43,6 +43,10 @@
 	{
 		public function Header() 
 		{
+			$logo_minis = '../'.$_SESSION['ruta_foto_logo_minis'];
+			$this->Image($logo_minis, 12, 5, 21, 15, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+			$logo_minis = '../'.$_SESSION['ruta_foto_logo_index'];
+			$this->Image($logo_minis, 145, 5, 50, 15, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 		}
 
 		public function Footer() 
@@ -58,9 +62,10 @@
 	$pdf->SetAuthor($_SESSION['cliente']);
 	$pdf->SetTitle($_SESSION['cliente']);
 	$pdf->SetSubject($_SESSION['cliente']);
-	$pdf->SetMargins(PDF_MARGIN_LEFT, 10, PDF_MARGIN_RIGHT);
+	$pdf->SetMargins(PDF_MARGIN_LEFT, 20, PDF_MARGIN_RIGHT);
 	$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 	$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);	 
+	$pdf->setListIndentWidth(4);
 
 	while ($alumno=sqlsrv_fetch_array($stmt))
 	{	
@@ -78,7 +83,7 @@
 		$pdf->AddPage();
 		date_default_timezone_set('America/Guayaquil');
 		setlocale(LC_TIME, 'spanish');
-		$fecha_hoy=strftime("$ciudad, el día %d de %B del año %Y");
+		$fecha_hoy=strftime("%d de %B del %Y");
 		$fecha_hoy2=strftime("$ciudad, %d de %B de %Y");
 		
 		/*Valores en letras*/
@@ -113,7 +118,7 @@
 	}
 	.letras_pequenas
 	{
-		font-size: 10px;
+		font-size: 12px;
 		text-align: justify;
 	}
 	.subrayado
@@ -123,113 +128,135 @@
 		text-decoration: underline;
 	}
 	</style>
-	
+	<br/>
 	<div class="contenedor">
 	<table width="755">
 		<tr>
-			<td width="20%"><img width="50px" height="50px" src="../{$_SESSION['ruta_foto_logo_web']}" /></td>
-			<td class="centrar"><h1>CONTRATO DE PRESTACIONES DE SERVICIOS</h1></td>
+			<td width="" class="centrar"><h2>{$antes_del_nombre} {$nombre_colegio}</h2></td>
+		</tr>
+		<tr>
+			<td class="centrar"><h1><u>CONTRATO DE PRESTACIONES DE SERVICIOS EDUCATIVOS</u></h1></td>
 		</tr>
 	</table>
 	<p class="letras_pequenas">
-	Conste por el presente documento, el Contrato de Prestaciones de Servicios el mismo que se celebra al tenor de las siguientes cláusulas:
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA PRIMERA: INTERVINIENTES:</strong> 
-	Participan en forma libre y voluntaria en la celebración del presente contrato, por una parte el (la) señor (a) {$representante["nombres"]} {$representante["apellidos"]} quien, en lo posterior podrá denominarse como "el (la) representante", quien comparece a nombre y en representación del (la) menor {$alumno["nombres"]} {$alumno["apellidos"]}  quien en lo posterior podrá denominarse como "el (la) estudiante"; y por la otra parte, el/la  {$nombre_financiero} por los derechos que representa  de {$antes_del_nombre} {$nombre_legal} propietaria de la {$antes_del_nombre} {$nombre_colegio} en su calidad de Gerente  y a quien en lo posterior podrá denominarse como "UNIDAD EDUCATIVA " o "la Institución".
-	</p>
-	
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA SEGUNDA: ANTECEDENTES: UNO:</strong> 
-	El (la) representante, conocedor de la misión, visión, filosofía, principios, Proyecto Educativo  Institucional - PEI, Código de Convivencia y demás reglamentación y normatividad interna de la {$antes_del_nombre} {$nombre_colegio} y luego de una serie de análisis y comparación de su oferta educativa con la de otras instituciones, ha solicitado matrícula en la Institución para su representado el (la) estudiante (referidos en la cláusula anterior), para el {$alumno["detalle"]} correspondientes, documentos y declaraciones que forman parte integrante del presente contrato de prestaciones de servicios educacionales.
+	Comparecen a la celebración del presente contrato, los siguientes intervinientes: <b>1) {$nombre_legal},</b> debidamente representada por su Presidente y representante legal, <b>{$nombre_financiero}; 2) UNIDAD EDUCATIVA AMERICANO DE GUAYAQUIL,</b> debidamente representada por su Rectora, <b> Mgs. Amelina Montenegro de Gallardo,</b> parte a quienes en lo sucesivo se podrá denominar conjuntamente como el <b>“COLEGIO” ;</b> y <b>3)</b> El / la señor(a) {$representante["nombres"]} {$representante["apellidos"]} portador(a) de la <b>cédula de ciudadanía/cédula de identidad/pasaporte</b> No {$representante["cedula"]} representante del/la estudiante, {$alumno["nombres"]} {$alumno["apellidos"]}, quien cursará el {$alumno["curs_deta"]} para el periodo lectivo 2017-2018 , parte a quien en lo posterior se podrá denominar simplemente como el/la <b>"REPRESENTANTE",</b>", acuerdan  celebrar el presente Contrato de Prestación de Servicios Educativos, que se sujetará a las siguientes cláusulas:
 	<br/>
-	<b>DOS:</b>
-	{$antes_del_nombre} {$nombre_colegio}, es una Unidad Educativa auto financiada, de carácter particular, legalmente reconocida y autorizada por las autoridades de educación, sin fines de lucro que pertenece a la compañía {$antes_del_nombre} {$nombre_legal}, que brinda servicios educativos en la forma y modo señalado en la Constitución y Leyes de la República del Ecuador, recibiendo como contraprestación del servicio educativo el monto económico fijado en legal forma por concepto de pensiones y matrícula y es su única fuente de ingreso para brindar educación de calidad.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA TERCERA: OBJETO DEL CONTRATO:</strong>
-	Luego del análisis de la solicitud de matrícula y la documentación presentada, así como de los datos consignados en ella y de las pruebas y valoraciones efectuadas, LA {$antes_del_nombre} {$nombre_colegio} acepta otorgar la matricula solicitada para el (la) estudiante, para brindarle el servicio educativo comprobado, conforme a su oferta constante en el Proyecto Educativo Institucional - PEI y con sujeción al Código de Convivencia y demás normatividad interna institucional.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA CUARTA: CONTRAPRESTACIÓN DEL SERVICIO EDUCATIVO:</strong> 
-	Se entiende como servicio educativo, la oferta que efectúa la {$antes_del_nombre} {$nombre_colegio}, de propiedad de la compañía {$antes_del_nombre} {$nombre_legal} en la formación y educación, bajo el sistema escolarizado de los niños y jóvenes de conformidad a su PEI, y comprende las actividades y servicios de clases en todo su sistema de educación, controles y seguridad interna, materiales de uso común como laboratorios de computación, (de) química, y biología, implementos deportivos, canchas, biblioteca, tutorías, asesoría estudiantil, servicio pedagógico, psicopedagógico, médico y toda actividad propia del sistema educativo programado en el PEI. Como contraprestación del servicio educativo que brinda {$antes_del_nombre} {$nombre_colegio},  de propiedad de la compañía {$antes_del_nombre} {$nombre_legal} al (la) estudiante, el (la) representante se obliga a pagar los valores fijados por concepto de matrícula y pensiones, para cada año lectivo.
+	<u><strong>CLÁUSULA PRIMERA.- ANTECEDENTES:</strong></u>
+	La <b>{$nombre_legal}</b> es promotora de la <b>UNIDAD EDUCATIVA AMERICANO DE GUAYAQUIL,</b> conocida como <b>"Colegio Americano de Guayaquil"</b>,  una institución educativa particular, debidamente autorizada para prestar el servicio de educación, la misma que cuenta con una larga trayectoria institucional durante más de 70 años, brindando a la comunidad una educación bilingüe, de excelencia académica con proyección internacional.  Además, del Programa de Bachillerato Internacional debidamente avalado por los respectivos organismos e instituciones educativas nacionales y/o extranjeras.
 	<br/>
-	<b>LA MATRÍCULA:</b> Se pagará una sola vez al año en el periodo señalado para el efecto.
+	El <b>COLEGIO</b> cuenta con amplias y cómodas instalaciones que cumplen con todos los estándares exigidos por la Ley y están ubicadas en un terreno de más de 12.000 mts2, en la Av. Juan Tanca Marengo, km. 61/2 y Av. Gómez Gault, en la ciudad de Guayaquil.
 	<br/>
-	<b>VALOR DE LA PENSIÓN:</b> Se fijará un valor de pago prorrateado en 10 mensualidades, que corresponde a la contraprestación del servicio educativo que se otorga al (la) estudiante y en el que se incluye todos los servicios de educación (educativos): pensión que no excederá el monto autorizado por la Autoridad Educativa Nacional para el rango que le corresponde a la {$antes_del_nombre} {$nombre_colegio}, de propiedad de la compañía {$antes_del_nombre} {$nombre_legal}.<br/>   
-	Para el {$_SESSION['peri_deta']}, la pensión fijada para cada uno de los diez periodos mensuales, será de $ {$row_valores["precio_pension"]}, pagaderos dentro de los 10 primeros días hábiles de cada período mensual.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA SÉPTIMA: FORMA DE PAGO,  PLAZOS, COMPROMISOS Y OBLIGACIONES:</strong> 
-	Entendiéndose que el pago de la matrícula y pensiones como contraprestación del servicio educativo, sirve para poder cubrir los costos del proceso de enseñanza aprendizaje, que genera los gastos comunes como: remuneraciones a profesores, energía eléctrica, internet, agua potable, materiales e insumos, pagos de seguros, proveedores, y costo de dividendo de préstamos, las partes establecen, (y) se comprometen y obligan al siguiente proceso y plazos:
+	Vale mencionar que la Promotora, la <b>{$nombre_legal},</b> es una persona jurídica de derecho privado, sin fines de lucro, que tiene entre sus principales objetivos la creación de unidades educativas que fomenten la educación y la cultura.
+	<br/>
+	Dentro de su estructura organizacional se encuentra la figura del Director Académico, quien en representación de la Promotora, supervigila el correcto funcionamiento de la unidad educativa.
+	<br/>
+	<u><strong>CLÁUSULA SEGUNDA.- CONTRATO DE PRESTACIÓN DE SERVICIOS  EDUCATIVOS:</strong></u>
+	Con tales antecedentes, el/la <b>REPRESENTANTE,</b> contrata -libre y voluntariamente- los servicios educativos que ofrece la <b>UNIDAD EDUCATIVA AMERICANO DE GUAYAQUIL,</b> los que son aceptados por el <b>REPRESENTANTE</b>, en los términos, plazos y condiciones previstos en la Ley, reglamentos y en este contrato, por lo que el Colegio se compromete a brindar el servicio de educación al/la representado(a) del <b>REPRESENTANTE,</b> quien será matriculado(a) en <b>GRADO/CURSO {$alumno["curs_deta"]}</b> durante el periodo lectivo 2017-2018.
+	<br/>
+	Por su parte, el/la <b>REPRESENTANTE</b> manifiesta expresamente estar de acuerdo con la normativa, reglamentos y políticas internas del <b>COLEGIO</b>, y se obliga a sí mismo y a nombre de su <b>REPRESENTADO(A)</b>, a cumplir y respetarlos, por coincidir con sus principios, creencias y valores, de conformidad con lo que dispone el art. 330 de la Ley Orgánica de Educación Intercultural vigente. Además, deberá revisar en la página web del <b>COLEGIO</b> los documentos antes mencionados, los que en su expedición de nuevas Normativas educativas o que inciden sobre las instituciones educativas, se ven por consiguiente, sujetos a cambios .En tal virtud, el/la <b>REPRESENTANTE</b> será quien suscriba la respectiva Hoja de Matrícula.
+	<br/>
+	<u><strong>CLÁUSULA TERCERA.- VALOR DE MATRICULA Y PENSION:</strong></u>
+	El valor de la matrícula y pensión para el periodo lectivo 2017-2018, será el autorizado por la Junta Distrital Reguladora de Pensiones y Matrículas de la Educación Particular y Fiscomisional o quien haga sus veces.
+	<br/>
+	Es menester señalar que solo en los casos en que el <b>REPRESENTANTE</b> que mantenga pensiones educativas adeudadas del año lectivo anterior, para poder otorgar la Matricula del nuevo año lectivo deberá pagar la totalidad de las pensiones educativas adeudadas a la fecha en Efectivo, Tarjeta de Crédito o con Cheque Certificado, caso contrario se negará el cupo de acuerdo a lo que establece la Ley.
+	<br/>
+	<u><strong>CLÁUSULA CUARTA.- PLAZO DEL CONTRATO:</strong></u>
+	El plazo que tendrá el presente contrato será el que corresponda al periodo lectivo 2017-2018, conforme lo haya dispuesto el Ministerio de Educación.
+	<br/>
+	Este Contrato de Prestación de Servicios Educativos deberá ser suscrito al comienzo de todo año lectivo, no obstante operar la matrícula automática prevista en la Ley.
+	<br/>
+	<u><strong>CLÁUSULA QUINTA.- OBLIGACIONES DE LAS PARTES:</strong></u>
+	Las partes contratantes estarán obligadas a lo siguiente:
 	<ol>
 	<li>
-	La institución se obliga a dar educación comprobada, en la forma y modo constante en su Proyecto Educativo Institucional (PEI), Código de Convivencia de {$antes_del_nombre} {$nombre_colegio},  de propiedad de la compañía  {$antes_del_nombre} {$nombre_legal} y demás normatividad que rigen a la {$antes_del_nombre} {$nombre_colegio}, de propiedad de la compañía {$antes_del_nombre} {$nombre_legal} con sujeción a la Constitución de la República, Ley de Educación, su Reglamento y demás normatividad y disposición válida y legal, de la Autoridad de Educación competente. Todo valor pagado a la {$antes_del_nombre} {$nombre_colegio} de propiedad de la compañía {$antes_del_nombre} {$nombre_legal} deberá ser efectuado en dinero efectivo o cheques certificados a través de las ventanillas del banco que la Institución indique,  emisión de voucher de tarjeta de crédito pagando cuotas mensuales y/o autorización de débito automático de una tarjeta de crédito o débito a una cuenta corriente o de ahorro y quien lo reciba, emitirá el comprobante (recibo) respectivo a nombre de la institución.
+	<b>COLEGIO:</b>
+		<ul>
+		<li>
+		Cumplir y hacer cumplir lo dispuesto en la Constitución de la República del Ecuador (C.R.E); en la Ley Orgánica de Educación Intercultural (L.O.E.I.) y en su Reglamento General; en el Código de la Niñez y Adolescencia, así como toda normativa erga omnes que expida el Ministerio de Educación y demás ministerios competentes.
+		</li>
+		<li>
+		Respetar, cumplir y hacer cumplir el Código de la Convivencia.
+		</li>
+		<li>
+		Cumplir con lo acordado en este Contrato de Prestación de Servicios Educativos.
+		</li>
+		<li>
+		Ofrecer un servicio excelente  acorde con la política estatal, sin alejarse de la mística que ha caracterizado a la institución a lo largo de su vasta trayectoria.
+		</li>
+		<li>
+		Mantener una saludable y fluida comunicación entre el <b>COLEGIO</b> y el <b>REPRESENTANTE,</b> a fin que se encuentre debida y oportunamente, informado de la situación académica, disciplinaria y psicológica de su representado y a su vez, el <b>COLEGIO</b> reciba la respectiva retroalimentación.
+		</li>
+		<li>
+		Velar por el desarrollo integral del estudiante, garantizando su seguridad física y psíqui¬ca, afectiva, sexual; atendiendo el principio de su interés superior y que sus derechos prevalecerán a los de las demás personas.
+		</li>
+		</ul>
 	</li>
 	<li>
-	El valor por concepto de matrícula, deberá ser cancelada hasta antes del primer día de clases (siempre que exista el cupo) y sólo con el cumplimiento de dicho requisito indispensable, se formalizará la matrícula y el aspirante adquiere la calidad de estudiante. Se dará preferencia en la reserva y otorgamiento de cupos para matrículas a los representantes de nuestros estudiantes o sus familiares, siempre que hayan manifestado su voluntad de estudiar o continuar en la {$antes_del_nombre} {$nombre_colegio} de propiedad de la compañía {$antes_del_nombre} {$nombre_legal} durante el periodo señalado para el efecto.
-	</li>
-	<li>
-	El no actualizar los datos o reservar el cupo mediante el contrato de prestación de servicios educativos dentro de las fechas señaladas por la “UNIDAD EDUCATIVA" es considerado como la manifestación de voluntad de no continuar utilizando los servicios educativos que oferta la Institución y por tanto, desisten del cupo para el próximo año, lo cual (que), nos deja en libertad a la {$antes_del_nombre} {$nombre_colegio} de propiedad de la compañía {$antes_del_nombre} {$nombre_legal} de disponerlo, en beneficio de otro estudiante.
-	</li>
-	<li>
-	El pago de la pensión será durante los 10 primeros días de cada periodo mensual, sea que este se contabilice del 1 al 30 de cada mes, en cuyo caso pagará hasta el día 5; o se contabilice del día 15 de un mes al 14 del otro mes, en cuyo caso el pago será hasta el 20, sin que esto, pueda considerarse pago adelantado, sino que permitirá (para) cubrir los valores de gastos que la contraprestación del servicio genere durante dicho período mensual que ya decurre.
-	</li>
-	<li>
-	No se aumentará la pensión o cuota mensual acordada, durante el año lectivo que rige el presente contrato. Para el ajuste de la pensión, se estará pendiente de (a) la normativa expedida por la autoridad educativa.
-	</li>
-	<li>
-	El representante acepta que la {$antes_del_nombre} {$nombre_colegio}, acorde a las buenas prácticas administrativas financieras puede ejecutar procedimientos de cobranza de las obligaciones económicas dentro de lo que las leyes permiten.
-	</li>
-	<li>
-	Las circulares a través de correos electrónicos, página web, diario escolar son las vías acordadas para mantener una intercomunicación fluida con el representante del estudiante, dándole a conocer sobre el accionar diario, hoja de vida, tareas y demás asuntos, noticias o comunicaciones relacionados con el accionar educativo, a la vez, ustedes podrán comunicarse con los directivos, tutores, inspectores y profesores, simplificando la interrelación entre la Unidad Educativa y la madre o el padre de familia o representante, por lo cual (el representante) se compromete a revisarlo día a día, en forma periódica.<br/>
-	Para los casos de justificaciones de asistencia y de solicitud de exámenes atrasadas, estos deberán ser notificados al Establecimiento Educativo, vía escrita, adjuntando los respectivos documentos de soporte.
-	</li>
-	<li>
-	Es obligación y se compromete el representante, a revisar diariamente el contenido de los maletines, maletas, portafolios y mochilas del educando, para evitar que traigan a la institución objetos, como  armas, sustancias prohibidas o nocivas a la salud física o mental, (y) materiales extraños al proceso educativo o de mucho valor.
+	<b>REPRESENTANTE:</b>
+		<ul style="margin: 0px; padding: 0px;">
+		<li>
+		Cumplir y hacer cumplir la Constitución de la República del Ecuador (C.R.E), en la Ley Orgánica de Educación Intercultural (L.O.E.I.) y en su Reglamento General, en el Código de la Niñez y Adolescencia, así toda normativa erga omnes que expida el Minis¬terio de Educación y demás ministerios competentes.
+		</li>
+		<li>
+		Cumplir con lo establecido en el Código de Convivencia.
+		</li>
+		<li>
+		Cumplir con lo acordado en este Contrato de Prestación de Servicios Educativos.
+		</li>
+		<li>
+		Acatar las disposiciones que, con arreglo a la normativa antes mencionada, expidan las Autoridades del <b>COLEGIO,</b> para el normal y efectivo desenvolvimiento de las actividades educativas; así como las recomendaciones que hagan los directivos, docentes y DECE, en beneficio del progreso y bienestar del estudiante.
+		</li>
+		<li>
+		Acudir personalmente a las convocatorias hechas por el <b>COLEGIO.</b>
+		</li>
+		<li>
+		Comprometerse a suscribir las Actas de Compromiso necesarias para el progreso y mejoramiento académico y disciplinario del estudiante.
+		</li>
+		<li>
+		Pagar el valor íntegro de la pensión mensual dentro de los <b>10 primeros días del mes correspondiente a través de débito en cuenta bancaria y tarjeta de crédito,</b> como contraprestación del servicio educativo que recibe su representado, así como pagar cualquier otro valor que no se contraponga con la legislación vigente; caso contrario, se constituirá en mora de pago. El <b>COLEGIO</b> no estará en la obligación de aceptar pagos parciales.
+		</li>
+		<li>
+		Pagar el valor integro de la matrícula  a través de los medios de pago indicados anteriormente.
+		</li>
+		<li>
+		Además, de los medios de pago indicados anteriormente, <b>la matrícula podrá ser cancelada mediante efectivo, tarjeta de crédito o cheque certificado.</b>
+		</li>
+		<li>
+		En caso de atraso en el pago de las  pensiones   mensuales   durante el periodo lectivo, el <b>REPRESENTANTE</b> se obliga a pagar la totalidad de lo adeudado hasta antes de finalizar el año lectivo.
+		</li>
+		<li>
+		Hacerse responsable por cualquier daño material que el estudiante ocasione a los bienes pertenecientes tanto a la institución, como de cualquier otro miembro de la comunidad educativa.
+		</li>
+		</ul>
 	</li>
 	</ol>
-	<p>
-	El servicio educativo de {$antes_del_nombre} {$nombre_colegio}, de propiedad de la compañía {$antes_del_nombre} {$nombre_legal} es inclusivo para niños y jóvenes con necesidades educativas especiales que se encuentren consideradas como leves y dentro del primer grado de dificultad, siempre que no sean combinadas. No es un centro de estudios de educación especial, por lo que, si el estudiante necesita más apoyo para mejorar o superar  su conducta o aprendizaje, se podrá autorizar que ingresen y laboren, profesionales o personas especializadas en esas áreas (educación especial) para brindarles atención complementaria con servicio fijo o itinerante, en los casos más serios o complejos, para efectuar acompañamiento y apoyo personalizado al estudiante, a costa y responsabilidad del representante.
-	</p>
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA SEXTA: DURACIÓN:</strong> 
-	El presente contrato tiene duración de un año lectivo, pero podrá ser renovado por mutuo acuerdo, donde se proceda a reservar o solicitar la matrícula para el próximo año lectivo, actualizando los datos correspondientes para las notificaciones. Se entenderá renovado en todas sus partes, si no existe pronunciamiento alguno sobre la voluntad de dejarlo sin efecto, y en ese caso, el costo de la pensión se reajustará al que se fijare legalmente para el año que corresponda o recurra, según el rango.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA SÉPTIMA: DE LA TERMINACIÓN DEL CONTRATO:</strong>
-	El presente contrato concluirá por las siguientes causas:
-	<ol>
-	<li>Por el vencimiento del plazo, caso en el cual, culminará de pleno derecho.</li>
-	<li>Por voluntad o acuerdo de ambas partes.</li>
-	<li>Por fallecimiento del (la) estudiante.</li>
-	<li>Por fallecimiento del representante del estudiante, a menos que otra persona con derecho suficiente asuma la representación del educando. En lo relativo al pago de pensiones, se estará a lo establecido en los Art. 7 literal J) y 135 de la LOEI.</li>
-	<li>Por suspensión de actividades de la unidad educativa por más de sesenta días o por cierre definitivo.</li>
-	<li>Por voluntad del representante. Si una vez matriculado el alumno, sus progenitores o representantes deciden retirarlo de {$nombre_colegio}, deberán comunicar de inmediato a los directivos de la institución. No se podrá solicitar el reembolso de la matrícula ni de las pensiones que hayan sido devengadas. El Representante se obliga a cancelar los valores correspondientes a los servicios educativos y adicionales voluntarios recibidos a favor del estudiante que representa, hasta el último periodo mensual de asistencia al plantel.</li>
-	<li>Por incumplimiento de cualquiera de las cláusulas que se establecen en este contrato, Código de Convivencia, o por incumplimiento de disposiciones emanadas de las autoridades de la institución y que correspondan al desarrollo de los programas educativos.</li>
-	<li>Por incurrir sus representados en las faltas que establece el Art. 134 de la Ley Orgánica de Educación Intercultural.</li>
-	<li>9)	Por las demás causas previstas en el ordenamiento jurídico del país, Código de Convivencia y Reglamentos de la institución.</li>
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA OCTAVA: DE LA MORA DEL REPRESENTANTE LEGAL DEL ESTUDIANTE:</strong> 
-	El representante legal, que no cumpla sus obligaciones de pago de pensiones, entrará en mora. Ante esta situación la Institución procederá a realizar tres notificaciones de recordatorio de pago. En caso de persistir el incumplimiento, se notificará al Área Legal de la Unidad Educativa, con el propósito que inicie las medidas judiciales que dieren a lugar de conformidad a la normativa vigente, para cobrar los valores adeudados, más los gastos que la Institución Educativa deba incurrir, tales como, honorarios profesionales y demás.
-	En caso de que el representante legal continúe en mora una vez finalizado el Periodo Lectivo, la Unidad Educativa se reservará el derecho de conceder matrícula para Año Escolar venidero, así mismo, se brindarán las facilidades en aras que pueda inscribir a su representado en una Institución Educativa de sostenimiento fiscal.  
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA NOVENA: DEL SEGURO DE ACCIDENTES PERSONALES:</strong> 
-	De conformidad a la normativa expedida por el Ministerio de Educación, en el Acuerdo Ministerial 387-13 y su reforma, se pone a consideración de los padres de familia un seguro de accidentes personales, en aras de cubrir posibles lesiones que pueda tener el estudiantes dentro de la institución educativa. En caso de que el padre de familia no acepte dicho seguro, deslinda de responsabilidad a la Institución Educativa, en relación al posible accidente. 
-	La institución educativa solamente se compromete, en caso de accidente a llamar al ECU-911, para que brinde la asistencia que sea del caso.
-	</p>
-	<p class="letras_pequenas">
-	<strong>CLÁUSULA DÉCIMA: TRÁMITE Y COMPETENCIA: CLÁUSULA COMPROMISORIA:</strong> 
-	Cualquier controversia, diferencia o reclamación que se derive o esté relacionada con la interpretación o ejecución del presente convenio, en atención a lo establecido en la Ley de Arbitraje y Mediación, será sometida a mediación de uno de los Centros de Mediación y Arbitraje, legalmente constituidos y autorizados para actuar de conformidad a la Ley de Arbitraje y Mediación y su Reglamento de aplicación,  comprometiéndose las partes a aceptar las medidas cautelares necesarias, a aceptar la mediación o conciliación en caso de que sea procedente y acatar el laudo arbitral que se expidiere, desistiendo de presentar recurso alguno respecto del mismo.
-	</p>
-	<p class="letras_pequenas">
-	Para constancia de lo acordado, , las partes suscriben el presente contrato en la ciudad de {$fecha_hoy}
-	</p>
-	<p class="letras_pequenas">
-	FIRMAS DEL CONTRATO DE PRESTACIONES DE SERVICIOS EDUCACIONALES.
+	<br/>
+	<u><strong>CLÁUSULA SEXTA.- :</strong></u>
+	El/la REPRESENTANTE autoriza al COLEGIO la publicación de foto¬grafías, audios y videos en los que aparezca su representado, realizando actividades escolares y en representa¬ción del COLEGIO en  revistas y publicidad elegida por el COLEGIO.
+	<br/>
+	<u><strong>CLÁUSULA SÉPTIMA.- RETIRO DEL ESTUDIANTE ANTES DE LA FINALIZA¬CIÓN DEL AÑO LECTIVO:</strong></u>
+	En caso que el/la REPRESENTANTE decida retirar a su representado, antes de la finalización del respectivo periodo lectivo, deberá haber pagado la totalidad de las pensiones mensuales que se encuentre adeudando.
+	<br/>
+	<u><strong>CLÁUSULA OCTAVA.- MORA EN EL PAGO DE PENSIONES MENSUALES:</strong></u>
+	En caso de mora del REPRESENTANTE en el pago de la pensión mensual, el COLEGIO le notificará a fin de que concurra dentro de las 48 horas posteriores a dicha notificación, con el objeto de que realice el pago correspondiente o proponga una modalidad de pago, que deberá ser debidamente aceptada por el COLEGIO.
+	<br/>
+	En caso que el REPRESENTANTE no concurra o no pague dentro del plazo indicado, esto facultará al COLEGIO a derivar el caso a cualquier Centro de Mediación avalado por el Consejo de la Judicatura, previo a iniciar acciones Judiciales por el Cobro de las pensiones educativas adeudadas, sin perjuicio de las acciones administrativas que se inicien en el Distrito seis del Ministerio de Educación.
+	<br/>
+	No obstante, el COLEGIO no renuncia a sus legítimos derechos, por lo que de conformidad con lo que establece el Artículo 32 de la Ley de Arbitraje y mediación en concordancia con el 370 del Código Orgánico General de Procesos, en caso de que una vez firmada el Acta de mediación entre el COLEGIO y el REPRESENTANTE no se haya dado cumplimiento en el tiempo establecido, faculta al COLEGIO tomar acciones legales por la vía correspondiente a la Ejecución del Acta de Mediación suscrita de conformidad con lo establece el Código Orgánico General de Procesos.
+	<br/>
+	De la misma forma si el REPRESENTANTE no concurre a las invitaciones a la Mediación, se entenderá que existe Imposibilidad de Mediar por lo que se tomará las acciones que franquea la Ley.
+	<br/>
+	Para constancia de lo estipulado, las partes se ratifican en el contenido de este contrato, para cuyo efecto lo suscriben en dos ejemplares de igual tenor y valor, en Guayaquil, el {$fecha_hoy}.
+	<br/>
+	<u><strong>CLÁUSULA NOVENA.- CONSENTIMIENTO EXPRESO:</strong></u>
+	El REPRESENTANTE declara aceptar en forma libre y voluntaria que -en caso de no haber cancelado todos los valores concernientes a los rubros estipulados en la cláusula tercera de este contrato con la institución educativa  hasta finalizar el año lectivo 2017-2018-, el Colegio Americano de Guayaquil podrá incluir a su representado en el listado que enviará al Distrito 6 de Educación al finalizar el año lectivo, nómina a partir de la cual el Organismo Gubernamental asignará cupo en otro establecimiento educativo fiscal cercano a su domicilio. Dicha declaratoria se hace en conformidad a lo establecido  en el Memorando Nro. MINEDUC-SASRE-2014-00908-M del 08 de diciembre de 2014,   suscrito por  el   Mgs. Wilson Rosalino Ortega   Mafla,  Subsecretario de Apoyo, Seguimiento y Regulación de la Educación, y no conllevará reclamo alguno hacia el Colegio Americano ni a sus representantes.
+	<br/> 
+	Esto es que,  en caso de no haber cancelado todos los valores “<i>al momento de la culminación del año lectivo, esta circunstancia podría determinar la necesidad de salida de varios estudiantes de dichas instituciones, lo que evidentemente significa que ya no podrán continuar el siguiente año lectivo en el mismo establecimiento por no renovarse la relación de prestación de servicios existente con la institución educativa</i>”. (Memorando Nro. MINEDUC-SASRE-2014-00908-M del 8 de diciembre de 2014).
+	<br/>
+	Por lo descrito anteriormente, “<i>…es indispensable reiterar a los padres, madres o representantes legales de estudiantes la obligación civil contraída por parte de ellos para cumplir con el pago de dichos valores autorizados, mismos que se deben legítimamente a los establecimientos educativos, en atención a la relación de derecho civil que se adquiere con los representantes, y que son plenamente exigibles por ellos para su pago, incluso por vía judicial y/o extrajudicial</i>”. (Memorando Nro. MINEDUC-VGE-2016-00130-M)
+	<br/><br/><br/>
+	<b>Dado y firmado, el {$fecha_hoy}</b>
+	<br/>
 	</p>
 	<p class="letras_pequenas">
 	<table>
@@ -239,57 +266,23 @@
 	</td>
 	</tr>
 	<tr>
-	<td class="centrar">
-	f)___________________________________________<br/>
-	{$representante["nombres"]}<br/>
-	El (la) Representante 
+	<td class="">
+	___________________________________________<br/>
+	{$rector}<br/>
+	{$etiqueta_rector}
 	</td>
-	<td class="centrar">
-	</td>
-	</tr>
-	<tr>
-	<td colspan="2">
-	<br/><br/>
+	<td class="">
+	___________________________________________<br/>
+	Representante {$representante["nombres"]}<br/>
+	C.C. No. {$representante["cedula"]}
 	</td>
 	</tr>
 	<tr>
-	<td colspan="2">
-	Número de cédula: {$representante["cedula"]}
-	</td>
-	</tr>
-	<tr>
-	<td colspan="2">
-	Dirección Domicilio: {$representante["domicilio"]}
-	</td>
-	</tr>
-	<tr>
-	<td colspan="2">
-	Telefono: {$representante["telefono"]}
-	</td>
-	</tr>
-	</table> 
-	<p>Reconocimiento Judicial</p>
-	<table>
-	<tr>
-	<td colspan="2">
-	<br/><br/><br/><br/>
-	</td>
-	</tr>
-	<tr>
-	<td class="centrar">
-	f)___________________________________________<br/>
-	{$representante["nombres"]}<br/>
-	El (la) Representante 
-	</td>
-	<td class="centrar">
-	f)___________________________________________<br/>
+	<td class="centrar" colspan="2">
+	<br/><br/><br/><br/><br/><br/>
+	___________________________________________<br/>
 	{$nombre_financiero}<br/>
-	Gerente de la {$antes_del_nombre} {$nombre_colegio}
-	</td>
-	</tr>
-	<tr>
-	<td colspan="2">
-	<br/><br/>
+	Presidente
 	</td>
 	</tr>
 	</table> 

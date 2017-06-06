@@ -107,12 +107,16 @@ function CargarCursosParalelosAlumnos (curs_para_codi)
   	xmlhttp.send(data);
 }
 
-function getURLCertMatriculaPDF()
+function getURLCertMatriculaPDF(dir_colegio)
 	 {
 		 if (Validar())
 		 {
 			 var direccion;
-			 direccion="reportes_generales/cert_matricula_pdf.php?curso_paralelo=";
+       if(dir_colegio=='liceonaval'){
+          dir_colegio='_'+dir_colegio;
+        }else
+          dir_colegio='';
+			 direccion="reportes_generales/cert_matricula"+dir_colegio+"_pdf.php?curso_paralelo=";
 			 direccion=direccion+document.getElementById('sl_paralelos').value+"&alumno="+document.getElementById('sl_alumnos').value;
 			 //window.location.href=direccion;
 			 window.open(direccion);

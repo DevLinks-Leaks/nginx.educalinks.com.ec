@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
 			<?php $Menu=201;include("template/menu.php");?>
@@ -19,7 +19,9 @@
 						<div class="box box-default">
 							<div class="box-header with-border">
 								<h3 class="box-title">
-									<a class="btn btn-warning" href="cursos_paralelo_clase_main.php?curs_para_codi=<?php echo $_GET['curs_para_codi'];?>">
+									<a class="btn btn-warning" 
+										href="cursos_paralelo_clase_main.php?curs_para_codi=<?php echo $_GET['curs_para_codi'];?>&curs_para_mate_prof_codi=<?=$_GET['curs_para_mate_prof_codi'];?>"
+										>
 										<span class="fa fa-chevron-left"></span> Volver
 									</a>
 								</h3>

@@ -98,34 +98,7 @@
 				<input id="ch_mate_prom" name="ch_mate_prom" type="checkbox" value="" style="margin-top: 10px;"/>
 			</td>
         </tr>
-        <!--<tr>
-        	<td height="35">
-            	Tipo: 
-			</td>
-        	<td>
-            
-                
-                <?php 
-				$params = array();
-				$sql="{call mate_tipo_view()}";
-				$mate_tipo_view = sqlsrv_query($conn, $sql, $params);  
-            ?>
-        
-            	<select id="m_mate_tipo" name="m_mate_tipo" style="width: 100%; margin-top: 10px;">
-            		 
-            <?php 
-					while($row_mate_tipo_view= sqlsrv_fetch_array($mate_tipo_view))
-					{
-			?>
-            		<option value="<?= $row_mate_tipo_view['mate_tipo'];?>">
-						<?= $row_mate_tipo_view['mate_tipo_deta'];?> 					</option>
-            
-            <?php 
-					}
-			?>
-				</select>
-			</td>
-        </tr>-->
+
 		</table>
       </div>
 	  <div class="form_element">&nbsp;</div> 

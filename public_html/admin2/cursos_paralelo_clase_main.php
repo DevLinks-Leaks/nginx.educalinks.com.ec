@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
 			<?php $Menu=201;include("template/menu.php");?>
@@ -35,7 +35,11 @@
 											$stmp_mate = sqlsrv_query($conn, $sql_mate, $params_mate);
 											while($row_curs_mate_view=sqlsrv_fetch_array($stmp_mate))
 											{
-												echo '<option value="'.$row_curs_mate_view['curs_para_mate_prof_codi'].'">'.strtoupper($row_curs_mate_view["mate_deta"]).'</option>';
+												$selected='';
+												if($_GET['curs_para_mate_prof_codi']==$row_curs_mate_view['curs_para_mate_prof_codi']){
+														$selected='selected';
+												}
+												echo '<option value="'.$row_curs_mate_view['curs_para_mate_prof_codi'].'" '.$selected.'>'.strtoupper($row_curs_mate_view["mate_deta"]).'</option>';
 											}
 										?>
 									</select>
@@ -53,8 +57,12 @@
 									$aux = 0;
 									while($row_curs_mate_view=sqlsrv_fetch_array($stmp_mate))
 									{
+										if($_GET['curs_para_mate_prof_codi']==$row_curs_mate_view['curs_para_mate_prof_codi'])
+											$display='';
+										else
+											$display='display:none;';
 									?>
-										<div style='display:none;' id='mate_h_<?= $row_curs_mate_view['curs_para_mate_prof_codi'];?>' name='mate_h_<?php echo $aux; ?>' >
+										<div style='<?=$display?>' id='mate_h_<?= $row_curs_mate_view['curs_para_mate_prof_codi'];?>' name='mate_h_<?php echo $aux; ?>' >
 											<div class='form-group'>
 												<div class='col-sm-6'>
 													<div class="panel panel-default" id="prof_<?= $row_curs_mate_view['curs_para_mate_prof_codi'];?>" name="prof_<?= $row_curs_mate_view['curs_para_mate_prof_codi'];?>">

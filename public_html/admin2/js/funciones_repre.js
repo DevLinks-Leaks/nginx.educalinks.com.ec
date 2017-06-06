@@ -110,6 +110,8 @@ function load_modal_content(div,url,repr_codi){
 	xmlhttp.send(data);	
 }
 function reset(){
+	$('#btn_buscar_repr').attr('disabled',false);
+	$('#btn_reset_repr').attr('disabled',true);
 	$('#repr_cedula').attr('disabled',false);
 	$('#repr_tipo_iden').attr('disabled',false);
 	$('#repr_cedula').val('');
@@ -138,6 +140,8 @@ function valida_repre(repr_cedu,div,url){
 				document.getElementById('alert_repr').innerHTML=
 					'<div class="alert alert-info alert-dismissible col-md-10 col-md-offset-1"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button><h4><i class="icon fa fa-info"></i> Información</h4><p id="alert_repr_content">Se han cargado los datos del representante de acuerdo a número de identificación.</p></div>';
 				$('#btn_guardar_repr').attr('disabled',false);
+				$('#btn_buscar_repr').attr('disabled',true);
+				$('#btn_reset_repr').attr('disabled',false);
 				$('#repr_cedula').attr('disabled',true);
 				$('#repr_tipo_iden').attr('disabled',true);
 				load_ajax_blacklist_warning_repr('div_blacklist_warning_repr','script_alumnos_blacklist.php','warning_blacklist' );
@@ -148,6 +152,10 @@ function valida_repre(repr_cedu,div,url){
 		            load_modal_content(div,'representantes_add_modal_content.php',0);
 		            document.getElementById('alert_repr').innerHTML='';
 		            $('#btn_guardar_repr').attr('disabled',false);
+					$('#btn_buscar_repr').attr('disabled',true);
+					$('#btn_reset_repr').attr('disabled',false);
+					$('#repr_cedula').attr('disabled',true);
+					$('#repr_tipo_iden').attr('disabled',true);
 		            load_ajax_blacklist_warning_repr('div_blacklist_warning_repr','script_alumnos_blacklist.php','warning_blacklist' );
 		        }else{
 		        	$('#repr_cedula').closest('.form-group').addClass('has-error');
@@ -337,9 +345,9 @@ function load_ajax_add_repr(div,url){
 		data.append('repr_fech_promoc', document.getElementById('repr_fech_promoc').value);
 		data.append('repr_ex_alum',$('#repr_ex_alum').prop('checked') );
 		data.append('repr_fech_naci', $('#repr_fech_naci').val());
-		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
-		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
-		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
+		data.append('repr_pais_naci', ($('#repr_pais_naci').val()=='' ? '' : $('#repr_pais_naci option:selected').text()));
+		data.append('repr_prov_naci', ($('#repr_prov_naci').val()=='' ? '' : $('#repr_prov_naci option:selected').text()));
+		data.append('repr_ciud_naci', ($('#repr_ciud_naci').val()=='' ? '' : $('#repr_ciud_naci option:selected').text()));
 		data.append('identificacion_niv_1', ($('#identificacion_niv_1').val() > 0 ? $('#identificacion_niv_1').val() : ''));
         data.append('identificacion_niv_2', ($('#identificacion_niv_2').val() > 0 ? $('#identificacion_niv_2').val() : '') );
         data.append('identificacion_niv_3', ($('#identificacion_niv_3').val() > 0 ? $('#identificacion_niv_3').val() : '') );
@@ -439,9 +447,9 @@ function load_ajax_upd_repr(url,flag){
 		data.append('repr_fech_promoc', document.getElementById('repr_fech_promoc').value);
 		data.append('repr_ex_alum',$('#repr_ex_alum').prop('checked') );
 		data.append('repr_fech_naci', $('#repr_fech_naci').val());
-		data.append('repr_pais_naci', $('#repr_pais_naci option:selected').text());
-		data.append('repr_prov_naci', $('#repr_prov_naci option:selected').text());
-		data.append('repr_ciud_naci', $('#repr_ciud_naci option:selected').text());
+		data.append('repr_pais_naci', ($('#repr_pais_naci').val()=='' ? '' : $('#repr_pais_naci option:selected').text()));
+		data.append('repr_prov_naci', ($('#repr_prov_naci').val()=='' ? '' : $('#repr_prov_naci option:selected').text()));
+		data.append('repr_ciud_naci', ($('#repr_ciud_naci').val()=='' ? '' : $('#repr_ciud_naci option:selected').text()));
 		data.append('alum_codi', (document.getElementById('hd_alum_codi')==null ? '' : document.getElementById('hd_alum_codi').value));
 		data.append('identificacion_niv_1', ($('#identificacion_niv_1').val() > 0 ? $('#identificacion_niv_1').val() : ''));
         data.append('identificacion_niv_2', ($('#identificacion_niv_2').val() > 0 ? $('#identificacion_niv_2').val() : ''));

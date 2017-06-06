@@ -225,7 +225,9 @@ while($row_peri_dist_padr_view= sqlsrv_fetch_array($peri_dist_padr_view))
 $calificaciones.='<td class="cabecera_notas centrar" width="6%">CUAL.</td>';
 $calificaciones.='</tr>';
 while ($row_alum_nota_peri_dist_view= sqlsrv_fetch_array($alum_nota_peri_dist_view)) 
-{ 	if ($row_alum_nota_peri_dist_view["mate_padr"] <0 || $cab_row['nivel_1']==null)
+{ 	
+	// if ($row_alum_nota_peri_dist_view["mate_padr"] <0 || $cab_row['nivel_1']==null) //Para mostrar hijos en periodo final
+	if ($row_alum_nota_peri_dist_view["mate_padr"] <0)
 	{$cc +=1;
 		$calificaciones.='<tr><td class="cuerpo_notas centrar">';
 		if ($row_alum_nota_peri_dist_view["mate_prom"] =='A')

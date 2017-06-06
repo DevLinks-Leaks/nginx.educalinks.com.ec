@@ -15,8 +15,13 @@
 	$nombre_colegio = para_sist(3);
 	$antes_del_nombre = para_sist(36);
 		
-	$sql1="{call nota_peri_distr_pendiente(?)}";
-	$params = array($_GET['peri_dist_codi']);
+	if(isset($_GET['prof_codi'])){
+		$sql1="{call nota_peri_distr_pendiente(?,?)}";
+		$params = array($_GET['peri_dist_codi'],$_GET['prof_codi']);
+	}else{
+		$sql1="{call nota_peri_distr_pendiente(?)}";
+		$params = array($_GET['peri_dist_codi']);
+	}
 	$stmt = sqlsrv_query($conn, $sql1, $params);
 
 	if( $stmt === false )

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
 			<?php $Menu=102;include("template/menu.php");?>
@@ -40,10 +40,11 @@
 		<?php include("template/scripts.php");?>
 		
 		<script type="text/javascript" charset="utf-8">
-		  shortcut.add("Shift+E+G", function() {
-		      $('#btn_guardar').trigger("click");
-		  },{'disable_in_input':true});
-		  inicializar_radioBtn();
+		  	shortcut.add("Enter", function() {
+		  		// if($('#btn_buscar_repr').attr('disabled')==false)
+					$('#btn_buscar_repr').trigger("click");
+			});
+		  	inicializar_radioBtn();
 		  
 		</script>
 	</body>

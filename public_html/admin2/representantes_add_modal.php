@@ -63,7 +63,7 @@ if($repr_codi>0){
 		</div>
 		<div class="col-md-1 form-group">
 			<label></label>
-			<button id="btn_buscar_repr" type='button' class='btn btn-info form-control' data-loading="Buscando..." onclick="reset();"><span class="fa fa-refresh fa-lg"></span></button>
+			<button id="btn_reset_repr" type='button' onmouseover="$(this).tooltip('show');" title="Presione para limpiar formulario" class='btn btn-info form-control' data-loading="Buscando..." onclick="reset();" disabled><span class="fa fa-refresh fa-lg"></span></button>
 		</div>
 		<?}?>
 		<div id="alert_repr">

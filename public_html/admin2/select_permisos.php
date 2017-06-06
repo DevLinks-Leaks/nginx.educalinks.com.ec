@@ -59,7 +59,7 @@
 
     if (sqlsrv_has_rows($stmt))
 	{		
-		echo '<select class="form-control input-sm" id="pg_peri_dist_codi" style="width:75%; margin-top:10px;">';
+		echo '<select class="form-control input-sm" id="pg_peri_dist_codi" >';
 		while($row = sqlsrv_fetch_array($stmt))
 		{	
 			echo '<option value="'.$row["peri_dist_codi"].'">'.$row["peri_dist_padr_deta"].'-'.$row["peri_dist_deta"].'</option>';
@@ -67,7 +67,7 @@
 	}
 	else
 	{
-		echo '<select class="form-control input-sm" id="pg_peri_dist_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
+		echo '<select class="form-control input-sm" id="pg_peri_dist_codi" disabled="disabled">';
 		echo '<option value="-1">Seleccione</option>';
 	}
     echo "</select>";
@@ -132,15 +132,15 @@
     $sql = "{call curs_para_peri_dist_cab (?)}";
     $stmt = sqlsrv_query($conn, $sql, $params);
 	
-	echo '<input 
+	echo '<div class="col-md-1"><input 
 	type="radio" 
 	name="radio_op" 
 	id="radio_op3" 
 	value="3"
-	style="margin-left: 15px; margin-right:10px; margin-top:10px;">';	
+	style="margin-left: 15px; margin-right:10px; margin-top:10px;"></div>';	
     if (sqlsrv_has_rows($stmt))
 	{		
-		echo '<select class="form-control input-sm" id="pg_curs_para_codi" style="width:75%; margin-top:10px;">';
+		echo '<div class="col-md-7"><select class="form-control input-sm" id="pg_curs_para_codi" >';
 		while($row = sqlsrv_fetch_array($stmt))
 		{	
 			echo '<option value="'.$row["curs_para_codi"].'">'.$row["curs_deta"].' ('.$row["para_deta"].')</option>';
@@ -148,10 +148,10 @@
 	}
 	else
 	{
-		echo '<select class="form-control input-sm" id="pg_curs_para_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
+		echo '<div class="col-md-7"><select class="form-control input-sm" id="pg_curs_para_codi" >';
 		echo '<option value="-1">Seleccione</option>';
 	}
-    echo "</select>";
+    echo "</select></div>";
   }
   
   /*Función para llenar el select de Cursos*/
@@ -189,15 +189,15 @@
     $sql = "{call curs_para_mate_prof_dist_view (?)}";
     $stmt = sqlsrv_query($conn, $sql, $params);
 	
-	echo '<input 
+	echo '<div class="col-md-1"><input 
 	type="radio" 
 	name="radio_op" 
 	id="radio_op4" 
 	value="4"
-	style="margin-left: 15px; margin-right:10px; margin-top:10px;">';	
+	style="margin-left: 15px; margin-right:10px; margin-top:10px;"></div>';	
     if (sqlsrv_has_rows($stmt))
 	{		
-		echo '<select class="form-control input-sm" id="pg_prof_codi" style="width:75%; margin-top:10px;">';
+		echo '<div class="col-md-7"><select class="form-control input-sm" id="pg_prof_codi" >';
 		while($row = sqlsrv_fetch_array($stmt))
 		{	
 			echo '<option value="'.$row["prof_codi"].'">'.$row["prof_apel"].' '.$row["prof_nomb"].'</option>';
@@ -205,10 +205,10 @@
 	}
 	else
 	{
-		echo '<select class="form-control input-sm" id="pg_prof_codi" style="width:75%; margin-top:10px;" disabled="disabled">';
+		echo '<div class="col-md-7"><select class="form-control input-sm" id="pg_prof_codi" disabled="disabled">';
 		echo '<option value="-1">Seleccione</option>';
 	}
-    echo "</select>";
+    echo "</select></div>";
   }
   
   /*Función para llenar el select de Profesores*/

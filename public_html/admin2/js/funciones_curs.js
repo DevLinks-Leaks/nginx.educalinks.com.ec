@@ -40,7 +40,8 @@ function curs_para_cupo_upd_dial()
 
 function curs_para_cupo_edit(curs_para_codi, cupo)
 {
-		load_ajax('mate_view','cursos_paralelo_info_main_mate_view.php','curs_para_codi=' + curs_para_codi + '&curs_para_cupo=' + cupo + '&edit_cupo=' + 'Y');	
+		load_ajax_noload('mate_view','cursos_paralelo_info_main_mate_view.php','curs_para_codi=' + curs_para_codi + '&curs_para_cupo=' + cupo + '&edit_cupo=' + 'Y');
+		window.location.reload();
 }
  
 function curs_para_mate_up_down(curs_para_mate_codi,curs_para_codi,accion){
@@ -88,14 +89,38 @@ function alum_curs_para_mate_upd_save(curs_para_mate_codi,curs_para_mate_prof_co
 }
 
 function curs_para_save(peri_codi,peri_dist_cabe_codi,curs_codi,para_codi,curs_para_cupo){
-				load_ajax('curs_para_main','cursos_paralelo_main_lista.php','peri_codi=' + peri_codi  
+				cargar_lista_cursos_paralelos('curs_para_main','cursos_paralelo_main_lista.php','peri_codi=' + peri_codi  
 												+  '&curs_codi=' 		+ curs_codi 
 												+  '&peri_dist_cabe_codi=' 		+ peri_dist_cabe_codi 
 												+  '&para_codi=' 		+ para_codi 
 												+  '&curs_para_cupo=' 	+ curs_para_cupo 
-												+ '&add_curs_para=Y'); 
+												+ '&add_curs_para=Y');
+				
 }
-
+function cargar_lista_cursos_paralelos(div,url,data){
+	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
+	if (window.XMLHttpRequest)
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{// code for IE6, IE5
+		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200){
+			document.getElementById(div).innerHTML=xmlhttp.responseText;
+			$('#table_cursos_paralelos').DataTable({
+				language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 "bSort": false 
+			});
+		}
+	}
+	xmlhttp.open("POST",url,true);
+	xmlhttp.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+	xmlhttp.send(data);	
+}
 function alum_curs_para_mate_del_2(alum_curs_para_mate_codi, curs_para_codi, alum_curs_para_codi){	
  	if (confirm("¿Está seguro que desea Eliminar? Se eliminarán todas las notas ingresadas de esta asignatura."+alum_curs_para_mate_codi)) {
 		load_ajax('alum_mate_main','cursos_paralelo_info_main_mate_conf_diag.php','alum_curs_para_mate_codi='+alum_curs_para_mate_codi+'&curs_para_codi='+curs_para_codi+'&alum_curs_para_codi='+alum_curs_para_codi+'&del_alum_mate=' + 'Y') ;	

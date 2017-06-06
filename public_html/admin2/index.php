@@ -5,7 +5,7 @@
 	session_start();
 	$_SESSION['modulo'] = 'acad';
 	include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
 			<?php $Menu=000;include("template/menu.php");?>
@@ -30,7 +30,7 @@
 								<?php
 								if(permiso_activo( 7 ))
 								{
-									echo '<div class="col-lg-3 col-xs-6">
+									echo '<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 										<div class="small-box bg-aqua">
 											<div class="inner">
 											<h3>Inscripción</h3>
@@ -45,7 +45,7 @@
 									</div>';
 								}
 								if(permiso_activo(10))
-								{	echo '<div class="col-lg-3 col-xs-6">
+								{	echo '<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 										<div class="small-box bg-purple">
 											<div class="inner">
 											<h3>Cursos</h3>
@@ -60,7 +60,7 @@
 									</div>';
 								}
 								if(permiso_activo( 8))
-								{	echo '<div class="col-lg-3 col-xs-6">
+								{	echo '<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 										<div class="small-box bg-green">
 											<div class="inner">
 											<h3>Alumnos</h3>
@@ -75,7 +75,7 @@
 									</div>';
 								}
 								if(permiso_activo(76))
-								{   echo '<div class="col-lg-3 col-xs-6">
+								{   echo '<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
 									<div class="small-box bg-yellow">
 										<div class="inner">
 										<h3>Actas</h3>

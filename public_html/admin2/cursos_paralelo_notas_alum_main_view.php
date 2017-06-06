@@ -38,35 +38,40 @@
 <table  class="table table-striped">
         <thead>
             <tr>
-              <th style='vertical-align:top'>
-					<? 	$params = array($curs_para_codi);
-						$sql="{call peri_dist_peri_view_Lb_NEW(?)}";
-						$peri_dist_peri_view = sqlsrv_query($conn, $sql, $params);  
-                    ?>
-                    <select class='form-control input-sm' id="peri_dist_codi" >
-                      <? 
-					  while($row_peri_dist_peri_view = sqlsrv_fetch_array($peri_dist_peri_view))
-					  { 
-					  ?>
-                      <option value="<?= $row_peri_dist_peri_view['peri_dist_codi'];?>">
-                        <?= (($row_peri_dist_peri_view['padre']=='')?
-							$row_peri_dist_peri_view['padre']:
-							$row_peri_dist_peri_view['padre'].' - ').
-							$row_peri_dist_peri_view['peri_dist_deta'];
-						?>
-                      </option>
-					  <?php
-                      } 
-					  ?>
-                    </select> 
-              </th>
-              <th style='vertical-align:top'>
-              	<button 
-                    class="btn btn-danger"
-                    onClick="window.open('libretas/<?= $_SESSION['directorio']; ?>/<?= $_SESSION['peri_codi']; ?>/<?= $url_libreta_general?>?peri_dist_codi=' + selectvalue(document.getElementById('peri_dist_codi')) +'&curs_para_codi=<?= $_GET["curs_para_codi"]; ?>','_blank')">
-                    <span class='fa fa-file-pdf-o'></span> Imprimir Todas las libretas
-                </button>
-              </th>
+				<th style='vertical-align:top'>
+					<div class="row">
+						<div class="col-md-6 input-group input-group-sm">
+						<span id="" name="" class="input-group-addon">Periodo Distribución: </span>
+						<? 	$params = array($curs_para_codi);
+							$sql="{call peri_dist_peri_view_Lb_NEW(?)}";
+							$peri_dist_peri_view = sqlsrv_query($conn, $sql, $params);  
+					    ?>
+					    <select class='form-control input-sm' id="peri_dist_codi" >
+					      <? 
+						  while($row_peri_dist_peri_view = sqlsrv_fetch_array($peri_dist_peri_view))
+						  { 
+						  ?>
+					      <option value="<?= $row_peri_dist_peri_view['peri_dist_codi'];?>">
+					        <?= (($row_peri_dist_peri_view['padre']=='')?
+								$row_peri_dist_peri_view['padre']:
+								$row_peri_dist_peri_view['padre'].' - ').
+								$row_peri_dist_peri_view['peri_dist_deta'];
+							?>
+					      </option>
+						  <?php
+					      } 
+						  ?>
+					    </select>
+					    </div>
+				    </div> 
+				</th>
+				<th style='vertical-align:top'>
+					<button 
+				    class="btn btn-danger"
+				    onClick="window.open('libretas/<?= $_SESSION['directorio']; ?>/<?= $_SESSION['peri_codi']; ?>/<?= $url_libreta_general?>?peri_dist_codi=' + selectvalue(document.getElementById('peri_dist_codi')) +'&curs_para_codi=<?= $_GET["curs_para_codi"]; ?>','_blank')">
+				    <span class='fa fa-file-pdf-o'></span> Imprimir Todas las libretas
+				</button>
+				</th>
             </tr>
         </thead>
         <tbody>

@@ -40,14 +40,5 @@
       </tr>
      <?php  }?>
       </tbody>
-      <tfoot>
-      	<tr class="pager_table">
-            <td colspan="1">
-            <span class="icon-users icon"></span> Total de Usuarios ( <?php echo $cc;?> )
-            </td>
-            <td class="right"><div class="paging"></div></td>
-            
-        </tr>
-      </tfoot>
     </table>
 </div>

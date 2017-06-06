@@ -3,6 +3,7 @@ session_start();
 include ('../framework/dbconf.php');
 include ('../framework/funciones.php');
 if(isset($_POST['opc'])){$opc=$_POST['opc'];}else{$opc="";}
+//echo "hey: ".$_POST['opc'];
 switch($opc){
 	case 'add':
 		$sql_opc = "{call usua_add(?,?,?,?,?)}";
@@ -74,8 +75,8 @@ switch($opc){
 		}else{echo"";}
 	break;
 	case 'add_rol':
-		$sql_opc = "{call rol_add(?,?,?)}";
-		$params_opc= array($_POST['rol_deta'],$_POST['rol_estado'],$_POST['rol_finan']);
+		$sql_opc = "{call rol_add(?,?,?,?,?)}";
+		$params_opc= array($_POST['rol_deta'], $_POST['rol_estado'], $_POST['rol_finan'], $_POST['rol_medic'], $_POST['rol_biblio'] );
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
 		$rol_view_opc=0;
@@ -96,8 +97,8 @@ switch($opc){
 		}
 	break;
 	case 'upd_rol':
-		$sql_opc = "{call rol_upd(?,?,?)}";
-		$params_opc= array($_POST['rol_codi'],$_POST['rol_deta'],$_POST['rol_finan']);
+		$sql_opc = "{call rol_upd(?,?,?,?,?)}";
+		$params_opc= array($_POST['rol_codi'], $_POST['rol_deta'], $_POST['rol_finan'], $_POST['rol_medic'], $_POST['rol_biblio'] );
 		$stmt_opc = sqlsrv_query( $conn, $sql_opc,$params_opc);
 		if( $stmt_opc === false ){echo "Error in executing statement .\n";die( print_r( sqlsrv_errors(), true));} 
 		$rol_view_opc=0;
@@ -128,6 +129,8 @@ switch($opc){
 		$detalle="Código: ".$_POST['rol_codi'];
 		registrar_auditoria (31, $detalle);
 	break;
-	
+	default :
+		echo "Resultado desconocido";
+	break;
 }
 ?>

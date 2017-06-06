@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=203;include("template/menu.php");?>
+			<?php $Menu=213;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<h1>Materias</h1>
 					<ol class="breadcrumb">
-						<li><a href="#"><i class="fa fa-circle-o"></i></a></li>
+						<li><a href="#"><i class="fa fa-address-book-o"></i></a></li>
 						<li class="active">Materias</li>
 					</ol>
 				</section>
@@ -25,8 +25,7 @@
 								</h3>
 							</div><!-- /.box-header -->
 							<div class="box-body">
-								<script src="js/funciones_mate.js"></script>
-								<script type="text/javascript" src="../framework/funciones.js"> </script>
+								
 								<div id="curs_mate_main" >
 								   <?php include ('cursos_materias_main_lista.php'); ?>
 								</div>
@@ -69,8 +68,15 @@
 		<input name="mens_de"  		type="hidden" id="mens_de" 		value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
 		<input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 		<?php include("template/scripts.php");?>
-		<script type="text/javascript" charset="utf-8">
+		<script src="js/funciones_mate.js?<?=$rand;?>"></script>
+		<script type="text/javascript" src="../framework/funciones.js?<?=$rand;?>"> </script>
+		<script>
 			$(document).ready(function() {
-			} );
+			    $('#mate_table').DataTable({
+			    	language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+			    });
+			});
 		</script>
+
 	</body>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=403;include("template/menu.php");?>
+			<?php $Menu=418;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<?php  
@@ -30,7 +30,7 @@
 							<div class="box-header with-border">
 								<h3 class="box-title">
 									<?php if (permiso_activo(68)){?>
-									<a class="btn btn-primary" id="bt_peri_add" onclick="document.getElementById('peri_deta').value='';" data-toggle="modal" data-target="#peri_nuev" >
+									<a class="btn btn-primary" id="bt_peri_add" data-toggle="modal" data-target="#peri_nuev" >
 										<span class="fa fa-plus"></span> Nueva Etapa del Periodo
 									</a><?php }?>
 								</h3>
@@ -204,20 +204,15 @@
                 <div class="form_element">&nbsp;</div> 
               </div>
               <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Cancelar
+                </button>
                 <button 
                     id="btn_etapa_add"
                     type="button" 
-                    class="btn btn-primary"  
-                    data-dismiss="modal" 
-                    onClick="peri_acti_add(<?= $peri_codi;?>)">
-                    Aceptar
+                    class="btn btn-success"  
+                    onClick="peri_acti_add(<?= $peri_codi;?>)"><span class='fa fa-save'></span> Guardar cambios
                 </button>
-                 <button 
-                    type="button" 
-                    class="btn btn-default" 
-                    data-dismiss="modal">
-                    Cerrar
-                </button>           
               </div>
             </div>
           </div>

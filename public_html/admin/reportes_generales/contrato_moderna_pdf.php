@@ -157,7 +157,7 @@
 	</p>
 	<p class="letras_pequenas">
 	<strong>PRIMERA: INTERVINIENTES:</strong> 
-	Participan en forma libre y voluntaria en la celebración del presente convenio, por una parte el (la) señor (a) {$representante["nombres"]}, a nombre y en representación del (la) menor {$alumno["nombres"]} {$alumno["apellidos"]} ; y, por otra parte, el señor Julio Córdova Empuño, por los derechos que representa en calidad de Representante Legal de la Comunidad Unidad Educativa {$nombre_colegio} quien es la Promotora de la {$antes_del_nombre} {$nombre_colegio}, a quienes en lo posterior y para efectos del presente instrumento se los podrá denominar como "el (la) representante", "el (la) estudiante" y la “Unidad Educativa" o "la Institución”, respectivamente.
+	Participan en forma libre y voluntaria en la celebración del presente convenio, por una parte el (la) señor (a) {$representante["nombres"]}, a nombre y en representación del (la) menor {$alumno["nombres"]} {$alumno["apellidos"]} ; y, por otra parte, la CPA. Luz Marìa Pesantes, por los derechos que representa en calidad de Representante Legal de la Comunidad Unidad Educativa {$nombre_colegio} quien es la Promotora de la {$antes_del_nombre} {$nombre_colegio}, a quienes en lo posterior y para efectos del presente instrumento se los podrá denominar como "el (la) representante", "el (la) estudiante" y la “Unidad Educativa" o "la Institución”, respectivamente.
 	</p>
 	
 	<p class="letras_pequenas">

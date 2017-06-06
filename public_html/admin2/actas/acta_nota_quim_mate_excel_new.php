@@ -744,7 +744,7 @@
 						$notas_prom[]=$nota_final;
 					}
                 }
-                $prom_curso=$sum_curso/$cont_alumnos;
+                $prom_curso=$sum_curso;
 		//El promedio del curso solo se presenta si es una materia cuantitativa
 		if($cont_retirados>0)
 		{	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, $i+9,  "* " . show_this_phrase(20000007));

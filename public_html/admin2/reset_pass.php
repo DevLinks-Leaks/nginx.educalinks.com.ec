@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=407;include("template/menu.php");?>
+			<?php $Menu=503;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<?php
@@ -13,10 +13,10 @@
 						$curs_para_info = sqlsrv_query($conn, $sql, $params);  
 						$row_curs_para_info = sqlsrv_fetch_array($curs_para_info);
 				  	?>
-					<h1>Usuarios</h1>
+					<h1>Reseteo de Clave</h1>
 					<ol class="breadcrumb">
 						<li><a href="#"><i class="fa fa-ket"></i></a></li>
-						<li class="active">Usuarios</li>
+						<li class="active">Reseteo de Clave</li>
 					</ol>
 				</section>
 				<section class="content" id="mainPanel">
@@ -26,7 +26,6 @@
 								<h3 class="box-title"></h3>
 							</div><!-- /.box-header -->
 							<div class="box-body">
-								<script type="text/javascript" src="js/funciones_reset.js"></script> 
 								<div id="usua_main" >
 									 <?php include ('reset_pass_main.php'); ?>
 								</div>
@@ -45,9 +44,13 @@
 		<input name="mens_de"  		type="hidden" id="mens_de" 		value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
 		<input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 		<?php include("template/scripts.php");?>
+		<script type="text/javascript" src="js/funciones_reset.js?<?=$rand;?>"></script> 
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#usua_table').DataTable() ;
+				$('#usua_table').DataTable({
+					language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+				}) ;
 			} );
 		</script>
 	</body>

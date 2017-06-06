@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=402;include("template/menu.php");?>
+			<?php $Menu=502;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<?php
@@ -32,7 +32,7 @@
 								</h3>
 							</div><!-- /.box-header -->
 							<div class="box-body">
-								<script type="text/javascript" src="js/funciones_usua.js"></script> 
+								</script> 
 								<div id="usua_main">
 									<?php include ('usuarios_main_lista.php'); ?>
 								</div>
@@ -51,9 +51,13 @@
 		<input name="mens_de"  		type="hidden" id="mens_de" 		value='<?php echo $_SESSION['USUA_DE'];  ?>'    />
 		<input name="mens_de_tipo"  type="hidden" id="mens_de_tipo" value='<?php echo $_SESSION['USUA_TIPO']; ?>'    />
 		<?php include("template/scripts.php");?>
+		<script type="text/javascript" src="js/funciones_usua.js?<?=$rand;?>">
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#usua_table').DataTable() ;
+				$('#usua_table').DataTable({
+					language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+				}) ;
 			} );
 		</script>
 	</body>
@@ -199,7 +203,7 @@
 			type="button" 
 			class="btn btn-success" 
 			onClick="load_ajax_add_usua('usua_main','script_usua.php','opc=add&usua_nombre='+document.getElementById('usua_nombre').value+'&usua_apellido='+document.getElementById('usua_apellido').value+'&usua_email='+document.getElementById('usua_email').value+'&usua_username='+document.getElementById('usua_username').value+'&rol_codi='+document.getElementById('rol_codi').value);" >
-				Agregar
+				<span class='fa fa-save'></span> Agregar
 		</button>
 		<button 
 			type="button" 
@@ -325,7 +329,7 @@
 		<div class="form_element">&nbsp;</div> 
 	  </div>
 	  <div class="modal-footer">
-		<button type="button" class="btn btn-success" onClick="load_ajax_edi_usua('usua_main','script_usua.php','opc=upd&usua_nombre='+document.getElementById('usua_nombre_edi').value+'&usua_apellido='+document.getElementById('usua_apellido_edi').value+'&usua_email='+document.getElementById('usua_email_edi').value+'&usua_username='+document.getElementById('usua_username_edi').value+'&rol_codi='+document.getElementById('rol_codi_edi').value);" >Grabar</button>
+		<button type="button" class="btn btn-success" onClick="load_ajax_edi_usua('usua_main','script_usua.php','opc=upd&usua_nombre='+document.getElementById('usua_nombre_edi').value+'&usua_apellido='+document.getElementById('usua_apellido_edi').value+'&usua_email='+document.getElementById('usua_email_edi').value+'&usua_username='+document.getElementById('usua_username_edi').value+'&rol_codi='+document.getElementById('rol_codi_edi').value);" ><span class='fa fa-save'></span> Grabar</button>
 		<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 	  </div>
 	</div>

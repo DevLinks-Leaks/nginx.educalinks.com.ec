@@ -194,7 +194,10 @@ function load_blacklist_table(div,url,data){
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200){
 			document.getElementById(div).innerHTML=xmlhttp.responseText;	
-			$('#blacklist_table').DataTable();
+			$('#blacklist_table').DataTable({
+				language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+			});
 		}
 	}
 	xmlhttp.open("POST",url,true);

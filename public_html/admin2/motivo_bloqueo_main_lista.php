@@ -34,13 +34,13 @@
 		</td>
         <td>
 			<? if (permiso_activo(517)){?>
-				<a class='btn btn-default' onclick="show_edit(<?= $row["moti_bloq_codi"];?>);" data-toggle="modal" data-target="#ModalMotiEdi">
-					<span class="fa fa-pencil btn_opc_lista_editar"></span> Editar
+				<a class='btn btn-default' title='Editar' onclick="show_edit(<?= $row["moti_bloq_codi"];?>);" data-toggle="modal" data-target="#ModalMotiEdi">
+					<span class="fa fa-pencil btn_opc_lista_editar"></span><span class='hidden-sm hidden-xs'> Editar</span>
 				</a>
 			<?}?>
 			<? if (permiso_activo(518)){?>
-				<a class='btn btn-default' onclick="load_ajax_moti('moti_main','script_moti_bloq.php','del',<?= $row["moti_bloq_codi"];?>);">
-					<span class="fa fa-trash btn_opc_lista_eliminar"></span> Eliminar
+				<a class='btn btn-default' title='Eliminar' onclick="load_ajax_moti('moti_main','script_moti_bloq.php','del',<?= $row["moti_bloq_codi"];?>);">
+					<span class="fa fa-trash btn_opc_lista_eliminar"></span><span class='hidden-sm hidden-xs'>  Eliminar</span>
 				</a>
 			<?}?>
         </td>

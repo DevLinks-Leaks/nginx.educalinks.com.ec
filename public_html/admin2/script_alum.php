@@ -798,5 +798,36 @@ switch($opc){
 		}
 		echo json_encode($result);
 	break;
+	case 'get_curso_by_nivel':
+		$params		= array( $_SESSION['peri_codi'], $_POST['cmb_nivel'] );
+		$sql		= "{call curs_para_view_by_nivel(?,?)}";
+		$stmt	 	= sqlsrv_query( $conn, $sql, $params);
+		if( $stmt === false )
+		{	
+			$result = array ("state"=>"error",
+							 "mensaje"=>"Ocurrió un error al cambiar el nivel.");
+		}
+		if (sqlsrv_has_rows($stmt))
+		{	
+			$cmb= '<select class="form-control"  id="curs_para_codi_in" name="curs_para_codi_in">
+					<option value="-1">- Todos -</option>';
+			while ($row = sqlsrv_fetch_array($stmt))
+			{   $cmb.= '<option value="'. $row["curs_para_codi"].'">'.$row["curs_deta"].' ('.$row["para_deta"].')</option>';
+			}
+			$cmb.= '</select>';
+			$result = array ("cmb_curso"=> $cmb,
+							 "state" 	=> "success",
+							 "mensaje" 	=> "Curso cargado");
+		}
+		else
+		{	$cmb= '<select class="form-control"  id="curs_para_codi_in" name="curs_para_codi_in">
+					<option value="-1">- Todos -</option>';
+			$cmb.= '</select>';
+			$result = array ("cmb_curso"=> $cmb,
+							 "state" 	=> "success",
+							 "mensaje" 	=> "Curso cargado");
+		}
+		echo json_encode($result);
+	break;
 }
 ?>

@@ -134,6 +134,12 @@
 	else
 	{	$jornada_lbl = "";
 	}
+	if ($_SESSION['directorio']=='moderna')
+	{	$codigo  = "<h4>Cod. Alumno: ".$alum_codi."</h4><br/><br/>";
+	}
+	else
+	{	$codigo = "";
+	}
 	/*Creación de objeto TCPDF*/
 	$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 	$pdf->SetCreator($cliente);
@@ -147,6 +153,10 @@
 	$pdf->AddPage();
 	$html=<<<EOF
 	<style>
+	h4
+	{
+		text-align: right;
+	}
 	h5
 	{	
 		text-align: center;
@@ -175,6 +185,7 @@
 		line-height: 180%;
 	}
 	</style>
+	{$codigo}
 	{$jornada_lbl}
 	<h5>AUTORIZACIÓN DE DEBITO EN CUENTA BANCARIA O TARJETA DE CREDITO</h5><br/>
 	<p class="letras_normales">

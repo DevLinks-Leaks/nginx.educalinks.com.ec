@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
 			<?php $Menu=105;include("template/menu.php");?>
@@ -40,7 +40,10 @@
 		<?php include("template/scripts.php");?>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#alum_matri_table').DataTable();
+				$('#alum_matri_table').DataTable({
+					language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+				});
 			});
 		</script>
 	</body>

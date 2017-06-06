@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
-			<?php $Menu=401;include("template/menu.php");?>
+			<?php $Menu=501;include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
 					<?php
@@ -15,7 +15,7 @@
 				  	?>
 					<h1>Roles</h1>
 					<ol class="breadcrumb">
-						<li><a href="#"><i class="fa fa-circle-o"></i></a></li>
+						<li><a href="#"><i class="fa fa-briefcase"></i></a></li>
 						<li class="active">Roles</li>
 					</ol>
 				</section>
@@ -52,7 +52,10 @@
 		<?php include("template/scripts.php");?>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#rol_table').DataTable() ;
+				$('#rol_table').DataTable({
+					language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+				}) ;
 			} );
 		</script>
 	</body>
@@ -74,35 +77,27 @@
 								enctype="multipart/form-data">
 							<table style="width: 100%">
 									<tr>
-										<td width="25%">
-											<label class='control-label' for="rol_deta">Descripci&oacute;n:</label>
-										</td>
-										<td>
-											<input type="text" class='form-control input-sm'
+										<td width="40%" style='text-align:left'><label class='control-label' for="rol_deta">Descripci&oacute;n:</label></td>
+										<td> <input type="text" class='form-control input-sm'
 												id="rol_deta" 
 												name="rol_deta" 
 												value="" 
 												placeholder="Ingrese la descripci&oacute;n"
 												style="width: 100%; margin-top: 5px;">
-											 <input 
-														type="hidden" 
-															id="rol_estado" 
-															name="rol_estado" 
-															value="A">
+											 <input type="hidden" id="rol_estado" name="rol_estado" value="A">
 										</td>
 									</tr>
-									<tr>
-										<td>
-											<label>
-												Acceso a financiero:
-											</label>
-										</td>
-										<td>
-											<input
-												id="rol_finan"
-												type="checkbox"
-												style="margin-top: 10px;">
-										</td>
+									<tr <?php echo ($_SESSION['certus_finan'] == 1 ? '' : 'style="display:none;"'); ?> >
+										<td style='text-align:left'><label class='control-label'> Acceso a módulo financiero: </label></td>
+										<td> <input id="rol_finan" type="checkbox" style="margin-top: 10px;"></td>
+									</tr>
+									<tr <?php echo ($_SESSION['certus_biblio'] == 1 ? '' : 'style="display:none;"'); ?> >
+										<td style='text-align:left'><label class='control-label'> Acceso a módulo biblioteca: </label></td>
+										<td><input id="rol_biblio" type="checkbox" style="margin-top: 10px;"></td>
+									</tr>
+									<tr <?php echo ($_SESSION['certus_medic'] == 1 ? '' : 'style="display:none;"'); ?> >
+										<td style='text-align:left'><label class='control-label'> Acceso a módulo médico: </label></td>
+										<td> <input id="rol_medic" type="checkbox" style="margin-top: 10px;"></td>
 									</tr>
 								</table>
 						</form>
@@ -110,7 +105,7 @@
 				<div class="form_element">&nbsp;</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success" onClick="load_ajax_add_rol('rol_main','script_usua.php','opc=add_rol&rol_deta='+document.getElementById('rol_deta').value+'&rol_estado='+document.getElementById('rol_estado').value+'&rol_finan='+document.getElementById('rol_finan').checked);" >Agregar</button>
+				<button type="button" class="btn btn-success" onClick="js_funciones_usua_add_rol( 'rol_main' );" ><span class='fa fa-save'></span> Agregar rol</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
@@ -128,13 +123,9 @@
 						<form id="frm_rol_edi" name="frm_rol_edi" method="post" action="" enctype="multipart/form-data">
 							<table style="width: 100%">
 									<tr>
-										<td width="25%">
-											<label for="rol_deta_edi">
-												Descripci&oacute;n: 
-											</label>
+										<td width="40%" style='text-align:left'><label for="rol_deta_edi">Descripci&oacute;n:</label>
 										</td>
-										<td>
-											<input 
+										<td><input class='form-control input-sm'
 												type="text" 
 												id="rol_deta_edi" 
 												name="rol_deta_edi" 
@@ -142,25 +133,20 @@
 												placeholder="Ingrese la descripci&oacute;n..."
 												style="width: 100%; margin-top: 5px;">
 
-											 <input 
-												type="hidden" 
-												id="rol_codi_edi" 
-												name="rol_codi_edi" 
-												value="">
+											 <input type="hidden" id="rol_codi_edi" name="rol_codi_edi" value="">
 										</td>
 									</tr>
-									<tr>
-										<td>
-											<label>
-												Acceso a financiero:
-											</label>
-										</td>
-										<td>
-											<input
-												id="rol_finan_edi"
-												type="checkbox"
-												style="margin-top: 10px;">
-										</td>
+									<tr <?php ($_SESSION['certus_finan'] == 1 ? '' : 'style="display:none;"'); ?> >
+										<td style='text-align:left'><label class='control-label'> Acceso a módulo financiero: </label></td>
+										<td><input id="rol_finan_edi" type="checkbox" style="margin-top: 10px;"></td>
+									</tr>
+									<tr <?php ($_SESSION['certus_biblio'] == 1 ? '' : 'style="display:none;"'); ?> >
+										<td style='text-align:left'><label class='control-label'> Acceso a módulo biblioteca: </label></td>
+										<td><input id="rol_biblio_edi" type="checkbox" style="margin-top: 10px;"></td>
+									</tr>
+									<tr <?php ($_SESSION['certus_medic'] == 1 ? '' : 'style="display:none;"'); ?> >
+										<td style='text-align:left'><label class='control-label'> Acceso a módulo médico: </label></td>
+										<td><input id="rol_medic_edi" type="checkbox" style="margin-top: 10px;"></td>
 									</tr>
 								</table>
 						</form>
@@ -168,7 +154,7 @@
 				<div class="form_element">&nbsp;</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-success" onClick="load_ajax_edi_rol('rol_main','script_usua.php','opc=upd_rol&rol_deta='+document.getElementById('rol_deta_edi').value+'&rol_codi='+document.getElementById('rol_codi_edi').value+'&rol_finan='+document.getElementById('rol_finan_edi').checked);" >Grabar</button>
+				<button type="button" class="btn btn-success" onClick="load_ajax_edi_rol( 'rol_main' );" ><span class='fa fa-save'></span> Guardar Cambios</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 			</div>
 		</div>

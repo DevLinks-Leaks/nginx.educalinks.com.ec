@@ -4,8 +4,8 @@
 	include ('../framework/dbconf.php');
 	include ('../framework/funciones.php');
 	
-	$peri_codi=$_SESSION['peri_codi'];	 
-	 
+	$peri_codi=$_SESSION['peri_codi'];	
+	
 	if(isset($_POST['add_curs_para'])){
 		if($_POST['add_curs_para']=='Y'){	
 		
@@ -39,9 +39,9 @@
 			}
 		}
 	}
-
-	$params = array($peri_codi);
-	$sql="{call curs_peri_view(?)}";
+	
+	$params = array( $peri_codi, $search_by_curs_para_codi );
+	$sql="{call curs_peri_view(?,?)}";
 	$curs_peri_view = sqlsrv_query($conn, $sql, $params);  
 	$cc = 0;
 ?>
@@ -49,7 +49,7 @@
 <div class="cursos_paralelo_main">
 	<style>
 		a {
-			color: #424242;
+			/*color: #424242;*/
 		}
 		a:hover {
 			color: #4285F4;
@@ -96,161 +96,187 @@
 			text-decoration: none !important;
 		}
 	</style>
-	<table class="table table-striped">
+	<table id="table_cursos_paralelos" class="table table-striped table table-hover display responsive nowrap"  style='color:#2d3c4a;'>
         <thead>
             <tr>
               <th width="25%">Detalle</th>
               <th width="15%" style='text-align:center'>Info</th>
-              <th width="45%">Opciones</th>
-              <th width="15%" style='text-align:center'>Administrar</th>             
+              <th width="50%">Opciones</th>
+              <th width="10%" style='text-align:center'>Administrar</th>             
             </tr>
         </thead>
         <tbody>
 			<?php  
 			while ($row_curs_peri_view = sqlsrv_fetch_array($curs_peri_view)) 
 			{ 
-				$cc +=1; 
-			?>
-			<tr>
-				<td class="titulares">
-				<h4>
-					<strong>
-						<?php echo $row_curs_peri_view["curs_deta"]; ?>
-					</strong> - 
-						<?php echo $row_curs_peri_view["para_deta"]; ?>
-				</h4>
-				<h6>
-					<?php echo $row_curs_peri_view["nive_deta"]; ?> 
-					<br />
-						(Clases en Curso: 
-						<strong>
-							<?php echo $row_curs_peri_view["cc_mate"]; ?>
-						</strong> )
-				</h6>
-				</td>
-				<td  style='text-align:center'>
-					<div class='rTable' style='text-align:".$align."; width:100%;' >
-						<div class="rTableRow">
+				$cc +=1;
+				$opc_admin = $curso_info = $titulares = $tabla = "";
+				$opciones = array();
+				
+				/* --------------------------------
+				    TABLA DE INFORMACION DE CUPOS
+				   --------------------------------*/
+				$curso_info = "
+					<div class='rTable' width:100%;' >
+						<div class='rTableRow'>
 							<div class='rTableCell' style='text-align:left;'>Matriculados:</div>
-							<div class='rTableCell' style='text-align:right;'<strong><? echo $row_curs_peri_view["cc_alum"]; ?></strong></div>
+							<div class='rTableCell' style='text-align:right;'<strong>".$row_curs_peri_view["cc_alum"]."</strong></div>
 						</div>
-						<div class="rTableRow">
+						<div class='rTableRow'>
 							<div class='rTableCell' style='text-align:left;'>Reservados:</div>
-							<div class='rTableCell' style='text-align:right;'><strong><? echo $row_curs_peri_view["cc_alum_res"]; ?></strong></div>
+							<div class='rTableCell' style='text-align:right;'><strong>".$row_curs_peri_view["cc_alum_res"]."</strong></div>
 						</div>
-						<div class="rTableRow">
+						<div class='rTableRow'>
 							<div class='rTableCell' style='text-align:left;'>Oyentes:</div>
-							<div class='rTableCell' style='text-align:right;'><strong><? echo $row_curs_peri_view["cc_alum_oye"]; ?></strong></div>
+							<div class='rTableCell' style='text-align:right;'><strong>".$row_curs_peri_view["cc_alum_oye"]."</strong></div>
 						</div>
-						<div class="rTableRow">
+						<div class='rTableRow'>
 							<div class='rTableCell' style='text-align:left;'>Retirados:</div>
-							<div class='rTableCell' style='text-align:right;'><strong><? echo $row_curs_peri_view["cc_alum_ret"]; ?></strong></div>
+							<div class='rTableCell' style='text-align:right;'><strong>".$row_curs_peri_view["cc_alum_ret"]."</strong></div>
 						</div>
-						<!--<div class="rTableRow">
+						<!--<div class='rTableRow'>
 							<div class='rTableCell' style='text-align:left;'>Disponibles:</div>
-							<div class='rTableCell' style='text-align:right;'><strong><? echo $row_curs_peri_view["curs_para_cupo"]; ?></strong></div>
+							<div class='rTableCell' style='text-align:right;'><strong>".$row_curs_peri_view["curs_para_cupo"]."</strong></div>
 						</div>-->
-						<div class="rTableRow">
+						<div class='rTableRow'>
 							<div class='rTableCell' style='text-align:left;'><strong>Total Cupos:</strong></div>
-							<div class='rTableCell' style='text-align:right;'><strong><? echo $row_curs_peri_view["curs_para_cupo"]; ?></strong></div>
+							<div class='rTableCell' style='text-align:right;'><strong>".$row_curs_peri_view["curs_para_cupo"]."</strong></div>
 						</div>
-					</div>
-				</td>
-				<td align="left" >
-					<?php					
-						$tabla = "";
-						$opciones = array();
-						if (permiso_activo(212))
-						{	$opciones[]="<div class='rTableCell'>
-								<a class='option'
-									onclick=\"window.location='cursos_paralelo_notas_alum_main.php?peri_codi=".$row_curs_peri_view["peri_codi"] ."&curs_para_codi=". $row_curs_peri_view["curs_para_codi"] ."';\" >
-									<span class='fa fa-users' style='margin-right:3px;'></span> Libretas
-								</a>
-							</div>";
-						} 
-						if (permiso_activo(30))
-						{	$opciones[]="<div class='rTableCell'>
-								<a class='option'
-									onclick=\"window.location='cursos_paralelo_notas_mate_main_v2.php?peri_codi=". $row_curs_peri_view["peri_codi"] ."&curs_para_codi=". $row_curs_peri_view["curs_para_codi"] ."';\" >
-									<span class='fa fa-address-book-o' style='margin-right:3px;'></span> Notas
-								</a>
-							</div>";
-						}
-						if (permiso_activo(213))
-						{	$opciones[]="<div class='rTableCell'>
-								<a class='option'
-									onclick=\"window.location='cursos_paralelo_observaciones_alum_main.php?peri_codi=". $row_curs_peri_view["peri_codi"] ." &amp;curs_para_codi=". $row_curs_peri_view["curs_para_codi"] ." &amp;nive_codi=". $row_curs_peri_view["nive_codi"] ."';\" >
-									<span class='fa fa-eye' style='margin-right:3px;'></span>
-									Observaciones
-								</a>
-							</div>";
-						}
-						if (permiso_activo(29))
-						{	$opciones[]="<div class='rTableCell'>
-								<a class='option'
-									data-toggle='modal'
-									data-target='#list_sel'
-									onclick='load_modal(".$row_curs_peri_view["curs_para_codi"].");'>
-										<span class='fa fa-list-ul' style='margin-right:3px;'></span> Lista por Profesor
-								</a>
-							</div>";
-						}
-						if (permiso_activo(31))
-						{	$opciones[]="<div class='rTableCell'>
-								<a class='option'
-									onclick=\"window.location='cursos_paralelo_falt_alum_main.php?curs_para_codi=".$row_curs_peri_view["curs_para_codi"]."';\" >
-										<span class='fa fa-check-square-o' style='margin-right:3px;'></span> Faltas
-								</a>
-							</div>";
-						}
-						if (permiso_activo(29))
-						{	$opciones[]="<div class='rTableCell'>
-								<a class='option'
-									target='_blank'
-									onclick=\"window.location='reportes_generales/listado_alumnos.php?curs_para_codi=".$row_curs_peri_view["curs_para_codi"]."';\" >
-										<span class='fa fa-list-ul' style='margin-right:3px;'></span> Lista
-								</a>
-							</div>";
-						}
-						if (permiso_activo(214))
-						{	$opciones[]="<div class='rTableCell'>
-								<a class='option'
-									onclick=\"window.location='cursos_paralelo_clase_main.php?curs_para_codi=".$row_curs_peri_view["curs_para_codi"]."';\" >
-									<span class='fa fa-align-justify' style='margin-right:3px;'></span> Control de profesor
-								</a>
-							</div>";
-						}
-						if (permiso_activo(228))
-						{	$opciones[]="<div class='rTableCell'>
-								<a class='option'
-									onclick=\"window.location='cursos_paralelo_hoja_vida_main.php?curs_para_codi=".$row_curs_peri_view["curs_para_codi"]."';\" >
-									<span class='fa fa-user' style='margin-right:3px;'></span> Hoja de vida
-								</a>
-							</div>";
-						}
-						$tabla=cursos_paralelo_main_genera_tabla_por_columnas($opciones, 3, 0,'100%','left');// función está en funciones.php
-						echo $tabla;
-						?>
+					</div>";
+				/* ----------------
+				    ADMINISTRATIVO
+				   ----------------*/
+				$opc_admin ="<div class='row'>
+					<div class='col-sm-12' style='text-align:center'>";
+				if (permiso_activo(32))
+				{	$opc_admin.="
+						<a class='btn btn-default' title='Administrar'
+							href='cursos_paralelo_info_main.php?curs_para_codi=".$row_curs_peri_view["curs_para_codi"]."'>
+								<i style='color:#5b5b5b;' class='fa fa-cog' style='margin-right:3px;'></i>
+						</a>";
+				}
+				if (permiso_activo(33))
+				{	$opc_admin.="
+						<a class='btn btn-default' title='Eliminar'
+							onclick='curs_para_del(".$row_curs_peri_view["curs_para_codi"].")'> 
+							<i style='color:#dd4b39;' class='fa fa-trash btn_opc_lista_eliminar' style='margin-right:3px;'></i>
+						</a>";
+				}
+				$opc_admin .="</div></div>";
+				/* ----------------
+				    OPCIONES
+				   ----------------*/
+				if (permiso_activo(212))
+				{	$opciones[]="<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='padding: 3px 10px;' style='padding: 3px 10px;'>
+						<a class='option'
+							href='cursos_paralelo_notas_alum_main.php?peri_codi=".$row_curs_peri_view["peri_codi"] ."&curs_para_codi=". $row_curs_peri_view["curs_para_codi"] ."' >
+							<span class='fa fa-users' style='margin-right:3px;'></span> Libretas
+						</a>
+					</div>";
+				} 
+				if (permiso_activo(30))
+				{	$opciones[]="<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='padding: 3px 10px;'>
+						<a class='option'
+							href='cursos_paralelo_notas_mate_main_v2.php?peri_codi=". $row_curs_peri_view["peri_codi"] ."&curs_para_codi=". $row_curs_peri_view["curs_para_codi"] ."' >
+							<span class='fa fa-address-book-o' style='margin-right:3px;'></span> Notas
+						</a>
+					</div>";
+				}
+				if (permiso_activo(213))
+				{	$opciones[]="<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='padding: 3px 10px;'>
+						<a class='option'
+							href='cursos_paralelo_observaciones_alum_main.php?peri_codi=". $row_curs_peri_view["peri_codi"] ." &amp;curs_para_codi=". $row_curs_peri_view["curs_para_codi"] ." &amp;nive_codi=". $row_curs_peri_view["nive_codi"] ."' >
+							<span class='fa fa-eye' style='margin-right:3px;'></span>
+							Observaciones
+						</a>
+					</div>";
+				}
+				if (permiso_activo(29))
+				{	$opciones[]="<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='padding: 3px 10px;'>
+						<a class='option'
+							data-toggle='modal'
+							data-target='#list_sel'
+							onclick='load_modal(".$row_curs_peri_view["curs_para_codi"].");'>
+								<span class='fa fa-list-ul' style='margin-right:3px;'></span> Lista por Profesor
+						</a>
+					</div>";
+				}
+				if (permiso_activo(31))
+				{	$opciones[]="<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='padding: 3px 10px;'>
+						<a class='option'
+							href='cursos_paralelo_falt_alum_main.php?curs_para_codi=".$row_curs_peri_view["curs_para_codi"]."' >
+								<span class='fa fa-check-square-o' style='margin-right:3px;'></span> Faltas
+						</a>
+					</div>";
+				}
+				if (permiso_activo(29))
+				{	$opciones[]="<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='padding: 3px 10px;'>
+						<a class='option'
+							target='_blank'
+							href='reportes_generales/listado_alumnos.php?curs_para_codi=".$row_curs_peri_view["curs_para_codi"]."' >
+								<span class='fa fa-list-ul' style='margin-right:3px;'></span> Lista
+						</a>
+					</div>";
+				}
+				if (permiso_activo(214))
+				{	$opciones[]="<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='padding: 3px 10px;'>
+						<a class='option'
+							href='cursos_paralelo_clase_main.php?curs_para_codi=".$row_curs_peri_view["curs_para_codi"]."' >
+							<span class='fa fa-align-justify' style='margin-right:3px;'></span> Control de profesor
+						</a>
+					</div>";
+				}
+				if (permiso_activo(228))
+				{	$opciones[]="<div class='col-lg-6 col-md-6 col-sm-12 col-xs-12' style='padding: 3px 10px;'>
+						<a class='option'
+							href='cursos_paralelo_hoja_vida_main.php?curs_para_codi=".$row_curs_peri_view["curs_para_codi"]."' >
+							<span class='fa fa-user' style='margin-right:3px;'></span> Hoja de vida
+						</a>
+					</div>";
+				}
+				$tabla=cursos_paralelo_main_genera_div_form_horizontal($opciones);// función está en funciones.php
+				$titulares = '
+					<h4>
+						<strong>'.$row_curs_peri_view["curs_deta"].' </strong> - '.$row_curs_peri_view["para_deta"].'&nbsp;
+					</h4>
+					<h6>'. $row_curs_peri_view["nive_deta"].'
+						<br />
+						(Clases en Curso: <strong>'.$row_curs_peri_view["cc_mate"].'</strong> )
+					</h6>
+					<h4>
+						Jornada: <strong>'.$row_curs_peri_view['jorn_deta'].'</strong><br>
+						<div class="visible-phone">
+							<br>
+							<div class="row">
+								<div class="col-xs-6 col-sm-6" style="text-align:right;">
+									<a class="btn btn-app" abindex="0" data-toggle="popover"
+										title="<strong>'.$row_curs_peri_view["curs_deta"].' </strong> - '.$row_curs_peri_view["para_deta"].'"
+										data-content="<div style=\'font-size:x-small\'>'.$curso_info.'</div>"
+										data-placement="bottom"><span class="fa fa-eye"></span>Info
+									</a>&nbsp;
+								</div>
+								<div class="col-xs-6 col-sm-6" style="text-align:left;">
+									<a class="btn btn-app" tabindex="0" data-toggle="popover"
+										title="<strong>'.$row_curs_peri_view["curs_deta"].' </strong> - '.$row_curs_peri_view["para_deta"].'"
+										data-content="<div style=\'font-size:x-small\'>'.$tabla.'<br>'.$opc_admin.'</div>"
+										data-placement="bottom"><span class="fa fa-list"></span>Opciones
+									</a>
+								</div>
+							</div>
+						</div>
+					</h4>';
+			?>
+			<tr><td class="titulares">
+					<?php echo $titulares; ?>
 				</td>
 				<td style='text-align:center'>
-								<?php 
-								if (permiso_activo(32))
-								{
-								?>  <a class='btn btn-default' title='Administrar' onmouseover='$(this).tooltip("show")'
-										onclick="window.location='cursos_paralelo_info_main.php?curs_para_codi=<?php echo $row_curs_peri_view["curs_para_codi"]; ?>';">
-											<i style='color:#5b5b5b;' class='fa fa-cog' style='margin-right:3px;'></i>
-									</a>
-								<?php 
-								}
-								?>
-								<?php 
-								if (permiso_activo(33))
-								{
-								?>  <a class='btn btn-default' title='Eliminar' onmouseover='$(this).tooltip("show")'
-										onclick='curs_para_del(<?php echo $row_curs_peri_view["curs_para_codi"]; ?>)'> 
-										<i style='color:#dd4b39;' class='fa fa-trash btn_opc_lista_eliminar' style='margin-right:3px;'></i>
-									</a>
-							<?php }?>
+					<?php echo $curso_info ; ?>
+				</td>
+				<td align="left" >
+					<?php echo $tabla; ?>
+				</td>
+				<td style='text-align:center'>
+					<?php echo $opc_admin; ?>
 				</td>
 			</tr>
  <?php  }?>
@@ -291,11 +317,6 @@
 				</div>
 			</div>
 		</tbody>
-		<tfoot>
-			<tr class="pager_table">
-				<td colspan="4"><span class='icon-users icon' style='margin-right:3px;'></span>Total de Cursos ( <?php echo $cc;?> )</td>
-			</tr>
-		</tfoot>
 	</table>
 </div>
 <script>
@@ -334,30 +355,16 @@
 	}
 </script>
 <?php
-function cursos_paralelo_main_genera_tabla_por_columnas($array_con_td, $num_columnas=2, $border=0, $width='100%', $align='center')
+function cursos_paralelo_main_genera_div_form_horizontal($array_con_col)
 {	$aux = 0;
-	$c = count($array_con_td);
+	$c = count($array_con_col);
 	$body = "";
-	$body.='<div class="rTableRow">';
-	$tr = 1;
+	$body.="<div class='form-horizontal'>";
 	while ($aux < $c)
-	{	$body.=  $array_con_td[$aux];
+	{	$body.=  $array_con_col[$aux];
 		$aux+=1;
-		if (fmod($aux, $num_columnas)==0) 
-		{	$body.='</div><div class="rTableRow">';
-			$tr++;
-		}
 	}
-	$tr = $tr * $num_columnas;
-	$td_faltantes = $tr - $c;
-	
-	for ( $aux2=0; $aux2<$td_faltantes; $aux2++ )
-	   $body.='<div class="rTableCell"></div>';
-	$body.='</div>';
-	
-	$table= "<div class='rTable' style='text-align:".$align."; width:".$width."' >";
-	$table.= $body;
-	$table.= "</div>";
+	$table= "<div class='row'>".$body."</div></div>";
 	
 	return $table;
 }

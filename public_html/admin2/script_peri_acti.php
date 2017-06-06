@@ -17,9 +17,10 @@
 			$peri_dist_codi=$_POST['peri_dist_codi'];
 			$usua_codi=$_POST['usua_codi'];
 			$peri_codi_dest=$_POST['peri_codi_dest'];
+			$encu_deta=$_POST['encu_deta'];
 			
-			$params = array($peri_codi,$peri_fech_ini,$peri_fech_fin,$peri_etap_codi,$peri_dist_codi,$usua_codi,$peri_codi_dest);
-			$sql="{call peri_acti_add(?,?,?,?,?,?,?)}";
+			$params = array($peri_codi,$peri_fech_ini,$peri_fech_fin,$peri_etap_codi,$peri_dist_codi,$usua_codi,$peri_codi_dest,$encu_deta);
+			$sql="{call peri_acti_add(?,?,?,?,?,?,?,?)}";;
 			$peri_acti_add = sqlsrv_query($conn, $sql, $params);  
 
 			if ($peri_acti_add===false){
@@ -36,6 +37,7 @@
 				$detalle.=" Código de periodo etapa: ".$_POST['peri_etap_codi'];
 				$detalle.=" Código de periodo distribución: ".$_POST['peri_dist_codi'];
 				$detalle.=" Código de periodo destino: ".$_POST['peri_codi_dest'];
+				$detalle.=" Texto Encuesta: ".$_POST['encu_deta'];
 				$detalle.=" Usuario: ".$_POST['usua_codi'];
 				registrar_auditoria (35, $detalle);
 			}

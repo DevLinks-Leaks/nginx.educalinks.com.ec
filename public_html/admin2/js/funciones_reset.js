@@ -23,7 +23,8 @@ function load_ajax_edi_usua(div,url,data){
 		{
 			if (xmlhttp.readyState==4 && xmlhttp.status==200){
 				if (xmlhttp.responseText>0){				
-					$.growl.notice({ title: "Listo!",message: "Se guardaron correctamente los datos del usuario." });	
+					$.growl.notice({ title: "Listo!",message: "Se guardaron correctamente los datos del usuario." });
+					$('#ModalUsuaEdi').modal('hide');
 				}else{
 					$.growl.error({ title: "Atención!",message: "Ocurrió un error al grabar los datos del usuario." });	
 				}
@@ -51,7 +52,10 @@ function load_ajax_lista_reset(div,url,data,div_cont,tabla){
 	{
 		if (xmlhttp.readyState==4 && xmlhttp.status==200){
 			document.getElementById(div).innerHTML=xmlhttp.responseText;	
-			$('#'+tabla).datatable({pageSize: 10,sort: [true, false],filters: [true, false],filterText: 'Escriba para buscar... '});
+			$('#'+tabla).DataTable({
+				language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+			});
 		}
 	}
 	xmlhttp.open("POST",url,true);

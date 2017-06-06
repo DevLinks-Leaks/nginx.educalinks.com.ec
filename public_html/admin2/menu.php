@@ -1,261 +1,100 @@
-<div class="section_side" id="sidePanel">
-            
-       <section class="main">
-        
-        <div class="ingenium">
-          <img src="../theme/images/logo_ingenium.png">
-        </div>
-
-          <div class="contenedor">
-        <div class="logo"> 
-          <img src="<?= $_SESSION['ruta_foto_logo_web'];?>" alt="">
-        </div>
-        <h5>Unidad Educativa</h5>
-        <h4><?php echo para_sist(3); ?></h4>
-        </div>
-      </section>
-            	
-				<? session_start();include ('../framework/dbconf.php');?>
-				<ul class="menu_main">
-					<li>
-						<a href="index.php"  <? if ($Menu==0) { echo 'class="active"';} else { echo' class="link_menu"'; } ?> class="active"  alt="Ir al inicio"> 
-							<span class="icon-home icon"></span>
-							<div class="text"><h4>Inicio</h4></div>
-						</a>
-					</li>
-                    <?php if (permiso_activo(2)){?>
-                    <li>
-                    <div class=" panel-menu">
-                        <div class="panel-heading ">
-                          <div class="panel-title">
-                            <a id="acc_alumnos" data-toggle="collapse"  data-parent="#accordion" href="#alumnos" class="collapsed" onclick="close_others(this.id);" title="Presione [Alt+A] para abrir">
-                              <span class="icon-users icon"></span>
-                            <div class="text"><h4><span style='text-decoration: underline;'>A</span>lumnos</h4></div>
-                            </a>
-                          </div>
-                        </div>
-                        <div id="alumnos" class="panel-collapse collapse <? if (substr($Menu,0,1)<>1)  echo 'in'; ?>">
-                          <div class="panel-body">
-                            
-                            <ul>
-                            	<?php if (permiso_activo(7)){?>
-                                <li>
-                                            <a id="acc_alum_insc" <? if ($Menu==101) echo 'class="active"'; ?>href="../admin/alumnos_add.php" title="Presione [Alt+I] para abrir"><span style='text-decoration: underline;'>I</span>nscripcion </a> 
-                                </li>
-                                <?php }if (permiso_activo(8)){?>
-                                <li>
-                                            <a id="acc_alum_alum" <? if ($Menu==102) echo 'class="active"'; ?>href="../admin/alumnos_main.php" title="Presione [Alt+L] para abrir">A<span style='text-decoration: underline;'>l</span>umnos</a> 
-                                </li>
-                                <?php }if (permiso_activo(9)){?>
-                                <li>
-                                            <a id="acc_alum_repr" <? if ($Menu==103) echo 'class="active"'; ?>href="../admin/alumnos_repre_main.php" title="Presione [Alt+P] para abrir">Re<span style='text-decoration: underline;'>p</span>resentantes</a> 
-                                </li>
-                                <?php }if (permiso_activo(77)){?>
-                                <!-- <li>
-                                <a <? if ($Menu==104) echo 'class="active"'; ?>href="../admin/alumnos_bloqueados_main.php">Bloquear Alumno</a> 
-                                </li> -->
-                                <?php }if (permiso_activo(83)){?>
-                                <li>
-                                <a id="acc_alum_bloq" <? if ($Menu==105) echo 'class="active"'; ?>href="../admin/alum_matri_deuda_main.php" title="Presione [Alt+Q] para abrir">Blo<span style='text-decoration: underline;'>q</span>ueo Libreta</a> 
-                                </li>
-                                <?php }if (permiso_activo(527)){?>
-                                <li>
-                                <a id="acc_alum_black" <? if ($Menu==106) echo 'class="active"'; ?>href="../admin/alumnos_blacklist_main.php" title="Presione [Alt+B] para abrir"><span style='text-decoration: underline;'>B</span>lacklist</a> 
-                                </li>
-                                <?php }?>
-                            </ul>
-                            
-                            
-                            
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <?php }?>
-                    <?php if (permiso_activo(3)){?>
-					<li>
-                    	<div class=" panel-menu">
-                            <div class="panel-heading ">
-                              <div class="panel-title">
-                                <a id="acc_cursos" data-toggle="collapse" data-parent="#accordion" href="#cursos" class="collapsed" onclick="close_others(this.id);" title="Presione [Alt+C] para abrir">
-                                  <span class="icon-books icon"></span>
-                                <div class="text"><h4><span style='text-decoration: underline;'>C</span>ursos</h4></div> 
-                                </a>
-                              </div>
-                            </div>
-                            <div id="cursos" class="panel-collapse collapse <? if (substr($Menu,0,1)<>2)  echo 'in'; ?> ">
-                              <div class="panel-body">
-                                
-                                <ul>
-                                	<?php if (permiso_activo(10)){?>
-                                    <li>
-                                                <a id="acc_cursos_para" <? if ($Menu==201) echo 'class="active"'; ?> href="cursos_paralelo_main.php" title="Presione [Alt+P] para abrir">Cursos <span style='text-decoration: underline;'>P</span>aralelo</a> 
-                                    </li>
-                                    <?php }if (permiso_activo(62)){?>
-                                     <li>
-                                                <a id="acc_cursos_perm" <? if ($Menu==206) echo 'class="active"'; ?> href="cursos_notas_permisos_main.php" title="Presione [Alt+N] para abrir"><span style='text-decoration: underline;'>N</span>otas Permisos</a> 
-                                    </li>
-                                    <?php }if (permiso_activo(11)){?>
-                                     <li>
-                                                <a <? if ($Menu==202) echo 'class="active"'; ?> href="cursos_cursos_main.php">Cursos</a> 
-                                    </li>
-                                    <?php }if (permiso_activo(12)){?>
-                                    <li>
-                                                <a <? if ($Menu==203) echo 'class="active"'; ?>  href="cursos_materias_main.php">Materias</a> 
-                                    </li>
-                                   
-                                    <?php }if (permiso_activo(13)){?>
-                                    <li>
-                                                <a <? if ($Menu==204) echo 'class="active"'; ?> href="cursos_aulas_main.php">Aulas</a> 
-                                    </li>
-                                    <?php }if (permiso_activo(14)){?>
-                                     <li>
-                                                <a <? if ($Menu==205) echo 'class="active"'; ?> href="cursos_admin_paralelo_main.php">Paralelos</a> 
-                                    </li>
-                                    
-                                    <?php }if (permiso_activo(67)){?>
-                                     <li>
-                                                <a <? if ($Menu==207) echo 'class="active"'; ?> href="profesores_main.php">Profesores</a> 
-                                    </li>
-
-                                    <?php }if (permiso_activo(521)){?>
-                                     <li>
-                                                <a <? if ($Menu==208) echo 'class="active"'; ?> href="areas_main.php">Áreas</a> 
-                                    </li>
-                                    <?php }?>
-                                </ul>
-                                
-                                
-                                
-                              </div>
-                            </div>
-                      </div>
-					</li>
-                    <?php }?>
-                    <?php if (permiso_activo(4)){?>
-					<li>
-						<div class=" panel-menu">
-                        <div class="panel-heading ">
-                          <div class="panel-title">
-                            <a id="acc_admin" data-toggle="collapse" data-parent="#accordion" href="#administracion" class="collapsed" onclick="close_others(this.id);" title="Presione [Alt+D] para abrir">
-                              <span class="icon-parent icon"></span>
-                            <div class="text"><h4>A<span style='text-decoration: underline;'>d</span>ministracion</h4></div>
-                            </a>
-                          </div>
-                        </div>
-                        <div id="administracion" class="panel-collapse collapse <? if (substr($Menu,0,1)<>4)  echo 'in'; ?> ">
-                          <div class="panel-body">
-                            
-                            <ul>
-                            	<?php if (permiso_activo(15)){?>
-                                <li>		<a <? if ($Menu==401) echo 'class="active"'; ?>  href="roles_main.php">Roles</a> 
-                                </li>
-                                <?php }if (permiso_activo(16)){?>
-                                <li>		<a <? if ($Menu==402) echo 'class="active"'; ?>  href="usuarios_main.php">Usuarios</a> 
-                                </li>
-                                <?php }if (permiso_activo(71)){?>
-                                <li>		<a <? if ($Menu==407) echo 'class="active"'; ?>  href="reset_pass.php">Reseteo de Clave</a> 
-                                </li>
-                                <?php }if (permiso_activo(17)){?>
-                                <li>
-                                            <a id="acc_admin_peri" <? if ($Menu==403) echo 'class="active"'; ?>   href="admin_periodos.php" title="Presione [Alt+P] para abrir"><span style='text-decoration: underline;'>P</span>eriodos</a> 
-                                </li>
-                                <!-- <?php }if (permiso_activo(18)){?>
-                              <li>
-                                            <a <? if ($Menu==404) echo 'class="active"'; ?>   href="admin_parametos.php">Parametros Generales</a> 
-                              </li> -->
-                              <?php }if (permiso_activo(19)){?>
-                                <li>
-                                            <a <? if ($Menu==405) echo 'class="active"'; ?>   href="admin_auditoria.php">Auditoria</a> 
-                                </li>
-                                <?php }if (permiso_activo(20)){?>
-                                <li>
-                                            <a <? if ($Menu==406) echo 'class="active"'; ?>   href="admin_permisos.php">Permisos</a> 
-                                </li>
-                                <?php }?>
-                                <?php if (permiso_activo(86)){?>
-                                <li>
-                                            <a <? if ($Menu==409) echo 'class="active"'; ?>   href="importacion_datos.php">Importación de datos</a> 
-                                </li>
-                                <?php }?>
-                                <?php if (permiso_activo(84)){?>
-                                <li>
-                                            <a id="acc_admin_para_sist" <? if ($Menu==410) echo 'class="active"'; ?>   href="para_sistema_main.php" title="Presione [Alt+S] para abrir">Parámetros del <span style='text-decoration: underline;'>S</span>istema</a> 
-                                </li>
-                                <?php }?>
-                                <?php if (permiso_activo(87)){?>
-                                <li>
-                                            <a <? if ($Menu==411) echo 'class="active"'; ?>   href="usua_pass_main.php">Usuarios y Claves</a> 
-                                </li>
-                                <?php }?>
-                            </ul>
-                            
-                            
-                            
-                          </div>
-                        </div>
-                      </div>
-					</li>
-			 		<?php }?>
-                    
-                    <?php if (permiso_activo(66)){?>
-					<li>
-						<div class=" panel-menu">
-                        <div class="panel-heading ">
-                          <div class="panel-title">
-                            <a id="acc_repo" data-toggle="collapse" data-parent="#accordion" href="#reportes" class="collapsed" onclick="close_others(this.id);" title="Presione [Alt+R] para abrir">
-                              <span class="icon-print icon"></span>
-                            <div class="text"><h4><span style='text-decoration: underline;'>R</span>eportes</h4></div>
-                            </a>
-                          </div>
-                        </div>
-                        <div id="reportes" class="panel-collapse collapse <? if (substr($Menu,0,1)<>6)  echo 'in'; ?> ">
-                          <div class="panel-body">
-                            
-                            <ul>
-                              <li>
-                              	<a <? if ($Menu==602) echo 'class="active"'; ?>   href="cursos_paralelo_profe_listas_main.php">Reportes Profesores</a> 
-                              </li>
-                              <li>
-                              	<a <? if ($Menu==603) echo 'class="active"'; ?>   href="cursos_paralelo_peri_listas_main.php">Reportes Cursos</a> 
-                              </li>
-                              <li>
-                              	<a <? if ($Menu==604) echo 'class="active"'; ?>   href="hora_aten_repr_listas_main.php">Reportes Citas Profesores</a> 
-                              </li>
-                              <li>
-                              	<a <? if ($Menu==605) echo 'class="active"'; ?>   href="alum_matri_main.php">Reportes Alumnos Matriculados</a> 
-                              </li>
-                              <li>
-                              	<a id="acc_repo_gene" <? if ($Menu==606) echo 'class="active"'; ?>   href="report_gene.php" title="Presione [Alt+G] para abrir">Reportes <span style='text-decoration: underline;'>G</span>enerales</a> 
-                              </li>
-                               <?php if (permiso_activo(76)){?>
-                                <li>
-                                  <a id="acc_repo_acta"<? if ($Menu==607) echo 'class="active"'; ?>   href="report_gene_actas.php" title="Presione [Alt+S] para abrir">Acta<span style='text-decoration: underline;'>s</span></a> 
-                                </li>
-                                <?php }?>
-                            </ul>
-                            
-                            
-                            
-                          </div>
-                        </div>
-                      </div>
-					</li>
-			 		<?php }?>
-                    
-					<li>
-            <a id="acc_mens" href="mensajes.php" class='section_califications link_menu <? if ($Menu==700) echo 'active'; ?>' title="Presione [Alt+M] para abrir">
-              <span class="icon-envelope  icon"></span>
-              <div class="text"><h4><span style='text-decoration: underline;'>M</span>ensajes</h4></div>  
-            </a>
-          </li> 
-          <?php if (permiso_activo(5)){?>
-          <li>
-						<a href="../help/ACADEMICO.pdf" target="_blank" class="section_califications link_menu" alt="Ver Calificaciones">
-							<span class="icon-signup  icon"></span>
-							<div class="text"><h4>Ayuda</h4></div> 
-						</a>
-					</li> 
-                    <?php }?>
-				</ul>
+	<aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+			<!-- Sidebar user panel -->
+			<div class="user-panel">
+				<div class="pull-left image">
+					<img src="<?= $_SESSION['ruta_foto_logo_web'];?>" class="img-circle" alt="User Image">
+				</div>
+				<div class="pull-left info" style='font-size:x-small;'>
+					<p>Unidad Educativa<br>
+					<?php echo $_SESSION['menu_institucion']; ?></p>
+				</div>
 			</div>
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu">
+				<li class="header">MÓDULO ACADÉMICO</li>
+				<li class="<? if (substr($Menu,0,1)==0) echo 'active'; ?>"><a href="index.php" title='Inicio'><i class="fa fa-home"> </i> <span>Inicio</span></li></a>
+				<?php if (permiso_activo(2)){?>
+				<li class="<? if (substr($Menu,0,1)==1) echo 'active'; ?> treeview"><!-- AQUI SERIA EL OPEN --><!--  -->
+					<a href="#"><i class="fa fa-user"></i> <span>Alumnos</span> <i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<?php if(permiso_activo( 7))?> <li <? if($Menu==101) echo 'class="active"'; ?>><a href="alumnos_add.php" title='Formulario para registrar un alumno nuevo'><span class='fa fa-clipboard'></span> Inscripción </a></li>
+						<?php if(permiso_activo( 8))?> <li <? if($Menu==102) echo 'class="active"'; ?>><a href="alumnos_main.php" title='Bandeja principal de todos los alumnos'><span class='fa fa-graduation-cap'></span> Bandeja de Alumnos</a></li>
+						<?php if(permiso_activo( 9))?> <li <? if($Menu==103) echo 'class="active"'; ?>><a href="alumnos_repre_main.php" title='Bandeja principal de todos los representantes'><span class='fa fa-heart-o'></span> Bandeja Representantes</a></li>
+						<?php if(permiso_activo(527))?><li <? if($Menu==106) echo 'class="active"'; ?>><a href="alumnos_blacklist_main.php" title='Listado de alumnos en Blacllist'><span class='fa fa-list'></span> Bandeja de Blacklist</a></li>
+						<li class='<? if (substr($Menu,1,1)==2) echo 'active'; ?>  treeview'><a href="#"><i class="fa fa-wrench"></i> <span>Mantenimiento</span> <i class="fa fa-angle-left pull-right"></i></a>
+							<ul class="treeview-menu">
+								<?php if(permiso_activo( 8))?> <li <? if($Menu==124) echo 'class="active"'; ?>><a href="motivo_bloqueo_main.php" title='Mantenimiento de motivos de bloqueo'><span class='fa fa-ban'></span> Motivos bloqueo</a></li>
+								<?php if(permiso_activo( 8))?> <li <? if($Menu==127) echo 'class="active"'; ?>><a href="documentos_main.php" title='Mantenimiento de los documentos solicitados en matriculación. Sirven para hacer check en la ventana de matriculación.'><span class='fa fa-briefcase'></span> Doc. entregados</a></li>
+							</ul>
+						</li>
+						<?php if(permiso_activo(83))?> <li <? if($Menu==105) echo 'class="active"'; ?>><a href="alum_matri_deuda_main.php" title='Listado de alumnos matriculados para bloquear libreta'><span class='fa fa-ban'></span> Bloqueo Libreta</a> </li>
+					</ul>
+				</li>
+				<?php }?>
+				<?php if (permiso_activo(3)){?>
+				<li class="<? if (substr($Menu,0,1)==2) echo 'active'; ?> treeview"><!-- AQUI SERIA EL OPEN --><!--  -->
+					<a href="#"><i class="fa fa-university"></i> <span>Cursos</span> <i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<?php if(permiso_activo(10))?> <li <? if($Menu==201) echo 'class="active"'; ?>><a href="cursos_paralelo_main.php" title='Bandeja principal de cursos abiertos'><span class='fa fa-university'></span> Cursos Paralelo</a></li>
+						<li class='<? if (substr($Menu,1,1)==1) echo 'active'; ?>  treeview'><a href="#"><i class="fa fa-wrench"></i> <span>Mantenimiento</span> <i class="fa fa-angle-left pull-right"></i></a>
+							<ul class="treeview-menu">
+								<?php if(permiso_activo(17))?> <li <? if($Menu==217) echo 'class="active"'; ?>><a href="admin_periodos.php"><span class='fa fa-calendar'></span> Periodos lectivos</a> </li>
+								<?php if(permiso_activo(62))?> <li <? if($Menu==216) echo 'class="active"'; ?>><a href="cursos_cursos_main.php"><span class='fa fa-building'></span> Cursos</a></li>
+								<?php if(permiso_activo(14))?> <li <? if($Menu==215) echo 'class="active"'; ?>><a href="cursos_admin_paralelo_main.php"><span class='fa fa-list-alt'></span> Paralelos</a></li>
+								<?php if(permiso_activo(13))?> <li <? if($Menu==214) echo 'class="active"'; ?>><a href="cursos_aulas_main.php"><span class='fa fa-list-alt'></span> Aulas</a></li>
+								<?php if(permiso_activo(12))?> <li <? if($Menu==213) echo 'class="active"'; ?>><a href="cursos_materias_main.php"><span class='fa fa-address-book-o'></span> Materias</a> </li>
+								<?php if(permiso_activo(521))?><li <? if($Menu==218) echo 'class="active"'; ?>><a href="areas_main.php"><span class='fa fa-list-alt'></span> Áreas</a></li>
+							</ul>	
+						</li>
+					</ul>
+				</li>
+				<li class="<? if ($Menu==901) echo 'active'; ?>"><a href="../../admin/profesores_main.php"><i class="fa fa-briefcase"></i> <span>Profesores</span></a></li>
+				<?php }?>
+				<?php if (permiso_activo(4)){?>
+				<li class="<? if (substr($Menu,0,1)==5) echo 'active'; ?> treeview"><!-- AQUI SERIA EL OPEN --><!--  -->
+					<a href="#"><i class="fa fa-users"></i> <span>Config. de usuario</span> <i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<?php if(permiso_activo(15))?> <li <? if($Menu==501) echo 'class="active"'; ?>><a href="roles_main.php"><span class='fa fa-briefcase'></span> Roles de usuario</a></li>
+						<?php if(permiso_activo(16))?> <li <? if($Menu==502) echo 'class="active"'; ?>><a href="usuarios_main.php"><span class='fa fa-users'></span> Usuarios</a></li>
+						<?php if(permiso_activo(71))?> <li <? if($Menu==503) echo 'class="active"'; ?>><a href="reset_pass.php"><span class='fa fa-key'></span> Reseteo de Clave</a></li>
+					</ul>
+				</li>
+				<li class="<? if (substr($Menu,0,1)==4) echo 'active'; ?> treeview"><!-- AQUI SERIA EL OPEN --><!--  -->
+					<a href="#"><i class="fa fa-cogs"></i> <span>Administración</span> <i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<?php if(permiso_activo(18))?> <li <? if($Menu==404) echo 'class="active"'; ?>><a href="admin_auditoria.php"><span class='fa fa-wpforms'></span> Auditoria</a></li>
+						<li class='<? if (substr($Menu,1,1)==1) echo 'active'; ?>  treeview'><a href="#"><i class="fa fa-lock"></i> <span>Permisos</span> <i class="fa fa-angle-left pull-right"></i></a>
+							<ul class="treeview-menu">
+								<?php if(permiso_activo(20))?> <li <? if($Menu==416) echo 'class="active"'; ?>><a href="admin_permisos.php"><span class='fa fa-users'></span> Permisos de usuario</a></li>
+								<?php if(permiso_activo(11))?> <li <? if($Menu==412) echo 'class="active"'; ?>><a href="cursos_notas_permisos_main.php" title='Permisos de ingresos de notas a docentes.'><span class='fa fa-list-alt'></span> Ingreso de notas</a></li>
+								<?php if(permiso_activo(11))?> <li <? if($Menu==418) echo 'class="active"'; ?>><a href="admin_periodos_etapas.php?peri_codi=<? echo $_SESSION['peri_codi']; ?>" 
+								title='El usuario puede activar ciertas funcionalidades del sistema, determinando el tiempo por el cual el acceso a la misma es vigente para los usuarios'><span class='fa fa-arrows-h'></span> Permisos por tiempo</a></li>
+							</ul>	
+						</li>
+						<?php if(permiso_activo(84))?> <li <? if($Menu==403) echo 'class="active"'; ?>><a href="para_sistema_main.php"><span class='fa fa-toggle-on'></span> Parámetros sistema</a></li>
+					</ul>
+				</li>
+				<?php }?>
+				<?php if (permiso_activo(66)){?>
+				<li class="<? if (substr($Menu,0,1)==6) echo 'active'; ?> treeview"><!-- AQUI SERIA EL OPEN --><!--  -->
+					<a href="#"><i class="fa fa-book"></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
+					<ul class="treeview-menu">
+						<?php if(permiso_activo(66))?> <li <? if($Menu==602) echo 'class="active"'; ?>><a href="cursos_paralelo_profe_listas_main.php"><span class='fa fa-bookmark-o'></span> R. Profesores</a></li>
+						<?php if(permiso_activo(66))?> <li <? if($Menu==603) echo 'class="active"'; ?>><a href="cursos_paralelo_peri_listas_main.php"><span class='fa fa-bookmark-o'></span> R. Cursos</a></li>
+						<?php if(permiso_activo(66))?> <li <? if($Menu==604) echo 'class="active"'; ?>><a href="hora_aten_repr_listas_main.php"><span class='fa fa-bookmark-o'></span> R. Citas Profesores</a></li>
+						<?php if(permiso_activo(66))?> <li <? if($Menu==605) echo 'class="active"'; ?>><a href="alum_matri_main.php"><span class='fa fa-bookmark-o'></span> R. Alumnos</a></li>
+						<?php if(permiso_activo(66))?> <li <? if($Menu==606) echo 'class="active"'; ?>><a href="report_gene.php"><span class='fa fa-bookmark-o'></span> R. Generales</a></li>
+						<?php if(permiso_activo(76))?> <li <? if($Menu==607) echo 'class="active"'; ?>><a href="report_gene_actas.php"><span class='fa fa-bookmark-o'></span> Actas</a></li>
+					</ul>
+				</li>
+				<?php }?>
+				
+				<li class="<? if ($Menu==700) echo 'active'; ?>"><a href="../../admin/mensajes.php"><i class="fa fa-envelope"></i> <span>Mensajes</span></a></li>
+				<li><a href="../help/ACADEMICO.pdf" target='_blank'><i class="fa fa-info-circle"></i> <span>Manual de ayuda</span></a><li><!-- {menu001} -->
+				<li class="<? if ($Menu==800) echo 'active'; ?>"><a href="acerca.php"><i class="icon icon-logo"></i> <span>Acerca de Educalinks</span></a></li>
+			</ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>

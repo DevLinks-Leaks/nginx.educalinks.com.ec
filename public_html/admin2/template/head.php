@@ -38,9 +38,11 @@
     <link rel="stylesheet" href="../../includes/common/plugins/daterangepicker/daterangepicker-bs3.css">
 	<link rel="stylesheet" href="../../includes/common/plugins/datepicker/datepicker3.css" />
 	<link rel="shortcut icon" href="../../imagenes/favicon.png" />
-	<link href="../../includes/common/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet">
+	<!--<link href="https://cdn.datatables.net/responsive/1.0.7/css/responsive.dataTables.min.css" rel="stylesheet">-->
 	<link href="../../includes/common/plugins/datatables/jquery.dataTables.min.css?" rel="stylesheet">
 	<link href="https://cdn.datatables.net/buttons/1.1.2/css/buttons.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/rowreorder/1.2.0/css/rowReorder.dataTables.min.css" rel="stylesheet">
 	
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="../../includes/common/bootstrap/css/bootstrap.css">
@@ -51,8 +53,9 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../../includes/common/dist/css/AdminLTE.min.css?<?= $rand?>">
 	<!-- Select 2 -->
-    <link rel="stylesheet" href="../../includes/common/plugins/select2/select2.min.css">
-	
+    <!-- <link rel="stylesheet" href="../../includes/common/plugins/select2/select2.min.css"> -->
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    
 	<link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs/dt-1.10.8,af-2.0.0,b-1.0.1,b-colvis-1.0.1,b-print-1.0.1,cr-1.2.0,fc-3.1.0,fh-3.0.0,kt-2.0.0,r-1.0.7,rr-1.0.0,sc-1.3.0,se-1.0.0/datatables.min.css"/>   
     <!-- fullCalendar 2.2.5-->
@@ -72,4 +75,12 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<style>
+		@media (min-width:320px)  { .visible-phone{ display:inline;} .visible-desktop{ display:none;  } }
+		@media (min-width:481px)  { .visible-phone{ display:inline;} .visible-desktop{ display:none;  } }
+		@media (min-width:641px)  { .visible-phone{ display:inline;} .visible-desktop{ display:none;  } }
+		@media (min-width:961px)  { .visible-phone{ display:none;}   .visible-desktop{ display:inline;} }
+		@media (min-width:1025px) { .visible-phone{ display:none;}   .visible-desktop{ display:inline;} }
+		@media (min-width:1281px) { .visible-phone{ display:none;}   .visible-desktop{ display:inline;} }
+	</style>
 </head>

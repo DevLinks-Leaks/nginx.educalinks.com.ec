@@ -1,7 +1,15 @@
 <!DOCTYPE html>
+<?php
+	
+	if ( isset( $_GET['curs_para_codi'] ) )
+		$search_by_curs_para_codi = $_GET['curs_para_codi'];
+	else
+		$search_by_curs_para_codi = -1; 
+	 
+?>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
 			<?php $Menu=201;include("template/menu.php");?>
@@ -9,7 +17,7 @@
 				<section class="content-header">
 					<h1>Cursos Paralelos</h1>
 					<ol class="breadcrumb">
-						<li><a href="#"><i class="fa fa-circle-o"></i></a></li>
+						<li><a href="#"><i class="fa fa-university"></i></a></li>
 						<li class="active">Cursos Paralelos</li>
 					</ol>
 				</section>
@@ -18,34 +26,99 @@
 						<div class="box box-default">
 							<div class="box-header with-border">
 								<h3 class="box-title">
-									<?php if (permiso_activo(36)){?>
-									  <a class="btn btn-primary"  id="bt_curs_add" onclick="document.getElementById('curs_deta').value='';" data-toggle="modal" data-target="#curs_nuev" title="">
-										<span class="fa fa-plus"></span> Nuevo Curso
-									  </a>
-									<?php }?>
-									<a class="btn btn-default"  id="bt_curs_add"  href="cursos_paralelo_nomina_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
-										<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Nómina Matr. General
-									</a>
-									<a class="btn btn-default"  id="bt_curs_add"  href="cursos_paralelo_nomina_totales_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
-										<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Nómina Matr. Resumen
-									</a>
-									<!--
-									<a class="btn btn-default"  id="bt_curs_add"  href="cursos_paralelo_listas_main_view.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
-										<span class="icon-print"></span> Lista General
-									</a>-->
-									<a class="btn btn-default"  id="bt_curs_add"  href="listado_alumnos_all_xls.php" >
-										<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Lista Matriculados
-									</a>
-									<a class="btn btn-default"  id="bt_curs_add"  href="listado_all_xls.php" title='Todos los alumnos con estado respectivo'>
-										<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Lista General
-									</a>
-									<a  class="btn btn-default"
-										onclick=""
-										data-toggle="modal"
-										data-target="#ModalExcelencia"
-										title=""><span style='color:#d5b62e;' class="fa fa-star"></span> Excelencia Acad.
-									</a>
+									<?php
+										if ( $search_by_curs_para_codi == -1 )
+										{   if (permiso_activo(36))
+												echo '	<a class="btn btn-primary"  id="bt_curs_add" onclick="document.getElementById(\'curs_deta\').value=\'\';" data-toggle="modal" data-target="#curs_nuev" title="">
+														<span class="fa fa-plus"></span> Nuevo Curso
+													</a>';
+									?>
+									<div class='visible-phone'>
+										<div class="btn-group">
+											<button type="button" 
+													onmouseover="$(this).tooltip('show');"
+													class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+												<span style='color:green;' class='fa fa-file-excel-o'></span>&nbsp;Reportes&nbsp;<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a id="bt_curs_add"  href="cursos_paralelo_nomina_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
+													<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Nómina Matr. General
+												</a></li>
+												<li><a id="bt_curs_add"  href="cursos_paralelo_nomina_totales_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
+													<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Nómina Matr. Resumen
+												</a></li>
+												<li><a id="bt_curs_add"  href="listado_alumnos_all_xls.php" >
+													<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Lista Matriculados
+												</a></li>
+												<li><a id="bt_curs_add"  href="listado_all_xls.php" title='Todos los alumnos con estado respectivo'>
+													<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Lista General
+												</a></li>
+												<li><a  onclick=""
+													data-toggle="modal"
+													data-target="#ModalExcelencia"
+													title=""><span style='color:#d5b62e;' class="fa fa-star"></span> Excelencia Acad.
+												</a></li>
+											</ul>
+										</div>
+									</div>
+									<div class='visible-desktop'>
+										<div class="btn-group">
+											<button type="button" 
+													onmouseover="$(this).tooltip('show');"
+													class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+												<span style='color:green;' class='fa fa-file-excel-o'></span>&nbsp;Reportes&nbsp;<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li><a id="bt_curs_add"  href="cursos_paralelo_nomina_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
+													<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Nómina Matr. General
+												</a></li>
+												<li><a id="bt_curs_add"  href="cursos_paralelo_nomina_totales_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
+													<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Nómina Matr. Resumen
+												</a></li>
+												<li><a id="bt_curs_add"  href="listado_alumnos_all_xls.php" >
+													<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Lista Matriculados
+												</a></li>
+												<li><a id="bt_curs_add"  href="listado_all_xls.php" title='Todos los alumnos con estado respectivo'>
+													<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Lista General
+												</a></li>
+												<li><a  onclick=""
+													data-toggle="modal"
+													data-target="#ModalExcelencia"
+													title=""><span style='color:#d5b62e;' class="fa fa-star"></span> Excelencia Acad.
+												</a></li>
+											</ul>
+										</div>
+									</div>
+									<div style='display:none'>
+										<a class="btn btn-default"  id="bt_curs_add"  href="cursos_paralelo_nomina_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
+											<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Nómina Matr. General
+										</a>
+										<a class="btn btn-default"  id="bt_curs_add"  href="cursos_paralelo_nomina_totales_distrito_main_view_xls.php?peri_codi=<?= $_SESSION['peri_codi']; ?>" >
+											<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Nómina Matr. Resumen
+										</a>
+										<a class="btn btn-default"  id="bt_curs_add"  href="listado_alumnos_all_xls.php" >
+											<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Lista Matriculados
+										</a>
+										<a class="btn btn-default"  id="bt_curs_add"  href="listado_all_xls.php" title='Todos los alumnos con estado respectivo'>
+											<span style='color:#22ae73;' class="fa fa-file-excel-o"></span> Lista General
+										</a>
+										<a  class="btn btn-default"
+											onclick=""
+											data-toggle="modal"
+											data-target="#ModalExcelencia"
+											title=""><span style='color:#d5b62e;' class="fa fa-star"></span> Excelencia Acad.
+										</a>
+									</div>
+									<?php
+										}
+										else
+										{	echo '<a href="cursos_paralelo_main.php" class="btn btn-info"  id="bt_curs_add" title="Ver el listado de todos los cursos del período lectivo '.$_SESSION['peri_deta'].'">
+												<span class="fa fa-search"></span> Ver todos los cursos
+											</a>';
+										}
+									?>
 								</h3>
+								 <?php include ('template/config_cursos.php');?>
 							</div><!-- /.box-header -->
 							<div class="box-body">
 								<div id="curs_para_main">
@@ -70,6 +143,25 @@
 		<?php include("template/scripts.php");?>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
+				if (window.matchMedia('(max-width:960px)').matches)
+					$('#table_cursos_paralelos').DataTable({
+						language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+						"bSort": false ,
+						"paging": false,
+						"columnDefs": [
+							{className: "dt-body-center", "targets": [0]},
+							{className: "dt-body-center", "targets": [1], "visible": false},
+							{className: "dt-body-right" , "targets": [2], "visible": false},
+							{className: "dt-body-right" , "targets": [3], "visible": false}
+						]
+					});
+				
+				if (window.matchMedia('(min-width:961px)').matches)
+					$('#table_cursos_paralelos').DataTable({
+						language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+						"bSort": false
+					});			
+				$('[data-toggle="popover"]').popover({html:true});
 			} );
 		</script>
 	</body>

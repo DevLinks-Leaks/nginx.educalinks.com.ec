@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
     <?php include("template/head.php");?>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini <?php echo $_SESSION['sidebar_status']; ?>">
 		<div class="wrapper">
 			<?php include ('template/header.php');?>
 			<?php $Menu=411;include("template/menu.php");?>
@@ -28,15 +28,14 @@
 									 {
 									 ?>
 									 <tr>
-										<td><img src="../imagenes/repo_icon.png" style="width:60px;"></td>
-										<td><h3>Alumnos</h3></td>
-										<td>
+										<td width="20%" class="text-left"><h4>Alumnos</h4></td>
+										<td width="30%" class="text-left">
 										<label>Curso:</label>
 											<?
 												include ('select_cursos_usua_pass.php');
 											?>
 										</td>
-										<td>
+										<td width="30%" class="text-left">
 											<div id="lbl_paralelo">
 											<label>Paralelo:</label>
 												<select class='form-control input-sm' id="sl_paralelos" name="sl_paralelos"  disabled="disabled">
@@ -44,9 +43,9 @@
 												</select>
 											</div>
 										</td>
-										<td>
+										<td width="15%" class="text-center">
 											<a href="JavaScript:getURLAlumnos();" >
-												<img src="../imagenes/report_to_pdf.png" style="width:45px;">
+												<span class="fa fa-file-pdf-o fa-3x"></span>
 											</a>
 										</td>
 									 </tr>
@@ -56,15 +55,14 @@
 									 {
 									 ?>
 									 <tr>
-										<td><img src="../imagenes/repo_icon.png" style="width:60px;"></td>
-										<td><h3>Profesores</h3></td>
-										<td>
+										<td class="text-left"><h4>Profesores</h4></td>
+										<td class="text-center">
 										</td>
-										<td>
+										<td class="text-center">
 										</td>
-										<td>
+										<td class="text-center">
 											<a target="_blank" href="reportes_generales/usuarios_claves_profesores.php" >
-												<img src="../imagenes/report_to_pdf.png" style="width:45px;">
+												<span class="fa fa-file-pdf-o fa-3x"></span>
 											</a>
 										</td>
 									 </tr>
@@ -74,15 +72,14 @@
 									 {
 									 ?>
 									  <tr>
-										<td><img src="../imagenes/repo_icon.png" style="width:60px;"></td>
-										<td><h3>Administrativos</h3></td>
-										<td>
+										<td class="text-left"><h4>Administrativos</h4></td>
+										<td class="text-center">
 										</td>
-										<td>
+										<td class="text-center">
 										</td>
-										<td>
+										<td class="text-center">
 											<a target="_blank" href="reportes_generales/usuarios_claves_administrativos.php" >
-												<img src="../imagenes/report_to_pdf.png" style="width:45px;">
+												<span class="fa fa-file-pdf-o fa-3x"></span>
 											</a>
 										</td>
 									 </tr>
@@ -109,7 +106,10 @@
 		<?php include("template/scripts.php");?>
 		<script type="text/javascript" charset="utf-8">
 			$(document).ready(function() {
-				$('#rol_table').DataTable() ;
+				$('#rol_table').DataTable({
+					language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
+				 	"bSort": false 
+				}) ;
 			} );
 		</script>
 	</body>

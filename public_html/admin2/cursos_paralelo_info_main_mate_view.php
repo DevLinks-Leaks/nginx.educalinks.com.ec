@@ -145,7 +145,8 @@ while ($row_curs_peri_mate_view = sqlsrv_fetch_array($curs_peri_mate_view))
 								class='btn btn-default btn-sm' 
 								title='<?= $row_curs_para_mate_prof_view["prof_apel"]." ".$row_curs_para_mate_prof_view["prof_nomb"]?>'
 								onclick='Asignar_Profesor(<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"] ?>)'>
-							<?= substr($row_curs_para_mate_prof_view["prof_apel"],0,6) ?>(<?= $row_curs_para_mate_prof_view["aula_deta"] ?>)"
+								<?= ($row_curs_para_mate_prof_view["es_tutor"]==1?'<b>':'') ?>
+							<?= substr($row_curs_para_mate_prof_view["prof_apel"],0,6) ?>(<?= $row_curs_para_mate_prof_view["aula_deta"] ?>) <?= ($row_curs_para_mate_prof_view["es_tutor"]==1?'</b>':'') ?>"
 						</button>
 						<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"
 							 data-placement='right' title='Ver opciones' onmouseover='$(this).tooltip("show");'>
@@ -176,10 +177,10 @@ while ($row_curs_peri_mate_view = sqlsrv_fetch_array($curs_peri_mate_view))
 								<? } ?>
 						<?php if (permiso_activo(215)){?>
 							<li class="divider"></li>
-							<li><a class="option" title="Asignar como tutor">
-										<input name='tutor' onclick='curs_para_mate_prof_tutor (
+							<li><a class="option" title="Asignar como tutor" onclick='curs_para_mate_prof_tutor (
 													<?= $row_curs_para_mate_prof_view["curs_para_mate_prof_codi"] ?>,
-													<?= $curs_para_codi ?>)' 
+													<?= $curs_para_codi ?>)'>
+										<input name='tutor'  
 											type='radio' <?= ($row_curs_para_mate_prof_view["es_tutor"]==1?'checked':'') ?> style='margin-right:3px;'> Tutor</a></li>
 						<?php }?>
 						</ul>

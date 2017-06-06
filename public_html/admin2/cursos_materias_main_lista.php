@@ -1,4 +1,3 @@
-
 <?php 
 
 	session_start();	 
@@ -59,20 +58,5 @@
  	
  <?php  }?>
 		</tbody>
-		<tfoot>
-			<tr>
-				<td>
-					<span class="fa fa-books"> </span> Total de Cursos ( <?php echo $cc;?> )
-				</td>
-				<td class="right" colspan="5">
-					<div class="paging"></div>
-				</td>
-			</tr>
-		</tfoot>
 	</table>
 </div>
-<script>
-	$(document).ready(function() {
-	    $('#mate_table').DataTable();
-	});
-</script>
