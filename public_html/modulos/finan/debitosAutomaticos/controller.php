@@ -79,7 +79,7 @@ function handler()
 			$data['tab_class1']='';
 			$data['tab_class2']='';
 			$data['tab_class3']='class="active"';
-			if($_SESSION['caja_fecha']< date('Ymd') or $_SESSION['caja_codi']==0)
+			if(( $_SESSION['caja_fecha']< date('Ymd') or $_SESSION['caja_codi']==0) or empty($_SESSION['puntVent_codigo']))
 			{   $data['hd_caja_abierta']='false';
 			}
 			else

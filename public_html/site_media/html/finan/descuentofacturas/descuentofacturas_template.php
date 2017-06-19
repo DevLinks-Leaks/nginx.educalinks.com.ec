@@ -1,8 +1,5 @@
-<?php 
-session_start();
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta charset="utf-8">
@@ -39,6 +36,23 @@ session_start();
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 <style >
+	table {
+		border-collapse: collapse;
+	}
+
+	td {
+		position: relative;
+		padding: 5px 10px;
+	}
+
+	tr.strikeout td:before {
+		content: " ";
+		position: absolute;
+		top: 50%;
+		left: 0;
+		border-bottom: 1px solid #111;
+		width: 100%;
+	}
 	td.details-control {
 		background: url('{ruta_imagenes_common}/details_open.png') no-repeat center center;
 		cursor: pointer;
@@ -142,9 +156,10 @@ session_start();
 	<script src="{ruta_includes_common}/maskmoney/src/jquery.maskMoney.js" type="text/javascript"></script>
 	<script src="{ruta_includes_common}/bootstrap-validator-master/js/validator.js" type="text/javascript"></script>
     <script src="{ruta_includes_common}/plugins/jQuery/numeric.js"></script>
+	<script src="{ruta_includes_common}/shortcut.js"></script>
 
 	<script src="{ruta_js_finan}/general.js"></script>
-	<script src="{ruta_js_finan}/descuentofacturas.js"></script>
+	<script src="{ruta_js_finan}/descuentofacturas.js?i=1"></script>
 	<script src="{ruta_js_finan}/clientes.js"></script>
 	<script src="{ruta_js_common}/persona.js"></script>
 	<script src="{ruta_js_common}/representantes.js"></script>

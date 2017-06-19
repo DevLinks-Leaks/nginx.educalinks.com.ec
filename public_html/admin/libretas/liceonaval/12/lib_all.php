@@ -25,17 +25,17 @@ class MYPDF extends TCPDF
 	
 	public function Header() 
 	{	$logo_cole = '../../../'.$_SESSION['ruta_foto_logo_index'];
-		$this->Image($logo_cole, 5, 12, 45, 12, 'PNG', '', 'C', false, 300, '', false, false, 0, false, false, false);
+		$this->Image($logo_cole, 6, 10, 15, 18, 'PNG', '', 'C', false, 300, '', false, false, 0, false, false, false);
 		$this->Image($this->foto, 185, 8, 16, 18, 'JPG', '', 'C', false, 300, '', false, false, 0, false, false, false);
 		$this->SetFont('helvetica', 'B', 7);
 		$this->MultiCell(70, 10, '', 0, 'C', 0, 1, '', '', true);
-		$this->MultiCell(70, 4, 'BOLETÍN DE CALIFICACIONES', 0, 'L', 0, 1, 55, '', true);
-		$this->MultiCell(0, 4, mb_strtoupper($this->periodo,'utf8'), 0, 'L', 0, 1, 55, '', true);
-		$this->MultiCell(0, 4, mb_strtoupper($this->curso,'utf8'), 0, 'L', 0, 1, 55, '', true);
-		$this->MultiCell(0, 4, mb_strtoupper(substr($this->nombre.' '.$this->apellido,0,45),'utf8'), 0, 'L', 0, 1, 55, '', true);
-		$this->MultiCell(0, 4, 'AÑO LECTIVO '.$_SESSION['peri_deta'], 0, 'L', 0, 1, 55, '', true);
+		$this->MultiCell(70, 4, 'BOLETÍN DE CALIFICACIONES', 0, 'L', 0, 1, 30, '', true);
+		$this->MultiCell(0, 4, mb_strtoupper($this->periodo,'utf8'), 0, 'L', 0, 1, 30, '', true);
+		$this->MultiCell(0, 4, mb_strtoupper($this->curso,'utf8'), 0, 'L', 0, 1, 30, '', true);
+		$this->MultiCell(0, 4, mb_strtoupper(substr($this->nombre.' '.$this->apellido,0,45),'utf8'), 0, 'L', 0, 1, 30, '', true);
+		$this->MultiCell(0, 4, 'AÑO LECTIVO '.$_SESSION['peri_deta'], 0, 'L', 0, 1, 30, '', true);
 		$this->SetFont('helvetica', 'B', 9);
-		$this->MultiCell(0, 0, $this->codigo, 0, 'L', 0, 1, 185, 26, true);
+		$this->MultiCell(0, 0, $this->codigo, 0, 'L', 0, 1, 188, 26, true);
 	}
 	public function Footer()
 	{	$this->SetY(-15);
@@ -150,6 +150,7 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 									$row_nota_peri_cual_tipo_view['nota_peri_cual_refe'].')</td><td class="tabla_informativa" width="60%"> '.$row_nota_peri_cual_tipo_view['nota_peri_cual_deta'].
 									'</td></tr>';
 			}
+			$tabla_cuantitativa.='<tr class="cuerpo_notas" colspan="3"> * Calificación menor al mínimo requerido.</tr>';
 			$tabla_cuantitativa.='</table>';
 			/*Faltas/Inasistencias*/
 			$tabla_inasistencias = '<table width="100%" border="1" cellpadding="1" cellspacing="0">';
@@ -346,14 +347,12 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 			<br/><br/>
 			<table width="99%">
 			<tr>
-			<td width="50%" rowspan="3">{$tabla_comportamiento}</td>
+			<td width="50%" >{$tabla_comportamiento}</td>
 			<td width="50%"> {$tabla_cuantitativa}<br/></td>
 			</tr>
 			<tr>
-			<td> {$tabla_observaciones}<br/></td>
-			</tr>
-			<tr>
-			<td> {$tabla_inasistencias}</td>
+			<td  width="50%"> {$tabla_observaciones}</td>
+			<td  width="50%"> {$tabla_inasistencias}</td>
 			</tr>
 			</table>
 			<br/>

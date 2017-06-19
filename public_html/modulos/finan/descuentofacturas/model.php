@@ -119,7 +119,7 @@ class Descuentofacturas extends DBAbstractModel{
             unset($bypass);
         }
     }
-	  public function asignarDscto($data=array()) {
+	public function asignarDscto($data=array()) {
         foreach ($data as $campo=>$valor) {
             $$campo = $valor;
         }
@@ -133,46 +133,82 @@ class Descuentofacturas extends DBAbstractModel{
             $this->mensaje="Descuento no asignado";
         }
     }
+	public function getFacturaConfigInfo( $codigo = "" )
+	{   
+		$this->parametros = array( $codigo );
+        $this->sp = "str_consultaFacturaConfig";
+        $this->executeSPConsulta();
 
-	
-	public function getDescuentos_factura($codigo=""){
-        $this->parametros = array($codigo);
+        if (count($this->rows)>0)
+		{
+            $this->mensaje="Deuda encontrada";
+        }
+		else
+		{
+            $this->mensaje="Deuda no encontrada";
+        }
+    }
+	public function getFacturaConfigInfo_detalle( $codigo = "" )
+	{   
+		$this->parametros = array( $codigo );
+        $this->sp = "str_consultaFacturaConfig_detalleFactura";
+        $this->executeSPConsulta();
+
+        if (count($this->rows)>0)
+		{
+            $this->mensaje="Deuda encontrada";
+        }
+		else
+		{
+            $this->mensaje="Deuda no encontrada";
+        }
+    }
+	public function getDescuentos_factura($codigo="zzz")
+	{   
+		$this->parametros = array($codigo);
         $this->sp = "str_consultaFacturaDescto";
         $this->executeSPConsulta();
 
-        if (count($this->rows)>0){
+        if (count($this->rows)>0)
+		{
             $this->mensaje="descuentos encontrados";
-        }else{
+        }
+		else
+		{
             $this->mensaje="Descuentos no encontrados";
         }
     }
-    public function get_bancoSelectFormat(){
-        $this->parametros = array();
-        $this->sp = "str_consultaGeneralBancos";
+	public function get_previsualizacion( $xml, $como_si_fuera )
+	{   $this->parametros = array( $xml, $como_si_fuera );
+        $this->sp = "str_consultaFacturaConfig_previsualizacion";
         $this->executeSPConsulta();
-        if (count($this->rows)<=0){
-            $this->mensaje="No existen bancos en la BD.";
-            array_pop($bypass);
-            array_push($bypass, array(0 => -1, 
-                                   1 => 'SELECCIONE ..',
-                                   3 => ''));
-            $this->rows = $bypass;
-            unset($bypass);
-        }else{
-            $bypass = array();
-            array_pop($bypass);
-            array_push($bypass, array(0 => -1, 
-                                   1 => 'SELECCIONE ..',
-                                   3 => ''));
-            foreach($this->rows as $banco){
-                array_push($bypass, array_values($banco));
-            }
-
-            $this->rows = $bypass;
-            unset($bypass);
+   	
+        if (count($this->rows)>0)
+		{
+            $this->mensaje="¡Exito! Previsualización renderizada con éxito";
+        }
+		else
+		{
+            $this->mensaje="¡Error! Problemas al momento de generar previsualización";
         }
     }
 
+	public function set_changes( $xml )
+	{   $this->parametros = array( $xml, $_SESSION['usua_codigo'], $_SESSION['USUA_TIPO_CODI'] );
+        $this->sp = "str_actualizaFacturaConfig";
+        $this->executeSPConsulta();
+   	
+        if (count($this->rows)>0)
+		{
+            $this->mensaje="¡Exito! La modificación de la configuración de la deuda ".$datosFactura['cabecera']['codigoDeuda']." ha sido registrada en el sistema ".
+				 " y los valores han sido actualizados.";
+        }
+		else
+		{
+            $this->mensaje="¡Error! Error al intentar actualizar la factura";
+        }
+    }
+	
     public function get_cuentasBancariasSelectFormat(){
         $this->parametros = array();
         $this->sp = "str_consultaGeneralCuentasBancarias";
@@ -352,11 +388,4 @@ class Descuentofacturas extends DBAbstractModel{
         unset($this);
     }
 }
-
-
-
-
-
-
-
 ?>

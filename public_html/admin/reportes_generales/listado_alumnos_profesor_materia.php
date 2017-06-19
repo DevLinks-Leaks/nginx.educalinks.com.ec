@@ -22,7 +22,6 @@
 	$ciudad = para_sist (31);
 	$nombre_colegio = para_sist(3);
 	$antes_del_nombre = para_sist(36);
-	$jornada = para_sist(35);
 
 	class MYPDF extends TCPDF 
 	{	public function Header() 
@@ -90,7 +89,7 @@
 	$sql="{call curs_para_mate_prof_info(?)}";
 	$stmt = sqlsrv_query($conn, $sql, $params);
 	$row = sqlsrv_fetch_array($stmt);
-
+    $jornada = $row['jorn_deta'];
 	/*Tabla con información general*/
 	$tbl_info='<table width="100%">';
 	$tbl_info.='<tr>';

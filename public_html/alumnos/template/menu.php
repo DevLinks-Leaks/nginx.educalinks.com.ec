@@ -20,8 +20,10 @@
 				<?php if($_SESSION['peri_codi_dest']!=null){ ?>
 				<li class="<? if ($Menu==2) echo 'active'; ?>"><a href="preinscripcion.php"><i class="fa fa-pencil-square-o"></i> <span>Preinscripción</span></a></li>
 				<? } ?>
-				<? if ($_SESSION['directorio']=='moderna'){?><li class="<? if ($Menu==10) echo 'active'; ?>"><a href="actualizacion_datos.php"><i class="fa fa-clipboard"></i> <span>Datos</span></a></li><?}?>
-				<li class="<? if ($Menu==2) echo 'active'; ?>"><a href="agenda.php"><i class="fa fa-calendar"></i> <span>Agenda</span></a></li>
+                <?php if($_SESSION['USUA_TIPO']=='R'){?>
+				<? if ($_SESSION['directorio']=='moderna' or $_SESSION['directorio']=='dev' ){?><li class="<? if ($Menu==10) echo 'active'; ?>"><a href="foto.php"><i class="fa fa-clipboard"></i> <span>Foto Carnet</span></a></li><?}?>
+				<?}?>
+                <li class="<? if ($Menu==2) echo 'active'; ?>"><a href="agenda.php"><i class="fa fa-calendar"></i> <span>Agenda</span></a></li>
 				<li class="<? if ($Menu==3) echo 'active'; ?>"><a href="clases.php"><i class="glyphicon glyphicon-book"></i> <span>Materiales</span></a></li>
 				<li class="<? if ($Menu==700) echo 'active'; ?>"><a href="notas.php"><i class="fa fa-book"></i> <span>Calificaciones</span></a></li>
 				<?php

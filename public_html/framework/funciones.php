@@ -1027,7 +1027,7 @@
             echo "=======>".para_sist(407);*/
             
             if (!$_SESSION['repr_upd'] || !$_SESSION['alum_upd']){
-                if ($current_file_name != "actualizacion_datos.php")
+                if ($current_file_name != "actualizacion_datos.php" && $current_file_name != "activar_licencia.php")
                     header("Location: actualizacion_datos.php");
             }
         }

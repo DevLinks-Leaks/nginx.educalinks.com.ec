@@ -34,7 +34,7 @@ class CajaCierre extends DBAbstractModel{
         }
     }
 	public function get_caja_cierre_fp($caja_cier_codigo=""){
-        $this->parametros = array($caja_cier_codigo);
+        $this->parametros = array( $caja_cier_codigo, $_SESSION['peri_codi'] );
         $this->sp = "str_consultaCajaCierre_rep_formaPago";
         $this->executeSPConsulta();
         if (count($this->rows)>0){

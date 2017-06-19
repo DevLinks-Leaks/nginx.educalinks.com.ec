@@ -35,7 +35,7 @@ class MYPDF extends TCPDF
 $serverName = "certuslinks.com";
 $db = "Educalinks_delfos"; 
 $uid = "sa";
-$pwd = "R3dlink51981";
+$pwd = "$3cur!ty@@";
 $charset = "UTF-8";
 $connectionInfo = array("Database"=>$db, "UID"=>$uid, "PWD"=>$pwd, "CharacterSet"=>$charset);
 $conn = sqlsrv_connect($serverName, $connectionInfo);

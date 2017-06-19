@@ -282,11 +282,11 @@ while ($row_alum_nota_peri_dist_view= sqlsrv_fetch_array($alum_nota_peri_dist_vi
 				}
 			}
 			$calificaciones.= '">';
-			if ($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]>=0 and $row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]<>null)
+			if ($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]>0 and $row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]<>null)
 			{	switch ($row_alum_nota_peri_dist_view['mate_tipo'])
 				{	case "C":
-					$calificaciones.= (truncar($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12])<0)?'':truncar($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]);
-					if(($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]>=0) and ($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]<$mayor_aceptable))
+					$calificaciones.= (truncar($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12])<=0)?'':truncar($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]);
+					if(($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]>0) and ($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]<$mayor_aceptable))
 					{	$calificaciones.= '*';
 					}
 					break;

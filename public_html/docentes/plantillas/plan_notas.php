@@ -139,10 +139,10 @@ if ($nota_refe_cab_tipo=='C')
 			$objValidation->setFormula2(10);
 			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($col).$fila)->applyFromArray($bordes);
 		}
-		if ($num_in_notas>1)
-		{	$objPHPExcel->getActiveSheet()->SetCellValue(PHPExcel_Cell::stringFromColumnIndex($col).$fila, '=TRUNC(SUM('.PHPExcel_Cell::stringFromColumnIndex(2).$fila.':'.PHPExcel_Cell::stringFromColumnIndex($num_in_notas+1).$fila.')/'.$num_in_notas.','.para_sist(41).')');
-			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($col).$fila)->getNumberFormat()->setFormatCode('0.00');
-		}
+		// if ($num_in_notas>1)
+		// {	$objPHPExcel->getActiveSheet()->SetCellValue(PHPExcel_Cell::stringFromColumnIndex($col).$fila, '=TRUNC(SUM('.PHPExcel_Cell::stringFromColumnIndex(2).$fila.':'.PHPExcel_Cell::stringFromColumnIndex($num_in_notas+1).$fila.')/'.$num_in_notas.','.para_sist(41).')');
+		// 	$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($col).$fila)->getNumberFormat()->setFormatCode('0.00');
+		// }
 	}
 	$objPHPExcel->getActiveSheet()->getStyle('C9:'.PHPExcel_Cell::stringFromColumnIndex($num_in_notas+1).($num_alum+8))->getNumberFormat()->setFormatCode('0.00');
 }

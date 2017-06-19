@@ -198,18 +198,26 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header" id='modal_resultadoPago_header'>
-				<!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span></button>-->
 				<h4 class="modal-title" id="myModalLabel">Resultado de la operación</h4>
 			</div>
 			<div class="modal-body" id="modal_resultadoPago_body">
 				...
 			</div>
-			<div class="modal-footer"  id='modal_resultadoPago_foot'>
-				<!-- <button type="button" class="btn btn-default"  onclick="cancelar();" data-dismiss="modal">Cerrar</button>-->
-				<button type="button" id='btn_modal_resultadoPago_close' name='btn_modal_resultadoPago_close' class="btn btn-default" data-dismiss="modal">Cerrar</button>
-				<!--<button type="submit" class="btn btn-primary" aria-hidden='true' data-toggle='modal' data-target='#modal_deudasconfirmacion' 
-					onclick="migrarfacturasindividuales(document.getElementById('fc_generada').value,'fc_generada','{ruta_html_finan}/cobros/controller.php',document.getElementById('codigopago').value)">Migrar Pago</button>-->
+			<div class="modal-footer"  id='modal_resultadoPago_foot' style='text-align:center;'>
+				<button type='button' onclick='window.location.replace("../../../finan/gestionFacturas/")'; id='btn_modal_resultadoPago_gestionFac' name='btn_modal_resultadoPago_gestionFac' 
+					class="btn btn-block btn-sm btn-warning" data-dismiss="modal">
+					<i class='fa fa-barcode'></i>&nbsp;Ir a gestión facturas</a>
+				<button type='button' onclick='window.location.replace("../../../finan/pagos/");' id='btn_modal_resultadoPago_pagos' name='btn_modal_resultadoPago_pagos'
+					class="btn btn-block btn-sm btn-primary" data-dismiss="modal">
+					<i class='fa fa-list'></i>&nbsp;Ir a bandeja de pagos</a>
+				<button type="button" id='btn_modal_resultadoPago_current_cl' name='btn_modal_resultadoPago_current_cl'
+					class="btn btn-block btn-sm btn-danger" data-dismiss="modal"
+					onclick="js_cobros_selecciona( 'span_button_save_person','', document.getElementById('hd_tipo_persona').value );">
+					<i class='fa fa-user-circle-o'></i>&nbsp;Cobrar deuda al mismo cliente</button>
+				<button type="button" id='btn_modal_resultadoPago_new_cl' name='btn_modal_resultadoPago_new_cl'
+					class="btn btn-block btn-sm btn-success" data-dismiss="modal"
+					onclick='js_cobros_limpiar_despues_de_pago_existoso();'>
+					<i class='fa fa-users'></i>&nbsp;Cobrar deuda a otro cliente</button>
 			</div>
 		</div>
 	</div>
@@ -236,6 +244,67 @@
 </div>
 <!-- Modal  Migrar Confirmacion-->
 <div id="div_modal_seleccionar_persona_lista" name="div_modal_seleccionar_persona_lista"></div>
+<!-- CLIENTE -->
+<div class='panel panel-info'>
+	<div class="panel-heading">
+		<table style='width:100%'>
+			<tr>
+				<td style='text-align:left;'>
+					Cliente
+					<div id='EducaLinksHelperCliente' style='display:inline;font-size:small;text-align:left;vertical-align:middle;'>
+						<a href='#' onmouseover='$(this).tooltip("show")' title="Para cobrar una deuda, haga click a 'Buscar' para empezar por buscando un cliente." data-placement='right'><span class='glyphicon glyphicon-question-sign'></span></a>
+					</div>
+					<div id='EducaLinksHelperCliente2' class='EducalinksHelper' style='display:none;font-size:small;text-align:left;vertical-align:middle;'>
+						¿No est&aacute; seguro de haber cobrado una deuda correctamente? <a href='#' onmouseover='$(this).tooltip("show")' title="Si no est&aacute; seguro(a) de haber realizado un pago correctamente, puede verificar seleccionando desde el men&uacute; la opci&oacute;n de Ver/Pagos." data-placement='right'><span class='glyphicon glyphicon-info-sign'></span></a>
+					</div>
+				</td>
+				<td style='text-align:right;'>
+					<!--<button id="btnBuscarCliente" type="button" 
+							class="btn btn-info btn-md" aria-hidden="true" data-toggle="modal" data-target="#modal_busquedaCliente" 
+							onclick="carga_busquedaCliente('modal_busquedaCliente_body','{ruta_html_finan}/cobros/controller.php')" {disabled_caja} >
+						<span class='glyphicon glyphicon-search'></span>&nbsp;Buscar</button>-->
+					<button class="btn btn-info btn-md" 
+								onclick="js_persona_select_user_searchlist_2('span_button_save_person', 'div_modal_seleccionar_persona_lista', '','js_cobros_selecciona')">
+								<span class="glyphicon glyphicon-search"></span>&nbsp;Buscar</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="panel-footer">
+		<div id="datosCliente" name="datosCliente" class="grid">
+			<div class="row">
+				<div class="col-sm-2">
+					<input type="hidden" readonly class="form-control" id="hd_tipo_persona" name="hd_tipo_persona" />
+					<input type="text" readonly class="form-control" id="codigoCliente" name="codigoCliente" placeholder="Codigo" />
+				</div>
+				<div class="col-sm-2">
+					<input type="text" readonly class="form-control" id="numeroIdentificacionCliente" name="numeroIdentificacionCliente" placeholder="CI / RUC" />
+				</div>
+				<div class="col-sm-4">
+					<input type="text" readonly class="form-control" id="nombresCliente" name="nombresCliente" placeholder="Nombres" />
+					<input type="hidden" class="form-control" id="hd_prontopago" name="hd_prontopago" value='{hd_prontopago}' />
+				</div>
+				<div class="col-sm-4" style='text-align:right;margin-top:2px;'>
+					<div style='vertical-align:top;' id='client_options'>{opciones_cliente}</div>
+				</div>
+			</div>
+			<div class="row">
+				<div  id='div_datos_academicos_estudiante' name='div_datos_academicos_estudiante' style='display:inline;'>
+					<div class="col-sm-4">
+						<input id="txt_curso" type="text" class="form-control" placeholder="Grado/Curso" disabled style="width:100%" />
+					</div>
+					<div class="col-sm-4">
+						<input id="txt_grupo_economico" type="text" class="form-control" placeholder="Grupo económico" disabled style="width:100%" />
+					</div>
+					<div class="col-sm-4">
+						<input id="txt_nivel_economico" type="text" class="form-control" placeholder="Nivel económico" disabled style="width:100%" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+			
 <div class="box box-default">
 	<div class="box-header with-border">
 		<h3 class="box-title">Cobro</h3>
@@ -246,66 +315,6 @@
 	</div><!-- /.box-header -->
 	<div class="box-body">
 		<div id="deudasPendientesCliente">
-			<!-- CLIENTE -->
-			<div class='panel panel-info'>
-				<div class="panel-heading">
-					<table style='width:100%'>
-						<tr>
-							<td style='text-align:left;'>
-								Cliente
-								<div id='EducaLinksHelperCliente' style='display:inline;font-size:small;text-align:left;vertical-align:middle;'>
-									<a href='#' onmouseover='$(this).tooltip("show")' title="Para cobrar una deuda, haga click a 'Buscar' para empezar por buscando un cliente." data-placement='right'><span class='glyphicon glyphicon-question-sign'></span></a>
-								</div>
-								<div id='EducaLinksHelperCliente2' class='EducalinksHelper' style='display:none;font-size:small;text-align:left;vertical-align:middle;'>
-									¿No est&aacute; seguro de haber cobrado una deuda correctamente? <a href='#' onmouseover='$(this).tooltip("show")' title="Si no est&aacute; seguro(a) de haber realizado un pago correctamente, puede verificar seleccionando desde el men&uacute; la opci&oacute;n de Ver/Pagos." data-placement='right'><span class='glyphicon glyphicon-info-sign'></span></a>
-								</div>
-							</td>
-							<td style='text-align:right;'>
-								<!--<button id="btnBuscarCliente" type="button" 
-										class="btn btn-info btn-md" aria-hidden="true" data-toggle="modal" data-target="#modal_busquedaCliente" 
-										onclick="carga_busquedaCliente('modal_busquedaCliente_body','{ruta_html_finan}/cobros/controller.php')" {disabled_caja} >
-									<span class='glyphicon glyphicon-search'></span>&nbsp;Buscar</button>-->
-								<button class="btn btn-info btn-md" 
-											onclick="js_persona_select_user_searchlist_2('span_button_save_person', 'div_modal_seleccionar_persona_lista', '','js_cobros_selecciona')">
-											<span class="glyphicon glyphicon-search"></span>&nbsp;Buscar</button>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="panel-footer">
-					<div id="datosCliente" name="datosCliente" class="grid">
-						<div class="row">
-							<div class="col-sm-2">
-								<input type="hidden" readonly class="form-control" id="hd_tipo_persona" name="hd_tipo_persona" />
-								<input type="text" readonly class="form-control" id="codigoCliente" name="codigoCliente" placeholder="Codigo" />
-							</div>
-							<div class="col-sm-2">
-								<input type="text" readonly class="form-control" id="numeroIdentificacionCliente" name="numeroIdentificacionCliente" placeholder="CI / RUC" />
-							</div>
-							<div class="col-sm-4">
-								<input type="text" readonly class="form-control" id="nombresCliente" name="nombresCliente" placeholder="Nombres" />
-								<input type="hidden" class="form-control" id="hd_prontopago" name="hd_prontopago" value='{hd_prontopago}' />
-							</div>
-							<div class="col-sm-4" style='text-align:right;'>
-								<div style='vertical-align:middle;' id='client_options'>{opciones_cliente}</div>
-							</div>
-						</div>
-						<div class="row">
-							<div  id='div_datos_academicos_estudiante' name='div_datos_academicos_estudiante' style='display:inline;'>
-								<div class="col-sm-4">
-									<input id="txt_curso" type="text" class="form-control" placeholder="Grado/Curso" disabled style="width:100%" />
-								</div>
-								<div class="col-sm-4">
-									<input id="txt_grupo_economico" type="text" class="form-control" placeholder="Grupo económico" disabled style="width:100%" />
-								</div>
-								<div class="col-sm-4">
-									<input id="txt_nivel_economico" type="text" class="form-control" placeholder="Nivel económico" disabled style="width:100%" />
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 			<!-- DEUDAS PENDIENTES-->
 			<br>
 			<div id='formularioCobro' style="display:none;">
@@ -340,7 +349,8 @@
 					<div  id="collapse_deudasPendientes" class="panel-collapse collapse">
 						<div id="resultado" style="display:none;" class="grid">
 							<div class="row">
-								<div class="col-sm-12" id="div_noticia_deudas_anteriores" style='align:center;display:none;'>
+								<a name='div_noticias_deudas_anteriores'></a>
+								<div class="col-sm-12" id="div_noticia_deudas_anteriores" style='align:center;display:none;' >
 								</div>
 							</div>
 							<div class="row">
@@ -475,7 +485,7 @@
 	<div class="box-footer">
 		<div id="cobro_opciones" class="btn-group pull-right">
 			<button type="button" class="btn btn-default btn-md" onclick="limpiaPagina('true')" {disabled_caja}><span class='glyphicon glyphicon-erase'></span> Limpiar selecciones</button>
-			<button type="button"  class="btn btn-primary btn-md" aria-hidden="true" data-toggle="modal" data-target="#modal_resultadoPago" 
+			<button type="button" id='btn_gen_pago' name='btn_gen_pago' class="btn btn-primary btn-md" aria-hidden="true" 
 					onclick="generaPago('modal_resultadoPago_body','{ruta_html_finan}/cobros/controller.php')" {disabled_caja}>
 				<span class='glyphicon glyphicon-record'></span> Confirmar pagos</button>
 		</div>

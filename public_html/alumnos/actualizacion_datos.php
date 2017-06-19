@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-	<?php  
-		$colegio='moderna';
-	?>
     <?php include("template/head.php");?>
     <body class="hold-transition skin-blue sidebar-mini">
 		<div class="wrapper">
@@ -10,16 +7,17 @@
 			<?php $active="cons_estudiantes";include("template/menu.php");?>
 			<div class="content-wrapper">
 				<section class="content-header">
-					<h1>Carnet
-						<small>Foto de Carnet</small>
+					<h1>Actualización de Datos
+						<small>Datos del estudiante</small>
 					</h1>
 					<ol class="breadcrumb">
-						<!-- <li><button class="btn btn-xs btn-primary" data-target="#myModal" data-toggle="modal"><i class='fa fa-list'></i> Instrucciones</button></li> -->
+						 <li><button class="btn btn-xs btn-primary" data-target="#myModal" data-toggle="modal"><i class='fa fa-list'></i> Instrucciones</button></li>
 					</ol>
 				</section>
 				<section class="content" id="mainPanel">
 					<div id="information">
-						<?php 
+						<?php
+                            include ('../framework/funciones.php');
 							// session_activa(3);
 							/*Fin de actualización de datos*/
 							$params = array($_SESSION['curs_para_codi']);
@@ -53,24 +51,21 @@
 									<div class="zones">
 										<div class="nav-tabs-custom">  
 											<ul id="tabs" class="nav nav-tabs">
-												<?php if($_SESSION['directorio']==$colegio){?>
-												<li class="active"><a href="#tab2" data-toggle="tab" onClick=""><span class=" fa-image fa"></span> Foto del Alumno</a></li>
-												<?}?>
-												<!-- <li class="<?=($_SESSION['directorio']==$colegio ? '' : 'active')?>"><a href="#tab1" data-toggle="tab" onClick=""><span class=" fa-file-text-o fa"></span> Datos del Alumno</a></li> -->
-												<!-- <?if( $_SESSION['certus_medic'] == '1' ){?><li ><a href="#tab4" data-toggle="tab" onClick=""><span class="fa fa-medkit"></span> Ficha médica</a></li><?}?> -->
-												<!-- <li><a href="#tab2" data-toggle="tab" onClick=""><span class="fa-users fa"></span> 3. Datos del representante</a></li> -->
-												<!-- <li><a href="#tab3" data-toggle="tab" onClick=""><span class="fa-pencil fa"></span> Opciones</a></li> -->
-											</ul> 	
+                                                <?if( $_SESSION['certus_medic'] == '1' ){?><li class="active"><a href="#tab4" data-toggle="tab" onClick=""><span class="fa fa-medkit"></span> Ficha médica</a></li><?}?>
+												 <li class="<?=( $_SESSION['certus_medic'] == '1' ? '' : 'active'  )?>"><a href="#tab1" data-toggle="tab" onClick=""><span class=" fa-file-text-o fa"></span> Datos del Alumno</a></li>
+												 <li><a href="#tab2" data-toggle="tab" onClick=""><span class="fa-users fa"></span> Datos del representante</a></li>
+												 <li><a href="#tab3" data-toggle="tab" onClick=""><span class="fa-save fa"></span> Confirmación</a></li>
+											</ul>
 											<?php
-												// if($_SESSION['certus_medic']=='1')
-												// 	$ha_actualizado_medic = $alum_view['alum_upd_ficha_medica'];
-												// else
+												 if($_SESSION['certus_medic']=='1')
+												 	$ha_actualizado_medic = $alum_view['alum_upd_ficha_medica'];
+												 else
 													$ha_actualizado_medic = 1;
 											?>
 											<input type="hidden" name="hd_ha_actualizado_medic" id="hd_ha_actualizado_medic" value="<?php echo $ha_actualizado_medic;?>"/>
 										
 											<div class="tab-content">
-												<div class="tab-pane" id="tab4">
+												<div class="tab-pane <?=( $_SESSION['certus_medic'] == '1' ? 'active' : ''  )?>" id="tab4">
 													<div class="alumnos_add_script admin_pass">
 															<?php 
 																include ('../framework/dbconf.php');		
@@ -116,78 +111,18 @@
 															?>
 													</div>
 												</div>
-												<?php if($_SESSION['directorio']==$colegio){?>
-												<div class="tab-pane <?=($_SESSION['directorio']==$colegio ? 'active' : '')?>" id="tab2">
-													<div class="row">
-														<div class="col-md-3">
-															<div class="selector" style='text-align:center;'>
-																<?php
-																$file_exi=$_SESSION['ruta_foto_alumno'].$alum_view['alum_codi'].'.jpg';
-
-																if (file_exists($file_exi)) {
-																	$pp=$file_exi;
-																} else {
-																	$pp=$_SESSION['foto_carnet'];
-																}
-																?>
-																<div id="div_foto" >
-																	<img id="alum_preview" src="<?php echo $pp;?>?<?=$rand?>" width="220" height="200" />
-																</div>
-																<input type="file" class='form-control input-sm' name="alum_foto" id="alum_foto" class="btn" onblur="preview(this,1);" onchange="preview(this,1);"/>
-																
-															</div>
-														</div>
-														
-														<div class="col-md-6">
-															<div class="alert alert-warning">
-												                <h4><i class="icon fa fa-warning"></i> Importante!</h4>
-												                <p>Esta foto será usada para la emisión del carnet estudiantil.</p>
-												                <p>La foto debe cumplir los siguientes requisitos para proceder a la impresión:</p>
-												                <ul>
-												                	<li>Vestir el uniforme de diario.</li>
-												                	<li>Foto con fondo blanco.</li>
-												                	<li>Seguir formato de imagen sugerida.</li>
-												                	<li>En caso de mujeres: accesorios blancos.</li>
-												                </ul>
-												                <p><b>*En caso de no cumplir todos los requisitos la credencial no será emitida y deberá ser reemplazada.</b></p>
-											              	</div>
-														</div>
-														<div class="col-md-3">
-															<div class="nav-tabs-custom">  
-																<ul id="tabs" class="nav nav-tabs">
-																	<li class="active"><a href="#tab_1" data-toggle="tab" onClick=""><span class=" fa-male fa"></span> Hombre</a></li>
-																	<li class=""><a href="#tab_2" data-toggle="tab" onClick=""><span class=" fa-female fa"></span> Mujer </a></li>
-																</ul>
-																<div class="tab-content">
-																	<div class="tab-pane active" id="tab_1">
-																		<img class="img-responsive"  src="<?=$_SESSION['foto_carnet_hombre'];?>" />
-																	</div>
-																	<div class="tab-pane" id="tab_2">
-																		<img class="img-responsive" src="<?=$_SESSION['foto_carnet_mujer'];?>" />
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="row">
-														<div class="col-md-4 col-md-offset-5 form-group">
-															<button id="btn_actualizar" class="btn btn-success" style="width:40%;" data-loading="Actualizando.." onclick="actualizar_datos();">Subir Foto</button>
-														</div>
-													</div>
-												</div>
-												<?}?>
-												<div class="tab-pane <?=($_SESSION['directorio']==$colegio ? '' : 'active')?>" id="tab1">
+												<div class="tab-pane  <?=( $_SESSION['certus_medic'] == '1' ? '' : 'active'  )?>" id="tab1">
 													<div class="row">
 														<div class="col-md-12"><h5 class="page-header">Datos Principales</h5></div>
 														<div class="col-md-6">
 															<div class="form-group">
-																<label for="alum_nomb">(*)Nombres:</label>
+																<label for="alum_nomb">Nombres<span style="color:red;">*</span>:</label>
 																<input class="form-control" id="alum_nomb" name="alum_nomb" type="text" placeholder="Ingrese los nombres del alumno..." value="<?=$alum_view['alum_nomb'];?>"  onkeyup="new_username ();" readonly>
 															</div>
 														</div>
 														<div class="col-md-6">
 															<div class="form-group">
-																<label for="alum_apel">(*)Apellidos:</label>
+																<label for="alum_apel">Apellidos<span style="color:red;">*</span>:</label>
 																<input class="form-control" id="alum_apel" class="form-control" name="alum_apel" type="text" placeholder="Ingrese los apellidos del alumno..." value="<?=$alum_view['alum_apel'];?>" onkeyup="new_username ();" readonly>
 															</div>
 														</div>
@@ -201,21 +136,21 @@
 															<div class="form-group">
 																<label for="lbl_tipo">Género:</label><br/><br/>
 																	<label>
-																		<input id="alum_hombre" class="alum_genero" type="radio" name="genero" value="Hombre" <?= ($alum_view['alum_genero']==1?' checked':'') ?> /> Masculino  </label>
+																		<input disabled id="alum_hombre" class="alum_genero" type="radio" name="genero" value="Hombre" <?= ($alum_view['alum_genero']==1?' checked':'') ?> /> Masculino  </label>
 																	<label>					
-																		<input id="alum_mujer" class="alum_genero" type="radio" name="genero" value="Mujer" <?= ($alum_view['alum_genero']==0?' checked':'') ?> /> Femenino </label>
+																		<input disabled id="alum_mujer" class="alum_genero" type="radio" name="genero" value="Mujer" <?= ($alum_view['alum_genero']==0?' checked':'') ?> /> Femenino </label>
 																
 															</div>
 														</div>
 														<div class="col-md-6">
 															<div class="form-group">
-																<label for="alum_cedu"><?=(para_sist(405)=='1'?'(*)':'')?>Número de Identificación:</label>
+																<label for="alum_cedu">Número de Identificación<?=(para_sist(405)=='1'?'<span style="color:red;">*</span>':'')?>:</label>
 																<input class="form-control <?=(para_sist(404)=='1'?'required':'')?>" id="alum_cedu" name="alum_cedu" type="text" placeholder="Ingrese la c&eacute;dula del alumno..." value="<?=$alum_view['alum_cedu'];?>" onkeyup="" disabled>
 															</div>
 														</div>
 														<div class="col-md-6">
 															<div class="form-group">
-																<label>(*)Tipo de Identificación:</label>
+																<label>Tipo de Identificación<span style="color:red;">*</span>:</label>
 														        <?php 
 														            include ('../framework/dbconf.php');        
 														            $sql="select tipo_iden_codi, tipo_iden_deta from Tipo_Identificacion where tipo_iden_estado='A' and tipo_iden_show_acad ='Y' and tipo_iden_codi!=2";
@@ -240,90 +175,87 @@
 														</div>
 														<div class="col-md-6">
 															<div class="form-group">
-																<label for="alum_fech_naci">(*)Fecha de Nacimiento:</label>
+																<label for="alum_fech_naci">Fecha de Nacimiento<span style="color:red;">*</span>:</label>
 																<input class="form-control" id="alum_fech_naci" name="alum_fech_naci" type="text" placeholder="Ingrese la fecha de nacimiento del alumno..." value="<?=date_format($alum_view['alum_fech_naci'],"d/m/Y");?>" disabled>
 															</div>
 														</div>
-														<div class="col-md-6">
-															<div class="form-group">
-																<label for="alum_pais">País de nacimiento:</label>
-																<select onchange="CargarProvincias('alum_prov_naci',this.value);" class="form-control" id="alum_pais" name="alum_pais">
-																<?php 
-																$params = array();
-																$sql="{call cata_pais_cons()}";
-																$stmt = sqlsrv_query($conn, $sql, $params);
-																echo '<option value="">Seleccione</option>';
-																while($pais_view= sqlsrv_fetch_array($stmt))
-																{
-																	$seleccionado="";
-																	if ($pais_view["descripcion"]==$alum_view["alum_pais"])
-																		$seleccionado="selected";
-																	echo '<option value="'.$pais_view["codigo"].'" '.$seleccionado.'>'.$pais_view["descripcion"].'</option>';
-																}
-																echo '</select>';
-																?>
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group">
-																<label for="alum_prov_naci">Provincia de nacimiento:</label>
-																<select onchange="CargarCiudades('alum_ciud_naci',this.value);" class='form-control' id='alum_prov_naci' name='alum_prov_naci'>
-																<?php 
-																$params = array(null,($alum_view["alum_pais"]==null ? 'Ecuador' : $alum_view["alum_pais"]));
-																$sql="{call cata_provincia_cons(?,?)}";
-																$stmt = sqlsrv_query($conn, $sql, $params);
-																echo '<option value="">Seleccione</option>';
-																while($ciudad_view= sqlsrv_fetch_array($stmt))
-																{
-																	$seleccionado="";
-																	if ($ciudad_view["descripcion"]==$alum_view["alum_prov_naci"])
-																		$seleccionado="selected";
-																	echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
-																}
-																echo '</select>';
-																?>
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group">
-																<label for="alum_ciud_naci">Ciudad de nacimiento:</label>
-																<select onchange="CargarParroquias('alum_parr_naci',this.value);" class='form-control' id='alum_ciud_naci' name='alum_ciud_naci'>
-																<?php 
-																$params = array(null,$alum_view["alum_prov_naci"]);
-																$sql="{call cata_ciudad_cons(?,?)}";
-																$stmt = sqlsrv_query($conn, $sql, $params);
-																echo '<option value="">Seleccione</option>';
-																while($ciudad_view= sqlsrv_fetch_array($stmt))
-																{
-																	$seleccionado="";
-																	if ($ciudad_view["descripcion"]==$alum_view["alum_ciud_naci"])
-																		$seleccionado="selected";
-																	echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
-																}
-																echo '</select>';
-																?>
-															</div>
-														</div>
-														<div class="col-md-6">
-															<div class="form-group">
-																<label for="alum_parr_naci">Parroquia de nacimiento:</label>
-																<select class="form-control" id="alum_parr_naci" name="alum_parr_naci">
-																<?php 
-																$params = array(null,$alum_view["alum_ciud_naci"]);
-																$sql="{call cata_parroquia_cons(?,?)}";
-																$stmt = sqlsrv_query($conn, $sql, $params);
-																echo '<option value="">Seleccione</option>';
-																while($parroquia_view= sqlsrv_fetch_array($stmt))
-																{
-																	$seleccionado="";
-																	if ($parroquia_view["descripcion"]==$alum_view["alum_parr_naci"])
-																		$seleccionado="selected";
-																	echo '<option value="'.$parroquia_view["codigo"].'" '.$seleccionado.'>'.$parroquia_view["descripcion"].'</option>';
-																}
-																echo '</select>';
-																?>
-															</div>
-														</div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="alum_pais">País de nacimiento:</label>
+                                                            <select class='form-control' onchange="CargarProvincias('alum_prov_naci',this.value);CargarCiudades('alum_ciud_naci',this.value);CargarParroquias('alum_parr_naci',this.value);" id="alum_pais" name="alum_pais">
+                                                                <?php
+                                                                $params = array();
+                                                                $sql="{call cata_pais_cons()}";
+                                                                $stmt = sqlsrv_query($conn, $sql, $params);
+                                                                while($pais_view= sqlsrv_fetch_array($stmt))
+                                                                {
+                                                                    $seleccionado="";
+                                                                    if($alum_view['alum_pais']==''){
+                                                                        if ($pais_view["descripcion"]=='Ecuador')
+                                                                            $seleccionado="selected";
+                                                                    }else{
+                                                                        if ($pais_view["descripcion"]==$alum_view["alum_pais"])
+                                                                            $seleccionado="selected";
+                                                                    }
+                                                                    echo '<option value="'.$pais_view["codigo"].'" '.$seleccionado.'>'.$pais_view["descripcion"].'</option>';
+                                                                }
+                                                                echo '</select>';
+                                                                ?>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="alum_prov_naci">Provincia de nacimiento:</label>
+                                                            <select class='form-control' onchange="CargarCiudades('alum_ciud_naci',this.value);CargarParroquias('alum_parr_naci',this.value);" id='alum_prov_naci' name='alum_prov_naci'>
+                                                                <?php
+
+                                                                $params = array(null,($alum_view["alum_pais"]==''?'Ecuador':$alum_view["alum_pais"]));
+                                                                $sql="{call cata_provincia_cons(?,?)}";
+                                                                $stmt = sqlsrv_query($conn, $sql, $params);
+                                                                echo '<option value="">Seleccione</option>';
+                                                                while($ciudad_view= sqlsrv_fetch_array($stmt))
+                                                                {
+                                                                    $seleccionado="";
+                                                                    if ($ciudad_view["descripcion"]==$alum_view["alum_prov_naci"])
+                                                                        $seleccionado="selected";
+                                                                    echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+                                                                }
+                                                                echo '</select>';
+                                                                ?>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="alum_ciud_naci">Ciudad de nacimiento:</label>
+                                                            <select class='form-control' onchange="CargarParroquias('alum_parr_naci',this.value);" id='alum_ciud_naci' name='alum_ciud_naci'>
+                                                                <?php
+                                                                $params = array(null,$alum_view["alum_prov_naci"]);
+                                                                $sql="{call cata_ciudad_cons(?,?)}";
+                                                                $stmt = sqlsrv_query($conn, $sql, $params);
+                                                                echo '<option value="">Seleccione</option>';
+                                                                while($ciudad_view= sqlsrv_fetch_array($stmt))
+                                                                {
+                                                                    $seleccionado="";
+                                                                    if ($ciudad_view["descripcion"]==$alum_view["alum_ciud_naci"])
+                                                                        $seleccionado="selected";
+                                                                    echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+                                                                }
+                                                                echo '</select>';
+                                                                ?>
+                                                        </div>
+                                                        <div class="form-group col-md-6">
+                                                            <label for="alum_parr_naci">Parroquia de nacimiento:</label>
+                                                            <select class='form-control' id="alum_parr_naci" name="alum_parr_naci">
+                                                                <?php
+                                                                $params = array(null,$alum_view["alum_ciud_naci"]);
+                                                                $sql="{call cata_parroquia_cons(?,?)}";
+                                                                $stmt = sqlsrv_query($conn, $sql, $params);
+                                                                echo '<option value="">Seleccione</option>';
+                                                                while($parroquia_view= sqlsrv_fetch_array($stmt))
+                                                                {
+                                                                    $seleccionado="";
+                                                                    if ($parroquia_view["descripcion"]==$alum_view["alum_parr_naci"])
+                                                                        $seleccionado="selected";
+                                                                    echo '<option value="'.$parroquia_view["codigo"].'" '.$seleccionado.'>'.$parroquia_view["descripcion"].'</option>';
+                                                                }
+                                                                echo '</select>';
+                                                                ?>
+                                                        </div>
 														<div class="col-md-6">
 															<div class="form-group">
 																<label for="alum_sect_naci">Sector de nacimiento:</label>
@@ -401,7 +333,7 @@
 																	echo "Error in executing statement .\n";
 																	die( print_r( sqlsrv_errors(), true));
 																}
-																echo '<select class="form-control input-sm" id="alum_etnia" name="alum_etnia">';
+																echo '<select class="form-control" id="alum_etnia" name="alum_etnia">';
 																while($religion_view= sqlsrv_fetch_array($stmt))
 																{
 																	$seleccionado="";
@@ -417,7 +349,7 @@
 														<div class="col-md-12"><h5 class="page-header">Datos Domicilio</h5></div>
 														<div class="col-md-6">
 															<div class="form-group">
-																<label for="alum_domi">(*)Domicilio:</label>
+																<label for="alum_domi">Domicilio<span style="color:red;">*</span>:</label>
 																<input class="form-control" id="alum_domi" name="alum_domi" type="text" placeholder="Ingrese el domicilio del alumno..." value="<?=$alum_view['alum_domi'];?>">
 															</div>
 														</div>
@@ -429,7 +361,7 @@
 														</div>
 														<div class="col-md-6">
 															<div class="form-group">
-																<label for="alum_prov">Provincia:</label>
+																<label for="alum_prov">Provincia<span style="color:red;">*</span>:</label>
 																<select onchange="CargarCiudades('alum_ciud',this.value);CargarParroquias('alum_parroquia',this.value);" class='form-control' id='alum_prov' name='alum_prov'>
 																<?php 
 																$params = array('ECU',null);
@@ -455,7 +387,7 @@
 														</div>
 														<div class="col-md-6">
 															<div class="form-group">
-																<label for="alum_ciud">(*)Ciudad:</label>
+																<label for="alum_ciud">Ciudad<span style="color:red;">*</span>:</label>
 																<!-- <input class="form-control" id="alum_ciud" name="alum_ciud" type="text" placeholder="Ingrese la ciudad del alumno..." value="<?=$alum_view['alum_ciud'];?>"> -->
 																<select onchange="CargarParroquias('alum_parroquia',this.value);" class='form-control' id='alum_ciud' name='alum_ciud'>
 																<?php 
@@ -476,7 +408,7 @@
 														</div>
 														<div class="col-md-6">
 															<div class="form-group">
-																<label for="alum_parroq">(*)Parroquia:</label>
+																<label for="alum_parroq">Parroquia<span style="color:red;">*</span>:</label>
 																<select class="form-control" id="alum_parroquia" name="alum_parroquia">
 																<?php 
 																$params = array(null,($alum_view["alum_ciud"]==''?'Balzar':$alum_view["alum_ciud"]));
@@ -682,36 +614,101 @@
 													</div>
 
 												</div>
-												<!-- <div class="tab-pane" id="tab2">
+												<div class="tab-pane" id="tab2">
 													<div class="alumnos_add_script admin_pass">
 														<div class="row">
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label for="repr_nomb">(*)Nombres:</label>
-																	<input class="form-control" id="repr_nomb" name="repr_nomb" type="text" placeholder="Ingresar nombres" value="<?=$row_repr_view['repr_nomb'];?>">
+																	<label for="repr_nomb">Nombres<span style="color:red;">*</span>:</label>
+																	<input disabled class="form-control" id="repr_nomb" name="repr_nomb" type="text" placeholder="Ingresar nombres" value="<?=$row_repr_view['repr_nomb'];?>">
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label for="repr_apel">(*)Apellidos:</label>
-																	<input class="form-control" id="repr_apel" name="repr_apel" type="text" placeholder="Ingresar apellidos" value="<?=$row_repr_view['repr_apel'];?>">
+																	<label for="repr_apel">Apellidos<span style="color:red;">*</span>:</label>
+																	<input disabled class="form-control" id="repr_apel" name="repr_apel" type="text" placeholder="Ingresar apellidos" value="<?=$row_repr_view['repr_apel'];?>">
 																</div>
 															</div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label for="repr_fech_naci">Fecha de Nacimiento:</label>
+                                                                    <input disabled class="form-control" id="repr_fech_naci" name="repr_fech_naci" type="text" placeholder="Ingrese la fecha de nacimiento..." value="<?=date_format($row_repr_view['repr_fech_naci'],"d/m/Y");?>"  >
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>País de Nacimiento:</label>
+                                                                <select class="form-control" onchange="CargarProvincias('repr_prov_naci',this.value);CargarCiudades('repr_ciud_naci',this.value);"  id="repr_pais_naci" name="repr_pais_naci"  >
+                                                                    <?php
+                                                                    $params = array();
+                                                                    $sql="{call cata_pais_cons()}";
+                                                                    $stmt2 = sqlsrv_query($conn, $sql, $params);
+                                                                    echo '<option value="">Seleccione</option>';
+                                                                    while($pais_view= sqlsrv_fetch_array($stmt2))
+                                                                    {
+                                                                        $seleccionado="";
+                                                                        if($row_repr_view['repr_pais_naci']==''){
+                                                                            if ($pais_view["descripcion"]=='Ecuador')
+                                                                                $seleccionado="selected";
+                                                                        }else{
+                                                                            if ($pais_view["descripcion"]==$row_repr_view["repr_pais_naci"])
+                                                                                $seleccionado="selected";
+                                                                        }
+                                                                        echo '<option value="'.$pais_view["codigo"].'" '.$seleccionado.'>'.$pais_view["descripcion"].'</option>';
+                                                                    }
+                                                                    echo '</select>';
+                                                                    ?>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Provincia de Nacimiento:</label>
+                                                                <select class="form-control input-sm" onchange="CargarCiudades('repr_ciud_naci',this.value);" id='repr_prov_naci' name='repr_prov_naci'  >
+                                                                    <?php
+                                                                    $params = array(null,($row_repr_view["repr_prov_naci"]==''?'Ecuador':$row_repr_view["repr_pais_naci"]));
+                                                                    $sql="{call cata_provincia_cons(?,?)}";
+                                                                    $stmt3 = sqlsrv_query($conn, $sql, $params);
+                                                                    echo '<option value="">Seleccione</option>';
+                                                                    while($ciudad_view= sqlsrv_fetch_array($stmt3))
+                                                                    {
+                                                                        $seleccionado="";
+                                                                        if ($ciudad_view["descripcion"]==$row_repr_view["repr_prov_naci"])
+                                                                            $seleccionado="selected";
+                                                                        echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+                                                                    }
+                                                                    echo '</select>';
+                                                                    ?>
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>Ciudad de Nacimiento:</label>
+                                                                <select class='form-control input-sm' id='repr_ciud_naci' name='repr_ciud_naci'  >
+                                                                    <?php
+                                                                    $params = array(null,$row_repr_view["repr_prov_naci"]);
+                                                                    $sql="{call cata_ciudad_cons(?,?)}";
+                                                                    $stmt = sqlsrv_query($conn, $sql, $params);
+                                                                    echo '<option value="">Seleccione</option>';
+                                                                    while($ciudad_view= sqlsrv_fetch_array($stmt))
+                                                                    {
+                                                                        $seleccionado="";
+                                                                        if ($ciudad_view["descripcion"]==$row_repr_view["repr_ciud_naci"])
+                                                                            $seleccionado="selected";
+                                                                        echo '<option value="'.$ciudad_view["codigo"].'" '.$seleccionado.'>'.$ciudad_view["descripcion"].'</option>';
+                                                                    }
+                                                                    echo '</select>';
+                                                                    ?>
+                                                            </div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label for="repr_email">(*)Correo:</label>
+																	<label for="repr_email">Correo<span style="color:red;">*</span>:</label>
 																	<input class="form-control" id="repr_email" name="repr_email" type="text" placeholder="Ingresar correo" value="<?=$row_repr_view['repr_email'];?>">
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label for="repr_telf">(*)Núm. Teléfono:</label>
+																	<label for="repr_telf">Núm. Teléfono<span style="color:red;">*</span>:</label>
 																	<input class="form-control" id="repr_telf" name="repr_telf" type="text" placeholder="Ingresar número convencional" value="<?=$row_repr_view['repr_telf'];?>">
 																</div>
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label for="repr_celular">(*)Núm. Celular:</label>
+																	<label for="repr_celular">Núm. Celular<span style="color:red;">*</span>:</label>
 																	<input class="form-control" id="repr_celular" name="repr_celular" type="text" placeholder="Ingresar número celular" value="<?=$row_repr_view['repr_celular'];?>">
 																</div>
 															</div>
@@ -723,7 +720,7 @@
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label for="repr_profesion">Profesión:</label>
+																	<label for="repr_profesion">Profesión o Título Académico:</label>
 																	<input class="form-control" id="repr_profesion" name="repr_profesion" type="text" placeholder="Ingresar profesión" value="<?=$row_repr_view['repr_profesion'];?>">
 																</div>
 															</div>
@@ -735,7 +732,7 @@
 															</div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label for="repr_lugar_trabajo">Lugar de trabajo:</label>
+																	<label for="repr_lugar_trabajo">Nombre de empresa o lugar de trabajo:</label>
 																	<input class="form-control" id="repr_lugar_trabajo" name="repr_lugar_trabajo" type="text" placeholder="Ingresar lugar de trabajo" value="<?=$row_repr_view['repr_lugar_trabajo'];?>">
 																</div>
 															</div>
@@ -753,7 +750,7 @@
 														    </div>
 															<div class="col-md-6">
 																<div class="form-group">
-																	<label for="repr_cargo">Cargo:</label>
+																	<label for="repr_cargo">Cargo que desempeña:</label>
 																	<input class="form-control" id="repr_cargo" name="repr_cargo" type="text" placeholder="Ingresar cargo" value="<?=$row_repr_view['repr_cargo'];?>">
 																</div>
 															</div>
@@ -850,17 +847,93 @@
 														    	</div>
 														    </div>
 														</div>
+                                                        <div class="row" style="<?= (para_sist(408)==0?'display: none':'')?>">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Nivel 1: </label>
+                                                                <?php
+                                                                include ('../framework/dbconf.php');
+                                                                $params = array();
+                                                                $sql="{call identificaciones_niv1_view()}";
+                                                                $stmt = sqlsrv_query($conn, $sql, $params);
+                                                                if( $stmt === false )
+                                                                {   echo "Error in executing statement .\n";
+                                                                    die( print_r( sqlsrv_errors(), true));
+                                                                }
+                                                                echo '<select id="identificacion_niv_1" class="form-control input-sm" name="identificacion_niv_1" onchange="CargarIdentNiv2(this.value)"'.$disabled.' >';
+                                                                echo '<option value="-1">Seleccione</option>';
+                                                                while($row = sqlsrv_fetch_array($stmt))
+                                                                {   $seleccionado="";
+                                                                    if ($row["id"] == $row_repr_view["ident_niv_1"])
+                                                                        $seleccionado = "selected";
+                                                                    echo '<option value="'.$row["id"].'" '.$seleccionado.'>'.$row["nombre"].'</option>';
+                                                                }
+                                                                echo '</select>';
+                                                                ?>
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label>Nivel 2: </label>
+                                                                <select id="identificacion_niv_2" class="form-control input-sm" name="identificacion_niv_2" onchange="CargarIdentNiv3(this.value)" >
+                                                                    <?
+                                                                    if ($row_repr_view['repr_nomb'] != ""){
+                                                                        $sql = "{call identificaciones_niv2_view(?)}";
+                                                                        $params = array($row_repr_view["ident_niv_1"]);
+                                                                        $stmt = sqlsrv_query( $conn, $sql,$params);
+                                                                        if( $stmt === false ){
+                                                                            echo "Error in executing statement .\n";
+                                                                            die( print_r( sqlsrv_errors(), true));
+                                                                        }
+                                                                        else{
+                                                                            echo '<option value="-1">Seleccione</option>';
+                                                                            while ($row = sqlsrv_fetch_array($stmt)){
+                                                                                $seleccionado = "";
+                                                                                if ($row["id"] == $row_repr_view["ident_niv_2"])
+                                                                                    $seleccionado="selected";
+                                                                                echo "<option value='".$row['id']."' ".$seleccionado.">".$row["nombre"]."</option>";
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group col-md-6">
+                                                                <label>Nivel 3:</label>
+                                                                <select id="identificacion_niv_3" class="form-control input-sm" name="identificacion_niv_3" >
+                                                                    <?
+                                                                    if ($row_repr_view['repr_nomb'] != ""){
+                                                                        $sql = "{call identificaciones_niv3_view(?)}";
+                                                                        $params = array($row_repr_view["ident_niv_2"]);
+                                                                        $stmt = sqlsrv_query( $conn, $sql,$params);
+                                                                        if( $stmt === false ){
+                                                                            echo "Error in executing statement .\n";
+                                                                            die( print_r( sqlsrv_errors(), true));
+                                                                        }
+                                                                        else{
+                                                                            echo '<option value="-1">Seleccione</option>';
+                                                                            while ($row = sqlsrv_fetch_array($stmt)){
+                                                                                $seleccionado = "";
+                                                                                if ($row["id"] == $row_repr_view["ident_niv_3"])
+                                                                                    $seleccionado="selected";
+                                                                                echo "<option value='".$row['id']."' ".$seleccionado.">".$row["nombre"]."</option>";
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
 													</div>
-												</div> -->
+												</div>
 												<div class="tab-pane" id="tab3">
 													<div class="row">
 														<div class="col-md-12">
 															<div class="checkbox" style='font-size:large;'>
-																<label><input id="aceptar_terminos" name="aceptar_terminos" type="checkbox" /></label>&nbsp;Confirmo que la información proporcionada es completa, correcta y que ha sido revisada con exactitud en:<br>
+																<label><input id="aceptar_terminos" name="aceptar_terminos" type="checkbox" />&nbsp;Confirmo que la información proporcionada es completa, correcta y que ha sido revisada con exactitud en:</label><br>
 																	<ul>
-																		<li>Foto de Alumno</li>
-																		<li>Datos de Alumno</li>
-																		<!-- <li>Ficha Medica</li> -->
+                                                                        <?if( $_SESSION['certus_medic'] == '1' ){?><li>Ficha Médica</li><?}?>
+																		<li>Datos del Alumno</li>
+																		<li>Datos del Representante</li>
 																	</ul>
 															</div>
 														</div>
@@ -896,6 +969,7 @@
 		<script type="text/javascript">  
 			$(document).ready(function(){  
 				$("#alum_fech_naci").datepicker();
+                $("#repr_fech_promoc").datepicker();
 				// $('#myModal').modal('show');
 			});
 			function preview(tField,iType) { 

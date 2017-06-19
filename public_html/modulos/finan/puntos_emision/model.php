@@ -66,6 +66,57 @@ class PtoEmision extends DBAbstractModel{
             unset($sucursal);
         }
     }
+    public function get_all_sucursales_withPrefix( )
+	{   $busq="";
+        $this->parametros = array( );
+        $this->sp = "str_consultaSucursal_busq_prefix";
+        $this->executeSPConsulta();
+
+        if (count($this->rows)<=0){
+            $this->mensaje="No existen sucursales en la BD.";
+        }else{
+            $sucursal = array();
+            foreach($this->rows as $sucursales){
+                array_push($sucursal, array_values($sucursales));
+            }
+            $this->rows = $sucursal;
+            unset($sucursal);
+        }
+    }
+    public function get_all_ptosVentas_withPrefix( $sucursal )
+	{   $busq="";
+        $this->parametros = array( $sucursal );
+        $this->sp = "str_consultaPtoVenta_busq_prefix";
+        $this->executeSPConsulta();
+
+        if (count($this->rows)<=0){
+            $this->mensaje="No existen sucursales en la BD.";
+        }else{
+            $sucursal = array();
+            foreach($this->rows as $sucursales){
+                array_push($sucursal, array_values($sucursales));
+            }
+            $this->rows = $sucursal;
+            unset($sucursal);
+        }
+    }
+    public function get_all_numeros_factura( $ptoVenta )
+	{   $busq="";
+        $this->parametros = array( $ptoVenta );
+        $this->sp = "str_consultaNumeroFactura_reciclados_y_actual_busq";
+        $this->executeSPConsulta();
+
+        if (count($this->rows)<=0){
+            $this->mensaje="No existen sucursales en la BD.";
+        }else{
+            $sucursal = array();
+            foreach($this->rows as $sucursales){
+                array_push($sucursal, array_values($sucursales));
+            }
+            $this->rows = $sucursal;
+            unset($sucursal);
+        }
+    }
     public function get_all_users($busq=""){
         $busq="";
         $this->parametros = array($busq);

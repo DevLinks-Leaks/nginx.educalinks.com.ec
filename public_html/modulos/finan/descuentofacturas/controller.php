@@ -3,76 +3,96 @@ session_start();
 require_once('../../../core/controllerBase.php');
 require_once('constants.php');
 require_once('model.php');
-
 require_once('view.php');
+require_once('../clientes/model.php');
+require_once('../puntos_emision/model.php');
 require_once('../../../core/modelHTML.php');
 
 
 
-function handler() {
+function handler()
+{   require('../../../core/rutas.php');
+	$descuentofacturas 	= get_mainObject('Descuentofacturas');
+	$user_data 			= get_frontData();
+	$pto_emision 		= get_mainObject('PtoEmision');
+    $sucursales 		= get_mainObject('PtoEmision');
+	$cliente 			= get_mainObject('Cliente');
+	$cliente_descuentos	= get_mainObject('Cliente');
+	
+	$event 			= get_actualEvents(array(VIEW_GET_ALL, VIEW_GET_CLIENT, VIEW_SET_CLIENT, VIEW_GET_PRODUCT, VIEW_PRINT_FACT, GET_CLIENT,GET_DEUDAS_VENC_ANT), VIEW_GET_ALL);
+    
+	if (!isset($_POST['busq'])){$user_data['busq'] = "";}else{$user_data['busq'] =$_POST['busq'];}
+	if (!isset($_POST['tabla'])){$tabla = "deudasPendiente_table";}else{$tabla =$_POST['tabla'];}
 
-  require('../../../core/rutas.php');
-  $descuentofacturas = get_mainObject('Descuentofacturas');
-  $event = get_actualEvents(array(VIEW_GET_ALL, VIEW_GET_CLIENT, VIEW_SET_CLIENT, VIEW_GET_PRODUCT, VIEW_PRINT_FACT, GET_CLIENT,GET_DEUDAS_VENC_ANT), VIEW_GET_ALL);
-  $user_data = get_frontData();
-  $cliente = get_mainObject('Cliente');
-  $cliente_descuentos= get_mainObject('Cliente');
-  if (!isset($_POST['busq'])){$user_data['busq'] = "";}else{$user_data['busq'] =$_POST['busq'];}
-  if (!isset($_POST['tabla'])){$tabla = "deudasPendiente_table";}else{$tabla =$_POST['tabla'];}
-
-    switch ($event) {
-        case VIEW_GET_ALL:
+    switch ($event)
+	{   case VIEW_GET_ALL:
 			#  Presenta la pagina inicial
 			global $diccionario;
 			if($_SESSION['IN']!="OK"){$_SESSION['IN']="KO";$_SESSION['ERROR_MSG']="Por favor inicie sesión";header("Location:".$domain);}
         
-      		$data['{tabla_deudasPendientes}'] = array("elemento"=>"tabla_deudas",
+      		$data['{tabla_deudasPendientes}'] = array("elemento"=>"tabla_anidada",
                                                     "clase"=>"table table-striped table-bordered",
                                                     "id"=>'deudasPendiente_table',
                                                     "datos"=>array(),
                                                     "encabezado" => array(  "Código",
                                                                             "Deuda",																			
-                                                                            "T.Inicial",
-																			"Pronto Pago",
-																			"Desc. Fac.",
+                                                                            "Inicial",
+																			"Dscto.",
+																			"Prontopago",
                                                                             "I.V.A.",
-                                                                            "T. Abonado",
-                                                                            "T. Pendiente",
-                                                                            "Vence",
-                                                                            "Opciones"),
-                                                    "options"=>array(),
+                                                                            "Abonado",
+                                                                            "Pdte.",
+                                                                            "Vencimiento",
+																			"Opciones"),
+                                                    "options"=>array(  ),
                                                     "campo"=>"",
                                                     "anidada"=>false);
 			$data['opciones_cliente']= " ";
 			retornar_vista(VIEW_GET_ALL, $data);
             break;
+        case LOAD_DETA_DEUD_INFO:
+            $descuentofacturas->get_all_deud_deta_info($user_data['deud_codigo']);
+            $data['{tabla_deuda_info}'] = array("elemento" 	=>"tabla",
+												"clase"		=>"table table-striped table-bordered",
+												"id"		=>"sub_deudas_".$user_data['deud_codigo'],
+												"datos"		=>$descuentofacturas->rows,
+												"encabezado"=>array("Producto",
+																	"Prec. Unit.",
+																	"Cantidad",
+																	"Inicial",
+																	"Dscto.",
+																	"I.V.A.",
+																	"T. Neto"));
+            retornar_result($data);
+            break;
         case GET_DEUDAS:
             # Consulta las deudas de un cliente especifico
             global $diccionario;
 			
-			$opciones = array("Seleccionar" => "<span onclick='js_descuentofactura_carga_asignacion(".'"{codigo}"'.",".'"modal_asign_body_descuentofactura"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/descuentofacturas/controller.php"'.")' class='btn_opc_lista_credit_card glyphicon glyphicon-credit-card cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_asign_descuentofactura'  id='{codigo}_asignar'onmouseover='$(".'"#{codigo}_asignar"'.").tooltip(".'"show"'.")' title='Asignar Descuentos' data-placement='left'></span>");
-                             
-            
+			//$opciones = array("Seleccionar" => "<span onclick='js_descuentofactura_carga_asignacion(".'"{codigo}"'.",".'"modal_asign_body_descuentofactura"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/descuentofacturas/controller.php"'.")' class='btn_opc_lista_credit_card glyphicon glyphicon-credit-card cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_asign_descuentofactura'  id='{codigo}_asignar'onmouseover='$(".'"#{codigo}_asignar"'.").tooltip(".'"show"'.")' title='Asignar Descuentos' data-placement='left'></span>");
+            $opciones['Seleccionar'] = "<button type='button' class='btn btn-default' 
+											onclick='js_descuentofactura_carga_asignacion(\"{codigo}\",\"resultado\",\"".$diccionario['rutas_head']['ruta_html_finan']."/descuentofacturas/controller.php\")'
+											id='{codigo}_asignar'><span class='btn_opc_lista_credit_card fa fa-edit'></span></button>";
+			
             $descuentofacturas->codigoCliente = $user_data['codigoCliente'];
 			$descuentofacturas->tipo_persona = $user_data['tipo_persona'];
             $descuentofacturas->get_deudas();
-            $data['{tabla_deudasPendientes}'] = array("elemento"=>"tabla_deudas",
+            $data['{tabla_deudasPendientes}'] = array("elemento"=>"tabla_anidada",
                                                       "clase"=>"table table-striped table-bordered",
                                                       "id"=>'deudasPendiente_table',
                                                       "datos"=>$descuentofacturas->rows,
                                                       "encabezado" => array("Código",
                                                                             "Deuda",																			
-                                                                            "T.Inicial",
-																			"Pronto Pago",
-																			"Desc. Fac.",
+                                                                            "Inicial",
+																			"Dscto.",
+																			"Prontopago",
                                                                             "I.V.A.",
-                                                                            "T. Abonado",
-                                                                            "T. Pendiente",
-                                                                            "Vence",
-                                                                            "Opciones"),
-                                                      "options"=>array($opciones),
-                                                      "campo"=>"codigoDeuda",
-                                                      "anidada"=>false);
+                                                                            "Abonado",
+                                                                            "Pdte.",
+                                                                            "Vencimiento",
+																			"Editar"),
+                                                      "options"=>array( $opciones ),
+                                                      "campo"=>"codigoDeuda");
             retornar_result($data);
             break;
         case VIEW_GET_CLIENT:
@@ -116,34 +136,376 @@ function handler() {
                                                     "campo"  => ""));
             retornar_result($data);
             break;
-			
-		   case VIEW_SET_DISCOUNT:
+		case VIEW_SET_DISCOUNT:
 		  	 global $diccionario;
-            $cliente->getDscto_selectFormat();
+            $cliente->getDscto_selectFormat('zzz');
             $dscto = $cliente->rows;
-            $descuentofacturas->getDescuentos_factura($user_data['codigofactura']);
+			
+			/*TABLA DETALLE FACTURA*/
+			
+			$deudaConfigInfo = new Descuentofacturas();
+			$deudaConfigInfo->getFacturaConfigInfo( $user_data['codigofactura'] );
+			
+			$deudaConfigInfo_detalle = new Descuentofacturas();
+			$deudaConfigInfo_detalle->getFacturaConfigInfo_detalle( $user_data['codigofactura'] );
+			$tabla_detalle ="<table class='table table-striped table-hover' id='tabla_detalleFactura_config' name='tabla_detalleFactura_config'>
+						<thead>
+						<tr><th style='text-align:center;'>Sec.</th>
+							<th style='text-align:center;'>Detalle</th>
+							<th style='text-align:center;'>Aplica prontopago</th>
+							<th style='text-align:center;'>Aplica dscto.</th>
+							<th style='text-align:center;'>Rep. liquidez</th>
+							<th style='text-align:center;'>IVA</th>
+							<!--<th style='text-align:center;'>ICE</th>-->
+							<th style='text-align:center;'>% IVA</th>
+							<!--<th style='text-align:center;'>% ICE</th>-->
+						</tr>
+						</thead>";
+			$tabla_detalle.="<tbody>";
+			
+			$total_numero_detalle = 0;
+			foreach( $deudaConfigInfo_detalle->rows as $rows )
+			{   if ( !empty ($rows) )
+				{	$tabla_detalle.="
+						<tr>
+							<td style='text-align:center;'>".$rows['detafact_secuencia']."</td>
+							<td style='text-align:center;' data-codigo='".$rows['prod_codigo']."'>".$rows['producto']."</td>
+							<td style='text-align:center;'><input type='checkbox' onclick='js_descuentofactura_check_pvfalse();' id='ckb_pp_".$rows['detafact_secuencia']."' name='ckb_pp_".$rows['detafact_secuencia']."' ".
+							( $rows['prod_prontopago'] == 0 ? '' : 'checked' )."></td>
+							<td style='text-align:center;'><input type='checkbox' onclick='js_descuentofactura_check_pvfalse();' id='ckb_des_".$rows['detafact_secuencia']."' name='ckb_des_".$rows['detafact_secuencia']."' ".
+							( $rows['prod_descuento'] == 0 ? '' : 'checked' )."></td>
+							<td style='text-align:center;'><input type='checkbox' onclick='js_descuentofactura_check_pvfalse();' id='ckb_liq_".$rows['detafact_secuencia']."' name='ckb_liq_".$rows['detafact_secuencia']."' ".
+							( $rows['prod_liquidez'] == 0 ? '' : 'checked' )."></td>
+							<td style='text-align:center;'><input type='checkbox' onclick='js_descuentofactura_check_pvfalse();' id='ckb_aIVA_".$rows['detafact_secuencia']."' name='ckb_aIVA_".$rows['detafact_secuencia']."' ".
+							( $rows['prod_aplicaIVA'] == 0 ? '' : 'checked' ).">
+							<span style='display:none;'><input type='checkbox' onclick='js_descuentofactura_check_pvfalse();' id='ckb_aICE_".$rows['detafact_secuencia']."' name='ckb_aICE_".$rows['detafact_secuencia']."' ".
+							( $rows['prod_aplicaICE'] == 0 ? '' : 'checked' )."></span></td>
+							<td style='text-align:center;'><input class='form-control input-sm' type='text' id='txt_per_IVA_".$rows['detafact_secuencia']."' name='txt_per_IVA_".$rows['detafact_secuencia']."' value='".
+							(empty( $rows['prod_perIVA'] ) ? '0.00' : $rows['prod_perIVA'] )."'>
+							<input class='form-control input-sm' type='hidden' disabled = 'disabled' id='txt_per_ICE_".$rows['detafact_secuencia']."' name='txt_per_ICE_".$rows['detafact_secuencia']."' value='".
+							(empty( $rows['prod_perICE'] ) ? '0.00' : $rows['prod_perICE'] )."'></td>
+							<!--<td style='text-align:center;'>".( $rows['prod_prontopago'] == 0 ? '' : 'checked' )."</td>-->";
+					$tabla_detalle.="</tr>";
+					$total_numero_detalle++;
+				}
+			}
+			$tabla_detalle.="</tbody></table>";
+			
+            /*TABLA DESCUENTOS ASIGNADOS*/
+			
+			$descuentofacturas->getDescuentos_factura($user_data['codigofactura']);
+			
+			$tabla ="<table class='table table-striped table-hover' id='tabla_descuentos_cliente' name='tabla_descuentos_cliente'>
+						<thead>
+						<tr><th style='text-align:center;'>Descuento</th>
+							<th style='text-align:center;'>%</th>
+							<th style='text-align:center;'>Días validez</th>
+							<th style='text-align:center;'>Descuento aplica prontopago</th>
+							<th style='text-align:center;'>Acción</th>
+						</tr>
+						</thead>";
+			$tabla.="<tbody>";
+			$total_descuentos = 0;
+			$general_check = 1;
+			foreach( $descuentofacturas->rows as $rows )
+			{   if ( !empty ($rows) )
+				{	if ( $rows['desc_aplicaprontopago'] == 0)
+						$general_check = 0;
+					
+					$tabla.="
+						<tr>
+							<td style='text-align:center;' data-codigo='".$rows['desc_codigo']."' data-estado='active'>".$rows['desc_descripcion']."</td>
+							<td style='text-align:center;'><input class='form-control input-sm' type='text' id='txt_desc_per_".$rows['detafact_desc_codigo']."' name='txt_desc_per_".$rows['detafact_desc_codigo']."' value='".
+							$rows['desc_porcentaje']."'></td>
+							<td style='text-align:center;'><input class='form-control input-sm' type='text' id='txt_desc_dias_".$rows['detafact_desc_codigo']."' name='txt_desc_dias_".$rows['detafact_desc_codigo']."' value='".
+							( $rows['desc_dias_validez'] == 1000 ? '0' : $rows['desc_dias_validez'] )."'></td>
+							<td style='text-align:center;'><input type='checkbox' onclick='js_descuentofactura_check_pvfalse();' id='ckb_dapp_".$rows['detafact_desc_codigo']."' name='ckb_dapp_".$rows['detafact_desc_codigo']."' ".
+							( $rows['desc_aplicaprontopago'] == 0 ? '' : 'checked' )."></td>
+							<td style='text-align:center;'>
+								<span onclick='js_descuentofactura_del_descuento_asignado(\"".$rows['desc_codigo']."\")' 
+									class='btn_opc_lista_eliminar fa fa-times-circle-o cursorlink' 
+									aria-hidden='true' onmouseover='$(this).tooltip(".'"show"'.")' title='Eliminar' data-placement='left'></span></td>";
+					$tabla.="</tr>";
+					$total_descuentos++;
+				}
+			}
+			$tabla_previsualizacion.="
+					<table class='table table-striped table-hover' id='tbl_previsualizacion' name='tbl_previsualizacion'>
+						<thead>
+						<tr><th style='text-align:center;'>Detalle</th>
+							<th style='text-align:center;'>T. Bruto</th>
+							<th style='text-align:center;'>T. Descuento</th>
+							<th style='text-align:center;'>T. Prontopago</th>
+							<th style='text-align:center;'>T. IVA</th>
+							<th style='text-align:center;'>T. Neto</th>
+						</tr>
+						</thead>
+						<tbody>
+							<tr><td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</tbody>
+					</table>";
 			
             $cliente->get( $user_data['codigo'], $user_data['tipo_persona'] );
-		    $opciones["Eliminar"] = "<span onclick='js_descuentofactura_del(".'"{codigo}"'.",".'"resultado"'.",".'"modal_asign_body_descuentofactura"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/descuentofacturas/controller.php"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' onmouseover='$(this).tooltip(".'"show"'.")' title='Eliminar' data-placement='left'></span>";
-           
-            $data = array(
-                          'clie_codigo'      => $user_data['codigo'],
-                          'clie_nombres'     => $cliente->nombres,
-                          'clie_apellidos'   => $cliente->apellidos,
-                          '{tabla_descuentos}' =>array( "elemento"=>"tabla",
-                                                        "clase"=>"table table-striped table-hover",
-                                                        "datos"=>$descuentofacturas->rows,
-                                                        "id"=>"tabla_descuentos_cliente",
-														"options"=>array($opciones),
-														"campo"=>"descuentofac_codigo",
-                                                        "encabezado" => array("Ref. descuento","Ref. FAC","Valor","%","F. asignación","Opciones")
-                            )
+		    
+			$sucursales->get_all_sucursales_withPrefix( );
+			$sucu_combo ='<select class="form-control input-sm" id="pto_sucursal" name="pto_sucursal">';
+			foreach ($sucursales->rows as $sucursal)
+			{   if( !empty( $sucursal ) )
+					$sucu_combo.="<option data-sucu_codigo='".$sucursal[0]."' value='".$sucursal[2]."'>".$sucursal[1]."</option>";
+			}
+			$sucu_combo.="</select>";
+            $data = array('{combo_descto}'    => array("elemento"  => "combo", 
+                                                       "datos"     => $dscto, 
+                                                       "options"   => array("name"=>"codigo_descto",
+                                                                            "id"=>"codigo_descto",
+                                                                            "required"=>"required",
+																			"class"=>"form-control",
+                                                                            "onChange"=>"js_descuentofactura_carga_porcentaje(this.value,'div_descuentoInfo','".$diccionario['rutas_head']['ruta_html_finan']."/descuentofacturas/controller.php')"),
+                                                       "selected"  => 0),
+                          'clie_codigo'        		=> $user_data['codigo'],
+                          'clie_nombres'       		=> $cliente->nombres,
+                          'clie_apellidos'     		=> $cliente->apellidos,
+						  "tipo_descuento"	   		=> $descuentofacturas->rows[0]['deud_metodo_desc'],
+						  "txt_fecha_ini"			=> $deudaConfigInfo->rows[0]['deud_fechaInicioCobro'],
+						  "txt_fecha_fin"			=> $deudaConfigInfo->rows[0]['deud_fechaVencimiento'],
+						  "dias_prontopago"			=> $deudaConfigInfo->rows[0]['deud_diasProntoPago'],
+						  "txt_num_sucursal"		=> $deudaConfigInfo->rows[0]['cabefact_prefijoSucursal'],
+						  "txt_num_ptoVenta"		=> $deudaConfigInfo->rows[0]['cabefact_prefijoPuntoVenta'],
+						  "puntVent_codigo"			=> $deudaConfigInfo->rows[0]['puntVent_codigo'],
+						  "sucursal_codigo"			=> $deudaConfigInfo->rows[0]['sucursal_codigo'],
+						  "txt_num_factura"			=> $deudaConfigInfo->rows[0]['cabefact_numeroFactura'],
+                          "tabla_descuentos"   		=> $tabla,
+						  "tabla_detalleFactura"	=> $tabla_detalle,
+						  "check_aplica_prontopago" => ( $general_check == 1 ? ' checked="checked" ': '' ) ,
+						  "hd_t_ini_dsctos" 		=> $total_descuentos,
+						  "hd_t_num_detalle" 		=> $total_numero_detalle,
+						  "tabla_previsualizacion" 	=> $tabla_previsualizacion,
+						  'combo_sucursal' 			=> $sucu_combo
                           );
-            
+			$metodo_desc = $deudaConfigInfo->rows[0]['deud_metodo_desc'];
+			
+			if ($metodo_desc == 'desc_sumado' )
+				$data['desc_sumado']= ' selected="selected" ';
+			else
+				$data['desc_sobre']= ' selected="selected" ';
+			
+			if( $deudaConfigInfo->rows[0]['cabefact_impresa'] == 0 )
+			{	$data['ckb_genera_factura'] = ' checked ';
+				$data['disabled_txt_num_factura'] = '';
+			}
+			else
+			{	$data['ckb_genera_factura'] = '';
+				$data['disabled_txt_num_factura'] = ' disabled="disabled" ';
+			}
+			
+			if( $deudaConfigInfo->rows[0]['deud_convenioPago'] == 1 )
+				$data['ckb_convenioPago'] = ' SI';
+			else
+				$data['ckb_convenioPago'] = ' NO';
+			
             retornar_formulario(VIEW_SET_DISCOUNT, $data);
             break;
-		case SET_DISCOUNT:
-			$descuentofacturas->asignarDscto($user_data);
+		case GET_PTOVENTAS:
+			$pto_emision->get_all_ptosVentas_withPrefix( $user_data['sucursal'] );
+			
+			$ptva_combo ='<select class="form-control input-sm" id="cmb_ptoVenta" name="cmb_ptoVenta">';
+			foreach ($pto_emision->rows as $ptos)
+			{   if( !empty( $ptos ) )
+					$ptva_combo.="<option data-puntvent_codigo='".$ptos[0]."' value='".$ptos[1]."'>".$ptos[1]."</option>";
+			}
+			$ptva_combo.="</select>";
+			echo $ptva_combo;
+			break;
+		case GET_NUMEROSFACTURAS:
+			$numeroFactura = new PtoEmision();
+			$numeroFactura->get_all_numeros_factura( $user_data['puntoVenta'] );
+			$nF_combo ='<select class="form-control input-sm" id="cmb_numeroFactura" name="cmb_numeroFactura">';
+			foreach ($numeroFactura->rows as $nf)
+			{   if( !empty( $nf ) )
+					$nF_combo.="<option value='".$nf[0]."'>".$nf[0]."</option>";
+			}
+			$nF_combo.="</select>";
+			echo $nF_combo;
+			break;
+        case GET_PORCENTAJE:
+            $cliente->getPorcentaje($user_data['desc_codigo']);
+            
+			$data['porcentaje_sugerido'] = 
+					'<div class="form-group">
+						<div class="col-md-4">
+							Porcentaje dscto.
+						</div>
+						<div class="col-md-4">
+							 <div class="input-group">
+								<div id="div_porcentaje_descto"><input type="text" class="form-control input-sm" name="porcentaje_descto" id="porcentaje_descto" 
+									placeholder="0.00" required="required" value="'.( $cliente->desc_porcentaje != '' ? $cliente->desc_porcentaje : '0.00' ).'"></div>
+									<span class="input-group-addon" id="basic-addon">%</span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-4"> 
+							<label for="diasvalidez" class="control-label"><b>Días de validez</b></label>
+							<div id="EducaLinksHelperCliente" style="display:inline;font-size:small;text-align:left;vertical-align:middle;">
+								<a tabindex="0" data-toggle="popover" data-content="<div style=\'font-size:x-small\'>Es el tiempo en el que el descuento es válido, a partir del día de inicio de cobro de una deuda.</div>" data-placement="top"><span class="fa fa-info-circle"></span></a>
+							</div>
+							<div id="EducaLinksHelperCliente" style="display:inline;font-size:small;text-align:left;vertical-align:middle;">
+								<a tabindex="0" data-toggle="popover" data-content="<div style=\'font-size:x-small\'>Deje el número de días en \'0\' para que el sistema reconozca que el descuento no tiene límite en el número de días de validez.</div>" data-placement="bottom"><span class="fa fa-info-circle"></span></a>
+							</div>
+						</div>
+						<div class="col-md-4"> 
+							<input type="text" class="form-control input-sm" id="diasvalidez" name="diasvalidez" value="0">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12"> 
+							<label for="aplicaprontopago_add" class="checkbox-inline">
+								<input type="checkbox" id="ckb_prontopago" name="ckb_prontopago" '.( $cliente->aplicaprontopago == 'SI' ? 'checked' : '' ).'/>
+								Aplica Prontopago
+							</label>
+						</div>
+					</div>';
+			retornar_result($data);
+			break;
+		case GET_PREVISUALIZACION:
+			$datosFactura = array();
+			$datosFactura = json_decode( $user_data['deuda_xml'], true );
+			
+			$xml = '<?xml version="1.0" encoding="iso-8859-1"?>';
+			$xml.=  '<fc>';
+            $xml.=   '<cb ';
+			$xml.=     'cd="'.   $datosFactura['cabecera']['codigoDeuda'].'" ';
+			$xml.=     'md="'.   $datosFactura['cabecera']['md'].'" '; //método de descuento
+            $xml.=     'cl="'.   $datosFactura['cabecera']['codigoCliente'].'" ';
+			$xml.=     'tp="'.   $datosFactura['cabecera']['tipoPersona'].'" ';
+            $xml.=     'fIni="'. $datosFactura['cabecera']['fechaInicio_cobro'].'" ';
+            $xml.=     'fFin="'. $datosFactura['cabecera']['fechaVencimiento'].'" ';
+			$xml.=     'diap="'. $datosFactura['cabecera']['dias_prontopago'].'" ';
+			$xml.=     'gfce="'. $datosFactura['cabecera']['generaFactura'].'" '; //Generar Factura comprobante electrónico
+			$xml.=     'sucu="'. $datosFactura['cabecera']['sucursal'].'" ';
+			$xml.=     'ptoV="'. $datosFactura['cabecera']['ptoVenta'].'" ';
+			$xml.=     'ptoVc="'.$datosFactura['cabecera']['puntVent_codigo'].'" ';
+			$xml.=     'nFCT="'. $datosFactura['cabecera']['numeroFactura'].'" ';
+            $xml.=   " />";
+			
+            $xml.=  '<dt>';
+            foreach ( $datosFactura['detalle'] as $detalle )
+			{   $xml.=  '<l ';
+				$xml.=  ' sec="'. $detalle['detaFact_sec'] . '" ';
+				$xml.=  ' cp="'.  $detalle['codigoProducto'] . '" ';
+				$xml.=  ' aPP="'. $detalle['aplica_pp'] . '" ';
+				$xml.=  ' aD="'.  $detalle['aplica_dscto'] . '" ';
+				$xml.=  ' rL="'.  $detalle['rep_liquidez'] . '" ';
+				$xml.=  ' aIVA="'.$detalle['aplica_IVA'] . '" ';
+				$xml.=  ' aICE="'.$detalle['aplica_ICE'] . '" ';
+				$xml.=  ' pIVA="'.$detalle['per_IVA'] . '" ';
+				$xml.=  ' pICE="'.$detalle['per_ICE'] . '" ';
+            	$xml.=  ' />';
+            }
+            $xml .=  "</dt>";
+			
+			$xml.=  '<des>';
+            foreach ( $datosFactura['descuento'] as $descuento )
+			{   $xml.=  '<l ';
+				$xml.=  ' cod="'.$descuento['codigo_descto'] . '" ';
+				$xml.=  ' per="'.$descuento['percent'] . '" ';
+				$xml.=  ' dv="'. $descuento['diasvalidez'] . '" ';
+				$xml.=  ' aPP="'.$descuento['aplica_pp'] . '" ';
+            	$xml.=  ' />';
+            }
+            $xml .=  "</des>";
+            $xml .= "</fc>";
+			
+			$descuentofacturas->get_previsualizacion( $xml, $user_data['como_si_fuera'] );
+			
+			$tbl_previsualizacion ="<table class='table table-striped table-hover' id='tbl_previsualizacion' name='tbl_previsualizacion'>
+						<thead>
+						<tr><th style='text-align:center;'>Código</th>
+							<th style='text-align:center;'>Deuda</th>
+							<th style='text-align:center;'>Inicial</th>
+							<th style='text-align:center;'>Dscto.</th>
+							<th style='text-align:center;'>Prontopago</th>
+							<th style='text-align:center;'>I.V.A.</th>
+							<th style='text-align:center;'>Abonado</th>
+							<th style='text-align:center;'>N/C</th>
+							<th style='text-align:center;'>Pdte.</th>
+							<th style='text-align:center;'>F. Vence</th>
+						</tr>
+						</thead>";
+			$tbl_previsualizacion.="<tbody>";
+			
+			$total_numero_detalle = 0;
+			foreach( $descuentofacturas->rows as $rows )
+			{   if ( !empty ($rows) )
+				{	$tbl_previsualizacion.="<tr>";
+					foreach( $rows as $column )
+					{   $tbl_previsualizacion.="<td style='text-align:center;'>".$column."</td>";
+					}	
+					$tbl_previsualizacion.="</tr>";
+				}
+			}
+			$tbl_previsualizacion.="</tbody></table>";
+			$data['mensaje'] = $descuentofacturas->mensaje;
+			$data['tbl_previsualizacion'] = $tbl_previsualizacion;
+			echo json_encode($data, true);
+			break;
+		case SET_CHANGES:
+			$datosFactura = array();
+			$datosFactura = json_decode( $user_data['deuda_xml'], true );
+			
+			$xml = '<?xml version="1.0" encoding="iso-8859-1"?>';
+			$xml.=  '<fc>';
+            $xml.=   '<cb ';
+			$xml.=     'cd="'.   $datosFactura['cabecera']['codigoDeuda'].'" ';
+			$xml.=     'md="'.   $datosFactura['cabecera']['md'].'" '; //método de descuento
+            $xml.=     'cl="'.   $datosFactura['cabecera']['codigoCliente'].'" ';
+			$xml.=     'tp="'.   $datosFactura['cabecera']['tipoPersona'].'" ';
+            $xml.=     'fIni="'. $datosFactura['cabecera']['fechaInicio_cobro'].'" ';
+            $xml.=     'fFin="'. $datosFactura['cabecera']['fechaVencimiento'].'" ';
+			$xml.=     'diap="'. $datosFactura['cabecera']['dias_prontopago'].'" ';
+			$xml.=     'gfce="'. $datosFactura['cabecera']['generaFactura'].'" '; //Generar Factura comprobante electrónico
+			$xml.=     'sucu="'. $datosFactura['cabecera']['sucursal'].'" ';
+			$xml.=     'ptoV="'. $datosFactura['cabecera']['ptoVenta'].'" ';
+			$xml.=     'ptoVc="'.$datosFactura['cabecera']['puntVent_codigo'].'" ';
+			$xml.=     'nFCT="'. $datosFactura['cabecera']['numeroFactura'].'" ';
+            $xml.=   " />";
+			
+            $xml.=  '<dt>';
+            foreach ( $datosFactura['detalle'] as $detalle )
+			{   $xml.=  '<l ';
+				$xml.=  ' sec="'. $detalle['detaFact_sec'] . '" ';
+				$xml.=  ' cp="'.  $detalle['codigoProducto'] . '" ';
+				$xml.=  ' aPP="'. $detalle['aplica_pp'] . '" ';
+				$xml.=  ' aD="'.  $detalle['aplica_dscto'] . '" ';
+				$xml.=  ' rL="'.  $detalle['rep_liquidez'] . '" ';
+				$xml.=  ' aIVA="'.$detalle['aplica_IVA'] . '" ';
+				$xml.=  ' aICE="'.$detalle['aplica_ICE'] . '" ';
+				$xml.=  ' pIVA="'.$detalle['per_IVA'] . '" ';
+				$xml.=  ' pICE="'.$detalle['per_ICE'] . '" ';
+            	$xml.=  ' />';
+            }
+            $xml .=  "</dt>";
+			
+			$xml.=  '<des>';
+            foreach ( $datosFactura['descuento'] as $descuento )
+			{   $xml.=  '<l ';
+				$xml.=  ' cod="'.$descuento['codigo_descto'] . '" ';
+				$xml.=  ' per="'.$descuento['percent'] . '" ';
+				$xml.=  ' dv="'. $descuento['diasvalidez'] . '" ';
+				$xml.=  ' aPP="'.$descuento['aplica_pp'] . '" ';
+            	$xml.=  ' />';
+            }
+            $xml .=  "</des>";
+            $xml .= "</fc>";
+			
+			$descuentofacturas->set_changes( $xml );
+			echo $descuentofacturas->mensaje;
             break;
         case VIEW_DETAILS_DEBT:
             $descuentofacturas->get_deudaDetails($user_data['codigoDeuda']);
@@ -183,10 +545,10 @@ function handler() {
             $descuentofacturas->get_formaPagoSelectFormat();
             $data = array('{combo_formaPago}' => array("elemento"  => "combo",
                                                        "datos"     => $descuentofacturas->rows,
-                                                       "options"   => array("name" => "formaPago_asign",
-																			"id" => "formaPago_asign",
-																			"required" => "required",
-																			"onchange" => "carga_formularioMetadata('resultadoMetadata','".$diccionario['rutas_head']['ruta_html_finan']."/cobros/controller.php')"),
+                                                       "options"   => array("name" 		=> "formaPago_asign",
+																			"id" 		=> "formaPago_asign",
+																			"required" 	=> "required",
+																			"onchange" 	=> "carga_formularioMetadata('resultadoMetadata','".$diccionario['rutas_head']['ruta_html_finan']."/cobros/controller.php')"),
                                                        "selected"  => 0),
                           'formulario_metadata' => '<div id="frm_pagoNones" class="form-horizontal" >
                                                       <div class="alert alert-info">
@@ -199,18 +561,18 @@ function handler() {
             break;
         case GET_METADATA_FORM:
             $data = array();
-            switch (trim($user_data['formaPago'])) {
-              case 'EFECTIVO':
-                retornar_formulario(VIEW_SET_CASH, $data);
-                break;
-              case 'CHEQUE':
-                $descuentofacturas->get_bancoSelectFormat();
-                $data = array('{comboBanco}' => array("elemento"  => "combo",
-                                                      "datos"     => $descuentofacturas->rows,
-                                                      "options"   => array("name" => "banco",
-                                                                           "id" => "banco",
-                                                                           "required" => "required"),
-                                                      "selected"  => 0) 
+            switch (trim($user_data['formaPago']))
+			{   case 'EFECTIVO':
+					retornar_formulario(VIEW_SET_CASH, $data);
+					break;
+				case 'CHEQUE':
+					$descuentofacturas->get_bancoSelectFormat();
+					$data = array('{comboBanco}' => array("elemento"  => "combo",
+														  "datos"     => $descuentofacturas->rows,
+														  "options"   => array( "name" 		=> "banco",
+																				"id" 		=> "banco",
+																				"required" 	=> "required"),
+														  "selected"  => 0) 
                                             );
                 retornar_formulario(VIEW_SET_CHEK, $data);
                 break;
@@ -701,6 +1063,7 @@ function handler() {
             break;
           break;
         default :
+			echo "Resultado desconocido";
         	break;
     }
 }

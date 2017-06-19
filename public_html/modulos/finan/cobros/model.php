@@ -194,7 +194,7 @@ class Cobro extends DBAbstractModel{
     }
     public function get_detallePagos($codigoPago)
 	{   if($codigoPago != '')
-		{   $this->parametros = array($codigoPago); 
+		{   $this->parametros = array($_SESSION['peri_codi'], $codigoPago); 
             $this->sp = "str_consultaPagosRealizados";
             $this->executeSPConsulta();   
             array_pop($this->rows); 

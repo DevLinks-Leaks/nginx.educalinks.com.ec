@@ -17,7 +17,7 @@ class Pagos extends DBAbstractModel{
 		$nombre_titular = '', $ptvo_venta = '', $sucursal = '', $num_factura = '', $cat_codigo = '', $prod_codigo = '', 
 		$estado = '', $tpago_ini = 0, $tpago_fin = 0, $usua_codi = '-1', $periodo = 0, $grupoEconomico = 0, $nivelEconomico = 0, $curso = 0, $deuda = '-1' )
 	{
-		$this->parametros = array($codigo_pago, $fechavenc_ini, $fechavenc_fin, $forma_pago,
+		$this->parametros = array($_SESSION['peri_codi'], $codigo_pago, $fechavenc_ini, $fechavenc_fin, $forma_pago,
 		$cod_titular, $id_titular, $cod_estudiante, $nombre_estudiante,
 		$nombre_titular, $ptvo_venta, $sucursal, $num_factura, $cat_codigo, $prod_codigo, 
 		$estado, $tpago_ini, $tpago_fin, $usua_codi, $periodo, $grupoEconomico, $nivelEconomico, $curso, $deuda );
@@ -106,7 +106,7 @@ class Pagos extends DBAbstractModel{
 		$nombre_titular = '', $ptvo_venta = '', $sucursal = '', $num_factura = '', $cat_codigo = '', $prod_codigo = '', 
 		$estado = '', $tpago_ini = 0, $tpago_fin = 0, $usua_codi = '-1', $periodo = 0, $grupoEconomico = 0, $nivelEconomico = 0, $curso = 0, $orden_reporte = null )
 	{   
-	    $this->parametros = array($codigo_pago, $fechavenc_ini, $fechavenc_fin, $forma_pago,
+	    $this->parametros = array($_SESSION['peri_codi'], $codigo_pago, $fechavenc_ini, $fechavenc_fin, $forma_pago,
 		$cod_titular, $id_titular, $cod_estudiante, $nombre_estudiante,
 		$nombre_titular, $ptvo_venta, $sucursal, $num_factura, $cat_codigo, $prod_codigo, 
 		$estado, $tpago_ini, $tpago_fin, $usua_codi, $periodo, $grupoEconomico, $nivelEconomico, $curso, $orden_reporte ); 

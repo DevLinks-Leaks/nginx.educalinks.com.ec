@@ -230,7 +230,7 @@ function handler() {
 					break;
 				case  "liceonaval.educalinks.com.ec":
 					$_SESSION['llaveactiva']=$llaveliceonaval;
-					$_SESSION['passllaveactiva']=$claveliceonaval;
+					$_SESSION['passllaveactiva']=$clavellaveliceonaval;
 					$_SESSION['rutallave']=$rutallave;
 					$_SESSION['ambiente']=2;
 					$_SESSION['contribuyente_especial']='';

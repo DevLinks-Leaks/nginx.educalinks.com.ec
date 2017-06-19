@@ -142,26 +142,11 @@ session_start();
     <script src="{ruta_includes_common}/plugins/jQuery/numeric.js"></script>
     
 	<script src="{ruta_js_finan}/clientes.js"></script>
-	<script src="{ruta_js_finan}/cobros.js"></script>
+	<script src="{ruta_js_finan}/cobros.js?id=3"></script>
 	<script src="{ruta_js_common}/persona.js"></script>
 	<script src="{ruta_js_common}/representantes.js"></script>
 	<script src="{ruta_js_finan}/general.js"></script>
 	<script src="{ruta_js_common}/general.js"></script>
 	<script src="{ruta_js_common}/mensajeria.js"></script>
-	
-    <script type="text/javascript" charset="utf-8">
-	$(document).ready(function() {
-		//Si no da click al boton cerrar, sino que da click fuera del modal, las tablas no se reseteaban.
-		//Esta funcion arregla eso.
-		$('#modal_resultadoPago').on('hidden.bs.modal', function () {
-			if (document.getElementById('modal_resultadoPago_header').innerHTML=="<strong>¡Pago realizado!</strong>")
-			{	//
-			}
-		})
-		$('#modal_editarPago').on('hidden.bs.modal', function () {
-			<!-- document.getElementById('resultadoMetadataEditarPago').innerHTML="";-->
-		})
-	} );
-	</script>
 </body>
 </html>

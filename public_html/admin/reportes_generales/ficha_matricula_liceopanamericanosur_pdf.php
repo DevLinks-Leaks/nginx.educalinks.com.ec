@@ -186,7 +186,7 @@ $html=<<<EOD
 	<br>
 	<p>
 	<h1>{$antes_del_nombre}</h1>
-	<h1>"{$nombre_legal}"</h1>
+	<h1>{$nombre_legal}</h1>
 	<h1>{$_SESSION['peri_deta']}</h1>
 	</p>
 	<p>
@@ -202,7 +202,7 @@ $html=<<<EOD
 	</table>
 	</p>
 	<br/><br/>
-	<p class="letras_normales">En la {$antes_del_nombre} {$nombre_colegio} de conformidad con el Reglamento General de Educación, se matricula el estudiante <b>{$row_alum["alum_apel"]} {$row_alum["alum_nomb"]}</b> en el curso {$row_alum["curs_deta"]} {$row_alum["para_deta"]} .</p>
+	<p class="letras_normales">En la {$antes_del_nombre} {$nombre_colegio} de conformidad con el Reglamento General de Educación, se matricula el/a estudiante <b>{$row_alum["alum_apel"]} {$row_alum["alum_nomb"]}</b> en el curso {$row_alum["curs_deta"]} {$row_alum["para_deta"]} .</p>
 	
 
 	<table width="100%">

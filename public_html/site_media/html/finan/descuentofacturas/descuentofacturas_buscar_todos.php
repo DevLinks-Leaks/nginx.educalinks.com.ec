@@ -1,3 +1,18 @@
+<!-- Modal Cargando-->
+<div class="modal modal-transparent fade" id="modal_wait" tabindex="-1"  data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body" id="modal_wait_body" style='text-align:center;font-size:small;'>
+                <div align="center" style="height:100%;">
+					Por favor, espere
+					<br>
+					<br>
+					<i style="color:darkred;" class="fa fa-cog fa-spin"></i>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal Visor Estado de cuenta-->
 <div class="modal fade bs-example-modal-lg" id="modal_showDebtState" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg">
@@ -23,14 +38,14 @@
 <div class="modal fade" id="modal_asign_descuentofactura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" style='background-color:#D9EDF7;'>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Asignar Descuento</h4>
+        <h4 class="modal-title" id="myModalLabel">Asignación de descuento</h4>
       </div>
-      <div class="modal-body" id="modal_asign_body_descuentofactura">
+      <div class="modal-body" id="modal_asign_body_descuentofactura" style='background-color:#f4f4f4;'>
       ...
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" style='background-color:#f4f4f4;'>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-success" data-dismiss="modal" 
 			onclick="js_descuentofactura_save_asign('resultado','{ruta_html_finan}/descuentofacturas/controller.php')">
@@ -142,8 +157,8 @@
 						<input type="text" readonly class="form-control" id="nombresCliente" name="nombresCliente" placeholder="Nombres" />
 						<input type="hidden" class="form-control" id="hd_prontopago" name="hd_prontopago" value='{hd_prontopago}' />
 					</div>
-					<div class="col-sm-4" style='text-align:right;'>
-						<div style='vertical-align:middle;' id='client_options'>{opciones_cliente}</div>
+					<div class="col-sm-4" style='text-align:right;margin-top:2px;'>
+						<div style='vertical-align:top;' id='client_options'>{opciones_cliente}</div>
 					</div>
 				</div>
 				<div class="row">
@@ -166,7 +181,8 @@
 	<div class="box box-default">
 		<div class="box-header with-border">
 			<h3 class="box-title">
-				Descuentos pendientes
+				<span id='span_button_return' name='span_button_return'>Deudas del cliente</span>
+				<span id='span_button_save_deud_changes' name='span_button_save_deud_changes'></span></h3>
 			</h3>
 		</div>
 		<div class="box-body">
@@ -184,7 +200,7 @@
 			<div class="grid">
 				<div class="row">
 					<div class="col-sm-4 col-sm-offset-8">
-						<div class="input-group" >
+						<div class="input-group" id='div_total_deudas' name='div_total_deudas'>
 							<span class="input-group-addon"><strong>T. Deudas: </strong>$</span>
 							<input type="text" disabled="true" class="form-control" name="totalDeudasPendientes" id="totalDeudasPendientes" placeholder="00.00" required="required">
 						</div>

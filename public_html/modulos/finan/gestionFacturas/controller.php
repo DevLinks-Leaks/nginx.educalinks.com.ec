@@ -102,7 +102,6 @@ function handler() {
 			}
 			$today=new DateTime('yesterday');
 			$tomorrow=new DateTime('today');
-            $factura->get_facturas();
             $data['mensaje'] = "Facturas por autorizar, autorizadas, DNA, etc.";
 			$data['txt_fecha_ini'] = $today->format('d/m/Y');
 			$data['txt_fecha_fin'] = $tomorrow->format('d/m/Y');
@@ -145,7 +144,7 @@ function handler() {
                                                                         2=> array()),
 															"options"   => array("name"=>"curso","id"=>"curso","required"=>"required","class"=>"form-control input-sm"),
 										"selected"  => -1);
-			$data['tabla'] = tablaFactura($tabla, $factura, $permiso);
+			$data['tabla'] = '<div style="font-size:small;">Haga clic en buscar para realizar una consulta.</div>';
             retornar_vista(VIEW_GET_ALL, $data);
             break;
 		case PRINT_EXCEL_ALL_DATA:
@@ -880,8 +879,8 @@ function enviar_factura_al_SRI($codigo, $cuantas,$ruta_documentosAutorizados, $e
 		$impuestoDetalle = array();
 		$impuesto = new impuesto(); // Impuesto del detalle
 		$impuesto->codigo = "2";
-		$impuesto->codigoPorcentaje = ($linea['totalIVADetalle']>0? "3" : "0" );
-		$impuesto->tarifa = ($linea['totalIVADetalle']>0? "14" : "0" );
+		$impuesto->codigoPorcentaje = ($linea['totalIVADetalle']>0? "2" : "0" );
+		$impuesto->tarifa = ($linea['totalIVADetalle']>0? "12" : "0" );
 		$impuesto->baseImponible = number_format($linea['precioTotalSinImpuesto'], 2, '.', '');
 		$impuesto->valor = number_format($linea['totalIVADetalle'], 2, '.', '');
 		$impuestoDetalle[] = $impuesto;

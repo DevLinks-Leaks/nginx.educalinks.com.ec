@@ -24,8 +24,7 @@ function handler() {
             $pto_emision->set($pto_data);
             break;      
         case GET:
-            $para="";
-            $sucursales->get_all_sucursales($para);
+            $sucursales->get_all_sucursales( "" );
             $pto_emision->get($pto_data['puntVent_codigo']);
             $data = array(
                 'puntVent_codigo'=>$pto_data['puntVent_codigo'],

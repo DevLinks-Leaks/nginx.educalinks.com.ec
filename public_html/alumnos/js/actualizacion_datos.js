@@ -1,26 +1,12 @@
 function ValidarDatos(direc)
-{	
-	if(document.getElementById('alum_foto')!=null){
-		if (document.getElementById('alum_foto').value.trim()=='')
-		{	$.growl.error({
-					title: 'Educalinks informa',
-					message: 'Por favor ingrese la foto de su representado.' });
-			$('#alum_foto').closest('.form-group').addClass('has-error');
-			document.getElementById('alum_foto').focus();
-	        $('#tabs a[href="#tab2"]').tab('show');
-			return false;
-		}
-		else
-		{	$('#alum_foto').closest('.form-group').removeClass('has-error');
-		}
-	}
+{
 	// if (document.getElementById('alum_fech_naci').value.trim()=='')
 	// {	$.growl.error({
 	// 			title: 'Educalinks informa',
 	// 			message: 'Por favor ingrese la fecha de nacimiento de su representado.' });
 	// 	$('#alum_fech_naci').closest('.form-group').addClass('has-error');
 	// 	document.getElementById('alum_fech_naci').focus();
- //        $('#tabs a[href="#tab1"]').tab('show');
+     //    $('#tabs a[href="#tab1"]').tab('show');
 	// 	return false;
 	// }
 	// else
@@ -33,7 +19,7 @@ function ValidarDatos(direc)
 	// 				message: 'Por favor ingrese el número de cédula de su representado.' });
 	// 		$('#alum_cedu').closest('.form-group').addClass('has-error');
 	// 		document.getElementById('alum_cedu').focus();
- //        	$('#tabs a[href="#tab1"]').tab('show');
+     //    	$('#tabs a[href="#tab1"]').tab('show');
 	// 		return false;
 	// 	}else{
 	// 		var response = validarNI(document.getElementById('alum_cedu').value,document.getElementById('alum_tipo_iden').options[document.getElementById('alum_tipo_iden').selectedIndex].value);
@@ -43,77 +29,107 @@ function ValidarDatos(direc)
 	// 			$.growl.error({ title: "Educalinks informa",message: response+". Por favor ingrese el número de identificación de acuerdo al tipo correctamente." });
 	// 			$('#alum_cedu').closest('.form-group').addClass('has-error');
 	// 			document.getElementById('alum_cedu').focus();
- //        		$('#tabs a[href="#tab1"]').tab('show');
+     //    		$('#tabs a[href="#tab1"]').tab('show');
 	// 			return false;
 	// 		}
 	// 	}
 	// }
-	// if (document.getElementById('alum_domi').value.trim()=='')
-	// {	$.growl.error({
-	// 			title: 'Educalinks informa',
-	// 			message: 'Por favor ingrese la dirección domiciliaria de su representado.' });
-	// 	$('#alum_domi').closest('.form-group').addClass('has-error');
-	// 	document.getElementById('alum_domi').focus();
-	// 	$('#tabs a[href="#tab1"]').tab('show');
-	// 	return false;
-	// }
-	// else
-	// {	$('#alum_domi').closest('.form-group').removeClass('has-error');
-	// }
-	// if (document.getElementById('alum_ciud').value.trim()=='')
-	// {	$.growl.error({
-	// 			title: 'Educalinks informa',
-	// 			message: 'Por favor ingrese la ciudad donde vive su representado.' });
-	// 	$('#alum_ciud').closest('.form-group').addClass('has-error');
-	// 	document.getElementById('alum_ciud').focus();
-	// 	$('#tabs a[href="#tab1"]').tab('show');
-	// 	return false;
-	// }
-	// else
-	// {	$('#alum_ciud').closest('.form-group').removeClass('has-error');
-	// }
-	// if (document.getElementById('alum_parroquia').value.trim()=='')
-	// {	$.growl.error({
-	// 			title: 'Educalinks informa',
-	// 			message: 'Por favor ingrese la parroquia donde vive su representado.' });
-	// 	$('#alum_parroquia').closest('.form-group').addClass('has-error');
-	// 	document.getElementById('alum_parroquia').focus();
-	// 	$('#tabs a[href="#tab1"]').tab('show');
-	// 	return false;
-	// }
-	// else
-	// {	$('#alum_parroquia').closest('.form-group').removeClass('has-error');
-	// }
-	// if(direc!='arcoiris'){
-	// 	if (document.getElementById('alum_tipo_sangre').value=='')
-	// 	{	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese el tipo de sangre del estudiante." });
-	// 		$('#alum_tipo_sangre').closest('.form-group').addClass('has-error');
-	// 		document.getElementById('alum_tipo_sangre').focus();
-	// 		$('#tabs a[href="#tab1"]').tab('show');
-	// 		return false;
-	// 	}
-	// 	else
-	// 	{	$('#alum_tipo_sangre').closest('.form-group').removeClass('has-error');
-	// 	}
-	// }
+	if (document.getElementById('alum_domi').value.trim()=='')
+	{	$.growl.error({
+				title: 'Educalinks informa',
+				message: 'Por favor ingrese la dirección domiciliaria de su representado.' });
+		$('#alum_domi').closest('.form-group').addClass('has-error');
+		document.getElementById('alum_domi').focus();
+		$('#tabs a[href="#tab1"]').tab('show');
+		return false;
+	}
+	else
+	{	$('#alum_domi').closest('.form-group').removeClass('has-error');
+	}
+	if (document.getElementById('alum_ciud').value.trim()=='')
+	{	$.growl.error({
+				title: 'Educalinks informa',
+				message: 'Por favor ingrese la ciudad donde vive su representado.' });
+		$('#alum_ciud').closest('.form-group').addClass('has-error');
+		document.getElementById('alum_ciud').focus();
+		$('#tabs a[href="#tab1"]').tab('show');
+		return false;
+	}
+	else
+	{	$('#alum_ciud').closest('.form-group').removeClass('has-error');
+	}
+	if (document.getElementById('alum_parroquia').value.trim()=='')
+	{	$.growl.error({
+				title: 'Educalinks informa',
+				message: 'Por favor ingrese la parroquia donde vive su representado.' });
+		$('#alum_parroquia').closest('.form-group').addClass('has-error');
+		document.getElementById('alum_parroquia').focus();
+		$('#tabs a[href="#tab1"]').tab('show');
+		return false;
+	}
+	else
+	{	$('#alum_parroquia').closest('.form-group').removeClass('has-error');
+	}
+	if(direc!='arcoiris'){
+		if (document.getElementById('alum_tipo_sangre').value=='')
+		{	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese el tipo de sangre del estudiante." });
+			$('#alum_tipo_sangre').closest('.form-group').addClass('has-error');
+			document.getElementById('alum_tipo_sangre').focus();
+			$('#tabs a[href="#tab1"]').tab('show');
+			return false;
+		}
+		else
+		{	$('#alum_tipo_sangre').closest('.form-group').removeClass('has-error');
+		}
+	}
 	
-	// if ( document.getElementById('hd_ha_actualizado_medic').value == 0 )
-	// {	$.growl.error({
-	// 			title: 'Educalinks informa',
-	// 			message: 'Por favor llene la ficha médica.' });
-	// 	$('#tabs a[href="#tab3"]').tab('show');
-	// 	return false;
-	// }
-	// if (!document.getElementById('aceptar_terminos').checked)
-	// {	$.growl.error({
-	// 			title: 'Educalinks informa',
-	// 			message: 'Por favor acepte los términos.' });
-	// 	document.getElementById('aceptar_terminos').style.border='solid 1px red';
-	// 	return false;
-	// }
-	// else
-	// {	document.getElementById('aceptar_terminos').style.border='';
-	// }
+	if ( document.getElementById('hd_ha_actualizado_medic').value == 0 )
+	{	$.growl.error({
+				title: 'Educalinks informa',
+				message: 'Por favor llene la ficha médica.' });
+		$('#tabs a[href="#tab4"]').tab('show');
+		return false;
+	}
+    if (document.getElementById('repr_email').value.trim()=='')
+    {	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese el correo electrónico del representante" });
+        $('#repr_email').closest('.form-group').addClass('has-error');
+        $('#repr_email').focus();
+        $('#tabs a[href="#tab2"]').tab('show');
+        return false;
+    }
+    else
+    {	$('#repr_email').closest('.form-group').removeClass('has-error');
+    }
+    if (document.getElementById('repr_telf').value.trim()=='')
+    {	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese el teléfono del representante" });
+        $('#repr_telf').closest('.form-group').addClass('has-error');
+        $('#repr_telf').focus();
+        $('#tabs a[href="#tab2"]').tab('show');
+        return false;
+    }
+    else
+    {	$('#repr_telf').closest('.form-group').removeClass('has-error');
+    }
+    if (document.getElementById('repr_celular').value.trim()=='')
+    {	$.growl.error({ title: "Educalinks informa",message: "Por favor ingrese el célular del representante" });
+        $('#repr_celular').closest('.form-group').addClass('has-error');
+        $('#repr_celular').focus();
+        $('#tabs a[href="#tab2"]').tab('show');
+        return false;
+    }
+    else
+    {	$('#repr_celular').closest('.form-group').removeClass('has-error');
+    }
+	if (!document.getElementById('aceptar_terminos').checked)
+	{	$.growl.error({
+				title: 'Educalinks informa',
+				message: 'Por favor acepte los términos.' });
+		document.getElementById('aceptar_terminos').style.border='solid 1px red';
+		return false;
+	}
+	else
+	{	document.getElementById('aceptar_terminos').style.border='';
+	}
 	return true;
 }
 function actualizar_datos()
@@ -128,20 +144,9 @@ function actualizar_datos()
 		{// code for IE6, IE5
 			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 		}
-		var archivo = document.getElementById('alum_foto');
-		if (archivo!=null)
-			var alum_foto = archivo.files[0];
-		else
-			var alum_foto='';
 
 		var data = new FormData();
 		data.append('opc', 'alum_upd');
-		data.append('alum_nomb', document.getElementById('alum_nomb').value);
-		data.append('alum_apel', document.getElementById('alum_apel').value);
-		data.append('alum_fech_naci', document.getElementById('alum_fech_naci').value);
-		data.append('alum_genero', $('.alum_genero:checked').val());
-		data.append('alum_cedu', document.getElementById('alum_cedu').value);
-		data.append('alum_tipo_iden', $('#alum_tipo_iden').val());
 		data.append('alum_mail', document.getElementById('alum_mail').value);
 		data.append('alum_celu', document.getElementById('alum_celu').value);
 		data.append('alum_domi', document.getElementById('alum_domi').value);
@@ -170,8 +175,39 @@ function actualizar_datos()
 		data.append('alum_ex_plantel_dire', $('#alum_ex_plantel_dire').val());
 		data.append('alum_etnia', document.getElementById('alum_etnia').value );
 		data.append('alum_prov', ($('#alum_prov').val()=='' ? '' : $('#alum_prov option:selected').text()));
-		data.append('alum_foto', alum_foto);
 		data.append('alum_tiene_seguro', document.getElementById('alum_tiene_seguro').checked);
+
+		//Representante
+        // data.append('repr_nomb', document.getElementById('repr_nomb').value);
+        // data.append('repr_apel', document.getElementById('repr_apel').value);
+        // data.append('repr_cedula', document.getElementById('repr_cedula').value);
+        // data.append('repr_tipo_iden', $('#repr_tipo_iden').val());
+        data.append('repr_email', document.getElementById('repr_email').value);
+        data.append('repr_telf', document.getElementById('repr_telf').value);
+        data.append('repr_celular', document.getElementById('repr_celular').value);
+        data.append('repr_domi', document.getElementById('repr_domi').value);
+        data.append('repr_celular', document.getElementById('repr_celular').value);
+        data.append('repr_profesion', document.getElementById('repr_profesion').value);
+        data.append('repr_nacionalidad', document.getElementById('repr_nacionalidad').value);
+        data.append('repr_lugar_trabajo', document.getElementById('repr_lugar_trabajo').value);
+        data.append('repr_direc_trabajo', document.getElementById('repr_direc_trabajo').value);
+        data.append('repr_telf_trab', document.getElementById('repr_telf_trab').value);
+        data.append('repr_cargo', document.getElementById('repr_cargo').value);
+        data.append('repr_religion', $('#repr_religion').val());
+        data.append('repr_estudios', document.getElementById('repr_estudios').value);
+        data.append('repr_institucion', document.getElementById('repr_institucion').value);
+        data.append('repr_motivo_representa', document.getElementById('repr_motivo_representa').value);
+        data.append('repr_estado_civil', $('#repr_estado_civil').val());
+        data.append('repr_escolaborador',$('#repr_escolaborador').prop('checked'));
+        data.append('repr_fech_promoc', document.getElementById('repr_fech_promoc').value);
+        data.append('repr_ex_alum',$('#repr_ex_alum').prop('checked') );
+        // data.append('repr_fech_naci', $('#repr_fech_naci').val());
+        data.append('repr_pais_naci', ($('#repr_pais_naci').val()=='' ? '' : $('#repr_pais_naci option:selected').text()));
+        data.append('repr_prov_naci', ($('#repr_prov_naci').val()=='' ? '' : $('#repr_prov_naci option:selected').text()));
+        data.append('repr_ciud_naci', ($('#repr_ciud_naci').val()=='' ? '' : $('#repr_ciud_naci option:selected').text()));
+        data.append('ident_niv_1', ($('#identificacion_niv_1').val() > 0 ? $('#identificacion_niv_1').val() : ''));
+        data.append('ident_niv_2', ($('#identificacion_niv_2').val() > 0 ? $('#identificacion_niv_2').val() : '') );
+        data.append('ident_niv_3', ($('#identificacion_niv_3').val() > 0 ? $('#identificacion_niv_3').val() : '') );
 
 		xmlhttp.onreadystatechange=function()
 		{

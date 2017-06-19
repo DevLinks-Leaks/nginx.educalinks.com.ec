@@ -1,4 +1,4 @@
- $(document).ready(function() {
+ $(document).ready(function() { //jimmy
 	$('#btn_folder_deudasPendientes').on('click', function () {
         var $el = $(this),
             textNode = this.lastChild;
@@ -86,8 +86,7 @@ function validaAgregarPago(url)
 		agregarPago2(url);
 	}else
 	{	var mensaje = "¡Error! Faltaron completar algunos datos.";
-		var div = "<div class='alert alert-warning fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>¡Informaci&oacute;n! </strong>"+mensaje+"</div>";
-		document.getElementById('frm_PagoError').innerHTML = div;
+		$.growl.error({ title: 'Educalinks informa', message: mensaje });
 	}
 	return false
 }
@@ -97,7 +96,11 @@ function js_cobros_selecciona( div_buttons, div_body, tipo_persona )
 	$('#codigoCliente').val( codigoCliente );
 	$('#numeroIdentificacionCliente').val($('#persona_table tr.selected').find('td:nth-child(2)').text());
 	$('#nombresCliente').val($('#persona_table tr.selected').find('td:nth-child(3)').text());
-
+	
+	$('#pagos_table tbody tr').each(function(){
+		$(this).remove();	// Remuevo la información de formas de pago.
+	});
+	document.getElementById('Totalabonado').value='';
 	// === Consulta de los datos del titular del cliente seleccionado
 	var data = new FormData();
 	data.append('event', 'get_cliente_info_adicional');
@@ -458,13 +461,10 @@ function validaFechaVencimiento(codigo,div,url)
 				if(deudaAgregadaParaCobro(arreglo[ultimo_indice]['deud_codigo'])){
 					seleccionarDeuda(codigo,div,url);
 				}else{
-					//alert(mensaje);
-					//$.growl.error({ title: titulo, message: mensaje });
+					$.growl.error({ title: 'Educalinks informa', message: 'Tiene deudas previas pendientes de pago. '+
+						'<a style="color:white;text-decoration:underline;" href="#div_noticias_deudas_anteriores"><i class="fa fa-search"></i>&nbsp;Ver deudas</a>' });
 					document.getElementById('div_noticia_deudas_anteriores').innerHTML="<div class='alert alert-info fade in'><a href='#' class='close' data-dismiss='alert'>&times;</a><strong>¡Informaci&oacute;n! </strong>"+mensaje+"</div>";
 					document.getElementById('div_noticia_deudas_anteriores').style.display="block";
-					document.getElementById('modal_resultadoPago_header').innerHTML="<strong>¡Deuda pendiente!</strong>";
-					document.getElementById('modal_resultadoPago_body').innerHTML="<div class='alert alert-info'><strong>¡Informaci&oacute;n! </strong>"+mensaje+"</div>";
-					$('#modal_resultadoPago').modal('show');
 					return false;
 				}
 			}else{
@@ -612,10 +612,8 @@ function validaDesbordamientoAbono (e, field, totalPagos, max_value)
 		valor_actual_real=parseFloat(valor_actual)*10;
 	}
 	if(parseFloat(parseFloat(valor_actual_real).toFixed(2))>parseFloat(parseFloat(maximo).toFixed(2)))
-	{	var mensajeError='Valor excedido, ingreso un monto menor o igual a la deuda';
-		document.getElementById('modal_resultadoPago_header').innerHTML="<strong>¡Valor excedido!</strong>";
-		document.getElementById('modal_resultadoPago_body').innerHTML="<div class='alert alert-warning'><strong>¡Advertencia! </strong>"+mensajeError+"</div>";
-		//$('#modal_resultadoPago').modal('show');
+	{	var mensajeError='Valor excedido. Por favor, ingrese un monto menor o igual a la deuda';
+		$.growl.warning({ title: 'Educalinks informa', message: mensajeError });
 		regexp = /.[0-9]{5}$/
 		field.value=parseFloat(0).toFixed(2);
 		if(document.getElementById('Totalabonado').value <= totalPagos)
@@ -659,8 +657,9 @@ function randomString() {
 }
 
 function agregarPago2(url)
-{	$('#pagos_table tbody tr').each(function(){
-		if($(this).attr('class')=='odd'){
+{	$('#pagos_table tbody tr').each(function()
+	{   if($(this).attr('class')=='odd')
+		{
 			$(this).remove();	// Quito el div que coloca el datatable donde dice: "No data available in table"
 		}
 	});
@@ -740,7 +739,11 @@ function agregarPago2(url)
 	var nuevoPago = '<tr>';
 		nuevoPago += "<td style='text-align:center;' data-id='"+idPago+"'  data-meta='"+JSON.stringify(metadato)+"' >"+$('#formaPago_asign').find(':selected').text()+"</td>";
 		nuevoPago += "<td style='text-align:center;'>"+$('#monto').val()+"</td>";
+		
+	if ( $('#formaPago_asign').find(':selected').text() != 'SALDOS A FAVOR' )
 		nuevoPago += "<td style='text-align:center;'><span onclick='cargaFormularioEditarPago("+'"'+url+'"'+","+'"'+idPago+'"'+")' class='glyphicon glyphicon-pencil cursorlink' aria-hidden='true' data-toggle='modal' data-target='#modal_editarPago' onmouseover='$(this).tooltip(\"show\")' title='Editar Pago'  data-placement='left'></span></td>";
+	else
+		nuevoPago += "<td style='text-align:center;font-size:x-small;'>N/A</td>";
 		nuevoPago += "<td style='text-align:center;'><span onclick='quitarPago("+'"'+idPago+'"'+")' class='btn_opc_lista_eliminar glyphicon glyphicon-remove-circle cursorlink' aria-hidden='true' onmouseover='$(this).tooltip(\"show\")' title='Eliminar' data-placement='bottom'></span></td>";
 		nuevoPago += '</tr>';
 	$('#pagos_table tbody').append(nuevoPago);
@@ -755,7 +758,7 @@ function agregarPago2(url)
 		+"<br> Forma de pago agregada. Puede seleccionar otra forma de pago o cerrar esta ventana haciendo clic en <a href='#' data-dismiss='modal'>Cerrar</a>.</div></div>";
 	
 }
-function agregarPago(url)
+function agregarPago( url )
 {	if(validacionCamposNecesarios($('#formaPago_asign').find(':selected').text().trim()))
 	{	$('#pagos_table tbody tr').each(function(){
 			if($(this).attr('class')=='odd'){
@@ -1018,12 +1021,7 @@ function editarPago2() {
 
 	setearMontosAsignados();
 	
-	//$('#modal_editarPago').modal('hide');
-	//document.getElementById('resultadoMetadataEditarPago').innerHTML= "<div id='frm_pagoNones' class='form-horizontal' ><div class='alert alert-success'><strong>¡&Eacute;xito!</strong>"
-	//	+" Cambios almacenados.</div></div>";
-	$('#modal_editarPago').modal('hide');
-	document.getElementById('modal_resultadoPago_body').innerHTML="<div class='alert alert-success'><strong>¡&Eacute;xito!</strong> Cambios almacenados.</div>";
-	$('#modal_resultadoPago').modal('show');
+	$.growl.notice({ title: 'Educalinks informa', message: 'Cambios almacenados' });
 }
 function editarPago() {
 	var nombreFormaPago = $('#nombreFP').val();
@@ -1109,12 +1107,16 @@ function editarPago() {
 	} // Fin de la validación de los campos necesarios
 }
 
-function generaPago(div, url){
-	var bandera=0;
+function generaPago(div, url)
+{   var bandera=0;
 	var codigoCliente = $('#codigoCliente').val();
 	var totalPagos = $('#totalPagos').val();
 	if(validacionFinal())
-	{   document.getElementById('btn_modal_resultadoPago_close').disabled=true;
+	{   document.getElementById('btn_modal_resultadoPago_new_cl').disabled='disabled';
+		document.getElementById('btn_modal_resultadoPago_current_cl').disabled='disabled';
+		document.getElementById('btn_modal_resultadoPago_pagos').disabled='disabled';
+		document.getElementById('btn_modal_resultadoPago_gestionFac').disabled='disabled';
+		document.getElementById('btn_gen_pago').disabled=true;
 		var pago = {};
 		pago['cabecera'] = {};
 		pago['cabecera']['codigoCliente'] = codigoCliente;
@@ -1199,8 +1201,7 @@ function generaPago(div, url){
 	 	});
 		var codigoFC=0;
 	 	
-		document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
-        var saldo=0;
+		var saldo=0;
 		if(document.getElementById('saldofavor').value!='')
 		{
 			saldo=document.getElementById('saldofavor').value;
@@ -1214,17 +1215,25 @@ function generaPago(div, url){
 		data.append('datosPago', JSON.stringify(pago));
 		data.append('valor',saldo);
 		
+		document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
+        $( '#modal_resultadoPago' ).modal('show');
+		
 		var xhrpago = new XMLHttpRequest();
 		xhrpago.open('POST', url , true);
-		//limpiar_despues_de_pago_existoso();
+		//js_cobros_limpiar_despues_de_pago_existoso();
 		xhrpago.onreadystatechange=function()
 		{   if (xhrpago.readyState==4 && xhrpago.status==200)
 			{	var n = xhrpago.responseText.length;
 				if (n > 0)
 				{   document.getElementById('modal_resultadoPago_body').innerHTML = xhrpago.responseText;
-					document.getElementById('btn_modal_resultadoPago_close').disabled=false;
+					document.getElementById('btn_modal_resultadoPago_new_cl').disabled = '';
+					document.getElementById('btn_modal_resultadoPago_current_cl').disabled = '';
+					document.getElementById('btn_modal_resultadoPago_pagos').disabled = '';
+					document.getElementById('btn_modal_resultadoPago_gestionFac').disabled = '';
+					document.getElementById('btn_gen_pago').disabled=false;
 					codigoFC = $("#fc_generada").val(); //PDTE. Si se va a manejar el crear más de una factura, enviar un arreglo de codigos.
-					limpiar_despues_de_pago_existoso();
+					//js_cobros_limpiar_despues_de_pago_existoso();
+					console.log('limpiar todo');
 					if( ( $("#fc_generada").val().length > 0 ) && ( $("#fc_generada").val() != 'no tiene' ) )
 						generaFcElect( codigoCliente, codigoFC, 'div_detalle_sri', url, bandera );
 					else if( $("#fc_generada").val() != 'no tiene' )
@@ -1245,7 +1254,8 @@ function generaPago(div, url){
 				if (n > 0)
 				{   document.getElementById('modal_resultadoPago_body').innerHTML = xhrpago.responseText;
 					document.getElementById('btn_modal_resultadoPago_close').disabled=false;
-					limpiar_despues_de_pago_existoso();
+					//js_cobros_limpiar_despues_de_pago_existoso();
+					console.log('limpiar todo');
 				}
 			}
 		};
@@ -1309,7 +1319,7 @@ function limpiaPaginanoq(albedrio){
 	document.getElementById('modal_resultadoPago_body').innerHTML='...';
 }
 
-function limpiar_despues_de_pago_existoso(){
+function js_cobros_limpiar_despues_de_pago_existoso(){
 	$('#deudasSeleccionadas_table tbody tr').each(function(){
 		$(this).remove();
 	});
@@ -1335,8 +1345,7 @@ function limpiar_despues_de_pago_existoso(){
 	document.getElementById('formularioCobro').style.display='none';
 	document.getElementById('EducaLinksHelperCliente2').style.display='inline';
 	document.getElementById('client_options').innerHTML='';
-	//document.getElementById('modal_resultadoPago_header').innerHTML='<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">Resultado de la operación</h4>';
-	//document.getElementById('modal_resultadoPago_body').innerHTML='...';
+	document.getElementById('Totalabonado').value='';
 }
 function mostrarDetalleDeuda(codigoDeuda, div, url){
 	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
@@ -1390,8 +1399,8 @@ function mostrarPagosDeuda(codigoDeuda, div, url){
 	xhr.send(data);
 }
 
-function validacionCamposNecesarios(formaPago){
-	var mensajeError = '';
+function validacionCamposNecesarios( formaPago )
+{   var mensajeError = '';
 	switch(formaPago.trim()){
 		case "EFECTIVO":
 			if(!$('#monto').val() || $('#monto').val() == ""){
@@ -1490,68 +1499,68 @@ function validacionCamposNecesarios(formaPago){
 			}
 			break;
 	}
-	if(mensajeError != ''){
-		//document.getElementById('modal_resultadoPago_body').innerHTML="<div class='alert alert-warning'><strong>¡Advertencia! </strong>"+mensajeError+"</div>";
-		//$('#modal_resultadoPago_body').modal('hide');
-		//$('#modal_resultadoPago').modal('show');
-		alert(mensajeError);
+	if( mensajeError != '' )
+	{   
+        $.growl.warning({ title: 'Educalinks informa', message: mensajeError });
 		return false;
-	}else{
-		return true;
 	}
+	else
+		return true;
 }
 
-function validacionFinal(){
-	$('#modal_resultadoPago_body').empty();
+function validacionFinal()
+{   $('#modal_resultadoPago_body').empty();
 	// CLIENTE CONSULTADO
 	if(!$('#codigoCliente').val()){
-		var mensaje='Consulte el cliente para continuar.';
-		document.getElementById('modal_resultadoPago_body').innerHTML="<div class='alert alert-warning'><strong>Advertencia! </strong>"+mensaje+"</div>";
+		var mensaje='Seleccione un alumno/cliente para continuar';
+		$.growl.warning({ title: 'Educalinks informa', message: mensaje });
 		return false;
 	}
 
-
- 	// INGRESO DE LOS PAGOS
-	var totalPagosAgregados = 0;
-	var totalPagos = 0;
-	$('#pagos_table tbody tr').each(function(){
-		if(!$(this).find('td').eq(0).attr('class')){ 
-			totalPagosAgregados += 1;
-			totalPagos += (!$(this).find('td').eq(1).text()? 0 : parseFloat( $(this).find('td').eq(1).text() ) );
-		}
-	});
-	if (totalPagosAgregados <= 0){
-		var mensaje='No ha agregado ningún pago.'
-		document.getElementById('modal_resultadoPago_body').innerHTML="<div class='alert alert-warning'><strong>Advertencia! </strong>"+mensaje+"</div>";
-		return false;
- 	}
-
-
 	// SELECCIÓN DE DEUDAS PENDIENTES
+	
 	var totalDeudasSeleccionadas = 0;
 	var totalAbonado = 0;
+	var totalPagosAgregados = 0;
+	var totalPagos = 0;
+	
 	$('#deudasSeleccionadas_table tbody tr').each(function(){
 		if(!$(this).find('td').eq(0).attr('class')){ 
 			totalDeudasSeleccionadas += 1;
 			totalAbonado += (!$(this).find('td').eq(2).find('input').val()? 0 : parseFloat($(this).find('td').eq(2).find('input').val()));
 		}
 	});
-	if (totalDeudasSeleccionadas <= 0){
-		var mensajeError='No ha seleccionado ninguna deuda para cancelar.';
-		document.getElementById('modal_resultadoPago_body').innerHTML="<div class='alert alert-warning'><strong>Advertencia! </strong>"+mensajeError+"</div>";
+	if (totalDeudasSeleccionadas <= 0)
+	{
+		var mensajeError='Seleccione una deuda para continuar.';
+		$.growl.warning({ title: 'Educalinks informa', message: mensajeError });
 		return false;
- 	}else{
- 		// Asignado algún valor de los pagos a las deudas seleccionadas
- 		if(totalAbonado.toFixed(2) <= 0){
-			var mensajeError='No ha asignado valor alguno a las deudas seleccionadas para cobro.';
-			document.getElementById('modal_resultadoPago_body').innerHTML="<div class='alert alert-warning'><strong>Advertencia! </strong>"+mensajeError+"</div>";
-			return false;	
- 	//	}else if(totalAbonado.toFixed(2) < totalPagos.toFixed(2) ){ // Que el total asignado sea igual al total de pagos
- 		//	alert('Faltan por asignar $ '+(totalPagos - totalAbonado )+' de los pagos a las deudas seleccionadas.');
-			//return false;	
- 		}
  	}
-
+	else
+	{
+		// INGRESO DE LOS PAGOS
+	
+		$('#pagos_table tbody tr').each(function(){
+			if(!$(this).find('td').eq(0).attr('class')){ 
+				totalPagosAgregados += 1;
+				totalPagos += (!$(this).find('td').eq(1).text()? 0 : parseFloat( $(this).find('td').eq(1).text() ) );
+			}
+		});
+		if (totalPagosAgregados <= 0){
+			var mensaje='Agregue un pago para continuar.'
+			$.growl.warning({ title: 'Educalinks informa', message: mensaje });
+			return false;
+		}
+		else
+		{
+			// Asignado algún valor de los pagos a las deudas seleccionadas
+			if(totalAbonado.toFixed(2) <= 0){
+				var mensajeError ='Asignar valores en tabla "Deudas a cancelar" para continuar.';
+				$.growl.warning({ title: 'Educalinks informa', message: mensajeError });
+				return false;
+			}
+		} 		
+ 	}
 
  	// METADATOS DE LAS FORMAS DE PAGO AGREGADAS
  	var metadatos = '';
@@ -1661,11 +1670,9 @@ function validacionFinal(){
 		}
 	});
  	if(mensajeError != ''){
-		document.getElementById('modal_resultadoPago_body').innerHTML="<div class='alert alert-warning'><strong>Advertencia! </strong>"+mensajeError+"</div>";
-		$('#modal_resultadoPago').modal('show');
+		$.growl.warning({ title: 'Educalinks informa', message: mensajeError });
  		return false;
  	}
-
 	return true;
 }
 
@@ -1705,115 +1712,4 @@ function pagoPDf(codigoPago)
 }
 function folder_deudasPendientes(){
 	$('#collapse_deudasPendientes').collapse('toggle');
-}
-
-
-//Contifico----------------------
-
-function migrarfacturasindividuales(codigofactura,div,url,codigopago)
-{   document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
-    var data = new FormData();
-	data.append('event', 'migrarfacturasindividuales');
-	data.append('codigodeuda', codigofactura);	
-	data.append('codigopago', codigopago);	
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', url , true);
-	xhr.onreadystatechange=function(){
-		if (xhr.readyState==4 && xhr.status==200){
-		    document.getElementById(div).innerHTML=xhr.responseText;
-		} 
-	};
-	xhr.send(data);
-}
-function senddeudaindividual(id,div,url2,codigopago){
-	var deuda=document.getElementById('jsondeudas').innerHTML;
-	var deudaid=document.getElementById('idcontifico').innerHTML;
-	
-	document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
-	var data = new FormData();
-	var url='https://contifico.com/sistema/api/v1/documento/'+deudaid.trim()+'/cobro/';
-		var apikey =document.getElementById('apikey').value;
-	var xhrr = new XMLHttpRequest();
-	var acumulador =  Array();
-	xhrr.open('POST', url , true);
-	
-	xhrr.setRequestHeader('Authorization', apikey);
-	xhrr.setRequestHeader('Content-type','application/json; charset=utf-8');
-	xhrr.onreadystatechange=function(){
-		
-			
-				if ( xhrr.status==201){
-				alert('El documento se creo correctamente');
-			
-				upddocumentoindividual(xhrr.responseText,url2,id,div,'MI',0);
-				
-			
-				
-				} 
-				else if ( xhrr.status==409)
-				{
-					alert('El documento ya existe');
-				
-			
-
-				}
-				else if(xhrr.status==500)
-				{
-					
-					alert('Error en el sistema');
-				upddocumentoindividual(xhrr.responseText,url2,id,div,'ER',0);
-				
-				
-				
-				}
-			
-				else if(xhrr.status==400)
-				{
-				
-					alert('Error en el documento');
-				var mensaje=JSON.parse(xhrr.responseText)
-				
-				if(mensaje.mensaje=='El documento no tiene saldo pendiente')
-				{
-					
-					upddocumentoindividual(xhrr.responseText,url2,id,div,'MI',0);	
-				}		
-				else
-				{
-					
-					upddocumentoindividual(xhrr.responseText,url2,id,div,'DE',0);	
-				}
-				
-			
-					
-					
-				}
-		} 
-	
-	xhrr.send(deuda);
-	
-}
-function upddocumentoindividual(codigo_contifico,url,codigo,div,estado,cantidad)
-{   document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
-	var data = new FormData();
-	fact_procesadas=fact_procesadas+1;
-	var valores = JSON.parse(codigo_contifico); 
-	var contificoid=0;
-	data.append('event', 'upddeuda');
-	data.append('codigo_documento', codigo);
-	if(estado=='MI')
-	{   data.append('doccontifico_codigo', valores['id']);	//valores.id
-	}
-	else	
-	{   data.append('doccontifico_codigo', contificoid);	
-	}
-	data.append('estado', estado);
-	var xhr = new XMLHttpRequest();
-	xhr.open('POST', url , true);
-	xhr.onreadystatechange=function(){
-		if (xhr.readyState==4 && xhr.status==200){
-			buscadeudas('resultadomigracion',url);
-		} 
-	};
-	xhr.send(data);
 }
