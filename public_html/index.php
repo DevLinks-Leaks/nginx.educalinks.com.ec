@@ -24,11 +24,9 @@ header("Pragma: no-cache");
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Educalinks | Unidad Educativa <?= para_sist(2);?></title>
-    <link rel="shortcut icon" href="imagenes/logo_icon.png"> 
-    
-
+    <link rel="shortcut icon" href="imagenes/favicon.png">
     <link href="theme/css/main.css" rel="stylesheet" type="text/css">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script src="theme/js/select.js"></script>
 	<script src="theme/js/bootstrap.js"></script>
     
@@ -125,8 +123,6 @@ header("Pragma: no-cache");
                 </div>
             </section>
         </div>
-
-
 	<script>
         $(document).ready(function(){
 		$('#usua').focus();

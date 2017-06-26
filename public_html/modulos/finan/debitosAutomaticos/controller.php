@@ -179,6 +179,7 @@ function handler()
 			echo json_encode($data, true);
 			break;
 		case UPLOAD:
+			if($_SESSION['IN']!="OK"){$_SESSION['IN']="KO";$_SESSION['ERROR_MSG']="Por favor inicie sesión"; echo "KO";}
 			require_once('../../../includes/common/PHPExcel/Classes/PHPExcel/IOFactory.php');
 			$target_dir= "../../../uploads/";
 			
@@ -192,44 +193,42 @@ function handler()
 			if(isset($_POST["submit"]))
 			{	$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
 				if($check !== false)
-				{	echo "File is an image - " . $check["mime"] . ".";
+				{	//echo "File is an image - " . $check["mime"] . ".";
 					$uploadOk = 1;
 				}
 				else
-				{	echo "File is not an image.";
+				{	//echo "File is not an image.";
 					$uploadOk = 0;
 				}
 			}
 			// Check if file already exists
 			if (file_exists($target_file))
-			{	echo "El archivo ya existe y ser&aacute; reemplzado.";
+			{	//echo "El archivo ya existe y ser&aacute; reemplzado.";
 				$uploadOk = 1;
 			}
 			// Check file size
 			if ($_FILES["fileToUpload"]["size"] > 500000)
-			{	echo "El archivo es demasiado pesado.";
+			{	//echo "El archivo es demasiado pesado.";
 				$uploadOk = 0;
 			}
 			// Allow certain file formats
 			if($imageFileType != "xlsx" && $imageFileType != "xls" )
-			{	echo "Solo xlsx, xls archivos son permitidos.";
+			{	//echo "Solo xlsx, xls archivos son permitidos.";
 				$uploadOk = 0;
 			}
 			// Check if $uploadOk is set to 0 by an error
 			if ($uploadOk == 0)
-			{	echo "El archivo no se pudo cargar.";
+			{	//echo "El archivo no se pudo cargar.";
 			// if everything is ok, try to upload file
 			}
 			else 
 			{	if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file))
-				{	echo "El archivo ". basename( $_FILES["fileToUpload"]["name"]). " fue cargado.";
+				{	//echo "El archivo ". basename( $_FILES["fileToUpload"]["name"]). " fue cargado.";
 				}
 				else
-				{	echo "Ha habido un error cargando el archivo.";
+				{	//echo "Ha habido un error cargando el archivo.";
 				}
 			}
-			// leer excel
-			//header("Location: http://".$_SERVER['HTTP_HOST']."/finan/site_media/html/debitosAutomaticos/debauto_resultado.php?event=mensaje&contador1=$contador1&contador2=$contador2&contador3=$contador3&columna=$highestColumn&row=$highestRow&estado=$pago");
 			break;
 		case VIEW_MENSAJE:
 				
@@ -300,37 +299,63 @@ function handler()
 			
 			//  Loop through each row of the worksheet in turn
 			$acu=0;
-	
+			$error_espacio = 0;
 			for ($i=$primerafila; $i<=$highestRow; $i++)
 			{	$cabec[][] = array();
 
 				$params[][] = array();
 				for ($j=0; $j<$highestColumn; $j++)
 				{
-					
-					$params[$i][$j]=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow($j, $i)->getValue();
-					if($i==$primerafila)
-					{	
-					$cabec[$acu][0]=$acu;
-					if($params[$i][$j]!=' ')
-					{$cabec[$acu][1]=$params[$i][$j];}
-					$acu=$acu+1;}
+					$params[$i][$j] = $objPHPExcel->getActiveSheet()->getCellByColumnAndRow($j, $i)->getValue();
+					//var_dump($params);
+					if ( $params[$i][$j] != '' && $params[$i][$j] != null )
+					{   if( $i == $primerafila )
+						{   $cabec[$acu][0]=$acu;
+							if( $params[$i][$j]!='' && $params[$i][$j] != null  )
+							{	$cabec[$acu][1] = $params[$i][$j];
+								$docu.= $params[$i][$j];
+								if (preg_match('/\s/',$params[$i][$j]))
+									$error_espacio ++;
+							}
+							$acu=$acu+1;
+						}
+					}
 				}
 			}
+			//echo $docu;
 			
 			$data =	array(	'{combo_codigodeuda}'=>array("elemento" => "combo", 
-                                                      	"datos"     => $cabec, 
+                                                      	"datos"     => ($error_espacio == 0 ? $cabec : array()), 
                                                       	"options"   => array("name"=>"coddeuda","id"=>"coddeuda","required"=>"required","class"=>"form-control"),
                                                       	"selected"  => 0),
 							'{combo_estado}' => array("elemento"  => "combo", 
-                                                      	"datos"     => $cabec, 
+                                                      	"datos"     => ($error_espacio == 0 ? $cabec : array()), 
                                                       	"options"   => array("name"=>"estado","id"=>"estado","required"=>"required","class"=>"form-control"),
                                                       	"selected"  => 0),
 							'{combo_valor}' => array("elemento"  => "combo", 
-                                                      	"datos"     => $cabec, 
+                                                      	"datos"     => ($error_espacio == 0 ? $cabec : array()), 
                                                       	"options"   => array("name"=>"valor","id"=>"valor","required"=>"required","class"=>"form-control"),
                                                       	"selected"  => 0),
 					);
+			
+			if ( $error_espacio > 0 )
+			{	$data['txt_mensaje'] = '<div class="alert alert-danger" role="alert">
+					<p><span class="fa fa-times-circle" aria-hidden="true"></span>
+						Educalinks Informa
+						<hr style="padding:3px;margin:0px;">
+						Los campos de la cabecera no pueden tener espacios en blanco. Por favor, revisar que no existan caracteres de espacio y subir nuevamente.</p>
+				</div>';
+				$data['display_muestra_archivo_ok'] = 'style="display:none;"';
+			}
+			else
+			{	$data['txt_mensaje'] = '<div class="alert alert-success" role="alert">
+					<p><span class="fa fa-check" aria-hidden="true"></span>&nbsp;<span class="fa fa-file-excel-o" aria-hidden="true"></span>&nbsp;
+						Educalinks Informa
+						<hr style="padding:3px;margin:0px;">
+						El archivo fue cargado con &eacute;xito y est&aacute; listo para procesarse.</p>
+				</div>';
+				$data['display_muestra_archivo_ok'] = '';
+			}
 			$data['txt_fecha_debito'] = $debito_data['txt_fecha_debito'];
 			retornar_formulario(VIEW_PROCESAR,$data);
 			break;

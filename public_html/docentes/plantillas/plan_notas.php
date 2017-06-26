@@ -35,12 +35,13 @@ $objPHPExcel->getActiveSheet()->setTitle("Notas");
 
 /*Cabecera*/
 $objPHPExcel->setActiveSheetIndex(0);
-$objPHPExcel->getActiveSheet()->SetCellValue('A1', 'PLANTILLA DE INGRESO DE CALIFICACIONES');
+$objPHPExcel->getActiveSheet()->SetCellValue('A1', 'PLANTILLA DE INGRESO DE CALIFICACIONES - PERIODO LECTIVO '.$_SESSION['peri_deta']);
 $objPHPExcel->getActiveSheet()->getStyle('A1:A8')->applyFromArray($etiquetas);
 $objPHPExcel->getActiveSheet()->SetCellValue('A2', 'UNIDAD');
 $objPHPExcel->getActiveSheet()->SetCellValue('A3', 'PROFESOR');
 $objPHPExcel->getActiveSheet()->SetCellValue('A4', 'ASIGNATURA');
 $objPHPExcel->getActiveSheet()->SetCellValue('A5', 'CURSO/PAR.');
+$objPHPExcel->getActiveSheet()->SetCellValue('A6', 'JORNADA.');
 $objPHPExcel->getActiveSheet()->SetCellValue('A8', 'CODALUM');
 $objPHPExcel->getActiveSheet()->getStyle('A8')->applyFromArray($bordes);
 $objPHPExcel->getActiveSheet()->getStyle('A8')->applyFromArray($somb_tabla_header);
@@ -76,6 +77,7 @@ $objPHPExcel->getActiveSheet()->SetCellValue('B2', $row['peri_dist_deta'].'/'.$r
 $objPHPExcel->getActiveSheet()->SetCellValue('B3', $row['prof_apel'].' '.$row['prof_nomb']);
 $objPHPExcel->getActiveSheet()->SetCellValue('B4', $row['mate_deta']);
 $objPHPExcel->getActiveSheet()->SetCellValue('B5', $row['curs_deta'].' "'.$row['para_deta'].'"');
+$objPHPExcel->getActiveSheet()->SetCellValue('B6', strtoupper($row['jorn_deta']));
 $objPHPExcel->getActiveSheet()->SetCellValue('D2', 'NUM. ALUM.');
 $objPHPExcel->getActiveSheet()->SetCellValue('D3', 'NUM. INGR.');
 $objPHPExcel->getActiveSheet()->SetCellValue('D4', $peri_dist_codi);
@@ -188,7 +190,56 @@ else
 		}
 	}
 }	
-	
+
+/*CUADRO ESPECIAL LICEO NAVAL*/
+if($_SESSION['directorio']=='liceonaval'){
+	if($pos_notas_cual>$fila)
+		$t=$pos_notas_cual+1;
+	else
+		$t=$fila+1;
+	$objPHPExcel->getActiveSheet()->mergeCells('B'.($t+2).':C'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, ($t+2), 'ACTIVIDADES INDIVIDUALES INSUMOS');
+    // $objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex(10).($i+11).':'.PHPExcel_Cell::stringFromColumnIndex(13).($i+11))->applyFromArray($styleArray);
+
+    $objPHPExcel->getActiveSheet()->mergeCells('D'.($t+2).':F'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, ($t+2), 'ACTIVIDADES GRUPALES INSUMOS');
+    // $objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex(14).($i+11).':'.PHPExcel_Cell::stringFromColumnIndex(15).($i+11))->applyFromArray($styleArray);
+    $t++;
+    $objPHPExcel->getActiveSheet()->mergeCells('B'.($t+2).':C'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, ($t+2), '- Pruebas de diferentes estructuras');
+    $objPHPExcel->getActiveSheet()->mergeCells('D'.($t+2).':F'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, ($t+2), '- Deberes');
+
+    $t++;
+    $objPHPExcel->getActiveSheet()->mergeCells('B'.($t+2).':C'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, ($t+2), '- Ensayos');
+    $objPHPExcel->getActiveSheet()->mergeCells('D'.($t+2).':F'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, ($t+2), '- Proyectos');
+
+    $t++;
+    $objPHPExcel->getActiveSheet()->mergeCells('B'.($t+2).':C'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, ($t+2), '- Lecciones orales/escritas');
+    $objPHPExcel->getActiveSheet()->mergeCells('D'.($t+2).':F'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, ($t+2), '- Trabajos grupales');
+
+    $t++;
+    $objPHPExcel->getActiveSheet()->mergeCells('B'.($t+2).':C'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, ($t+2), '- Informes');
+    $objPHPExcel->getActiveSheet()->mergeCells('D'.($t+2).':F'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(3, ($t+2), '- Trabajos grupales de laboratorios');
+
+    $t++;
+    $objPHPExcel->getActiveSheet()->mergeCells('B'.($t+2).':C'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, ($t+2), '- Exposiciones');
+    $t++;
+    $objPHPExcel->getActiveSheet()->mergeCells('B'.($t+2).':C'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, ($t+2), '- Trabajo practico');
+    $t++;
+    $objPHPExcel->getActiveSheet()->mergeCells('B'.($t+2).':C'.($t+2));
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(1, ($t+2), '- Tareas');
+}
+/*FINAL CUADRO ESPECIAL*/
+
 /*Bloqueo de celdas no editables*/
 $objPHPExcel->getActiveSheet()->getStyle('C9:'.PHPExcel_Cell::stringFromColumnIndex($num_in_notas+1).($num_alum+8))->getProtection()->setLocked(PHPExcel_Style_Protection::PROTECTION_UNPROTECTED);
 $objPHPExcel->getActiveSheet()->getProtection()->setSheet(true);

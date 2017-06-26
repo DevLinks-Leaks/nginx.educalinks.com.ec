@@ -19,7 +19,7 @@
 	/*Libreta por lotes*/
 	$nive_codi = curs_para_nive_cons($curs_para_codi);
 	
-	if ($_SESSION["directorio"]=="liceopanamericano" or $_SESSION["directorio"]=="liceopanamericanosur" or $_SESSION["directorio"]=="moderna" or $_SESSION["directorio"]=="arcoiris" or $_SESSION["directorio"]=="ecobab" or $_SESSION["directorio"]=="ecobabvesp")
+	if ($_SESSION["directorio"]=="liceopanamericano" or $_SESSION["directorio"]=="liceopanamericanosur" or $_SESSION["directorio"]=="moderna" or $_SESSION["directorio"]=="arcoiris" or $_SESSION["directorio"]=="ecobab" or $_SESSION["directorio"]=="ecobabvesp" or $_SESSION["directorio"]=="novus" or $_SESSION["directorio"]=="liceonaval")
 	{	if ($nive_codi==4 or $nive_codi==5)
 		{	/*Archivo.php para libretas de inicial*/
 			$url_libreta_general="lib_ini_all.php";

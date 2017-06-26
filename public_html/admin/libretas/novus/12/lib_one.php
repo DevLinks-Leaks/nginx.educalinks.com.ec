@@ -67,7 +67,7 @@ class MYPDF extends TCPDF
 	{	$this->foto=$value;
 	}
 }
-$pdf = new MYPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+$pdf = new MYPDF('L', 'mm', 'A4', true, 'UTF-8', false);
 $pdf->SetMargins(5, 27, 5);
 $pdf->SetAutoPageBreak(TRUE, 2);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -294,6 +294,25 @@ $calificaciones.='<td class="cuerpo_notas centrar">'.notas_prom_quali($_SESSION[
 $calificaciones.='</tr>';
 $calificaciones.='</table>';
 
+/*Descripcion Insumos*/
+$tabla_insumos = '<table width="100%" border="1" cellpadding="1" cellspacing="0">';
+$tabla_insumos.= '<tr>';
+$tabla_insumos.= '<td class="cabecera_notas centrar"><b>INSUMOS</b></td>';
+$tabla_insumos.= '</tr>';
+$tabla_insumos.= '<tr>';
+$tabla_insumos.= '<td class="tabla_informativa">INS1: PROMEDIO DE ACTIVIDADES ENVIADAS A CASA</td>';
+$tabla_insumos.= '</tr>';
+$tabla_insumos.= '<tr>';
+$tabla_insumos.= '<td class="tabla_informativa">INS2: PROMEDIO DE ACTIVIDADES EFECTUADAS EN CLASE</td>';
+$tabla_insumos.= '</tr>';
+$tabla_insumos.= '<tr>';
+$tabla_insumos.= '<td class="tabla_informativa">INS3: EVALUACIÓN SUMATIVA DEL PARCIAL (APORTE)</td>';
+$tabla_insumos.= '</tr>';
+$tabla_insumos.= '<tr>';
+$tabla_insumos.= '<td class="tabla_informativa">REF: REFUERZO DE CADA INSUMO</td>';
+$tabla_insumos.= '</tr>';
+$tabla_insumos.='</table>';
+
 $pdf->setCodigo($row_alum_info['alum_codi']);
 $pdf->setNombre($row_alum_info['alum_nomb']);
 $pdf->setApellido($row_alum_info['alum_apel']);
@@ -344,7 +363,10 @@ $tbl=<<<EOF
 </tr>
 <tr>
 <td  width="50%"> {$tabla_observaciones}</td>
-<td  width="50%"> {$tabla_inasistencias}</td>
+<td  width="50%"> {$tabla_inasistencias}<br/></td>
+</tr>
+<tr>
+<td width="50%">{$tabla_insumos}</td>
 </tr>
 </table>
 <br/>

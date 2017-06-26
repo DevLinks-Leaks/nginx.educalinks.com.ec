@@ -392,6 +392,71 @@ function get_procesar(div,url)
     };
     xhrafe.send(data);
 }
+function js_debtAuto_subirarchivo( )
+{   if ( document.getElementById('hd_caja_abierta').value ==  'false' )
+    {   document.getElementById('procesar').innerHTML=
+                    '<div class="callout callout-info">'+
+                        '<h4><strong><li class="fa fa-exclamation"></li> Carga de archivo de débito bancario</strong></h4>'+
+                        ' Usuario debe ser un usuario con rol <a target=\'_blank\' href=\'../../../admin/usuarios_main.php\'><b>caja</b></a>, estar <a target="_blank" href="../../../finan/puntos_emision/"><b>asignado a una caja</b></a> y/o'+
+                        ' estar trabajando con una <a target="_blank" href="../../../finan/cierre_caja/"><b>caja abierta</b></a> para poder realizar esta operación.'+
+                    '</div>';
+    }
+    else
+    {   var file = document.getElementById( 'fileToUpload' ).value;
+        var row = document.getElementById( 'filainicia' ).value;
+        if(file)
+        {   if(row)
+            {   $('#modal_ask_load_file').modal("show");
+            }
+            else
+            {   $.growl.error({title: 'Educalinks Informa', message: "Falta ingresar el inicio de la cabecera."});
+                document.getElementById('filainicia').style.border = "1px solid #A94442";
+                document.getElementById('span_ig_filainicia').style.color = "#A94442";
+                document.getElementById('span_ig_filainicia').style.background = "#F2DEDE";
+                document.getElementById('span_ig_filainicia').style.border = "1px solid #A94442";
+            }
+        }
+        else
+        {   $.growl.warning({title: 'Educalinks Informa', message: "Seleccione un archivo de su equipo, primero, para continuar"});
+        }
+    }
+}
+function js_debtAuto_subirarchivo_followed( )
+{   $('#modal_ask_load_file').modal("hide");
+    var data = new FormData();
+    data.append('event', 'subir_archivo' );
+    data.append('fileToUpload', document.getElementById( 'fileToUpload' ).files[0] );
+    
+    document.getElementById( 'btn_formato_nuevo_generar' ).disabled = true;
+    
+    var xhrej = new XMLHttpRequest();
+    xhrej.open('POST', document.getElementById('ruta_html_finan').value + '/debitosAutomaticos/controller.php' , true);
+    xhrej.onreadystatechange=function()
+    {   if ( xhrej.readyState === 4 && xhrej.status === 200 )
+        {   console.log( xhrej.responseText );
+            js_debtAuto_get_procesar( );
+        }
+    };
+    xhrej.send(data);
+}
+function js_debtAuto_get_procesar( )
+{   var data = new FormData();
+    data.append( 'event', 'get_procesar' );
+    data.append( 'filainicia', document.getElementById('filainicia').value );
+    data.append( 'txt_fecha_debito', document.getElementById('txt_fecha_debito').value );
+    
+    document.getElementById( 'menu2' ).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:#E55A2F;" class="fa fa-cog fa-spin"></i><br>Cargando archivo. Por favor, espere...</div>';
+    var xhrafe = new XMLHttpRequest();
+    xhrafe.open('POST', document.getElementById('ruta_html_finan').value + '/debitosAutomaticos/controller.php' , true);
+    xhrafe.onreadystatechange=function()
+    {   if (xhrafe.readyState==4 && xhrafe.status==200)
+        {   document.getElementById( 'menu2' ).innerHTML=xhrafe.responseText;
+			$('[data-toggle="popover"]').popover({html:true});
+			console.log("reaches");
+        }
+    };
+    xhrafe.send(data);
+}
 function validasubirarchivo(formulario,div,url)
 {   subirarchivo(formulario,div,url);
     return false;

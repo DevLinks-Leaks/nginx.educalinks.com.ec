@@ -9,6 +9,30 @@
             </span><span class='glyphicon glyphicon-list'></span> Listado</a></li>
     </ul>
     <form id="file_form" action="{ruta_html_finan}/debitosAutomaticos/controller.php" enctype="multipart/form-data" method="post" target="_blank">
+		<!-- Modal cargar archivo-->
+		<div class="modal fade bs-example-modal-sm" id="modal_ask_load_file" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header" style="background-color:#5cb85c">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" style='color:white;'><span class="fa fa-upload"></span> Subida de archivo</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12" style='text-align:center;'>
+								¿Cargar archivo ahora?
+							</div>
+						</div>
+						<input type='hidden' id='hd_del_mes_codi' name='hd_del_mes_codi' value=''></input>
+					</div>
+					<div class="modal-footer" style='text-align:center;'>
+						<button class="btn btn-success" type="button" onclick="js_debtAuto_subirarchivo_followed( )">Continuar</button>
+						<button class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal Información-->
 		<!-- Modal Guardar-->
 		<div class="modal fade" id="modal_formato" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
@@ -454,7 +478,7 @@
                             <div class='col-sm-7' style='display:inline;'>
                                     <button id='btn_formato_nuevo_generar' name='btn_formato_nuevo_generar' 
 											class="btn btn-success btn-flat glyphicon glyphicon-import" type="button"
-                                            onclick="subirarchivo('file_form','procesar','{ruta_html_finan}/debitosAutomaticos/controller.php'); closeself();"
+                                            onclick="js_debtAuto_subirarchivo();"
                                             data-placement="right"
                                             title='Importar archivo de respuesta del banco al sistema.'
                                             onfocus='$(this).tooltip("show")'

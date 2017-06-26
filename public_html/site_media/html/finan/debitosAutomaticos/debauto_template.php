@@ -131,7 +131,7 @@ session_start();
 	<script src="{ruta_includes_common}/bootstrap-validator-master/js/validator.js" type="text/javascript"></script>
     <script src="{ruta_includes_common}/plugins/jQuery/numeric.js"></script>
     
-	<script src="{ruta_js_finan}/debitosAutomaticos.js?id=1"></script>
+	<script src="{ruta_js_finan}/debitosAutomaticos.js?id=3"></script>
 	<script src="{ruta_js_finan}/general.js"></script>
 	<script src="{ruta_js_common}/general.js"></script>
 	<script src="{ruta_js_common}/mensajeria.js"></script>

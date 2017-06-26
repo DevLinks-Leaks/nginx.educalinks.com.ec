@@ -225,6 +225,7 @@ function GuardarObs(peri_dist_codi, alum_codi, obse)
 			if (xmlhttp.readyState==4 && xmlhttp.status==200)
 			{
 				$.growl.notice({ title: "Mensaje: ",message: "¡Su observación fue grabada con éxito!" });
+				location.reload();
 			}
 		}
 		xmlhttp.open("POST","script_observaciones.php");

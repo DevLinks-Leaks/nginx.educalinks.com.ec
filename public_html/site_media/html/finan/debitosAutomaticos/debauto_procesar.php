@@ -2,15 +2,11 @@
 	<div class="row">
 		<div class="form-group" >
 			<div class='col-sm-4'>
-				<div class="alert alert-success" role="alert">
-					<p><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-						Educalinks Informa
-						<hr style="padding:3px;margin:0px;">
-						El archivo fue cargado con &eacute;xito y est&aacute; listo para procesarse.</p>
-				</div>
+				{txt_mensaje}
 			</div>
 		</div>
 	</div>
+	<div id='div_muestra_si_archivo_ok' name='div_muestra_si_archivo_ok' {display_muestra_archivo_ok}>
 	<div class="row">
 		<div class="form-group" >
 			<div class='col-sm-3'>
@@ -111,4 +107,5 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>

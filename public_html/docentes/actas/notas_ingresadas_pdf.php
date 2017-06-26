@@ -125,11 +125,19 @@
 		while($CC_COLUM_index <= $CC_COLUM )
 		{	if ($row_curs_peri_info['nota_refe_cab_tipo']=='C')
 			{
-				$tbl_notas.='<td class="calificaciones">'.truncar($row_curs_para_nota_peri_dist_view[$CC_COLUM_index + 10])."</td>";
+				if($row_curs_para_nota_peri_dist_view[$CC_COLUM_index + 10]<=0)
+					$nota='';
+				else
+					$nota=truncar($row_curs_para_nota_peri_dist_view[$CC_COLUM_index + 10]);
+				$tbl_notas.='<td class="calificaciones">'.$nota."</td>";
 			}
 			else
 			{
-				$tbl_notas.='<td class="calificaciones">'.nota_peri_cual_cons ($_SESSION['peri_codi'],$row_curs_peri_info['nota_refe_cab_cod'],$row_curs_para_nota_peri_dist_view[$CC_COLUM_index + 10]).'</td>';
+				if($row_curs_para_nota_peri_dist_view[$CC_COLUM_index + 10]<=0)
+					$nota='';
+				else
+					$nota=nota_peri_cual_cons ($_SESSION['peri_codi'],$row_curs_peri_info['nota_refe_cab_cod'],$row_curs_para_nota_peri_dist_view[$CC_COLUM_index + 10]);
+				$tbl_notas.='<td class="calificaciones">'.$nota.'</td>';
 			}
 			$CC_COLUM_index+=1;
 		}
@@ -144,16 +152,16 @@
 	$tbl_info.='<td colspan="2" class="titulos" width="90%">'.para_sist(36).' '.para_sist(3).'</td>';
 	$tbl_info.='</tr>';
 	$tbl_info.='<tr>';
-	$tbl_info.='<td class="titulos" colspan="2">INFORMACIÓN DE APRENDIZAJES DEL '.$cab_row['nivel_1'].' '.$cab_row['nivel_2'].'</td>';
+	$tbl_info.='<td class="titulos" colspan="2">INFORMACIÓN DE APRENDIZAJES DEL '.mb_strtoupper($cab_row['nivel_1'].' '.$cab_row['nivel_2'],'UTF-8').'</td>';
 	$tbl_info.='</tr>';
 	$tbl_info.='<tr>';
-	$tbl_info.='<td class="titulos" colspan="2">'.$row_curs_peri_info['curs_deta'].' "'.$row_curs_peri_info['para_deta'].'"</td>';
+	$tbl_info.='<td class="titulos" colspan="2">'.mb_strtoupper($row_curs_peri_info['curs_deta'],'UTF-8').'"'.mb_strtoupper($row_curs_peri_info['para_deta'],'UTF-8').'"</td>';
 	$tbl_info.='</tr>';
 	$tbl_info.='<tr>';
-	$tbl_info.='<td class="titulos" colspan="2">ASIGNATURA: '.$row_curs_peri_info['mate_deta'].'</td>';
+	$tbl_info.='<td class="titulos" colspan="2">ASIGNATURA: '.mb_strtoupper($row_curs_peri_info['mate_deta'],'UTF-8').'</td>';
 	$tbl_info.='</tr>';
 	$tbl_info.='<tr>';
-	$tbl_info.='<td class="titulos" colspan="2">AÑO LECTIVO '.$_SESSION['peri_deta'].'</td>';
+	$tbl_info.='<td class="titulos" colspan="2">AÑO LECTIVO '.mb_strtoupper($_SESSION['peri_deta'],'UTF-8').' JORNADA '.mb_strtoupper($row_curs_peri_info['jorn_deta'],'UTF-8').'</td>';
 	$tbl_info.='</tr>';
 	$tbl_info.='</table>';
 	
@@ -164,12 +172,12 @@
 	$tbl_firmas.='<td class="firma" width="50%">_______________________________________</td>';
 	$tbl_firmas.='</tr>';
 	$tbl_firmas.='<tr>';
-	$tbl_firmas.='<td class="firma" width="50%">PROF. '.$_SESSION["prof_nomb"]." ".$_SESSION["prof_apel"].'</td>';
-	$tbl_firmas.='<td class="firma" width="50%">'.para_sist(6).'</td>';
+	$tbl_firmas.='<td class="firma" width="50%">'.mb_strtoupper('PROF. '.$_SESSION["prof_nomb"]." ".$_SESSION["prof_apel"],'UTF-8').'</td>';
+	$tbl_firmas.='<td class="firma" width="50%">'.mb_strtoupper(para_sist(6),'UTF-8').'</td>';
 	$tbl_firmas.='</tr>';
 	$tbl_firmas.='<tr>';
-	$tbl_firmas.='<td class="firma" width="50%">Profesor</td>';
-	$tbl_firmas.='<td class="firma" width="50%">'.para_sist(34).'</td>';
+	$tbl_firmas.='<td class="firma" width="50%">'.mb_strtoupper('PROFESOR','UTF-8').'</td>';
+	$tbl_firmas.='<td class="firma" width="50%">'.mb_strtoupper(para_sist(34),'UTF-8').'</td>';
 	$tbl_firmas.='</tr>';
 	$tbl_firmas.='</table>';
 		

@@ -101,9 +101,9 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 			/*Equivalencia Español*/
 			$tabla_inicial_esp = '<table width="95%" border="1" cellpadding="1" cellspacing="0">';
 			$tabla_inicial_esp.= '<tr>';
-			$tabla_inicial_esp.= '<td class="cabecera_notas centrar" colspan="2"><b>EQUIVALENCIAS 1</b></td>';
+			$tabla_inicial_esp.= '<td class="cabecera_notas centrar" colspan="2"><b>EQUIVALENCIAS</b></td>';
 			$tabla_inicial_esp.= '</tr>';
-			$params = array(10);
+			$params = array(15);
 			$sql="{call nota_peri_cual_tipo_view_NEW(?)}";
 			$nota_peri_cual_tipo_view = sqlsrv_query($conn, $sql, $params);	
 			while ($row_nota_peri_cual_tipo_view = sqlsrv_fetch_array($nota_peri_cual_tipo_view))
@@ -112,20 +112,7 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 									'</td></tr>';
 			}
 			$tabla_inicial_esp.='</table>';
-			/*Equivalencia Inglés*/
-			$tabla_inicial_eng = '<table width="95%" border="1" cellpadding="1" cellspacing="0">';
-			$tabla_inicial_eng.= '<tr>';
-			$tabla_inicial_eng.= '<td class="cabecera_notas centrar" colspan="2"><b>EQUIVALENCIAS 2</b></td>';
-			$tabla_inicial_eng.= '</tr>';
-			$params = array(11);
-			$sql="{call nota_peri_cual_tipo_view_NEW(?)}";
-			$nota_peri_cual_tipo_view = sqlsrv_query($conn, $sql, $params);	
-			while ($row_nota_peri_cual_tipo_view = sqlsrv_fetch_array($nota_peri_cual_tipo_view))
-			{	$tabla_inicial_eng.= '<tr><td class="tabla_informativa" width="20%"> ('.
-									$row_nota_peri_cual_tipo_view['nota_peri_cual_refe'].')</td><td class="tabla_informativa" width="80%"> '.$row_nota_peri_cual_tipo_view['nota_peri_cual_deta'].
-									'</td></tr>';
-			}
-			$tabla_inicial_eng.='</table>';
+			
 			/*Faltas/Inasistencias*/
 			$tabla_inasistencias = '<table width="100%" border="1" cellpadding="1" cellspacing="0">';
 			$tabla_inasistencias.= '<tr>';
@@ -184,7 +171,7 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 				$tabla_contraseñas.='</table>';
 			}
 			/*Ancho de asignaturas*/
-			$asign_ancho = 100-($num_cols*3);
+			$asign_ancho = 100-($num_cols*5);
 			/*Calificaciones*/
 			$calificaciones = '
 			<table width="100%" border="0.3" cellpadding="1" cellspacing="0">
@@ -192,7 +179,7 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 				<td class="cabecera_notas" align="center" width="'.$asign_ancho.'%">ÁMBITOS</td>';
 			$cabecera = array();
 			while($row_peri_dist_padr_view= sqlsrv_fetch_array($peri_dist_padr_view)) 
-			{   $calificaciones.='<td class="cabecera_notas centrar" width="3%">'.$row_peri_dist_padr_view['peri_dist_abre'].'</td>';
+			{   $calificaciones.='<td class="cabecera_notas centrar" width="5%">'.$row_peri_dist_padr_view['peri_dist_abre'].'</td>';
 			}
 			$calificaciones.='</tr>';
 			while ($row_alum_nota_peri_dist_view= sqlsrv_fetch_array($alum_nota_peri_dist_view)) 
@@ -209,7 +196,7 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 				$calificaciones.='</td>';
 				$CC_COLUM_index =0; 
 				while($CC_COLUM_index < $CC_COLUM )  
-				{   $calificaciones.='<td width="3%" class="cuerpo_notas centrar ';
+				{   $calificaciones.='<td width="5%" class="cuerpo_notas centrar ';
 					$calificaciones.= '">';
 					if ($row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]>0 and $row_alum_nota_peri_dist_view[$CC_COLUM_index + 12]<>null)
 					{	switch ($row_alum_nota_peri_dist_view['mate_tipo'])
@@ -258,7 +245,7 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 			$pdf->setCurso($row_curs_info['curs_deta'].' '.$row_curs_info['nive_deta'].' "'.$row_curs_info['para_deta'].'"');
 
 
-			$logo_cole = '../../../'.$_SESSION['ruta_foto_logo_preescolar'];
+			$logo_cole = '../../../'.$_SESSION['ruta_foto_logo_index'];
 			/*$this->Image($logo_cole, 5, 12, 45, 18, 'PNG', '', 'C', false, 300, '', false, false, 0, false, false, false);
 			$this->Image($this->foto, 185, 8, 16, 18, 'JPG', '', 'C', false, 300, '', false, false, 0, false, false, false);
 			$this->SetFont('helvetica', 'B', 7);
@@ -271,25 +258,25 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 			$this->MultiCell(0, 0, $this->codigo, 0, 'L', 0, 1, 185, 26, true);*/
 
 			$cabecera = '<table border="0" width="100%">
-							<tr>
-								<td class="centrar_vertical_img_logo" rowspan="5" width="25%"><img height="50px" width="125px" src="'.$logo_cole.'" /></td>
-								<td class="cabecera" width="60%">BOLETÍN DE CALIFICACIONES</td>
-								<td class="centrar_vertical_img_foto" rowspan="4" width="15%"><img height="45px" width="45px" src="'.$pp.'" /></td>
-							</tr>
-							<tr>
-								<td class="cabecera" width="60%">'.mb_strtoupper($cab_row['nivel_1']."  ".$cab_row['nivel_2'],'utf8').'</td>
-							</tr>
-							<tr>
-								<td class="cabecera" width="60%">'.mb_strtoupper($row_curs_info['curs_deta'].' '.$row_curs_info['nive_deta'].' "'.$row_curs_info['para_deta'].'"','utf8').'</td>
-							</tr>
-							<tr>
-								<td class="cabecera" width="60%">'.mb_strtoupper($row_alum_info['alum_apel']." ".$row_alum_info['alum_nomb'],'utf8').'</td>
-							</tr>
-							<tr>
-								<td class="cabecera" width="60%">'.mb_strtoupper($_SESSION['peri_deta'],'utf8').'</td>
-								<td class="cabecera centrar" width="15%">'.$row_alum_info['alum_codi'].'</td>
-							</tr>
-						</table>';
+				<tr>
+					<td class="centrar_vertical_img_logo" rowspan="5" width="15%"><img height="90px" width="70px" src="'.$logo_cole.'" /></td>
+					<td class="cabecera" width="70%">BOLETÍN DE CALIFICACIONES</td>
+					<td class="centrar_vertical_img_foto" rowspan="4" width="15%"><img height="45px" width="45px" src="'.$pp.'" /></td>
+				</tr>
+				<tr>
+					<td class="cabecera" width="70%">'.mb_strtoupper($cab_row['nivel_1']."  ".$cab_row['nivel_2'],'utf8').'</td>
+				</tr>
+				<tr>
+					<td class="cabecera" width="70%">'.mb_strtoupper($row_curs_info['curs_deta'].' '.$row_curs_info['nive_deta'].' "'.$row_curs_info['para_deta'].'"','utf8').'</td>
+				</tr>
+				<tr>
+					<td class="cabecera" width="70%">'.mb_strtoupper($row_alum_info['alum_apel']." ".$row_alum_info['alum_nomb'],'utf8').'</td>
+				</tr>
+				<tr>
+					<td class="cabecera" width="70%">'.mb_strtoupper($_SESSION['peri_deta'],'utf8').'</td>
+					<td class="cabecera centrar" width="15%">'.$row_alum_info['alum_codi'].'</td>
+				</tr>
+			</table>';
 
 			$pdf->AddPage();
 			$tbl=<<<EOF
@@ -302,9 +289,9 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 				line-height: 150%;
 			}
 			.cabecera_notas
-			{	background-color: #A6A6A6;
+			{	background-color: blue;
 				border: solid 0.3px #808080;
-				color: #C00000;
+				color: white;
 				font-family: sans-serif;
 				font-size: 9px;
 				font-weight: bold;
@@ -347,8 +334,7 @@ while ($alumno = sqlsrv_fetch_array($alumnos_view))
 			<br/><br/>
 			<table>
 			<tr>
-				<td width="25%">{$tabla_inicial_esp}</td>
-				<td width="25%">{$tabla_inicial_eng}</td>
+				<td width="50%">{$tabla_inicial_esp}</td>
 				<td width="50%">{$tabla_inasistencias}</td>
 			</tr>
 			</table>

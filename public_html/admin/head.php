@@ -32,7 +32,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Educalinks | <?php echo para_sist(2); ?></title> 
-        <link rel="SHORTCUT ICON" href="http://108.179.196.99/educalinks/imagenes/logo_icon.png"/>
+        <link rel="SHORTCUT ICON" href="../imagenes/favicon.png"/>
         <!--<link href="../theme/css/base/bootstrap-combined.min.css?<?= $rand?>" rel="stylesheet" type="text/css" >-->
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
