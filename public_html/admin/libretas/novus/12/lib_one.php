@@ -45,8 +45,8 @@ class MYPDF extends TCPDF
 	public function Footer()
 	{	$this->SetY(-15);
 		$this->SetFont('helvetica', 'I', 8);
-		$this->Cell(0, 10, 'Fecha y hora: '.date('d-M-Y, H:i'), 0, false, 'L', 0, '', 0, false, 'T', 'M');
-		$this->Cell(0, 10, 'Impreso por '.$_SESSION['usua_codi'], 0, false, 'R', 0, '', 0, false, 'T', 'M');
+		// $this->Cell(0, 10, 'Fecha y hora: '.date('d-M-Y, H:i'), 0, false, 'L', 0, '', 0, false, 'T', 'M');
+		// $this->Cell(0, 10, 'Impreso por '.$_SESSION['usua_codi'], 0, false, 'R', 0, '', 0, false, 'T', 'M');
 	}
 	public function setCodigo($value)
 	{	$this->codigo=$value;

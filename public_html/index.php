@@ -39,7 +39,7 @@ header("Pragma: no-cache");
     <div class="logo_ingenium" style="">
                     <img style="position:fixed;bottom:0px;right:1%;" src="theme/images/logo_ingenium.png">
                 </div>
-               
+     
     <div class="pageContainer">
       <section>
           <div class="container">
@@ -121,7 +121,8 @@ header("Pragma: no-cache");
                     </div>
                 </section>			
                 </div>
-            </section>
+            </section><br>
+			<span id="siteseal"><script async type="text/javascript" src="https://seal.godaddy.com/getSeal?sealID=FlQPWbAX6oYSLDVP90Ybb1eKUJJ6s5UVy3Zm9OcSMplSKIpDfATkFpjcSfCd"></script></span>
         </div>
 	<script>
         $(document).ready(function(){

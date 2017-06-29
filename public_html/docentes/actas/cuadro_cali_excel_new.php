@@ -275,39 +275,21 @@
 		$w=1;
 		///////////////////////////////////////////////////////////
 		//MATRIZ
-		//Pone en primer lugar COMPORTAMIENTO...
+
 		///////////////////////////////////////////////////////////
+		
+		//Nombres de todas las asignaturas
 		for ($i=0;$i<count($columnas);$i++)
-		{
-			if ($columnas[$i][1]=='COMPORTAMIENTO')
-			{
-				$w++;
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setTextRotation(90);
-				$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, 7, $columnas[$i][1]);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-				$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($w))->setWidth(5);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getFont($w)->setBold(true);
-				//Bordes
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->applyFromArray($styleArrayTableHead);
-			}
-		}
-		//...Luego, las otras materias del quimestre.
-		for ($i=0;$i<count($columnas);$i++)
-		{
-			if ($columnas[$i][1]!='COMPORTAMIENTO')
-			{
-				$w++;
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setTextRotation(90);
-				$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, 7, $columnas[$i][1]);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-				$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($w))->setWidth(5);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getFont($w)->setBold(true);
-				//Bordes
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->applyFromArray($styleArrayTableHead);
-			}
-			
+		{	$w++;
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setTextRotation(90);
+			$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, 7, $columnas[$i][1]);
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setWrapText(tr‌​ue);
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($w))->setWidth(10);
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getFont($w)->setBold(true);
+			//Bordes
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->applyFromArray($styleArrayTableHead);			
 		}
 		//PROMEDIO
 		$w++;
@@ -315,7 +297,7 @@
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, 7, pasarMayusculas(show_this(10000012)));
 		$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
 		$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-		$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($w))->setWidth(5);
+		$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($w))->setWidth(10);
 		$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->getFont($w)->setBold(true);
 		//Bordes
 		$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).'7')->applyFromArray($styleArrayTableHead);
@@ -338,8 +320,7 @@
         $acum_rendimiento=0;
         //Recorre cada estudiante
 		for ($i=0;$i<count($filas);$i++) 
-		{
-			$asterisco="";
+		{	$asterisco="";
 			$retirado_switch=false;
 			if ($filas[$i][3]=='RETIRADO') 
 			{	$cont_retirados++;
@@ -360,24 +341,7 @@
 			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex(1).($i+8))->applyFromArray($styleArray);
 			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex(1).($i+8))->applyFromArray($styleArrayFont);
 			
-			//Primero, notas de comportamiento
 			$w=1;
-			for ($j=0;$j<count($columnas);$j++) 
-            {	//Datos de la materia
-				$params = array($columnas[$j][0]);
-				$sql="{call curs_para_mate_info(?)}";
-				$curs_peri_info = sqlsrv_query($conn, $sql, $params); 
-				$row_curs_peri_info = sqlsrv_fetch_array($curs_peri_info);
-			
-				if ($columnas[$j][1]=='COMPORTAMIENTO')
-                {	$w++;
-                    $nota=buscar_nota($datos,$filas[$i][0],$columnas[$j][0], 'alum_codi', 'curs_para_mate_codi');
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, notas_prom_quali($_SESSION['peri_codi'],$row_curs_peri_info['nota_refe_cab_tipo'],$nota));
-					$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-					$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-					$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
-                }
-            }
 			//Luego, Las siguientes materias.
 			for ($j=0;$j<count($columnas);$j++) 
             {	//Datos de la materia
@@ -386,47 +350,38 @@
 				$curs_peri_info = sqlsrv_query($conn, $sql, $params); 
 				$row_curs_peri_info = sqlsrv_fetch_array($curs_peri_info);
 				
-				if ($columnas[$j][1]!='COMPORTAMIENTO')
-                {	$w++;
-                    $nota=buscar_nota($datos,$filas[$i][0],$columnas[$j][0], 'alum_codi', 'curs_para_mate_codi');
-					//Si la calificación es numérica
-                    if ($columnas[$j][2]=='C')
-                    {
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, number_format($nota,2,'.',','));
-						//Pinta la celda si es una nota menor a siete.
-						if ($nota < 7)
-						{
-							$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArrayRojo);
-						}else
-						{
-							$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
-						}
-						//Para sacar el promedio de las materias principales
-						if ($columnas[$j][3]==-1)
-						{
-							$cont_materias++;
-							$acum_materias=$acum_materias+$nota;
-						}
-                    }
-					//Si la calificación es cualitativa
-                    else
-                    {
-                        if ($nota==0)
-                        {
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, '--');
-							$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArraySinNota);
-							//nota amarilla
-                        }
-                        else
-                        {
-                            $objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, notas_prom_quali($_SESSION['peri_codi'],$row_curs_peri_info['nota_refe_cab_tipo'],$nota));
-							$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
-                        }
-						
+				$w++;
+				$nota=buscar_nota($datos,$filas[$i][0],$columnas[$j][0], 'alum_codi', 'curs_para_mate_codi');
+				//Si la calificación es numérica
+				if ($row_curs_peri_info['nota_refe_cab_tipo']=='C')
+				{	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, number_format($nota,2,'.',','));
+					$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getNumberFormat()->setFormatCode('0.00');
+					//Pinta la celda si es una nota menor a siete.
+					if ($nota < 7)
+					{	$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArrayRojo);
+					}else
+					{	$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
 					}
-					$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-					$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-                }
+					//Para sacar el promedio de las materias principales
+					if ($columnas[$j][3]==-1)
+					{	$cont_materias++;
+						$acum_materias=$acum_materias+$nota;
+					}
+				}
+				//Si la calificación es cualitativa
+				else
+				{	if ($nota==0)
+					{	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, '--');
+						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArraySinNota);
+						//nota amarilla
+					}
+					else
+					{	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, notas_prom_quali($_SESSION['peri_codi'],$row_curs_peri_info['nota_refe_cab_tipo'],$nota));
+						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
+					}
+				}
+				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
             }
 			//NOTAS DE PROMEDIO
 			$w++;
@@ -436,13 +391,12 @@
 				$acum_rendimiento=$acum_rendimiento+$nota_rendimiento;
 			}
 			$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, number_format($nota_rendimiento,2,'.',','));
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getNumberFormat()->setFormatCode('0.00');
 			//Pinta la celda si es una nota menor a siete.
 			if ($nota_rendimiento < 7)
-			{
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArrayRojo);
+			{	$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArrayRojo);
 			}else
-			{
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
+			{	$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
 			}
 			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
 			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -478,110 +432,51 @@
 		$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
 		
 		for ($j=0;$j<count($columnas);$j++) 
-		{
-			//Datos de la materia
-			$params = array($columnas[$j][0]);
-			$sql="{call curs_para_mate_info(?)}";
-			$curs_peri_info = sqlsrv_query($conn, $sql, $params); 
-			$row_curs_peri_info = sqlsrv_fetch_array($curs_peri_info);
-				
-			if ($columnas[$j][1]=='COMPORTAMIENTO')
-			{	$w++;
-				$acum_global=0;
-				$prom_global=0;
-				$cont_alumnos=0;
-				for ($i=0;$i<count($filas);$i++)
-				{	if($filas[$i][3]!='RETIRADO')
-					{	$acum_global=$acum_global+buscar_nota($datos,$filas[$i][0],$columnas[$j][0], 'alum_codi', 'curs_para_mate_codi');
-						$cont_alumnos++;
-					}
-				}
-				$prom_global=$acum_global/$cont_alumnos;
-				if ($columnas[$j][2]=='C')
-				{
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, number_format($prom_global,2,'.',','));
-					//Pinta la celda si es una nota menor a siete.
-					if ($prom_global < 7)
-					{
-						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArrayRojo);
-					}else
-					{
-						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
-					}
-				}
-				else
-				{
-					if ($prom_global==0)
-					{
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, '--');
-						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArraySinNota);
-						//nota amarilla
-					}
-					else
-					{
-						//$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, notas_prom_quali($_SESSION['peri_codi'],$row_curs_peri_info['nota_refe_cab_tipo'],$prom_global));
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, '--');
-						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
-					}
-				}
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getFont($w)->setBold(true);
-			}
-		}
-		for ($j=0;$j<count($columnas);$j++) 
-		{
-			//Datos de la materia
+		{	//Datos de la materia
 			$params = array($columnas[$j][0]);
 			$sql="{call curs_para_mate_info(?)}";
 			$curs_peri_info = sqlsrv_query($conn, $sql, $params); 
 			$row_curs_peri_info = sqlsrv_fetch_array($curs_peri_info);
 			
-			if ($columnas[$j][1]!='COMPORTAMIENTO')
-			{	$w++;
-				$acum_global=0;
-				$prom_global=0;
-				$cont_alumnos=0;
-				for ($i=0;$i<count($filas);$i++)
-				{	if($filas[$i][3]!='RETIRADO')
-					{	$nota=buscar_nota($datos,$filas[$i][0],$columnas[$j][0], 'alum_codi', 'curs_para_mate_codi');
-						if ($nota!=0)
-						{	$cont_alumnos++;
-							$acum_global=$acum_global+$nota;
-						}
+			$w++;
+			$acum_global=0;
+			$prom_global=0;
+			$cont_alumnos=0;
+			for ($i=0;$i<count($filas);$i++)
+			{	if($filas[$i][3]!='RETIRADO')
+				{	$nota=buscar_nota($datos,$filas[$i][0],$columnas[$j][0], 'alum_codi', 'curs_para_mate_codi');
+					if ($nota!=0)
+					{	$cont_alumnos++;
+						$acum_global=$acum_global+$nota;
 					}
 				}
-				$prom_global=$acum_global/$cont_alumnos;
-                if ($columnas[$j][2]=='C')
-                {
-					$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, number_format($prom_global,2,'.',','));
-					//Pinta la celda si es una nota menor a siete.
-					if ($prom_global < 7)
-					{
-						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArrayRojo);
-					}else
-					{
-						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
-					}
+			}
+			$prom_global=$acum_global/$cont_alumnos;
+			if ($row_curs_peri_info['nota_refe_cab_tipo']=='C')
+			{	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, number_format($prom_global,2,'.',','));
+				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getNumberFormat()->setFormatCode('0.00');
+				//Pinta la celda si es una nota menor a siete.
+				if ($prom_global < 7)
+				{	$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArrayRojo);
+				}else
+				{	$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
+				}
+			}
+			else
+			{	if ($prom_global==0)
+				{	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, '--');
+					$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArraySinNota);
+					//nota amarilla
 				}
 				else
-				{
-					if ($prom_global==0)
-					{
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, '--');
-						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArraySinNota);
-						//nota amarilla
-					}
-					else
-					{
-						$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, '--');
-						$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
-					}
+				{	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow($w, $i+8, '--');
+					$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->applyFromArray($styleArray);
 				}
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getFont($w)->setBold(true);
 			}
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($w).($i+8))->getFont($w)->setBold(true);
+			
 		}
 		//PROMEDIOS ACUMULADOS
 		$w++;

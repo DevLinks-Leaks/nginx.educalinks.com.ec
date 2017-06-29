@@ -156,6 +156,19 @@ function getURLCuadroCalificacionesHTML()
      window.open(direccion);
    }
 }
+// Cuadro de calificaciones parciales finales
+function getURLCuadroCalificacionesParcialesFinalesExcel()
+{
+   if (Validar())
+   {
+     var direccion;
+     direccion="actas/cuadro_cali_parc_final_excel.php?curs_para_codi=";
+     direccion=direccion+document.getElementById('sl_paralelos').value+"&curs_para_mate_codi="+document.getElementById('sl_asignatura').value+"&peri_dist_codi="+document.getElementById('sl_periodo_dist').value;
+     //window.location.href=direccion;
+     window.open(direccion);
+   }
+}
+// Cuadro de calificaciones Quimestrales y periodo final - Finales
 function getURLCuadroCalificacionesFinalesExcel()
 {
    if (Validar())
@@ -242,11 +255,19 @@ function divOpciones(div, validar, html, acta)
 	}
 	else if(div=='acta_004')
 	{
-		div_1= div+"_cf";
-		var TITULO="Cuadro de calificaciones" + acta + " finales";
-		var EXCEL="JavaScript:getURLCuadroCalificacionesFinalesExcel();";
-		var EXCEL_OPC="<a href='"+EXCEL+"' ><img src='../imagenes/report_to_excel.png' style='width:45px;' "+img_over+"  border='0'></a>";
-		var HTML="JavaScript:getURLCuadroCalificacionesFinalesHTML();";
+    if(acta==' parciales'){
+      div_1= div+"_cf";
+      var TITULO="Cuadro de calificaciones" + acta + " finales";
+      var EXCEL="JavaScript:getURLCuadroCalificacionesParcialesFinalesExcel();";
+      var EXCEL_OPC="<a href='"+EXCEL+"' ><img src='../imagenes/report_to_excel.png' style='width:45px;' "+img_over+"  border='0'></a>";
+      var HTML="JavaScript:getURLCuadroCalificacionesFinalesHTML();";
+    }else{
+      div_1= div+"_cf";
+      var TITULO="Cuadro de calificaciones" + acta + " finales";
+      var EXCEL="JavaScript:getURLCuadroCalificacionesFinalesExcel();";
+      var EXCEL_OPC="<a href='"+EXCEL+"' ><img src='../imagenes/report_to_excel.png' style='width:45px;' "+img_over+"  border='0'></a>";
+      var HTML="JavaScript:getURLCuadroCalificacionesFinalesHTML();";
+    }
 	}
 	var div_2= div+"_titulo";
 	var div_3= div+"_opc";
@@ -257,13 +278,13 @@ function divOpciones(div, validar, html, acta)
 	if(validar==true)
 	{
 		document.getElementById(div_1).innerHTML="<img src='../imagenes/repo_icon.png' style='width:60px;'>";
-		document.getElementById(div_2).innerHTML="<h3>" + TITULO + "</h3>";
+		document.getElementById(div_2).innerHTML="<h4>" + TITULO + "</h4>";
 		document.getElementById(div_3).innerHTML=EXCEL_OPC + " " + HTML_OPC;
 	}
 	else
 	{
 		document.getElementById(div_1).innerHTML="<img src='../imagenes/repo_icon.png' style='width:60px;'>";
-		document.getElementById(div_2).innerHTML="<h3>" + TITULO + "</h3>";
+		document.getElementById(div_2).innerHTML="<h4>" + TITULO + "</h4>";
 		document.getElementById(div_3).innerHTML="N/A";
 	}
 }

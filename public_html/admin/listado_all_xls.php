@@ -31,9 +31,9 @@
 	$cc = 1; 
 		
 	/*Cabecera del reporte*/
-	$objPHPExcel->getActiveSheet()->getStyle("A1:BP1")->applyFromArray($style_cabecera);
+	$objPHPExcel->getActiveSheet()->getStyle("A1:BQ1")->applyFromArray($style_cabecera);
 	$objPHPExcel->getActiveSheet()->getRowDimension(1)->setRowHeight(40);
-	$objPHPExcel->getActiveSheet()->getStyle("A2:BP2")->applyFromArray($style_cabecera);
+	$objPHPExcel->getActiveSheet()->getStyle("A2:BQ2")->applyFromArray($style_cabecera);
 	$objPHPExcel->getActiveSheet()->getRowDimension(2)->setRowHeight(40);
 	
 	$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:T1');
@@ -48,7 +48,7 @@
 	$objPHPExcel->setActiveSheetIndex(0)->mergeCells('AZ1:BK1');
 	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('AZ1','REPRESENTANTE FINANCIERO');
 
-	$objPHPExcel->setActiveSheetIndex(0)->mergeCells('BL1:BP1');
+	$objPHPExcel->setActiveSheetIndex(0)->mergeCells('BL1:BQ1');
 	$objPHPExcel->setActiveSheetIndex(0)->setCellValue('BL1','INFORMACION EXTRA');
 	/*Datos del estudiante*/
 	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(0, 2, 'Nº');
@@ -259,6 +259,10 @@
 
 	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(67, 2, 'GRUPO ECONÓMICO');
 	$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex(67))->setWidth(40);
+	
+	$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(68, 2, 'DESCUENTOS');
+	$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex(68))->setWidth(50);
+	
 	/*Detalle del reporte*/
 	while ($row = sqlsrv_fetch_array($stmt))
 	{	$objPHPExcel->getActiveSheet()->getStyle("A".($cc+2).":BN".($cc+2))->applyFromArray($style_detalle);
@@ -336,6 +340,7 @@
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(65, $cc+2, $row['acpe_fecha_reg']);
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(66, $cc+2, $row['alum_etnia']);
 		$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(67, $cc+2, $row['alum_grupo_econ']);
+		$objPHPExcel->setActiveSheetIndex(0)->setCellValueByColumnAndRow(68, $cc+2, $row['descuentos']);
 		$cc++;
 	}
 	

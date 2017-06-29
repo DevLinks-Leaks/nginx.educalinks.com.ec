@@ -9,8 +9,8 @@ if ( $_SESSION['modulo'] == 'alumnos' )
 	$ruta_main_ssl="https://".$domain."/";
 }
 else 
-{	$protocol = "http://";
-	$ruta_index_header="Location:http://".$domain."/";
+{	$protocol = "https://";
+	$ruta_index_header="Location:https://".$domain."/";
 }
 /*if (isset($_SERVER['HTTPS'])) {
     

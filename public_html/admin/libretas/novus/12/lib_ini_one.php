@@ -30,7 +30,7 @@ class MYPDF extends TCPDF
 	
 	public function Header() 
 	{	$this->SetFont('helvetica', 'I', 8);
-		$this->Cell(0, 10, 'Fecha y hora: '.date('d-M-Y, H:i').', Impreso por '.$_SESSION['usua_codi'], 0, false, 'L', 0, '', 0, false, 'T', 'M');
+		// $this->Cell(0, 10, 'Fecha y hora: '.date('d-M-Y, H:i').', Impreso por '.$_SESSION['usua_codi'], 0, false, 'L', 0, '', 0, false, 'T', 'M');
 		//$this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'R', 0, '', 0, false, 'T', 'M');
 	}
 	public function Footer()
@@ -55,7 +55,7 @@ class MYPDF extends TCPDF
 	{	$this->foto=$value;
 	}
 }
-$pdf = new MYPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+$pdf = new MYPDF('L', 'mm', 'A4', true, 'UTF-8', false);
 $pdf->SetMargins(15, 10, 5);
 $pdf->SetAutoPageBreak(TRUE, 2);
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -280,7 +280,7 @@ $tbl=<<<EOF
 .cabecera
 {	color: black;
 	font-family: sans-serif;
-	font-size: 10px;
+	font-size: 12px;
 	font-weight: bold;
 	line-height: 150%;
 }
@@ -289,7 +289,7 @@ $tbl=<<<EOF
 	border: solid 0.3px #808080;
 	color: #C00000;
 	font-family: sans-serif;
-	font-size: 9px;
+	font-size: 11px;
 	font-weight: bold;
 	height: 13px;
 }
@@ -307,13 +307,13 @@ $tbl=<<<EOF
 .cuerpo_notas
 {	border: solid 0.1px #DEDEDE;
 	font-family: sans-serif;
-	font-size: 9px;
+	font-size: 11px;
 	line-height: 150%;
 	padding-left: 5px;
 }
 .firmas
 {	font-family: sans-serif;
-	font-size: 9px;
+	font-size: 11px;
 	line-height: 150%;
 }
 .mala_nota
@@ -322,7 +322,7 @@ $tbl=<<<EOF
 .tabla_informativa
 {	border: solid 0.5px #808080;
 	font-family: sans-serif;
-	font-size: 8px;
+	font-size: 10px;
 }
 </style>
 {$cabecera}
