@@ -37,7 +37,7 @@ function handler() {
             $permiso->permiso_activo($_SESSION['usua_codigo'], 144);
             if ($permiso->rows[0]['veri']==1)
             {	$data['disabled_agregar_precio']="";
-				$opciones["Eliminar"] = "<span onclick='js_precios_del(".'"{codigo}"'.",".'"resultado"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/precios/controller.php"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' id='{codigo}_eliminar' onmouseover='$(".'"#{codigo}_eliminar"'.").tooltip(".'"show"'.")' title='Quitar precio' data-placement='left'></span>";
+				$opciones["Eliminar"] = "<span onclick='js_precios_del(".'"{codigo}"'.",".'"resultado"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/precios/controller.php"'.")' data-toggle='modal' data-target='#modal_delete' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' id='{codigo}_eliminar' onmouseover='$(".'"#{codigo}_eliminar"'.").tooltip(".'"show"'.")' title='Quitar precio' data-placement='left'></span>";
             } 
             else
             {	$data['disabled_agregar_precio']="disabled='disabled'";
@@ -67,7 +67,7 @@ function handler() {
             $precio_valor->producto = $user_data['codigoProducto'];
             $precio_valor->get_all();
             $data['{tabla}'] = array("elemento"=>"tabla",
-                                      "clase"=>"table table-bordered table-hover",
+                                      "clase"=>"table table-striped table-hover",
                                       "id"=>$tabla,
                                       "datos"=>$precio_valor->rows,
                                       "encabezado" => array("Ref.",
@@ -105,14 +105,14 @@ function handler() {
             global $diccionario;
             $permiso->permiso_activo($_SESSION['usua_codigo'], 144);
             if ($permiso->rows[0]['veri']==1)
-            {	$opciones["Eliminar"] = "<span onclick='js_precios_del(".'"{codigo}"'.",".'"resultado"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/precios/controller.php"'.")' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' id='{codigo}_eliminar' onmouseover='$(".'"#{codigo}_eliminar"'.").tooltip(".'"show"'.")' title='Quitar precio' data-placement='left'></span>";
+            {	$opciones["Eliminar"] = "<span onclick='js_precios_del(".'"{codigo}"'.",".'"resultado"'.",".'"'.$diccionario['rutas_head']['ruta_html_finan'].'/precios/controller.php"'.")'  data-toggle='modal' data-target='#modal_delete' class='btn_opc_lista_eliminar glyphicon glyphicon-trash cursorlink' aria-hidden='true' id='{codigo}_eliminar' onmouseover='$(".'"#{codigo}_eliminar"'.").tooltip(".'"show"'.")' title='Quitar precio' data-placement='left'></span>";
             } 
             else
             {	$opciones["Eliminar"]="";
             }
 			
             $data['{tabla}'] = array("elemento"=>"tabla",
-                                     "clase"=>"table table-bordered table-hover",
+                                     "clase"=>"table table-striped table-hover",
                                      "id"=>$tabla,
                                      "datos"=>$precio_valor->rows,
                                      "encabezado" => array("Ref.",
@@ -173,9 +173,9 @@ function handler() {
 			$data = array("mensaje" => $resultado->mensaje);
 			retornar_result($data);
             break;
-		case DELETE:
+		case DELETE_PRICE:
             //$user_data['codigoUsuario'] = $_SESSION['usua_codigo'];
-			$resultado = $precio->delete($user_data['codigo']);
+			$resultado = $precio_valor->delete($user_data['codigo']);
 			$data = array("mensaje" => $resultado->mensaje);
 			retornar_result($data);
             break;

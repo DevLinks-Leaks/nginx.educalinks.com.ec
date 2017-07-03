@@ -141,10 +141,15 @@ if ($nota_refe_cab_tipo=='C')
 			$objValidation->setFormula2(10);
 			$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($col).$fila)->applyFromArray($bordes);
 		}
-		// if ($num_in_notas>1)
-		// {	$objPHPExcel->getActiveSheet()->SetCellValue(PHPExcel_Cell::stringFromColumnIndex($col).$fila, '=TRUNC(SUM('.PHPExcel_Cell::stringFromColumnIndex(2).$fila.':'.PHPExcel_Cell::stringFromColumnIndex($num_in_notas+1).$fila.')/'.$num_in_notas.','.para_sist(41).')');
-		// 	$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($col).$fila)->getNumberFormat()->setFormatCode('0.00');
-		// }
+		if($_SESSION['directorio']=='liceonaval'){
+			if ($num_in_notas>1)
+			{	
+				// $objPHPExcel->getActiveSheet()->SetCellValue(PHPExcel_Cell::stringFromColumnIndex($col).$fila, '=TRUNC(SUM('.PHPExcel_Cell::stringFromColumnIndex(2).$fila.':'.PHPExcel_Cell::stringFromColumnIndex($num_in_notas+1).$fila.')/'.$num_in_notas.','.para_sist(41).')');
+				$objPHPExcel->getActiveSheet()->SetCellValue(PHPExcel_Cell::stringFromColumnIndex($col).$fila, '=TRUNC(TRUNC((IF(D'.$fila.'>C'.$fila.',TRUNC((D'.$fila.'+C'.$fila.')/2,2),C'.$fila.')+IF(F'.$fila.'>E'.$fila.',TRUNC((F'.$fila.'+E'.$fila.')/2,2),E'.$fila.')+IF(H'.$fila.'>G'.$fila.',TRUNC((H'.$fila.'+G'.$fila.')/2,2),G'.$fila.')+IF(J'.$fila.'>I'.$fila.',TRUNC((J'.$fila.'+I'.$fila.')/2,2),I'.$fila.')+IF(L'.$fila.'>K'.$fila.',TRUNC((K'.$fila.'+L'.$fila.')/2,2),K'.$fila.')),2)/IF((COUNTIF(C'.$fila.',">0")+COUNTIF(E'.$fila.',">0")+COUNTIF(G'.$fila.',">0")+COUNTIF(I'.$fila.',">0")+COUNTIF(K'.$fila.',">0"))<=0,1,(COUNTIF(C'.$fila.',">0")+COUNTIF(E'.$fila.',">0")+COUNTIF(G'.$fila.',">0")+COUNTIF(I'.$fila.',">0")+COUNTIF(K'.$fila.',">0"))),2)');
+				
+				$objPHPExcel->getActiveSheet()->getStyle(PHPExcel_Cell::stringFromColumnIndex($col).$fila)->getNumberFormat()->setFormatCode('0.00');
+			}
+		}
 	}
 	$objPHPExcel->getActiveSheet()->getStyle('C9:'.PHPExcel_Cell::stringFromColumnIndex($num_in_notas+1).($num_alum+8))->getNumberFormat()->setFormatCode('0.00');
 }

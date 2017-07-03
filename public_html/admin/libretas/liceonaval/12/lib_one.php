@@ -91,6 +91,7 @@ $params = array($curs_para_codi);
 $sql="{call curs_para_info(?)}";
 $curs_info = sqlsrv_query($conn, $sql, $params);
 $row_curs_info = sqlsrv_fetch_array($curs_info);
+$tutor = $row_curs_info['tutor'];
 /*Alumnos*/
 $params = array($alum_codi);
 $sql="{call alum_info(?)}";
@@ -185,8 +186,8 @@ $tabla_observaciones.='</table>';
 $tabla_firmas = '<table width="100%">';
 $tabla_firmas.= '<tr>';
 $tabla_firmas.= '<td class="firmas centrar">_______________________________<br/>'.para_sist(5).'<br/>'.para_sist(33).'</td>';
-$tabla_firmas.= '<td class="firmas centrar">_______________________________<br/>Tutor(a)</td>';
-$tabla_firmas.= '<td class="firmas centrar">_______________________________<br/>Representante</td>';
+$tabla_firmas.= '<td class="firmas centrar">_______________________________<br/>'.$tutor.'<br/>TUTOR(A)</td>';
+$tabla_firmas.= '<td class="firmas centrar">_______________________________<br/>REPRESENTANTE</td>';
 $tabla_firmas.= '</tr>';
 $tabla_firmas.= '</table>';
 /*Contraseñas*/
@@ -275,24 +276,24 @@ while ($row_alum_nota_peri_dist_view= sqlsrv_fetch_array($alum_nota_peri_dist_vi
 	$calificaciones.='</tr>';
 }
 /*Promedios en columna*/
-$calificaciones.='<tr><td class="cuerpo_notas"></td>';
-$calificaciones.='<td class="cuerpo_notas"> <b>PROMEDIO</b></td>';
-$CC_COLUM_index =0; 
-while($CC_COLUM_index <= $CC_COLUM )  
-{	$calificaciones.='<td class="cuerpo_notas centrar';
-	$perc = (int)$cabecera[ $CC_COLUM_index ];
-	$mayor_aceptable = ( ( 7 * $perc ) / 100 );
-	if( ( $row_alum_nota_peri_dist_view[$CC_COLUM_index + 12] ) < $mayor_aceptable )
-	{   $calificaciones.=' mala_nota_escuela_liceopanamericano';
-	}
-	$calificaciones.='">';
-	$calificaciones.= (truncar(($prom[$CC_COLUM_index]/$prom_cc[$CC_COLUM_index]))<0)?'':truncar(($prom[$CC_COLUM_index]/$prom_cc[$CC_COLUM_index]));
-	$prom_rend=$prom[$CC_COLUM_index]/$prom_cc[$CC_COLUM_index];
-	$calificaciones.='</td>';
-	$CC_COLUM_index+=1;
-}
-$calificaciones.='<td class="cuerpo_notas centrar">'.notas_prom_quali($_SESSION['peri_codi'],'C',$prom_rend).'</td>';
-$calificaciones.='</tr>';
+// $calificaciones.='<tr><td class="cuerpo_notas"></td>';
+// $calificaciones.='<td class="cuerpo_notas"> <b>PROMEDIO</b></td>';
+// $CC_COLUM_index =0; 
+// while($CC_COLUM_index <= $CC_COLUM )  
+// {	$calificaciones.='<td class="cuerpo_notas centrar';
+// 	$perc = (int)$cabecera[ $CC_COLUM_index ];
+// 	$mayor_aceptable = ( ( 7 * $perc ) / 100 );
+// 	if( ( $row_alum_nota_peri_dist_view[$CC_COLUM_index + 12] ) < $mayor_aceptable )
+// 	{   $calificaciones.=' mala_nota_escuela_liceopanamericano';
+// 	}
+// 	$calificaciones.='">';
+// 	$calificaciones.= (truncar(($prom[$CC_COLUM_index]/$prom_cc[$CC_COLUM_index]))<0)?'':truncar(($prom[$CC_COLUM_index]/$prom_cc[$CC_COLUM_index]));
+// 	$prom_rend=$prom[$CC_COLUM_index]/$prom_cc[$CC_COLUM_index];
+// 	$calificaciones.='</td>';
+// 	$CC_COLUM_index+=1;
+// }
+// $calificaciones.='<td class="cuerpo_notas centrar">'.notas_prom_quali($_SESSION['peri_codi'],'C',$prom_rend).'</td>';
+// $calificaciones.='</tr>';
 $calificaciones.='</table>';
 
 $pdf->setCodigo($row_alum_info['alum_codi']);

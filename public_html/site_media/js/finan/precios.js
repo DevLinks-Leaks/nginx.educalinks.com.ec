@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    actualiza_badge_gest_fact();
     $('#precio_table').addClass( 'nowrap' ).DataTable({lengthChange: false, responsive: true, searching: true,  orderClasses: true, paging:true,
         language: {url: '//cdn.datatables.net/plug-ins/1.10.8/i18n/Spanish.json'},
         "columnDefs": [
@@ -11,9 +10,14 @@ $(document).ready(function() {
             {className: "dt-body-center" , "targets": [5]}
         ]
     });
+	
+	$(".boton_busqueda").click(function(){
+		$("#desplegable_busqueda").slideToggle(200);
+	});
+	$("#desplegable_busqueda").show();
 });
 function cargaProductos(div, url){
-    document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
+    document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:#E55A2F;" class="fa fa-cog fa-spin"></i></div>';
     var comboCategoria = document.getElementById("codigoCategoria_busq");
     var data = new FormData();
     data.append('codigoCategoria', comboCategoria.options[comboCategoria.selectedIndex].value);    
@@ -29,7 +33,7 @@ function cargaProductos(div, url){
 }
 // Consulta filtrada
 function busca(div,url)
-{   document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
+{   document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:#E55A2F;" class="fa fa-cog fa-spin"></i></div>';
     var data = new FormData();
     var comboProducto = document.getElementById('codigoProducto_busq');
     data.append('event', 'get_all_data');
@@ -56,7 +60,7 @@ function busca(div,url)
 }
 // Carga el formulario para ingresar un nuevo registro
 function carga_add(div,url){
-    document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
+    document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:#E55A2F;" class="fa fa-cog fa-spin"></i></div>';
     var data = new FormData();
     var comboProducto = document.getElementById('codigoProducto_busq');
     data.append('event', 'agregar');
@@ -89,7 +93,7 @@ function add(div,url){
 
     if(bypass){
         var categorias = document.getElementById('codigoCategoria_busq');
-        document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
+        document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:#E55A2F;" class="fa fa-cog fa-spin"></i></div>';
 		var data = new FormData();
         var comboGrupoEconomico = document.getElementById('grupoEconomico_add');
         var comboNivelEconomico = document.getElementById('nivel_economico_add');
@@ -139,25 +143,27 @@ function add(div,url){
     }
 }
 function js_precios_del(codigo,div,url)
-{   if(confirm("¿Est&aacute; seguro que desea eliminar el precio?"))
-	{   document.getElementById(div).innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:darkred;" class="fa fa-cog fa-spin"></i></div>';
-		var data = new FormData();
-		data.append('event', 'delete');
-		data.append('codigo', codigo);	
-		var xhr = new XMLHttpRequest();
-		xhr.open('POST', url , true);
-		xhr.onreadystatechange=function()
-		{   if (xhr.readyState==4 && xhr.status==200)
-			{	var n = xhr.responseText.length;
-                if (n > 0)
-                {   valida_tipo_growl(xhr.responseText);
-                }
-                else
-                {   $.growl.warning({ title: "Educalinks informa:",message: "Proceso realizado." });
-                }
-                busca(div,url);
-			} 
-		};
-		xhr.send(data);
-	}
+{   document.getElementById("hd_price_code").value = codigo;
+}
+function js_precios_del_followed()
+{   document.getElementById('resultado').innerHTML='<br><div align="center" style="height:100%;"><i style="font-size:large;color:#E55A2F;" class="fa fa-cog fa-spin"></i></div>';
+	var url = document.getElementById('ruta_html_finan').value + '/precios/controller.php';
+	var data = new FormData();
+	data.append('event', 'delete_price');
+	data.append('codigo', document.getElementById("hd_price_code").value);
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', url , true);
+	xhr.onreadystatechange=function()
+	{   if (xhr.readyState==4 && xhr.status==200)
+		{	var n = xhr.responseText.length;
+			if (n > 0)
+			{   valida_tipo_growl(xhr.responseText);
+			}
+			else
+			{   $.growl.warning({ title: "Educalinks informa:",message: "Proceso realizado." });
+			}
+			busca('resultado',url);
+		} 
+	};
+	xhr.send(data);
 }

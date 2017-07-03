@@ -70,6 +70,7 @@ $params = array($curs_para_codi);
 $sql="{call curs_para_info(?)}";
 $curs_info = sqlsrv_query($conn, $sql, $params);
 $row_curs_info = sqlsrv_fetch_array($curs_info);
+$tutor = $row_curs_info['tutor'];
 /*Alumnos*/
 $params = array($alum_codi);
 $sql="{call alum_info(?)}";
@@ -149,8 +150,8 @@ $tabla_observaciones.='</table>';
 $tabla_firmas = '<table width="100%">';
 $tabla_firmas.= '<tr>';
 $tabla_firmas.= '<td class="firmas centrar" width="33%">_______________________________<br/>'.para_sist(5).'<br/>'.para_sist(33).'</td>';
-$tabla_firmas.= '<td class="firmas centrar" width="33%">_______________________________<br/>Tutor(a)</td>';
-$tabla_firmas.= '<td class="firmas centrar" width="33%">_______________________________<br/>Representante</td>';
+$tabla_firmas.= '<td class="firmas centrar">_______________________________<br/>'.$tutor.'<br/>TUTOR(A)</td>';
+$tabla_firmas.= '<td class="firmas centrar">_______________________________<br/>REPRESENTANTE</td>';
 $tabla_firmas.= '</tr>';
 $tabla_firmas.= '</table>';
 /*Contraseñas*/
